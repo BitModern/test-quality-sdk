@@ -1,0 +1,30 @@
+/**
+ * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
+ */
+
+import { _client } from '../../../Client';
+import { getResponse } from '../../actions/getResponse';
+import { QueryParams } from '../../actions/QueryParams';
+import { SuiteRoute } from '../../routes/Routes';
+import { Suite } from './Suite';
+import { SuiteHistory } from './SuiteHistory';
+
+export const suiteHistoryGet = (
+  queryParams?: QueryParams<Suite>
+): Promise<SuiteHistory[]> => {
+  const config: QueryParams<Suite> = {
+    method: 'get',
+    url: `${queryParams?.url || SuiteRoute()}${
+      queryParams?.id ? `/${queryParams?.id}` : ''
+    }`,
+    params: { revision_log: true, ...queryParams?.params },
+    cancelToken: queryParams?.cancelToken,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<SuiteHistory[]>(config)
+    : getResponse<SuiteHistory[], Suite>(
+        queryParams?.api || _client?.api,
+        config
+      );
+};
