@@ -11,3 +11,4 @@ export * from './services/http/BatchService';
 
 export { Client } from './Client';
 export { Options } from './Options';
+export { PersistentStorage } from './PersistentStorage';

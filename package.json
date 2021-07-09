@@ -37,12 +37,15 @@
   },
   "files": [
     "dist",
+    "src",
     "LICENSE",
     "README.md"
   ],
   "keywords": [
     "testquality",
-    "test quality"
+    "test",
+    "quality",
+    "sdk"
   ],
   "dependencies": {
     "axios": "^0.21.1",

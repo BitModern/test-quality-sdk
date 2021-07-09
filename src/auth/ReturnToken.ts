@@ -1,8 +1,5 @@
 /**
- * Copyright (C) 2020 BitModern, Inc - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Created by jamespitts on 3/31/20.
+ * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
 export interface ReturnTokenFailure {

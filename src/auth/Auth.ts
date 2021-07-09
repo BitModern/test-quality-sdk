@@ -146,7 +146,7 @@ export class Auth {
   }
 
   public async getAccessToken(): Promise<string | undefined> {
-    let token = this.token;
+    let token = this.getToken();
     if (token) {
       const expiresAt: Date = new Date(token.expires_at);
       const diff = expiresAt.getTime() - new Date().getTime();
@@ -161,7 +161,7 @@ export class Auth {
   }
 
   public isLoggedIn(): boolean {
-    return this.token !== undefined;
+    return this.getToken() !== undefined;
   }
 
   public getToken() {
