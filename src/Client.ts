@@ -1,9 +1,9 @@
-import { Auth, AuthCallback } from 'auth';
 import axios, { AxiosInstance } from 'axios';
-import { PersistentStorage } from 'PersistentStorage';
+import { PersistentStorage } from './PersistentStorage';
 import { EmptyLogger } from './common/EmptyLogger';
 import { LoggerInterface } from './common/LoggerInterface';
 import { Options } from './Options';
+import { Auth, AuthCallback } from './auth';
 
 export let _client: Client;
 

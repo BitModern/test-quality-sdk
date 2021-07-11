@@ -7,14 +7,15 @@ import { TQRequestParameters } from './TQRequestParameters';
 import { BatchService } from '../../services/http/BatchService';
 
 export interface QueryParams<T = any> {
-  url?: string;
-  params?: Partial<T> & TQRequestParameters;
-  batch?: BatchService;
-  data?: Partial<T>;
-  method?: Method;
-  id?: number | string;
-  cancelToken?: CancelToken;
   api?: AxiosInstance;
+  batch?: BatchService;
+  cancelToken?: CancelToken;
+  data?: Partial<T>;
+  headers?: any;
+  id?: number | string;
+  method?: Method;
+  params?: Partial<T> & TQRequestParameters;
+  url?: string;
 }
 
 export interface QueryParamsWithList<T = any> extends QueryParams<T> {

@@ -60,9 +60,7 @@ export class BatchService {
   public executeBatch(client = _client): Promise<BatchResponses> {
     const requests = this.batchContainers.map((c) => c.request);
     return new Promise<BatchResponses>((resolve, reject) => {
-      client
-        .api
-        .post<BatchResponses>('/batch', { requests }).then(
+      client.api.post<BatchResponses>('/batch', { requests }).then(
         (response) => {
           if (!response || !response.data || !response.data.responses) {
             const error = new Error('Batch has no data');

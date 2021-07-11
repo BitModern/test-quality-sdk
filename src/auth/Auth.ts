@@ -32,10 +32,15 @@ export enum AuthCallbackActions {
   Unauthorized,
   Expired,
 }
-export type AuthCallback = (action: AuthCallbackActions, me: Auth,) => Promise<ReturnToken | undefined>;
+export type AuthCallback = (
+  action: AuthCallbackActions,
+  me: Auth
+) => Promise<ReturnToken | undefined>;
 
 export class Auth {
-  public static checkForFailure(response: AxiosResponse<ReturnToken>): AxiosResponse<ReturnToken> {
+  public static checkForFailure(
+    response: AxiosResponse<ReturnToken>
+  ): AxiosResponse<ReturnToken> {
     if (response.data.verification_ended_at) {
       // if verification ended then we don't have a token
       throw new GeneralError(
@@ -68,28 +73,27 @@ export class Auth {
   private token?: ReturnToken;
   private remember?: boolean;
   private refreshRequest?: Promise<AxiosResponse<ReturnToken>>;
-  
+
   constructor(
     private persistentStorage?: PersistentStorage,
     private client: Client = _client,
-    private authCallback?: AuthCallback,
+    private authCallback?: AuthCallback
   ) {
     this.addInterceptors();
   }
 
-  public setAuthCallback(
-    authCallback?: AuthCallback
-  ): void {
+  public setAuthCallback(authCallback?: AuthCallback): void {
     this.authCallback = authCallback;
   }
 
   public login(
     username: string,
     password: string,
-    remember: boolean = false,
+    remember = false,
     properties?: any
   ): Promise<ReturnToken | undefined> {
-      return this.client.api.post<ReturnToken>(grantPath, {
+    return this.client.api
+      .post<ReturnToken>(grantPath, {
         grant_type: 'password',
         client_id: this.client.clientId,
         client_secret: this.client.clientSecret,
@@ -122,14 +126,13 @@ export class Auth {
 
     if (!this.refreshRequest) {
       this.refreshRequest = this.client.api.post<ReturnToken>(grantPath, {
-          grant_type: 'refresh_token',
-          client_id: this.client.clientId,
-          client_secret: this.client.clientSecret,
-          refresh_token: token,
-        });
-      
+        grant_type: 'refresh_token',
+        client_id: this.client.clientId,
+        client_secret: this.client.clientSecret,
+        refresh_token: token,
+      });
     }
-    
+
     return this.refreshRequest
       .then(Auth.checkForFailure)
       .then(({ data }) => {
@@ -150,7 +153,7 @@ export class Auth {
     if (token) {
       const expiresAt: Date = new Date(token.expires_at);
       const diff = expiresAt.getTime() - new Date().getTime();
-      
+
       if (diff < 0) {
         // token has expired, try to get a token
         token = await this.refresh();
@@ -174,7 +177,10 @@ export class Auth {
     return this.token;
   }
 
-  public setToken(token?: ReturnToken, remember?: boolean): ReturnToken | undefined {
+  public setToken(
+    token?: ReturnToken,
+    remember?: boolean
+  ): ReturnToken | undefined {
     this.token = token;
     if (this.persistentStorage) {
       if (remember) {
@@ -198,7 +204,7 @@ export class Auth {
         ) {
           try {
             const accessToken = await this.getAccessToken();
-            
+
             if (accessToken) {
               newConfig.headers.Authorization = `Bearer ${accessToken}`;
             }
@@ -239,7 +245,7 @@ export class Auth {
           Auth.urlRequiresAuth(originalRequest.url)
         ) {
           originalRequest.isRetry = true;
-  
+
           if (!this.getToken()) {
             const newResponse = getHttpResponse(newError.response);
             if (this.authCallback) {
@@ -278,7 +284,7 @@ export class Auth {
         return newResponse
           ? Promise.reject(newResponse)
           : Promise.reject(newError);
-      },
+      }
     );
   }
 }

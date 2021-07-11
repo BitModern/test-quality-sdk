@@ -15,6 +15,7 @@ export function getResponse<T, Q = T>(
       url: queryParams.url,
       params: queryParams.params,
       data: queryParams.data,
+      headers: queryParams.headers,
     })
     .then((resp) => {
       if (resp && resp.data) {
