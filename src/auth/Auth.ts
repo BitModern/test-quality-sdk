@@ -4,7 +4,7 @@ import { AUTH, GeneralError, VERIFICATION } from '../exceptions/GeneralError';
 import { Client, _client } from '../Client';
 import { PersistentStorage } from '../PersistentStorage';
 import { getResponse } from '../gen/actions/getResponse';
-import { getHttpResponse, HttpError } from '../exceptions';
+import { getHttpResponse } from '../exceptions';
 
 /**
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved

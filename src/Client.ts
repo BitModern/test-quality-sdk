@@ -26,8 +26,9 @@ export class Client {
       newError.trace
     );
   };
+
   public errorHandler: (newError: HttpError) => void = this.errorHandlerDefault;
-  
+
   constructor(options: Options) {
     this.logger = options.logger || new EmptyLogger();
 
@@ -63,6 +64,4 @@ export class Client {
     }
     return this.auth;
   }
-
-  
 }
