@@ -9,6 +9,6 @@ export * from './gen/routes/Routes';
 
 export * from './services/http/BatchService';
 
-export { Client } from './Client';
+export { Client, _client } from './Client';
 export { Options } from './Options';
 export { PersistentStorage } from './PersistentStorage';

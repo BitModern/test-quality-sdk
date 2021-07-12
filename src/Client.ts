@@ -4,6 +4,7 @@ import { EmptyLogger } from './common/EmptyLogger';
 import { LoggerInterface } from './common/LoggerInterface';
 import { Options } from './Options';
 import { Auth, AuthCallback } from './auth';
+import { HttpError } from './exceptions/HttpError';
 
 export let _client: Client;
 
@@ -16,6 +17,17 @@ export class Client {
   public debug: boolean;
   public persistentStorage?: PersistentStorage;
 
+  public errorHandlerDefault = (newError: HttpError) => {
+    this.logger.error(
+      newError.stack ? newError.stack : newError.message,
+      newError.title,
+      newError.status,
+      newError.code,
+      newError.trace
+    );
+  };
+  public errorHandler: (newError: HttpError) => void = this.errorHandlerDefault;
+  
   constructor(options: Options) {
     this.logger = options.logger || new EmptyLogger();
 
@@ -33,6 +45,9 @@ export class Client {
     this.clientId = options.clientId;
     this.clientSecret = options.clientSecret;
     this.debug = !!options.debug;
+    if (options.errorHandler) {
+      this.errorHandler = options.errorHandler;
+    }
     this.persistentStorage = options.persistentStorage;
 
     if (!_client) {
@@ -48,4 +63,6 @@ export class Client {
     }
     return this.auth;
   }
+
+  
 }

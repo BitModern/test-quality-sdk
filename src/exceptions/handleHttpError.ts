@@ -61,13 +61,7 @@ export function getHttpResponse(response: AxiosResponse) {
 }
 
 export function showNotificationError(newError: HttpError, client = _client) {
-  client.logger.error(
-    newError.stack ? newError.stack : newError.message,
-    newError.title,
-    newError.status,
-    newError.code,
-    newError.trace
-  );
+  client.errorHandler(newError);
 }
 
 function getMessage(error: any) {

@@ -10,7 +10,7 @@
     "clean": "rimraf dist/*",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts",
-    "format:fix": "prettier --write 'src/**/*.ts' && prettier --write 'dist/**/*.d.ts' && prettier --write 'dist/**/*.js'"
+    "format:fix": "prettier --write 'src/**/*.ts'"
   },
   "repository": {
     "type": "git",

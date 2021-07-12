@@ -11,7 +11,7 @@ export function getResponse<T, Q = T>(
 ): Promise<T> {
   return api
     .request<T>({
-      method: queryParams.method,
+      method: queryParams.method || 'get',
       url: queryParams.url,
       params: queryParams.params,
       data: queryParams.data,

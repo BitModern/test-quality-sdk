@@ -1,10 +1,10 @@
-import { ReturnToken } from './ReturnToken';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { ReturnToken } from './ReturnToken';
 import { AUTH, GeneralError, VERIFICATION } from '../exceptions/GeneralError';
 import { Client, _client } from '../Client';
-import { PersistentStorage } from 'PersistentStorage';
-import { getResponse } from 'gen/actions';
-import { getHttpResponse } from 'exceptions';
+import { PersistentStorage } from '../PersistentStorage';
+import { getResponse } from '../gen/actions/getResponse';
+import { getHttpResponse, HttpError } from '../exceptions';
 
 /**
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
