@@ -151,12 +151,14 @@ export class Auth {
   public async getAccessToken(): Promise<string | undefined> {
     let token = this.getToken();
     if (token) {
-      const expiresAt: Date = new Date(token.expires_at);
-      const diff = expiresAt.getTime() - new Date().getTime();
+      if (token.expires_at) {
+        const expiresAt: Date = new Date(token.expires_at);
+        const diff = expiresAt.getTime() - new Date().getTime();
 
-      if (diff < 0) {
-        // token has expired, try to get a token
-        token = await this.refresh();
+        if (diff < 0) {
+          // token has expired, try to get a token
+          token = await this.refresh();
+        }
       }
       return token?.access_token;
     }
@@ -182,8 +184,14 @@ export class Auth {
     remember?: boolean
   ): ReturnToken | undefined {
     this.token = token;
+    if (this.token && this.token.expires_in) {
+      const now = new Date();
+      now.setSeconds(now.getSeconds() + (this.token.expires_in - 15)); //subtract 15 seconds to guard against latency
+      this.token.expires_at = now.toString();
+    }
+    this.remember = remember !== undefined ? remember : this.remember;
     if (this.persistentStorage) {
-      if (remember) {
+      if (this.remember) {
         this.persistentStorage.set('token', token);
         this.persistentStorage.set('remember', true);
       } else {
