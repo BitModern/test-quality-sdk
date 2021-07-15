@@ -9,6 +9,6 @@ export * from './gen/routes/Routes';
 
 export * from './services/http/BatchService';
 
-export { Client, _client } from './Client';
+export { ClientSdk, _client } from './ClientSdk';
 export { Options } from './Options';
 export { PersistentStorage } from './PersistentStorage';

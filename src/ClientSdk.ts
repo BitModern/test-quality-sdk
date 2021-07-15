@@ -6,9 +6,9 @@ import { Options } from './Options';
 import { Auth, AuthCallback } from './auth';
 import { HttpError } from './exceptions/HttpError';
 
-export let _client: Client;
+export let _client: ClientSdk;
 
-export class Client {
+export class ClientSdk {
   private auth?: Auth;
   public logger: LoggerInterface;
   public api: AxiosInstance;
@@ -54,6 +54,10 @@ export class Client {
     if (!_client) {
       _client = this;
     }
+  }
+
+  public setErrorHandler(errorHandler: (newError: HttpError) => void) {
+    this.errorHandler = errorHandler;
   }
 
   public getAuth(authCallback?: AuthCallback) {

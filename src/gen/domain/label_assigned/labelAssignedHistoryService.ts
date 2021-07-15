@@ -2,7 +2,7 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
-import { _client } from '../../../Client';
+import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
 import { QueryParams } from '../../actions/QueryParams';
 import { LabelAssignedRoute } from '../../routes/Routes';

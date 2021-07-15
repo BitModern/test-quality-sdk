@@ -1,10 +1,15 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ReturnToken } from './ReturnToken';
 import { AUTH, GeneralError, VERIFICATION } from '../exceptions/GeneralError';
-import { Client, _client } from '../Client';
+import { ClientSdk, _client } from '../ClientSdk';
 import { PersistentStorage } from '../PersistentStorage';
 import { getResponse } from '../gen/actions/getResponse';
-import { getHttpResponse } from '../exceptions';
+import {
+  getHttpResponse,
+  HttpError,
+  NO_REFRESH_TOKEN,
+  TRIAL_EXPIRED,
+} from '../exceptions';
 
 /**
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
@@ -34,7 +39,8 @@ export enum AuthCallbackActions {
 }
 export type AuthCallback = (
   action: AuthCallbackActions,
-  me: Auth
+  token?: ReturnToken,
+  me?: Auth
 ) => Promise<ReturnToken | undefined>;
 
 export class Auth {
@@ -76,7 +82,7 @@ export class Auth {
 
   constructor(
     private persistentStorage?: PersistentStorage,
-    private client: Client = _client,
+    private client: ClientSdk = _client,
     private authCallback?: AuthCallback
   ) {
     this.addInterceptors();
@@ -91,7 +97,7 @@ export class Auth {
     password: string,
     remember = false,
     properties?: any
-  ): Promise<ReturnToken | undefined> {
+  ): Promise<ReturnToken> {
     return this.client.api
       .post<ReturnToken>(grantPath, {
         grant_type: 'password',
@@ -102,10 +108,19 @@ export class Auth {
         ...properties,
       })
       .then(Auth.checkForFailure)
-      .then(({ data: token }) => {
+      .then(({ data: token }): ReturnToken | Promise<ReturnToken> => {
         this.setToken(token, remember);
         if (this.authCallback) {
-          return this.authCallback(AuthCallbackActions.Connected, this);
+          return this.authCallback(
+            AuthCallbackActions.Connected,
+            token,
+            this
+          ).then((updatedToken) => {
+            if (updatedToken) {
+              return updatedToken;
+            }
+            return token;
+          });
         }
         this.client.logger.info('Logged In');
         return token;
@@ -113,7 +128,7 @@ export class Auth {
   }
 
   public logout() {
-    this.setToken(undefined, false);
+    this.setToken(undefined, undefined);
   }
 
   public async refresh(
@@ -121,7 +136,14 @@ export class Auth {
   ): Promise<ReturnToken | undefined> {
     const token = refreshToken || this.getToken()?.refresh_token;
     if (!token) {
-      return Promise.reject(Error('No Refresh Token'));
+      return Promise.reject(
+        new HttpError(
+          'No refresh token found.',
+          NO_REFRESH_TOKEN,
+          'Token Error',
+          400
+        )
+      );
     }
 
     if (!this.refreshRequest) {
@@ -138,7 +160,7 @@ export class Auth {
       .then(({ data }) => {
         this.setToken(data);
         if (this.authCallback) {
-          return this.authCallback(AuthCallbackActions.Refreshed, this);
+          return this.authCallback(AuthCallbackActions.Refreshed, data, this);
         }
         this.client.logger.info('Refreshed');
         return data;
@@ -193,11 +215,10 @@ export class Auth {
     if (this.persistentStorage) {
       if (this.remember) {
         this.persistentStorage.set('token', token);
-        this.persistentStorage.set('remember', true);
       } else {
         this.persistentStorage.set('token', undefined);
-        this.persistentStorage.set('remember', undefined);
       }
+      this.persistentStorage.set('remember', this.remember);
     }
     return this.token;
   }
@@ -218,7 +239,11 @@ export class Auth {
             }
           } catch (err) {
             if (this.authCallback) {
-              this.authCallback(AuthCallbackActions.Unauthorized, this);
+              this.authCallback(
+                AuthCallbackActions.Unauthorized,
+                undefined,
+                this
+              );
             }
           }
         }
@@ -255,13 +280,14 @@ export class Auth {
           originalRequest.isRetry = true;
 
           if (!this.getToken()) {
-            const newResponse = getHttpResponse(newError.response);
             if (this.authCallback) {
-              this.authCallback(AuthCallbackActions.Unauthorized, this);
+              this.authCallback(
+                AuthCallbackActions.Unauthorized,
+                undefined,
+                this
+              );
             }
-            return newResponse
-              ? Promise.reject(newResponse)
-              : Promise.reject(newError);
+            return Promise.reject(getHttpResponse(newError.response));
           }
           // refresh will redirect to auth callback
           return this.refresh()
@@ -269,29 +295,39 @@ export class Auth {
               if (token && token.access_token) {
                 if (token.trial_ended_at) {
                   if (this.authCallback) {
-                    this.authCallback(AuthCallbackActions.Expired, this);
+                    this.authCallback(AuthCallbackActions.Expired, token, this);
+                    return Promise.reject(
+                      new HttpError(
+                        'Trial Expired.',
+                        TRIAL_EXPIRED,
+                        'Trial Ended',
+                        400
+                      )
+                    );
                   }
                 } else {
                   originalRequest.headers.Authorization = `Bearer ${token.access_token}`;
                   return _client.api(originalRequest);
                 }
-              } else {
-                if (this.authCallback) {
-                  this.authCallback(AuthCallbackActions.Unauthorized, this);
-                }
               }
-              return Promise.reject(token);
-            })
-            .catch(() => {
               if (this.authCallback) {
-                this.authCallback(AuthCallbackActions.Unauthorized, this);
+                this.authCallback(
+                  AuthCallbackActions.Unauthorized,
+                  undefined,
+                  this
+                );
               }
+
+              return Promise.reject(getHttpResponse(newError.response));
+            })
+            .catch((error) => {
+              if (error.id && error.id === NO_REFRESH_TOKEN) {
+                return Promise.reject(getHttpResponse(newError.response));
+              }
+              return Promise.reject(error);
             });
         }
-        const newResponse = getHttpResponse(newError.response);
-        return newResponse
-          ? Promise.reject(newResponse)
-          : Promise.reject(newError);
+        return Promise.reject(getHttpResponse(newError.response));
       }
     );
   }

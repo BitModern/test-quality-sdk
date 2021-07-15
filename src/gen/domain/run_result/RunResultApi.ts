@@ -15,6 +15,7 @@ import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
 import { AttachmentApi } from '../attachment/AttachmentApi';
 import { CommentApi } from '../comment/CommentApi';
+import { DefectApi } from '../defect/DefectApi';
 
 export interface RunResultApi extends RunResult {
   test?: TestApi;
@@ -26,4 +27,5 @@ export interface RunResultApi extends RunResult {
   run_result_step?: RunResultStepApi[];
   attachment?: AttachmentApi;
   comment?: CommentApi;
+  defect?: DefectApi;
 }

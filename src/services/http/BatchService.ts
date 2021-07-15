@@ -7,7 +7,7 @@ import * as querystring from 'querystring';
 import { AxiosError, AxiosResponse, Method } from 'axios';
 import { QueryParams } from '../../gen/actions/QueryParams';
 import { getHttpResponse } from '../../exceptions/handleHttpError';
-import { _client } from '../../Client';
+import { _client } from '../../ClientSdk';
 
 interface BatchRequest {
   method: Method;
