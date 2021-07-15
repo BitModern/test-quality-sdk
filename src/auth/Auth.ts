@@ -320,11 +320,11 @@ export class Auth {
 
               return Promise.reject(getHttpResponse(newError.response));
             })
-            .catch((error) => {
-              if (error.id && error.id === NO_REFRESH_TOKEN) {
+            .catch((err) => {
+              if (err.id && err.id === NO_REFRESH_TOKEN) {
                 return Promise.reject(getHttpResponse(newError.response));
               }
-              return Promise.reject(error);
+              return Promise.reject(err);
             });
         }
         return Promise.reject(getHttpResponse(newError.response));
