@@ -1,14 +1,15 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ReturnToken } from './ReturnToken';
-import { AUTH, GeneralError, VERIFICATION } from '../exceptions/GeneralError';
+import { AUTH, GeneralError, VERIFICATION } from '../exceptions';
 import { ClientSdk, _client } from '../ClientSdk';
 import { PersistentStorage } from '../PersistentStorage';
-import { getResponse } from '../gen/actions/getResponse';
+import { getResponse } from '../gen/actions';
 import {
+  EXPIRED_USER_EXCEPTION,
   getHttpResponse,
   HttpError,
   NO_REFRESH_TOKEN,
-  TRIAL_EXPIRED,
+  UNAUTHORIZED,
 } from '../exceptions';
 
 /**
@@ -108,33 +109,44 @@ export class Auth {
         ...properties,
       })
       .then(Auth.checkForFailure)
-      .then(({ data: token }): ReturnToken | Promise<ReturnToken> => {
-        this.setToken(token, remember);
+      .then(async ({ data: token }): Promise<ReturnToken> => {
+        await this.setToken(token, remember);
+        if (token && token.trial_ended_at) {
+          if (this.authCallback) {
+            await this.authCallback(AuthCallbackActions.Expired, token, this);
+          }
+          return Promise.reject(
+            new HttpError(
+              'Trial Expired.',
+              EXPIRED_USER_EXCEPTION,
+              'Trial Ended',
+              400
+            )
+          );
+        }
+        this.client.logger.info('Logged In');
         if (this.authCallback) {
-          return this.authCallback(
+          const tokenUpdate = await this.authCallback(
             AuthCallbackActions.Connected,
             token,
             this
-          ).then((updatedToken) => {
-            if (updatedToken) {
-              return updatedToken;
-            }
-            return token;
-          });
+          );
+          if (tokenUpdate) {
+            return tokenUpdate;
+          }
         }
-        this.client.logger.info('Logged In');
         return token;
       });
   }
 
-  public logout() {
-    this.setToken(undefined, undefined);
+  public logout(): Promise<ReturnToken | undefined> {
+    return this.setToken(undefined, undefined);
   }
 
   public async refresh(
     refreshToken?: string
   ): Promise<ReturnToken | undefined> {
-    const token = refreshToken || this.getToken()?.refresh_token;
+    const token = refreshToken || (await this.getToken())?.refresh_token;
     if (!token) {
       return Promise.reject(
         new HttpError(
@@ -171,7 +183,7 @@ export class Auth {
   }
 
   public async getAccessToken(): Promise<string | undefined> {
-    let token = this.getToken();
+    let token = await this.getToken();
     if (token) {
       if (token.expires_at) {
         const expiresAt: Date = new Date(token.expires_at);
@@ -191,39 +203,44 @@ export class Auth {
     return this.getToken() !== undefined;
   }
 
-  public getToken() {
-    if (!this.token && this.persistentStorage) {
-      this.token = this.persistentStorage.get('token');
-    }
+  public async getRemember(): Promise<boolean | undefined> {
     if (this.remember === undefined && this.persistentStorage) {
-      this.remember = this.persistentStorage.get('remember');
+      this.remember = await this.persistentStorage.get('remember');
+    }
+    return this.remember;
+  }
+
+  public async getToken(): Promise<ReturnToken | undefined> {
+    if (!this.token && this.persistentStorage) {
+      this.token = await this.persistentStorage.get('token');
     }
     return this.token;
   }
 
-  public setToken(
+  public async setToken(
     token?: ReturnToken,
     remember?: boolean
-  ): ReturnToken | undefined {
+  ): Promise<ReturnToken | undefined> {
     this.token = token;
     if (this.token && this.token.expires_in) {
       const now = new Date();
       now.setSeconds(now.getSeconds() + (this.token.expires_in - 15)); //subtract 15 seconds to guard against latency
-      this.token.expires_at = now.toString();
+      this.token.expires_at = JSON.parse(JSON.stringify(now));
     }
-    this.remember = remember !== undefined ? remember : this.remember;
+    this.remember =
+      remember !== undefined ? remember : await this.getRemember();
     if (this.persistentStorage) {
       if (this.remember) {
-        this.persistentStorage.set('token', token);
+        await this.persistentStorage.set('token', token);
       } else {
-        this.persistentStorage.set('token', undefined);
+        await this.persistentStorage.set('token', undefined);
       }
-      this.persistentStorage.set('remember', this.remember);
+      await this.persistentStorage.set('remember', this.remember);
     }
     return this.token;
   }
 
-  protected addInterceptors(): void {
+  protected addAddAuthorizationHeaderInterceptor() {
     this.client.api.interceptors.request.use(
       async (config): Promise<AxiosRequestConfig> => {
         const newConfig = { ...config };
@@ -239,12 +256,14 @@ export class Auth {
             }
           } catch (err) {
             if (this.authCallback) {
-              this.authCallback(
+              await this.authCallback(
                 AuthCallbackActions.Unauthorized,
                 undefined,
                 this
               );
             }
+            // don't throw error because there is no check to see if it is calling TestQuality api
+            // possible making calls that don't require authentication.
           }
         }
         if (this.client.debug) {
@@ -258,77 +277,89 @@ export class Auth {
         return Promise.reject(error);
       }
     );
+  }
 
-    this.client.api.interceptors.response.use(
+  // Axios interceptor for HTTP 401 Unauthorized
+  // If the token is invalid or has expired, we regenerate a new token and then call the original REST again.
+  protected addUnauthorizedInterceptor() {
+    const interceptor = this.client.api.interceptors.response.use(
       (response) => response,
-      (error) => {
-        const newError = { ...error };
-        const originalRequest = newError.config;
-        if (newError?.response?.status) {
-          newError.response.status =
-            typeof newError.response.status === 'string'
-              ? parseInt(newError.response.status, 10)
-              : newError.response.status;
-        }
-        const status = newError?.response?.status;
-        if (
-          originalRequest &&
-          status === 401 &&
-          !originalRequest.isRetry &&
-          Auth.urlRequiresAuth(originalRequest.url)
-        ) {
-          originalRequest.isRetry = true;
+      async (error) => {
+        // if error response is not HTTP 401, we do a reject to not process this error
+        const status = error?.response?.status
+          ? typeof error.response.status === 'string'
+            ? parseInt(error.response.status, 10)
+            : error.response.status
+          : undefined;
 
-          if (!this.getToken()) {
-            if (this.authCallback) {
-              this.authCallback(
-                AuthCallbackActions.Unauthorized,
-                undefined,
-                this
-              );
-            }
-            return Promise.reject(getHttpResponse(newError.response));
+        // if not an authentication issue just let error flow through
+        if (status !== 401 || !Auth.urlRequiresAuth(error.config.url)) {
+          return Promise.reject(getHttpResponse(error.response));
+        }
+        const accessToken = await this.getToken();
+        if (!accessToken) {
+          if (this.authCallback) {
+            await this.authCallback(
+              AuthCallbackActions.Unauthorized,
+              undefined,
+              this
+            );
           }
-          // refresh will redirect to auth callback
-          return this.refresh()
-            .then((token) => {
-              if (token && token.access_token) {
-                if (token.trial_ended_at) {
-                  if (this.authCallback) {
-                    this.authCallback(AuthCallbackActions.Expired, token, this);
-                    return Promise.reject(
-                      new HttpError(
-                        'Trial Expired.',
-                        TRIAL_EXPIRED,
-                        'Trial Ended',
-                        400
-                      )
-                    );
-                  }
-                } else {
-                  originalRequest.headers.Authorization = `Bearer ${token.access_token}`;
-                  return _client.api(originalRequest);
-                }
-              }
+          return Promise.reject(getHttpResponse(error.response));
+        }
+
+        // When response code is HTTP 401 Unauthorized, try to refresh the token.
+        // Eject the interceptor so it doesn't loop in case token refresh causes
+        // the 401 response.
+        this.client.api.interceptors.response.eject(interceptor);
+
+        try {
+          // use refresh token to generate new access token so request can be retried
+          const token = await this.refresh();
+          if (token && token.access_token) {
+            // trial ended, need to handle it
+            if (token.trial_ended_at) {
               if (this.authCallback) {
-                this.authCallback(
-                  AuthCallbackActions.Unauthorized,
-                  undefined,
+                await this.authCallback(
+                  AuthCallbackActions.Expired,
+                  token,
                   this
                 );
               }
-
-              return Promise.reject(getHttpResponse(newError.response));
-            })
-            .catch((err) => {
-              if (err.id && err.id === NO_REFRESH_TOKEN) {
-                return Promise.reject(getHttpResponse(newError.response));
-              }
-              return Promise.reject(err);
-            });
+              return Promise.reject(
+                new HttpError(
+                  'Trial Expired.',
+                  EXPIRED_USER_EXCEPTION,
+                  'Trial Ended',
+                  400
+                )
+              );
+            } else {
+              error.response.config.headers.Authorization = `Bearer ${token.access_token}`;
+              return this.client.api(error.response.config);
+            }
+          }
+          if (this.authCallback) {
+            await this.authCallback(
+              AuthCallbackActions.Unauthorized,
+              undefined,
+              this
+            );
+          }
+          return Promise.reject(
+            new HttpError('Trial Expired.', UNAUTHORIZED, 'Trial Ended', 400)
+          );
+        } catch (e) {
+          return Promise.reject(e);
+        } finally {
+          this.addUnauthorizedInterceptor();
         }
-        return Promise.reject(getHttpResponse(newError.response));
       }
     );
+  }
+
+  protected addInterceptors(): void {
+    this.addAddAuthorizationHeaderInterceptor();
+    this.addUnauthorizedInterceptor();
   }
 }

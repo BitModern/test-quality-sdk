@@ -2,7 +2,9 @@ import { AxiosResponse } from 'axios';
 import { HttpError } from './HttpError';
 import { _client } from '../ClientSdk';
 
-export const UNKOWN_ERROR = 'UNKNOWN_ERROR';
+export const UNKNOWN_ERROR = 'UNKNOWN_ERROR';
+export const NO_REFRESH_TOKEN = 'NO_REFRESH_TOKEN';
+export const UNAUTHORIZED = 'UNAUTHORIZED';
 export const VALIDATION_ERROR = 'VALIDATION_ERROR';
 export const EMAIL_VERIFICATION_ERROR = 'EMAIL_VERIFICATION_ERROR';
 export const EXPIRED_USER_EXCEPTION = 'EXPIRED_USER_EXCEPTION';
@@ -29,15 +31,13 @@ export const USER_CREATE_EXCEPTION = 'USER_CREATE_EXCEPTION';
 export const USER_NOT_AUTHORIZED_EXCEPTION = 'USER_NOT_AUTHORIZED_EXCEPTION';
 export const USER_NOT_FOUND_EXCEPTION = 'USER_NOT_FOUND_EXCEPTION';
 export const VALIDATION_FAILED_EXCEPTION = 'VALIDATION_FAILED_EXCEPTION';
-export const NO_REFRESH_TOKEN = 'NO_REFRESH_TOKEN';
-export const TRIAL_EXPIRED = 'TRIAL_EXPIRED';
 
 export function getHttpResponse(response: AxiosResponse): HttpError {
   if (response.status === -1) {
     if (response.data === null) {
       return new HttpError(
         'Oops, Could not obtain data from server due to network problem.',
-        UNKOWN_ERROR,
+        UNKNOWN_ERROR,
         'Network Error',
         500
       );

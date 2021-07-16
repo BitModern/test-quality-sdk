@@ -6,14 +6,14 @@ Further documentation of the API can be found on [https://doc.testquality.com](h
 
 For an example of using the API, review [https://github.com/BitModern/testQualityCli](https://github.com/BitModern/testQualityCli)
 
-## Client
+## ClientSdk
 
 The client is the root of SDK, you must create a Client object in order for the SDK functions to work.
 
 To request a client id and secret please contact support@bitmodern.com.
 
 ```js
-const singleClient = new Client({
+const singleClient = new ClientSdk({
   // clientId is provided when registering your app
   clientId: 'your client id',
   
@@ -46,7 +46,7 @@ There are two ways to authenticate, either via login or personal access token.
 If a personal access token has been generated. Once client is created set the token.
 
 ```js
-  const client = new Clinet({...});
+  const client = new ClientSdk({...});
   client.setAuth().setToken({access_token: 'your personal access token'});
 
   ... call functions ...
@@ -55,7 +55,7 @@ If a personal access token has been generated. Once client is created set the to
 ### Login
 
 ```js
-  const client = new Clinet({...});
+  const client = new ClientSdk({...});
   client.setAuth().login('email', 'password', true /* store token using persistentStorage */);
 
   ... call functions ...
