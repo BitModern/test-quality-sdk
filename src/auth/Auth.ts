@@ -143,6 +143,16 @@ export class Auth {
     return this.setToken(undefined, undefined);
   }
 
+  public register(email: string, password: string, recaptcha: string) {
+    return this.client.api.post<ReturnToken>('auth/register', {
+      client_id: this.client.clientId,
+      email,
+      g_recaptcha_response: recaptcha,
+      password_confirmation: password,
+      password,
+    });
+  }
+
   public async refresh(
     refreshToken?: string
   ): Promise<ReturnToken | undefined> {
