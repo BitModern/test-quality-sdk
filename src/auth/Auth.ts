@@ -153,6 +153,25 @@ export class Auth {
     });
   }
 
+  public registerSite(
+    email: string,
+    password: string,
+    site: string,
+    recaptcha: string
+  ) {
+    return this.client.api.post('/system/create_client', {
+      name: site,
+      development: false,
+      g_recaptcha_response: recaptcha,
+      user: {
+        email,
+        password,
+        password_confirmation: password,
+        g_recaptcha_response: recaptcha,
+      },
+    });
+  }
+
   public async refresh(
     refreshToken?: string
   ): Promise<ReturnToken | undefined> {
