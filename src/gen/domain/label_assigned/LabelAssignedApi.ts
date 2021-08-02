@@ -10,6 +10,7 @@ import { LabelApi } from '../label/LabelApi';
 import { MilestoneApi } from '../milestone/MilestoneApi';
 import { PurposeApi } from '../purpose/PurposeApi';
 import { RunApi } from '../run/RunApi';
+import { StatusTypeApi } from '../status_type/StatusTypeApi';
 import { TestQualityApi } from '../test_quality/TestQualityApi';
 import { TestQualityTypeApi } from '../test_quality_type/TestQualityTypeApi';
 import { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
@@ -30,6 +31,7 @@ export interface LabelAssignedApi extends LabelAssigned {
   milestone?: MilestoneApi;
   purpose?: PurposeApi;
   run?: RunApi;
+  status_type?: StatusTypeApi;
   test_quality?: TestQualityApi;
   test_quality_type?: TestQualityTypeApi;
   native_defect_res?: NativeDefectResApi;
