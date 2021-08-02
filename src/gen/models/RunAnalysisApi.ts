@@ -6,4 +6,5 @@ import { RunStatusAnalysisApi } from './RunStatusAnalysisApi';
 export interface RunAnalysisApi {
   status: RunStatusAnalysisApi[];
   defect_count: number;
+  todo?: number;
 }
