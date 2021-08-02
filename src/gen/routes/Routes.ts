@@ -60,6 +60,11 @@ export const RunRunResultRoute = (run_id: number): string =>
   `/run/${run_id}/run_result`;
 export const RunCommentRoute = (run_id: number): string =>
   `/run/${run_id}/comment`;
+export const StatusTypeRoute = (): string => `/status_type`;
+export const StatusTypeLabelAssignedRoute = (status_type_id: number): string =>
+  `/status_type/${status_type_id}/label_assigned`;
+export const StatusTypeStatusRoute = (status_type_id: number): string =>
+  `/status_type/${status_type_id}/status`;
 export const TestQualityRoute = (): string => `/test_quality`;
 export const TestQualityLabelAssignedRoute = (
   test_quality_id: number
