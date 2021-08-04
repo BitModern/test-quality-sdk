@@ -14,6 +14,7 @@ import { RunApi } from '../run/RunApi';
 import { PlanPurposeApi } from '../plan_purpose/PlanPurposeApi';
 import { PurposeApi } from '../purpose/PurposeApi';
 import { CommentApi } from '../comment/CommentApi';
+import { WatchApi } from '../watch/WatchApi';
 import { AttachmentApi } from '../attachment/AttachmentApi';
 import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 
@@ -25,6 +26,7 @@ export interface PlanApi extends Plan {
   purpose?: PurposeApi[];
   purpose_id?: number;
   comment?: CommentApi;
+  watch?: WatchApi;
   attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   pivot?: PlanSuiteApi | PlanPurposeApi;

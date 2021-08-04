@@ -14,6 +14,7 @@ import { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
 import { PlanApi } from '../plan/PlanApi';
 import { RunResultApi } from '../run_result/RunResultApi';
 import { CommentApi } from '../comment/CommentApi';
+import { WatchApi } from '../watch/WatchApi';
 import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 
 export interface SuiteApi extends Suite {
@@ -25,6 +26,7 @@ export interface SuiteApi extends Suite {
   sequence_plan?: number;
   run_result?: RunResultApi[];
   comment?: CommentApi;
+  watch?: WatchApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   pivot?: SuiteTestApi | PlanSuiteApi;
 }

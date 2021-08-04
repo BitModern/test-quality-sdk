@@ -42,6 +42,7 @@ export const LabelAssignedRoute = (): string => `/label_assigned`;
 export const LabelRoute = (): string => `/label`;
 export const LabelLabelAssignedRoute = (label_id: number): string =>
   `/label/${label_id}/label_assigned`;
+export const WatchRoute = (): string => `/watch`;
 export const DefectStatusRoute = (): string => `/defect_status`;
 export const DefectStatusDefectRoute = (defect_status_id: number): string =>
   `/defect_status/${defect_status_id}/defect`;

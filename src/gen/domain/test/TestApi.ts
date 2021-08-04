@@ -18,6 +18,7 @@ import { StepApi } from '../step/StepApi';
 import { RequirementApi } from '../requirement/RequirementApi';
 import { AttachmentApi } from '../attachment/AttachmentApi';
 import { CommentApi } from '../comment/CommentApi';
+import { WatchApi } from '../watch/WatchApi';
 import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 
 export interface TestApi extends Test {
@@ -34,6 +35,7 @@ export interface TestApi extends Test {
   requirement?: RequirementApi;
   attachment?: AttachmentApi;
   comment?: CommentApi;
+  watch?: WatchApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   pivot?: SuiteTestApi;
 }

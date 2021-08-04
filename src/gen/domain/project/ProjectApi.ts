@@ -19,6 +19,7 @@ import { RunApi } from '../run/RunApi';
 import { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
 import { IntegrationApi } from '../integration/IntegrationApi';
 import { CommentApi } from '../comment/CommentApi';
+import { WatchApi } from '../watch/WatchApi';
 import { DefectApi } from '../defect/DefectApi';
 import { RequirementApi } from '../requirement/RequirementApi';
 import { AttachmentApi } from '../attachment/AttachmentApi';
@@ -38,6 +39,7 @@ export interface ProjectApi extends Project {
   integration?: IntegrationApi[];
   integration_id?: number;
   comment?: CommentApi;
+  watch?: WatchApi;
   defect?: DefectApi[];
   requirement?: RequirementApi[];
   attachment?: AttachmentApi;
