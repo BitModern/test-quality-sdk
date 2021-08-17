@@ -379,6 +379,13 @@ export class Auth {
             new HttpError('Trial Expired.', UNAUTHORIZED, 'Trial Ended', 400)
           );
         } catch (e) {
+          if (this.authCallback) {
+            await this.authCallback(
+              AuthCallbackActions.Unauthorized,
+              undefined,
+              this
+            );
+          }
           return Promise.reject(e);
         } finally {
           this.addUnauthorizedInterceptor();
