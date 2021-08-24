@@ -14,5 +14,6 @@ export interface Watch extends KeyedModel {
   related_type: string;
   related_id: number;
   id: number;
+  test_type_id: number;
   key: number;
 }

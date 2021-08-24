@@ -29,4 +29,5 @@ export interface Step extends KeyedModel {
    */
   sequence: number;
   key: number;
+  step_type_id?: number;
 }

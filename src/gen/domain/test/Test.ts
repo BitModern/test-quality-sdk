@@ -5,7 +5,6 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface Test extends KeyedModel {
-  id: number;
   created_by: number;
   created_at: string;
   updated_by: number;
@@ -31,4 +30,6 @@ export interface Test extends KeyedModel {
    * A bitmask which holds various state values for this test. This allows test_quality to calcualte without needing to query history
    */
   state_mask?: number;
+  test_type_id?: number;
+  data_table?: string;
 }

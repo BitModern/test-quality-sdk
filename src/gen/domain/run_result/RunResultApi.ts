@@ -6,10 +6,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { RunResult } from './RunResult';
-import { TestApi } from '../test/TestApi';
 import { SuiteApi } from '../suite/SuiteApi';
 import { ProjectApi } from '../project/ProjectApi';
 import { RunApi } from '../run/RunApi';
+import { TestApi } from '../test/TestApi';
 import { StatusApi } from '../status/StatusApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
@@ -18,10 +18,10 @@ import { CommentApi } from '../comment/CommentApi';
 import { DefectApi } from '../defect/DefectApi';
 
 export interface RunResultApi extends RunResult {
-  test?: TestApi;
   suite?: SuiteApi;
   project?: ProjectApi;
   run?: RunApi;
+  test?: TestApi;
   status?: StatusApi;
   label_assigned?: LabelAssignedApi;
   run_result_step?: RunResultStepApi[];

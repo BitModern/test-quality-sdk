@@ -6,15 +6,15 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Step } from './Step';
-import { TestApi } from '../test/TestApi';
 import { ProjectApi } from '../project/ProjectApi';
+import { TestApi } from '../test/TestApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
 import { CommentApi } from '../comment/CommentApi';
 
 export interface StepApi extends Step {
-  test?: TestApi;
   project?: ProjectApi;
+  test?: TestApi;
   label_assigned?: LabelAssignedApi;
   run_result_step?: RunResultStepApi[];
   comment?: CommentApi;

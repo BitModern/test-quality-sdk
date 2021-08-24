@@ -7,14 +7,7 @@
 
 import { LabelAssigned } from './LabelAssigned';
 import { LabelApi } from '../label/LabelApi';
-import { MilestoneApi } from '../milestone/MilestoneApi';
-import { PurposeApi } from '../purpose/PurposeApi';
 import { RunApi } from '../run/RunApi';
-import { StatusTypeApi } from '../status_type/StatusTypeApi';
-import { TestQualityApi } from '../test_quality/TestQualityApi';
-import { TestQualityTypeApi } from '../test_quality_type/TestQualityTypeApi';
-import { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
-import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
 import { SuiteApi } from '../suite/SuiteApi';
 import { TestApi } from '../test/TestApi';
 import { ProjectApi } from '../project/ProjectApi';
@@ -25,17 +18,17 @@ import { RunResultApi } from '../run_result/RunResultApi';
 import { StepApi } from '../step/StepApi';
 import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
 import { StatusApi } from '../status/StatusApi';
+import { PurposeApi } from '../purpose/PurposeApi';
+import { MilestoneApi } from '../milestone/MilestoneApi';
+import { StatusTypeApi } from '../status_type/StatusTypeApi';
+import { TestQualityApi } from '../test_quality/TestQualityApi';
+import { TestQualityTypeApi } from '../test_quality_type/TestQualityTypeApi';
+import { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
+import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
 
 export interface LabelAssignedApi extends LabelAssigned {
   label?: LabelApi;
-  milestone?: MilestoneApi;
-  purpose?: PurposeApi;
   run?: RunApi;
-  status_type?: StatusTypeApi;
-  test_quality?: TestQualityApi;
-  test_quality_type?: TestQualityTypeApi;
-  native_defect_res?: NativeDefectResApi;
-  native_defect_status?: NativeDefectStatusApi;
   suite?: SuiteApi;
   test?: TestApi;
   project?: ProjectApi;
@@ -46,4 +39,11 @@ export interface LabelAssignedApi extends LabelAssigned {
   step?: StepApi;
   run_result_step?: RunResultStepApi;
   status?: StatusApi;
+  purpose?: PurposeApi;
+  milestone?: MilestoneApi;
+  status_type?: StatusTypeApi;
+  test_quality?: TestQualityApi;
+  test_quality_type?: TestQualityTypeApi;
+  native_defect_res?: NativeDefectResApi;
+  native_defect_status?: NativeDefectStatusApi;
 }

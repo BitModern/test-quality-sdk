@@ -38,4 +38,8 @@ export interface Integration extends KeyedModel {
   base_integration_id?: number;
   settings?: any;
   org: string;
+  app_version?: number;
+  server_version?: string;
+  plugin_version?: string;
+  external_reference_id?: string;
 }
