@@ -5,5 +5,4 @@
  */
 
 export * from './registerJira';
-export { JiraUser } from './JiraUser';
 export { JiraServerInfo } from './JiraServerInfo';

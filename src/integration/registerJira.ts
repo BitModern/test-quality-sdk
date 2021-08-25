@@ -1,10 +1,9 @@
 import { getResponse, QueryParams } from '../gen/actions';
 import { _client } from '../ClientSdk';
-import { JiraUser } from './JiraUser';
 import { JiraServerInfo } from './JiraServerInfo';
 
 export interface RegisterJiraPayload {
-  user: JiraUser;
+  user: string;
   clientKey: string;
   accessToken: string;
   localBaseUrl: string;
