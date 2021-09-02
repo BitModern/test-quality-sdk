@@ -5,8 +5,6 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface RunResultStep extends KeyedModel {
-  run_result_id: number;
-  step_id: number;
   created_by: number;
   created_at: string;
   updated_by: number;
@@ -24,7 +22,6 @@ export interface RunResultStep extends KeyedModel {
    * The status of the step.
    */
   status_id: number;
-  id: number;
   client_id: number;
   project_id: number;
   /**
@@ -37,4 +34,7 @@ export interface RunResultStep extends KeyedModel {
    */
   result?: string;
   key: number;
+  step_id: number;
+  run_result_id: number;
+  id: number;
 }

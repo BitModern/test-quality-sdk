@@ -5,7 +5,6 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface Step extends KeyedModel {
-  id: number;
   created_by: number;
   created_at: string;
   updated_by: number;
@@ -30,4 +29,5 @@ export interface Step extends KeyedModel {
   sequence: number;
   key: number;
   step_type_id?: number;
+  id: number;
 }

@@ -12,7 +12,7 @@ export interface Requirement extends KeyedModel {
   related_type: string;
   related_id: number;
   integration_project_id: number;
-  test_type_id: number;
+  id: number;
   created_at: string;
   created_by: number;
   updated_at: string;

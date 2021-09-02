@@ -6,7 +6,6 @@ import { KeyedModel } from '../../models/KeyedModel';
 
 export interface RunResult extends KeyedModel {
   test_id: number;
-  id: number;
   created_by: number;
   created_at: string;
   updated_by: number;
@@ -31,4 +30,5 @@ export interface RunResult extends KeyedModel {
    * This is a computed value. status_id cannot be set via endpoint. The value is set when run_result_step status_id is set on the last run_result_step in the sequence.
    */
   status_id: number;
+  id: number;
 }

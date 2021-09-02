@@ -5,6 +5,7 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface Test extends KeyedModel {
+  id: number;
   created_by: number;
   created_at: string;
   updated_by: number;

@@ -5,7 +5,6 @@
 import { TenantScopedModel } from '../../models/TenantScopedModel';
 
 export interface SuiteTest extends TenantScopedModel {
-  id: number;
   created_at: string;
   updated_at: string;
   suite_id: number;
@@ -15,4 +14,5 @@ export interface SuiteTest extends TenantScopedModel {
   created_by: number;
   updated_by: number;
   epoch: number;
+  id: number;
 }

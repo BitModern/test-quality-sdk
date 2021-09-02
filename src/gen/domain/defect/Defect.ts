@@ -22,9 +22,9 @@ export interface Defect extends KeyedModel {
    * stores the generalized defect from the external system.
    */
   payload?: any;
-  id: number;
   project_id: number;
   defect_status_id?: number;
   key: number;
+  id: number;
   defect_res_id?: number;
 }

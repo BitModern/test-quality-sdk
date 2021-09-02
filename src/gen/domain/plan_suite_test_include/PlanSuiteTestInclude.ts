@@ -5,7 +5,6 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface PlanSuiteTestInclude extends KeyedModel {
-  id: number;
   created_by: number;
   created_at: string;
   updated_by: number;
@@ -16,4 +15,5 @@ export interface PlanSuiteTestInclude extends KeyedModel {
   suite_id: number;
   test_id: number;
   project_id: number;
+  id: number;
 }
