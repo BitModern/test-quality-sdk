@@ -150,6 +150,7 @@ export class Auth {
       g_recaptcha_response: recaptcha,
       password_confirmation: password,
       password,
+      is_web: true,
     });
   }
 
