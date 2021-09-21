@@ -266,6 +266,16 @@ export const NativeDefectStatusLabelAssignedRoute = (
 export const NativeDefectStatusDefectStatusRoute = (
   native_defect_status_id: number
 ): string => `/native_defect_status/${native_defect_status_id}/defect_status`;
+export const SubscriptionsRoute = (): string => `/subscriptions`;
+export const SubscriptionsSubscriptionUserRoute = (
+  subscriptions_id: number
+): string => `/subscriptions/${subscriptions_id}/subscription_user`;
+export const SubscriptionsQuoteItemRoute = (subscriptions_id: number): string =>
+  `/subscriptions/${subscriptions_id}/quote_item`;
+export const SubscriptionsBillingContactRoute = (
+  subscriptions_id: number
+): string => `/subscriptions/${subscriptions_id}/billing_contact`;
+export const SubscriptionUserRoute = (): string => `/subscription_user`;
 export const ProductRoute = (): string => `/product`;
 export const ProductSubscriptionsRoute = (product_id: number): string =>
   `/product/${product_id}/subscriptions`;
@@ -275,6 +285,13 @@ export const ProductCouponRoute = (product_id: number): string =>
   `/product/${product_id}/coupon`;
 export const ProductMarketplaceRoute = (product_id: number): string =>
   `/product/${product_id}/marketplace`;
+export const InvoiceRoute = (): string => `/invoice`;
+export const InvoiceAttachmentRoute = (invoice_id: number): string =>
+  `/invoice/${invoice_id}/attachment`;
+export const InvoicePaymentRoute = (invoice_id: number): string =>
+  `/invoice/${invoice_id}/payment`;
+export const InvoiceDisputeRoute = (invoice_id: number): string =>
+  `/invoice/${invoice_id}/dispute`;
 export const NotificationsRoute = (): string => `/notifications`;
 export const BaseIntegrationRoute = (): string => `/base_integration`;
 export const BaseIntegrationIntegrationRoute = (
@@ -290,5 +307,6 @@ export const BaseCapabilityCapabilityRoute = (
 export const BaseCapabilityBaseIntegrationRoute = (
   base_capability_id: number
 ): string => `/base_capability/${base_capability_id}/base_integration`;
+export const BillingContactRoute = (): string => `/billing_contact`;
 export const PlanSuiteTestIncludeRoute = (): string =>
   `/plan_suite_test_include`;

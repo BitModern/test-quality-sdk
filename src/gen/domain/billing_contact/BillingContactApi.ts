@@ -5,9 +5,11 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Product } from './Product';
+import { BillingContact } from './BillingContact';
 import { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
+import { UserApi } from '../user/UserApi';
 
-export interface ProductApi extends Product {
-  subscriptions?: SubscriptionsApi[];
+export interface BillingContactApi extends BillingContact {
+  subscriptions?: SubscriptionsApi;
+  user?: UserApi;
 }
