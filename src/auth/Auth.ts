@@ -164,6 +164,7 @@ export class Auth {
       name: site,
       development: false,
       g_recaptcha_response: recaptcha,
+      is_web: true,
       user: {
         email,
         password,
