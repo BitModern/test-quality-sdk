@@ -56,9 +56,9 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
     getMessage(response),
     response?.data?.id,
     response?.data?.title,
-    response.status,
-    response.data.code,
-    response.data.trace
+    response?.status,
+    response?.data?.code,
+    response?.data?.trace
   );
 }
 

@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 import { PersistentStorage } from './PersistentStorage';
-import { EmptyLogger } from './common/EmptyLogger';
-import { LoggerInterface } from './common/LoggerInterface';
+import { EmptyLogger, LoggerInterface } from './common';
 import { Options } from './Options';
-import { Auth, AuthCallback } from './auth';
-import { HttpError } from './exceptions/HttpError';
+import { Auth, AuthCallback, TokenStorageImpl } from './auth';
+import { HttpError } from './exceptions';
+import { TokenStorage } from './TokenStorage';
 
 export let _client: ClientSdk;
 
@@ -15,6 +15,7 @@ export class ClientSdk {
   public clientId: string;
   public clientSecret: string;
   public debug: boolean;
+  public tokenStorage: TokenStorage;
   public persistentStorage?: PersistentStorage;
 
   public errorHandlerDefault = (newError: HttpError) => {
@@ -50,6 +51,8 @@ export class ClientSdk {
       this.errorHandler = options.errorHandler;
     }
     this.persistentStorage = options.persistentStorage;
+    this.tokenStorage =
+      options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
 
     if (!_client) {
       _client = this;
@@ -62,7 +65,7 @@ export class ClientSdk {
 
   public getAuth(authCallback?: AuthCallback) {
     if (!this.auth) {
-      this.auth = new Auth(this.persistentStorage, this, authCallback);
+      this.auth = new Auth(this.tokenStorage, this, authCallback);
     } else {
       this.auth.setAuthCallback(authCallback);
     }

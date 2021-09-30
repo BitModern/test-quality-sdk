@@ -12,5 +12,6 @@ export * from './services/http/BatchService';
 export { ClientSdk, _client } from './ClientSdk';
 export { Options } from './Options';
 export { PersistentStorage } from './PersistentStorage';
+export { TokenStorage } from './TokenStorage';
 
 export * from './integration';

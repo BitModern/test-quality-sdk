@@ -2,7 +2,6 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ReturnToken } from './ReturnToken';
 import { AUTH, GeneralError, VERIFICATION } from '../exceptions';
 import { ClientSdk, _client } from '../ClientSdk';
-import { PersistentStorage } from '../PersistentStorage';
 import { getResponse } from '../gen/actions';
 import {
   EXPIRED_USER_EXCEPTION,
@@ -11,6 +10,7 @@ import {
   NO_REFRESH_TOKEN,
   UNAUTHORIZED,
 } from '../exceptions';
+import { TokenStorage } from '../TokenStorage';
 
 /**
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
@@ -77,12 +77,10 @@ export class Auth {
     return true;
   }
 
-  private token?: ReturnToken;
-  private remember?: boolean;
   private refreshRequest?: Promise<AxiosResponse<ReturnToken>>;
 
   constructor(
-    private persistentStorage?: PersistentStorage,
+    private tokenStorage: TokenStorage,
     private client: ClientSdk = _client,
     private authCallback?: AuthCallback
   ) {
@@ -235,40 +233,23 @@ export class Auth {
   }
 
   public async getRemember(): Promise<boolean | undefined> {
-    if (this.remember === undefined && this.persistentStorage) {
-      this.remember = await this.persistentStorage.get('remember');
-    }
-    return this.remember;
+    return this.tokenStorage.getRemember();
   }
 
   public async getToken(): Promise<ReturnToken | undefined> {
-    if (!this.token && this.persistentStorage) {
-      this.token = await this.persistentStorage.get('token');
-    }
-    return this.token;
+    return this.tokenStorage.getToken();
   }
 
   public async setToken(
     token?: ReturnToken,
     remember?: boolean
   ): Promise<ReturnToken | undefined> {
-    this.token = token;
-    if (this.token && this.token.expires_in) {
+    if (token && token.expires_in) {
       const now = new Date();
-      now.setSeconds(now.getSeconds() + (this.token.expires_in - 15)); //subtract 15 seconds to guard against latency
-      this.token.expires_at = JSON.parse(JSON.stringify(now));
+      now.setSeconds(now.getSeconds() + (token.expires_in - 15)); //subtract 15 seconds to guard against latency
+      token.expires_at = JSON.parse(JSON.stringify(now));
     }
-    this.remember =
-      remember !== undefined ? remember : await this.getRemember();
-    if (this.persistentStorage) {
-      if (this.remember) {
-        await this.persistentStorage.set('token', token);
-      } else {
-        await this.persistentStorage.set('token', undefined);
-      }
-      await this.persistentStorage.set('remember', this.remember);
-    }
-    return this.token;
+    return this.tokenStorage.setToken(token, remember);
   }
 
   protected addAddAuthorizationHeaderInterceptor() {

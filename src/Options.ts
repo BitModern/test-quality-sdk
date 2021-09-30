@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios';
 import { PersistentStorage } from './PersistentStorage';
 import { LoggerInterface } from './common/LoggerInterface';
 import { HttpError } from './exceptions/HttpError';
+import { TokenStorage } from './TokenStorage';
 
 export interface Options {
   clientId: string;
@@ -12,5 +13,6 @@ export interface Options {
   debug?: boolean;
   errorHandler?: (newError: HttpError) => void;
   logger?: LoggerInterface;
+  tokenStorage?: TokenStorage;
   persistentStorage?: PersistentStorage;
 }
