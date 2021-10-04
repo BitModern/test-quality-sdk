@@ -60,3 +60,13 @@ If a personal access token has been generated. Once client is created set the to
 
   ... call functions ...
 ```
+
+## Test
+
+Before you run the tests, you need to specify a email and password in .env file. Look at the .env.example.
+
+    cp .env.example .env
+
+Then to run tests
+
+    yarn test
