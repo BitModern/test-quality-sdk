@@ -9,7 +9,7 @@ import { getClient, setupApi, testLogin } from './setupApi';
 import { testEnv } from './testEnv';
 
 const ProjectName = 'testProject';
-const JunkEmail = 'second@email.com';
+const SecondEmail = testEnv.auth.secondEmail;
 
 describe('Projects Test', () => {
   test('check project', async () => {
@@ -39,14 +39,14 @@ describe('Projects Test', () => {
 
     const users = await userGetMany({ api: client.api });
     expect(users.data).toBeDefined();
-    const user = users.data.find((p) => p.email == JunkEmail);
+    const user = users.data.find((p) => p.email == SecondEmail);
     if (!user) {
       const accessRoles = await accessRoleGetMany({ api: client.api });
       const admin = accessRoles.data.find((p) => p.name == 'Administrator');
       expect(admin).toBeDefined();
       await userCreateOne(
         {
-          email: JunkEmail,
+          email: SecondEmail,
           password: testEnv.auth.password,
           access_role_id: admin?.id,
         } as any,
@@ -56,7 +56,7 @@ describe('Projects Test', () => {
 
     const client2 = getClient();
     const value2 = await testLogin(client2, {
-      email: JunkEmail,
+      email: SecondEmail,
       password: testEnv.auth.password,
       clientName: testEnv.auth.clientName,
     });
