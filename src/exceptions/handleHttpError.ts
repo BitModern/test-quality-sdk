@@ -33,8 +33,8 @@ export const USER_NOT_FOUND_EXCEPTION = 'USER_NOT_FOUND_EXCEPTION';
 export const VALIDATION_FAILED_EXCEPTION = 'VALIDATION_FAILED_EXCEPTION';
 
 export function getHttpResponse(response: AxiosResponse): HttpError {
-  if (response.status === -1) {
-    if (response.data === null) {
+  if (response === undefined || response.status === -1) {
+    if (response === undefined || response.data === null) {
       return new HttpError(
         'Oops, Could not obtain data from server due to network problem.',
         UNKNOWN_ERROR,
