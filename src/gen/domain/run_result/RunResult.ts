@@ -31,4 +31,8 @@ export interface RunResult extends KeyedModel {
    */
   status_id: number;
   id: number;
+  /**
+   * Indicates the flakiness of the this test
+   */
+  flakiness?: number;
 }
