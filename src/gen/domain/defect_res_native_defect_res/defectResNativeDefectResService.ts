@@ -161,7 +161,7 @@ export const defectResAttachNativeDefectRes = (
     defect_res_native_defect_res?: Partial<DefectResNativeDefectRes>;
   }> = {
     method: 'put',
-    url: DefectResRoute(),
+    url: `${DefectResRoute()}/${defectResId}`,
     params: queryParams?.params,
     data: {
       id: defectResId,
@@ -227,7 +227,7 @@ export const nativeDefectResAttachDefectRes = (
     defect_res_native_defect_res?: Partial<DefectResNativeDefectRes>;
   }> = {
     method: 'put',
-    url: NativeDefectResRoute(),
+    url: `${NativeDefectResRoute()}/${nativeDefectResId}`,
     params: queryParams?.params,
     data: {
       id: nativeDefectResId,

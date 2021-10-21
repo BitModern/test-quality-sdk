@@ -155,7 +155,7 @@ export const accessRoleAttachUser = (
     access_role_user?: Partial<AccessRoleUser>;
   }> = {
     method: 'put',
-    url: AccessRoleRoute(),
+    url: `${AccessRoleRoute()}/${accessRoleId}`,
     params: queryParams?.params,
     data: {
       id: accessRoleId,
@@ -218,7 +218,7 @@ export const userAttachAccessRole = (
     access_role_user?: Partial<AccessRoleUser>;
   }> = {
     method: 'put',
-    url: UserRoute(),
+    url: `${UserRoute()}/${userId}`,
     params: queryParams?.params,
     data: {
       id: userId,

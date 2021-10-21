@@ -164,7 +164,7 @@ export const defectStatusAttachNativeDefectStatus = (
     defect_status_native_defect_status?: Partial<DefectStatusNativeDefectStatus>;
   }> = {
     method: 'put',
-    url: DefectStatusRoute(),
+    url: `${DefectStatusRoute()}/${defectStatusId}`,
     params: queryParams?.params,
     data: {
       id: defectStatusId,
@@ -230,7 +230,7 @@ export const nativeDefectStatusAttachDefectStatus = (
     defect_status_native_defect_status?: Partial<DefectStatusNativeDefectStatus>;
   }> = {
     method: 'put',
-    url: NativeDefectStatusRoute(),
+    url: `${NativeDefectStatusRoute()}/${nativeDefectStatusId}`,
     params: queryParams?.params,
     data: {
       id: nativeDefectStatusId,

@@ -155,7 +155,7 @@ export const integrationAttachUser = (
     integration_user?: Partial<IntegrationUser>;
   }> = {
     method: 'put',
-    url: IntegrationRoute(),
+    url: `${IntegrationRoute()}/${integrationId}`,
     params: queryParams?.params,
     data: {
       id: integrationId,
@@ -221,7 +221,7 @@ export const userAttachIntegration = (
     integration_user?: Partial<IntegrationUser>;
   }> = {
     method: 'put',
-    url: UserRoute(),
+    url: `${UserRoute()}/${userId}`,
     params: queryParams?.params,
     data: {
       id: userId,

@@ -155,7 +155,7 @@ export const planAttachPurpose = (
     plan_purpose?: Partial<PlanPurpose>;
   }> = {
     method: 'put',
-    url: PlanRoute(),
+    url: `${PlanRoute()}/${planId}`,
     params: queryParams?.params,
     data: {
       id: planId,
@@ -211,7 +211,7 @@ export const purposeAttachPlan = (
     plan_purpose?: Partial<PlanPurpose>;
   }> = {
     method: 'put',
-    url: PurposeRoute(),
+    url: `${PurposeRoute()}/${purposeId}`,
     params: queryParams?.params,
     data: {
       id: purposeId,

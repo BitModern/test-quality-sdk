@@ -161,7 +161,7 @@ export const baseCapabilityAttachBaseIntegration = (
     base_capability_base_integration?: Partial<BaseCapabilityBaseIntegration>;
   }> = {
     method: 'put',
-    url: BaseCapabilityRoute(),
+    url: `${BaseCapabilityRoute()}/${baseCapabilityId}`,
     params: queryParams?.params,
     data: {
       id: baseCapabilityId,
@@ -227,7 +227,7 @@ export const baseIntegrationAttachBaseCapability = (
     base_capability_base_integration?: Partial<BaseCapabilityBaseIntegration>;
   }> = {
     method: 'put',
-    url: BaseIntegrationRoute(),
+    url: `${BaseIntegrationRoute()}/${baseIntegrationId}`,
     params: queryParams?.params,
     data: {
       id: baseIntegrationId,

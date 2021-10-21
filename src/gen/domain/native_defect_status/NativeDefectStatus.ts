@@ -5,6 +5,11 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface NativeDefectStatus extends KeyedModel {
+  id: number;
+  created_by: number;
+  created_at: string;
+  updated_by: number;
+  updated_at: string;
   epoch: number;
   /**
    * The name of this status.
@@ -27,9 +32,4 @@ export interface NativeDefectStatus extends KeyedModel {
   key: number;
   external_reference_id?: string;
   integration_project_id: number;
-  id: number;
-  created_by: number;
-  created_at: string;
-  updated_by: number;
-  updated_at: string;
 }

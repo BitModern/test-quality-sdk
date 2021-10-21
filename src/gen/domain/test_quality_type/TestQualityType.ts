@@ -5,6 +5,8 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface TestQualityType extends KeyedModel {
+  id: number;
+  created_by: number;
   created_at: string;
   updated_by: number;
   updated_at: string;
@@ -24,6 +26,4 @@ export interface TestQualityType extends KeyedModel {
   client_id: number;
   virtual?: any;
   key: number;
-  id: number;
-  created_by: number;
 }
