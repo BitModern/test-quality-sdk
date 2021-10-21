@@ -155,7 +155,7 @@ export const integrationAttachProject = (
     project_id: number;
     integration_project?: Partial<IntegrationProject>;
   }> = {
-    method: 'post',
+    method: 'put',
     url: IntegrationRoute(),
     params: queryParams?.params,
     data: {
@@ -221,7 +221,7 @@ export const projectAttachIntegration = (
     integration_id: number;
     integration_project?: Partial<IntegrationProject>;
   }> = {
-    method: 'post',
+    method: 'put',
     url: ProjectRoute(),
     params: queryParams?.params,
     data: {

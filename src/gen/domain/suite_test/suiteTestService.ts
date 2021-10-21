@@ -154,7 +154,7 @@ export const suiteAttachTest = (
     test_id: number;
     suite_test?: Partial<SuiteTest>;
   }> = {
-    method: 'post',
+    method: 'put',
     url: SuiteRoute(),
     params: queryParams?.params,
     data: {
@@ -210,7 +210,7 @@ export const testAttachSuite = (
     suite_id: number;
     suite_test?: Partial<SuiteTest>;
   }> = {
-    method: 'post',
+    method: 'put',
     url: TestRoute(),
     params: queryParams?.params,
     data: {

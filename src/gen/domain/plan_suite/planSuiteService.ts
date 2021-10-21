@@ -154,7 +154,7 @@ export const planAttachSuite = (
     suite_id: number;
     plan_suite?: Partial<PlanSuite>;
   }> = {
-    method: 'post',
+    method: 'put',
     url: PlanRoute(),
     params: queryParams?.params,
     data: {
@@ -210,7 +210,7 @@ export const suiteAttachPlan = (
     plan_id: number;
     plan_suite?: Partial<PlanSuite>;
   }> = {
-    method: 'post',
+    method: 'put',
     url: SuiteRoute(),
     params: queryParams?.params,
     data: {

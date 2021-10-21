@@ -163,7 +163,7 @@ export const defectStatusAttachNativeDefectStatus = (
     native_defect_status_id: number;
     defect_status_native_defect_status?: Partial<DefectStatusNativeDefectStatus>;
   }> = {
-    method: 'post',
+    method: 'put',
     url: DefectStatusRoute(),
     params: queryParams?.params,
     data: {
@@ -229,7 +229,7 @@ export const nativeDefectStatusAttachDefectStatus = (
     defect_status_id: number;
     defect_status_native_defect_status?: Partial<DefectStatusNativeDefectStatus>;
   }> = {
-    method: 'post',
+    method: 'put',
     url: NativeDefectStatusRoute(),
     params: queryParams?.params,
     data: {
