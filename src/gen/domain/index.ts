@@ -2,6 +2,9 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
+export { PolicyRows } from './policy_rows/PolicyRows';
+export { PolicyRowsApi } from './policy_rows/PolicyRowsApi';
+export { PolicyRowsHistory } from './policy_rows/PolicyRowsHistory';
 export { AccessRoleUser } from './access_role_user/AccessRoleUser';
 export { AccessRoleUserApi } from './access_role_user/AccessRoleUserApi';
 export { Run } from './run/Run';
@@ -198,6 +201,8 @@ export * from './plan_suite_test_include/planSuiteTestIncludeHistoryService';
 export * from './plan_suite_test_include/planSuiteTestIncludeService';
 export * from './policy/policyHistoryService';
 export * from './policy/policyService';
+export * from './policy_rows/policyRowsHistoryService';
+export * from './policy_rows/policyRowsService';
 export * from './product/productHistoryService';
 export * from './product/productService';
 export * from './project/projectHistoryService';

@@ -7,7 +7,9 @@
 
 import { Policy } from './Policy';
 import { AccessRoleApi } from '../access_role/AccessRoleApi';
+import { PolicyRowsApi } from '../policy_rows/PolicyRowsApi';
 
 export interface PolicyApi extends Policy {
   access_role?: AccessRoleApi;
+  policy_rows?: PolicyRowsApi[];
 }

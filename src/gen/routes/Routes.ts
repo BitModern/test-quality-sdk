@@ -2,6 +2,7 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
+export const PolicyRowsRoute = (): string => `/policy_rows`;
 export const RunRoute = (): string => `/run`;
 export const RunLabelAssignedRoute = (run_id: number): string =>
   `/run/${run_id}/label_assigned`;
