@@ -3,13 +3,7 @@ import { ReturnToken } from './ReturnToken';
 import { AUTH, GeneralError, VERIFICATION } from '../exceptions';
 import { ClientSdk, _client } from '../ClientSdk';
 import { getResponse } from '../gen/actions';
-import {
-  EXPIRED_USER_EXCEPTION,
-  getHttpResponse,
-  HttpError,
-  NO_REFRESH_TOKEN,
-  UNAUTHORIZED,
-} from '../exceptions';
+import { getHttpResponse, HttpError, NO_REFRESH_TOKEN } from '../exceptions';
 import { TokenStorage } from '../TokenStorage';
 
 /**
@@ -109,19 +103,7 @@ export class Auth {
       .then(Auth.checkForFailure)
       .then(async ({ data: token }): Promise<ReturnToken> => {
         await this.setToken(token, remember);
-        if (token && token.trial_ended_at) {
-          if (this.authCallback) {
-            await this.authCallback(AuthCallbackActions.Expired, token, this);
-          }
-          return Promise.reject(
-            new HttpError(
-              'Trial Expired.',
-              EXPIRED_USER_EXCEPTION,
-              'Trial Ended',
-              400
-            )
-          );
-        }
+        await this.handleExpired(token);
         this.client.logger.info('Logged In');
         if (this.authCallback) {
           const tokenUpdate = await this.authCallback(
@@ -198,8 +180,9 @@ export class Auth {
 
     return this.refreshRequest
       .then(Auth.checkForFailure)
-      .then(({ data }) => {
-        this.setToken(data);
+      .then(async ({ data }) => {
+        await this.setToken(data);
+        await this.handleExpired(data);
         if (this.authCallback) {
           return this.authCallback(AuthCallbackActions.Refreshed, data, this);
         }
@@ -250,6 +233,30 @@ export class Auth {
       token.expires_at = JSON.parse(JSON.stringify(now));
     }
     return this.tokenStorage.setToken(token, remember);
+  }
+
+  public isExpired(token?: ReturnToken): boolean {
+    return token !== undefined && token.is_expired === true;
+  }
+
+  public isTrialExpired(token?: ReturnToken): boolean {
+    return token !== undefined && token.trial_ended_at !== undefined;
+  }
+
+  protected async handleExpired(
+    token?: ReturnToken
+  ): Promise<ReturnToken | undefined> {
+    let newToken = token;
+    if (this.isExpired(token)) {
+      if (this.authCallback) {
+        newToken = await this.authCallback(
+          AuthCallbackActions.Expired,
+          token,
+          this
+        );
+      }
+    }
+    return newToken || token;
   }
 
   protected addAddAuthorizationHeaderInterceptor() {
@@ -329,27 +336,8 @@ export class Auth {
           // use refresh token to generate new access token so request can be retried
           const token = await this.refresh();
           if (token && token.access_token) {
-            // trial ended, need to handle it
-            if (token.trial_ended_at) {
-              if (this.authCallback) {
-                await this.authCallback(
-                  AuthCallbackActions.Expired,
-                  token,
-                  this
-                );
-              }
-              return Promise.reject(
-                new HttpError(
-                  'Trial Expired.',
-                  EXPIRED_USER_EXCEPTION,
-                  'Trial Ended',
-                  400
-                )
-              );
-            } else {
-              error.response.config.headers.Authorization = `Bearer ${token.access_token}`;
-              return this.client.api(error.response.config);
-            }
+            error.response.config.headers.Authorization = `Bearer ${token.access_token}`;
+            return this.client.api(error.response.config);
           }
           if (this.authCallback) {
             await this.authCallback(
@@ -358,9 +346,7 @@ export class Auth {
               this
             );
           }
-          return Promise.reject(
-            new HttpError('Trial Expired.', UNAUTHORIZED, 'Trial Ended', 400)
-          );
+          return Promise.reject(getHttpResponse(error.response));
         } catch (e) {
           if (this.authCallback) {
             await this.authCallback(
