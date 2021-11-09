@@ -58,6 +58,9 @@ export class Auth {
     return getResponse<any>(_client.api, {
       method: 'GET',
       url: `/system/auth/begin_password_reset/${email}`,
+      params: {
+        is_web: true,
+      },
     });
   }
 
