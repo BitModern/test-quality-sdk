@@ -2,7 +2,6 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ReturnToken } from './ReturnToken';
 import { AUTH, GeneralError, VERIFICATION } from '../exceptions';
 import { ClientSdk, _client } from '../ClientSdk';
-import { getResponse } from '../gen/actions';
 import { getHttpResponse, HttpError, NO_REFRESH_TOKEN } from '../exceptions';
 import { TokenStorage } from '../TokenStorage';
 
@@ -55,13 +54,17 @@ export class Auth {
   }
 
   public static passwordRecovery(email: string) {
-    return getResponse<any>(_client.api, {
-      method: 'GET',
-      url: `/system/auth/begin_password_reset/${email}`,
+    return _client.api.get(`/system/auth/begin_password_reset/${email}`, {
       params: {
         is_web: true,
       },
     });
+  }
+
+  public static passwordReset(email: string, password: string, token: string) {
+    return _client.api.get(
+      `/system/auth/complete_password_reset/${email}/${password}/${token}`
+    );
   }
 
   public static urlRequiresAuth(url?: string) {
