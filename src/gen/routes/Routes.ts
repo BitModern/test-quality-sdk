@@ -88,6 +88,8 @@ export const ProjectAttachmentRoute = (project_id: number): string =>
   `/project/${project_id}/attachment`;
 export const ProjectPlanSuiteTestIncludeRoute = (project_id: number): string =>
   `/project/${project_id}/plan_suite_test_include`;
+export const ProjectFilterRoute = (project_id: number): string =>
+  `/project/${project_id}/filter`;
 export const ClientRoute = (): string => `/client`;
 export const ClientVirtualRoute = (client_id: number): string =>
   `/client/${client_id}/virtual`;
@@ -311,3 +313,4 @@ export const BaseCapabilityBaseIntegrationRoute = (
 export const BillingContactRoute = (): string => `/billing_contact`;
 export const PlanSuiteTestIncludeRoute = (): string =>
   `/plan_suite_test_include`;
+export const FilterRoute = (): string => `/filter`;

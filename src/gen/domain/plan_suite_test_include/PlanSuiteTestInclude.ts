@@ -13,7 +13,7 @@ export interface PlanSuiteTestInclude extends KeyedModel {
   client_id: number;
   plan_id: number;
   suite_id: number;
-  test_id: number;
+  test_id?: number;
   project_id: number;
   id: number;
 }

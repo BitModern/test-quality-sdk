@@ -24,6 +24,7 @@ import { DefectApi } from '../defect/DefectApi';
 import { RequirementApi } from '../requirement/RequirementApi';
 import { AttachmentApi } from '../attachment/AttachmentApi';
 import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
+import { FilterApi } from '../filter/FilterApi';
 
 export interface ProjectApi extends Project {
   access_role?: AccessRoleApi;
@@ -44,5 +45,6 @@ export interface ProjectApi extends Project {
   requirement?: RequirementApi[];
   attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
+  filter?: FilterApi[];
   pivot?: IntegrationProjectApi;
 }
