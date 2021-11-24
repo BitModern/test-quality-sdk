@@ -59,6 +59,9 @@ export class BatchService {
 
   public executeBatch(client = _client): Promise<BatchResponses> {
     const requests = this.batchContainers.map((c) => c.request);
+    if (requests.length === 0) {
+      return Promise.resolve({ responses: [] });
+    }
     return new Promise<BatchResponses>((resolve, reject) => {
       client.api.post<BatchResponses>('/batch', { requests }).then(
         (response) => {

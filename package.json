@@ -9,7 +9,7 @@
     "rebuild": "tsc --project ./tsconfig.json",
     "clean": "rimraf dist/*",
     "test": "jest",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint src --ext .ts",
     "format:fix": "prettier --write '(src|test)/**/*.ts'"
   },
   "repository": {
