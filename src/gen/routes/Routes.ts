@@ -187,6 +187,12 @@ export const RunResultStepAttachmentRoute = (
 ): string => `/run_result_step/${run_result_step_id}/attachment`;
 export const RunResultStepCommentRoute = (run_result_step_id: number): string =>
   `/run_result_step/${run_result_step_id}/comment`;
+export const CapabilityRoute = (): string => `/capability`;
+export const CapabilityIntegrationRoute = (capability_id: number): string =>
+  `/capability/${capability_id}/integration`;
+export const CapabilityProjectCapabilityDefaultRoute = (
+  capability_id: number
+): string => `/capability/${capability_id}/project_capability_default`;
 export const RequirementRoute = (): string => `/requirement`;
 export const StatusRoute = (): string => `/status`;
 export const StatusLabelAssignedRoute = (status_id: number): string =>
