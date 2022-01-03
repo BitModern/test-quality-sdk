@@ -7,7 +7,9 @@
 
 import { Plat } from './Plat';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import { PlatVersionApi } from '../plat_version/PlatVersionApi';
 
 export interface PlatApi extends Plat {
   label_assigned?: LabelAssignedApi;
+  plat_version?: PlatVersionApi[];
 }

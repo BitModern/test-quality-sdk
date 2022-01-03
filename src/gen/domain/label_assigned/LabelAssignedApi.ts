@@ -8,11 +8,13 @@
 import { LabelAssigned } from './LabelAssigned';
 import { LabelApi } from '../label/LabelApi';
 import { RunApi } from '../run/RunApi';
+import { PlatVersionApi } from '../plat_version/PlatVersionApi';
 import { SuiteApi } from '../suite/SuiteApi';
 import { TestApi } from '../test/TestApi';
 import { ProjectApi } from '../project/ProjectApi';
 import { CaseTypeApi } from '../case_type/CaseTypeApi';
 import { CasePriorityApi } from '../case_priority/CasePriorityApi';
+import { AppVersionApi } from '../app_version/AppVersionApi';
 import { PlanApi } from '../plan/PlanApi';
 import { RunResultApi } from '../run_result/RunResultApi';
 import { AppApi } from '../app/AppApi';
@@ -32,11 +34,13 @@ import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatu
 export interface LabelAssignedApi extends LabelAssigned {
   label?: LabelApi;
   run?: RunApi;
+  plat_version?: PlatVersionApi;
   suite?: SuiteApi;
   test?: TestApi;
   project?: ProjectApi;
   case_type?: CaseTypeApi;
   case_priority?: CasePriorityApi;
+  app_version?: AppVersionApi;
   plan?: PlanApi;
   run_result?: RunResultApi;
   app?: AppApi;

@@ -10,6 +10,13 @@ export const RunRunResultRoute = (run_id: number): string =>
   `/run/${run_id}/run_result`;
 export const RunCommentRoute = (run_id: number): string =>
   `/run/${run_id}/comment`;
+export const PlatVersionRoute = (): string => `/plat_version`;
+export const PlatVersionLabelAssignedRoute = (
+  plat_version_id: number
+): string => `/plat_version/${plat_version_id}/label_assigned`;
+export const PlatVersionAppVersionPlatVersionRoute = (
+  plat_version_id: number
+): string => `/plat_version/${plat_version_id}/app_version_plat_version`;
 export const SuiteRoute = (): string => `/suite`;
 export const SuiteLabelAssignedRoute = (suite_id: number): string =>
   `/suite/${suite_id}/label_assigned`;
@@ -106,6 +113,12 @@ export const CasePriorityLabelAssignedRoute = (
 ): string => `/case_priority/${case_priority_id}/label_assigned`;
 export const CasePriorityTestRoute = (case_priority_id: number): string =>
   `/case_priority/${case_priority_id}/test`;
+export const AppVersionRoute = (): string => `/app_version`;
+export const AppVersionLabelAssignedRoute = (app_version_id: number): string =>
+  `/app_version/${app_version_id}/label_assigned`;
+export const AppVersionAppVersionPlatVersionRoute = (
+  app_version_id: number
+): string => `/app_version/${app_version_id}/app_version_plat_version`;
 export const IntegrationRoute = (): string => `/integration`;
 export const IntegrationUserRoute = (integration_id: number): string =>
   `/integration/${integration_id}/user`;

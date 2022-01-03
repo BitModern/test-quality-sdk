@@ -7,7 +7,9 @@
 
 import { App } from './App';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import { AppVersionApi } from '../app_version/AppVersionApi';
 
 export interface AppApi extends App {
   label_assigned?: LabelAssignedApi;
+  app_version?: AppVersionApi[];
 }
