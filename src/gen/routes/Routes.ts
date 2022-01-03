@@ -169,6 +169,11 @@ export const RunResultCommentRoute = (run_result_id: number): string =>
   `/run_result/${run_result_id}/comment`;
 export const RunResultDefectRoute = (run_result_id: number): string =>
   `/run_result/${run_result_id}/defect`;
+export const AppRoute = (): string => `/app`;
+export const AppLabelAssignedRoute = (app_id: number): string =>
+  `/app/${app_id}/label_assigned`;
+export const AppAppVersionRoute = (app_id: number): string =>
+  `/app/${app_id}/app_version`;
 export const DefectRoute = (): string => `/defect`;
 export const StepRoute = (): string => `/step`;
 export const StepLabelAssignedRoute = (step_id: number): string =>
@@ -208,9 +213,27 @@ export const PurposePlanRoute = (purpose_id: number): string =>
   `/purpose/${purpose_id}/plan`;
 export const CommentRoute = (): string => `/comment`;
 export const LabelAssignedRoute = (): string => `/label_assigned`;
+export const PlatRoute = (): string => `/plat`;
+export const PlatLabelAssignedRoute = (plat_id: number): string =>
+  `/plat/${plat_id}/label_assigned`;
+export const PlatPlatVersionRoute = (plat_id: number): string =>
+  `/plat/${plat_id}/plat_version`;
 export const LabelRoute = (): string => `/label`;
 export const LabelLabelAssignedRoute = (label_id: number): string =>
   `/label/${label_id}/label_assigned`;
+export const AppVersionPlatVersionRoute = (): string =>
+  `/app_version_plat_version`;
+export const AppVersionPlatVersionLabelAssignedRoute = (
+  app_version_plat_version_id: number
+): string =>
+  `/app_version_plat_version/${app_version_plat_version_id}/label_assigned`;
+export const AppVersionPlatVersionRunResultRoute = (
+  app_version_plat_version_id: number
+): string =>
+  `/app_version_plat_version/${app_version_plat_version_id}/run_result`;
+export const AppVersionPlatVersionPlanRoute = (
+  app_version_plat_version_id: number
+): string => `/app_version_plat_version/${app_version_plat_version_id}/plan`;
 export const WatchRoute = (): string => `/watch`;
 export const DefectStatusRoute = (): string => `/defect_status`;
 export const DefectStatusDefectRoute = (defect_status_id: number): string =>

@@ -8,6 +8,8 @@
 import { Plan } from './Plan';
 import { ProjectApi } from '../project/ProjectApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import { AppVersionPlatVersionPlanApi } from '../app_version_plat_version_plan/AppVersionPlatVersionPlanApi';
+import { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
 import { RunApi } from '../run/RunApi';
 import { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
 import { SuiteApi } from '../suite/SuiteApi';
@@ -21,6 +23,7 @@ import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTes
 export interface PlanApi extends Plan {
   project?: ProjectApi;
   label_assigned?: LabelAssignedApi;
+  app_version_plat_version?: AppVersionPlatVersionApi[];
   run?: RunApi[];
   suite?: SuiteApi[];
   purpose?: PurposeApi[];
@@ -29,5 +32,5 @@ export interface PlanApi extends Plan {
   watch?: WatchApi;
   attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
-  pivot?: PlanSuiteApi | PlanPurposeApi;
+  pivot?: AppVersionPlatVersionPlanApi | PlanSuiteApi | PlanPurposeApi;
 }

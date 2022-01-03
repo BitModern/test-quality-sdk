@@ -7,6 +7,7 @@
 
 import { RunResult } from './RunResult';
 import { SuiteApi } from '../suite/SuiteApi';
+import { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
 import { ProjectApi } from '../project/ProjectApi';
 import { RunApi } from '../run/RunApi';
 import { TestApi } from '../test/TestApi';
@@ -19,6 +20,7 @@ import { DefectApi } from '../defect/DefectApi';
 
 export interface RunResultApi extends RunResult {
   suite?: SuiteApi;
+  app_version_plat_version?: AppVersionPlatVersionApi;
   project?: ProjectApi;
   run?: RunApi;
   test?: TestApi;
