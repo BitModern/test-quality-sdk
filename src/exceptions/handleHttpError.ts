@@ -64,6 +64,7 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
 
 export function showNotificationError(newError: HttpError, client = _client) {
   client.errorHandler(newError);
+  return Promise.reject(newError);
 }
 
 function getMessage(error: any) {
