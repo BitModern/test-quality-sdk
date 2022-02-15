@@ -69,7 +69,7 @@ export function showNotificationError(newError: HttpError, client = _client) {
 }
 
 function getMessage(error: any) {
-  let message: string;
+  let message = '';
   if (error) {
     if (error.exception && !error.data) {
       error.data = error.exception;
@@ -96,6 +96,16 @@ function getMessage(error: any) {
     } else if (error.data && error.data.message) {
       if (typeof error.data.message === 'string') {
         message = error.data.message;
+      } else if (typeof error.data.message === 'object') {
+        for (const key in error.data.message) {
+          if (Object.prototype.hasOwnProperty.call(error.data.message, key)) {
+            if (Array.isArray(error.data.message[key])) {
+              message = error.data.message[key].join(', \n');
+            } else {
+              message = error.data.message[key];
+            }
+          }
+        }
       } else {
         message = JSON.stringify(error.data.message);
       }
