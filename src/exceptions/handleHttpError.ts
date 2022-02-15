@@ -64,6 +64,7 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
 
 export function showNotificationError(newError: HttpError, client = _client) {
   client.errorHandler(newError);
+  // need to test, as this could result in unhandled promise rejection
   return Promise.reject(newError);
 }
 
@@ -93,7 +94,11 @@ function getMessage(error: any) {
         message = error.data.validation_errors.email;
       }
     } else if (error.data && error.data.message) {
-      message = error.data.message;
+      if (typeof error.data.message === 'string') {
+        message = error.data.message;
+      } else {
+        message = JSON.stringify(error.data.message);
+      }
     } else if (error.data && error.data.error) {
       message = error.data.error;
     } else if (error.data && error.data.detail) {
