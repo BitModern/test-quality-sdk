@@ -64,8 +64,8 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
 
 export function showNotificationError(newError: HttpError, client = _client) {
   client.errorHandler(newError);
-  // need to test, as this could result in unhandled promise rejection
-  return Promise.reject(newError);
+  // can't return Promise.reject here as it will trigger unhandled rejection
+  return newError;
 }
 
 function getMessage(error: any) {
