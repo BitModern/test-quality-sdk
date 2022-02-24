@@ -39,7 +39,9 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
         'Oops, Could not obtain data from server due to network problem.',
         UNKNOWN_ERROR,
         'Network Error',
-        500
+        500,
+        undefined,
+        response?.config?.url
       );
     }
   } else if (response.status === 400 && response.data?.validation_errors) {
@@ -49,6 +51,7 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
       response.data.validation_errors,
       response.status,
       response.data.code,
+      response?.config?.url,
       response.data.trace
     );
   }
@@ -58,6 +61,7 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
     response?.data?.title,
     response?.status,
     response?.data?.code,
+    response?.config?.url,
     response?.data?.trace
   );
 }
