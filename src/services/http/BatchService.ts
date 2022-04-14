@@ -23,7 +23,7 @@ interface BatchResponse {
   exception?: any;
   data: any;
   processed?: boolean;
-  config?: {url?: string};
+  config?: { url?: string };
 }
 interface BatchResponses {
   responses: BatchResponse[][];
@@ -84,7 +84,9 @@ export class BatchService {
               if (res.status === 200 || res.status === 201) {
                 batchContainer.resolve(res.data);
               } else {
-                res.config = {url: `${batchContainer.request.method}: ${batchContainer.request.endpoint}`};
+                res.config = {
+                  url: `${batchContainer.request.method}: ${batchContainer.request.endpoint}`,
+                };
                 batchContainer.reject(
                   getHttpResponse(res as unknown as AxiosResponse)
                 );
