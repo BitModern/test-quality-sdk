@@ -4,6 +4,7 @@ import { JiraServerInfo } from './JiraServerInfo';
 
 export interface RegisterJiraPayload {
   user: string;
+  accountId: string;
   clientKey: string;
   accessToken: string;
   localBaseUrl: string;
