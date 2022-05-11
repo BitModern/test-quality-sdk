@@ -6,10 +6,14 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Requirement } from './Requirement';
-import { TestApi } from '../test/TestApi';
 import { ProjectApi } from '../project/ProjectApi';
+import { DefectStatusApi } from '../defect_status/DefectStatusApi';
+import { DefectResApi } from '../defect_res/DefectResApi';
+import { TestApi } from '../test/TestApi';
 
 export interface RequirementApi extends Requirement {
-  test?: TestApi;
   project?: ProjectApi;
+  defect_status?: DefectStatusApi;
+  defect_res?: DefectResApi;
+  test?: TestApi;
 }

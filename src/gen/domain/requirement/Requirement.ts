@@ -12,7 +12,6 @@ export interface Requirement extends KeyedModel {
   related_type: string;
   related_id: number;
   integration_project_id: number;
-  id: number;
   created_at: string;
   created_by: number;
   updated_at: string;
@@ -22,4 +21,7 @@ export interface Requirement extends KeyedModel {
   payload?: any;
   project_id: number;
   key: number;
+  defect_status_id?: number;
+  defect_res_id?: number;
+  id: number;
 }
