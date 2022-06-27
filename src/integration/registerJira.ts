@@ -16,6 +16,8 @@ export interface RegisterJiraResponse {
   expires_at: string;
   user_id: number;
   client_id: number;
+  integration_id: number;
+  org: string;
 }
 
 export const registerJira = (
