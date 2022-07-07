@@ -8,8 +8,10 @@
 import { CapabilityIntegration } from './CapabilityIntegration';
 import { CapabilityApi } from '../capability/CapabilityApi';
 import { IntegrationApi } from '../integration/IntegrationApi';
+import { IntegrationTemplateApi } from '../integration_template/IntegrationTemplateApi';
 
 export interface CapabilityIntegrationApi extends CapabilityIntegration {
   capability?: CapabilityApi;
   integration?: IntegrationApi;
+  integration_template?: IntegrationTemplateApi[];
 }

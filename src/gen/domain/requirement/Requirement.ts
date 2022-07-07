@@ -9,8 +9,8 @@ export interface Requirement extends KeyedModel {
    * Contains the ID of the linked requirement in the external system.
    */
   external_reference_id: string;
-  related_type: string;
-  related_id: number;
+  related_type?: string;
+  related_id?: number;
   integration_project_id: number;
   created_at: string;
   created_by: number;
@@ -21,7 +21,7 @@ export interface Requirement extends KeyedModel {
   payload?: any;
   project_id: number;
   key: number;
+  id: number;
   defect_status_id?: number;
   defect_res_id?: number;
-  id: number;
 }

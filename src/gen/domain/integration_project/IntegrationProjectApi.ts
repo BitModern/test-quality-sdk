@@ -8,16 +8,16 @@
 import { IntegrationProject } from './IntegrationProject';
 import { ProjectApi } from '../project/ProjectApi';
 import { IntegrationApi } from '../integration/IntegrationApi';
+import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
 import { DefectApi } from '../defect/DefectApi';
 import { RequirementApi } from '../requirement/RequirementApi';
 import { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
-import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
 
 export interface IntegrationProjectApi extends IntegrationProject {
   project?: ProjectApi;
   integration?: IntegrationApi;
+  native_defect_status?: NativeDefectStatusApi[];
   defect?: DefectApi[];
   requirement?: RequirementApi;
   native_defect_res?: NativeDefectResApi[];
-  native_defect_status?: NativeDefectStatusApi[];
 }

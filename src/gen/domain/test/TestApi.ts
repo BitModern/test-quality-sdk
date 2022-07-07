@@ -15,11 +15,12 @@ import { SuiteTestApi } from '../suite_test/SuiteTestApi';
 import { SuiteApi } from '../suite/SuiteApi';
 import { RunResultApi } from '../run_result/RunResultApi';
 import { StepApi } from '../step/StepApi';
-import { RequirementApi } from '../requirement/RequirementApi';
 import { AttachmentApi } from '../attachment/AttachmentApi';
 import { CommentApi } from '../comment/CommentApi';
 import { WatchApi } from '../watch/WatchApi';
 import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
+import { RequirementTestApi } from '../requirement_test/RequirementTestApi';
+import { RequirementApi } from '../requirement/RequirementApi';
 
 export interface TestApi extends Test {
   case_type?: CaseTypeApi;
@@ -32,10 +33,10 @@ export interface TestApi extends Test {
   sequence_suite?: number;
   run_result?: RunResultApi[];
   step?: StepApi[];
-  requirement?: RequirementApi;
   attachment?: AttachmentApi;
   comment?: CommentApi;
   watch?: WatchApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
-  pivot?: SuiteTestApi;
+  requirement?: RequirementApi[];
+  pivot?: SuiteTestApi | RequirementTestApi;
 }
