@@ -14,4 +14,5 @@ export interface BaseIntegrationApi extends BaseIntegration {
   integration?: IntegrationApi[];
   base_capability?: BaseCapabilityApi[];
   pivot?: BaseCapabilityBaseIntegrationApi;
+  base_capability_base_integration?: Partial<BaseCapabilityBaseIntegrationApi>;
 }

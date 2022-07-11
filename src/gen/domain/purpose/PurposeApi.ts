@@ -14,4 +14,5 @@ export interface PurposeApi extends Purpose {
   label_assigned?: LabelAssignedApi;
   plan?: PlanApi[];
   pivot?: PlanPurposeApi;
+  plan_purpose?: Partial<PlanPurposeApi>;
 }

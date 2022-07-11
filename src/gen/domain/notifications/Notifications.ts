@@ -5,6 +5,9 @@
 import { CustomAttributes } from '../../models/CustomAttributes';
 
 export interface Notifications extends CustomAttributes {
+  read_at?: string;
+  id: string;
+  notifiable_id?: number;
   created_by: number;
   created_at: string;
   updated_by: number;
@@ -17,7 +20,4 @@ export interface Notifications extends CustomAttributes {
   client_id: number;
   notifiable_type: string;
   data: string;
-  read_at?: string;
-  id: string;
-  notifiable_id?: number;
 }

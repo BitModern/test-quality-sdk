@@ -16,4 +16,5 @@ export interface AccessRoleApi extends AccessRole {
   project?: ProjectApi[];
   user?: UserApi[];
   pivot?: AccessRoleUserApi;
+  access_role_user?: Partial<AccessRoleUserApi>;
 }

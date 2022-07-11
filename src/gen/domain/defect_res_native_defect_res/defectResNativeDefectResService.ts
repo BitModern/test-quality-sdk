@@ -7,9 +7,6 @@ import { getResponse } from '../../actions/getResponse';
 import { QueryParams } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
-import { DefectResRoute, NativeDefectResRoute } from '../../routes/Routes';
-import { NativeDefectRes } from '../native_defect_res/NativeDefectRes';
-import { DefectRes } from '../defect_res/DefectRes';
 import { DefectResNativeDefectRes } from './DefectResNativeDefectRes';
 import { DefectResNativeDefectResApi } from './DefectResNativeDefectResApi';
 
@@ -38,7 +35,7 @@ export const defectResNativeDefectResUpdateOne = (
   id: number,
   data: Partial<DefectResNativeDefectRes>,
   queryParams?: QueryParams<DefectResNativeDefectRes>
-): Promise<DefectRes> => {
+): Promise<DefectResNativeDefectRes> => {
   const config: QueryParams<DefectResNativeDefectRes> = {
     method: 'put',
     url: `/defect_res_native_defect_res/${id}`,
@@ -47,8 +44,27 @@ export const defectResNativeDefectResUpdateOne = (
   };
 
   return queryParams?.batch
-    ? queryParams.batch.addBatch<DefectRes>(config)
-    : getResponse<DefectRes, Partial<DefectResNativeDefectRes>>(
+    ? queryParams.batch.addBatch<DefectResNativeDefectRes>(config)
+    : getResponse<DefectResNativeDefectRes>(
+        queryParams?.api || _client?.api,
+        config
+      );
+};
+
+export const defectResNativeDefectResCreateOne = (
+  data: Partial<DefectResNativeDefectRes>,
+  queryParams?: QueryParams<DefectResNativeDefectRes>
+): Promise<DefectResNativeDefectRes> => {
+  const config: QueryParams<DefectResNativeDefectRes> = {
+    method: 'post',
+    url: queryParams?.url || `/defect_res_native_defect_res`,
+    params: queryParams?.params,
+    data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<DefectResNativeDefectRes>(config)
+    : getResponse<DefectResNativeDefectRes>(
         queryParams?.api || _client?.api,
         config
       );
@@ -91,192 +107,4 @@ export const defectResNativeDefectResGetOne = (
         queryParams?.api || _client?.api,
         config
       );
-};
-
-/**
- * defectResAttachManyNativeDefectRes
- * This will remove any associations not in the list.
- * @param defectResId
- * @param list of children to associate
- * @param queryParams
- */
-export const defectResAttachManyNativeDefectRes = (
-  defectResId: number,
-  list: Partial<NativeDefectRes>[],
-  queryParams?: QueryParams<DefectRes>
-): Promise<DefectRes> => {
-  const config: QueryParams<
-    DefectRes & { native_defect_res: Partial<NativeDefectRes>[] }
-  > = {
-    method: 'put',
-    url: `${DefectResRoute()}/${defectResId}`,
-    params: queryParams?.params,
-    data: {
-      native_defect_res: list,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<DefectRes>(config)
-    : getResponse<DefectRes>(queryParams?.api || _client?.api, config);
-};
-
-/**
- * nativeDefectResAttachManyDefectRes
- * This will remove any associations not in the list.
- * @param nativeDefectResId
- * @param list of children to associate
- * @param queryParams
- */
-export const nativeDefectResAttachManyDefectRes = (
-  nativeDefectResId: number,
-  list: Partial<DefectRes>[],
-  queryParams?: QueryParams<NativeDefectRes>
-): Promise<NativeDefectRes> => {
-  const config: QueryParams<
-    NativeDefectRes & { defect_res: Partial<DefectRes>[] }
-  > = {
-    method: 'put',
-    url: `${NativeDefectResRoute()}/${nativeDefectResId}`,
-    params: queryParams?.params,
-    data: {
-      defect_res: list,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<NativeDefectRes>(config)
-    : getResponse<NativeDefectRes>(queryParams?.api || _client?.api, config);
-};
-
-export const defectResAttachNativeDefectRes = (
-  defectResId: number,
-  nativeDefectResId: number,
-  defectResNativeDefectRes?: Partial<DefectResNativeDefectRes>,
-  queryParams?: QueryParams
-): Promise<DefectRes> => {
-  const config: QueryParams<{
-    id: number;
-    native_defect_res_id: number;
-    defect_res_native_defect_res?: Partial<DefectResNativeDefectRes>;
-  }> = {
-    method: 'put',
-    url: `${DefectResRoute()}/${defectResId}`,
-    params: queryParams?.params,
-    data: {
-      id: defectResId,
-      native_defect_res_id: nativeDefectResId,
-      defect_res_native_defect_res: defectResNativeDefectRes,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<DefectRes>(config)
-    : getResponse<
-        DefectRes,
-        {
-          id: number;
-          native_defect_res_id: number;
-          defect_res_native_defect_res?: Partial<DefectResNativeDefectRes>;
-        }
-      >(queryParams?.api || _client?.api, config);
-};
-
-export const defectResCreateWithNativeDefectRes = (
-  nativeDefectResId: number,
-  data: Partial<DefectRes>,
-  defectResNativeDefectRes?: Partial<DefectResNativeDefectRes>,
-  queryParams?: QueryParams
-): Promise<DefectRes> => {
-  const config: QueryParams<
-    DefectRes & {
-      native_defect_res_id: number;
-      defect_res_native_defect_res?: Partial<DefectResNativeDefectRes>;
-    }
-  > = {
-    method: 'post',
-    url: DefectResRoute(),
-    params: queryParams?.params,
-    data: {
-      ...data,
-      native_defect_res_id: nativeDefectResId,
-      defect_res_native_defect_res: defectResNativeDefectRes,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<DefectRes>(config)
-    : getResponse<
-        DefectRes,
-        DefectRes & {
-          native_defect_res_id: number;
-          defect_res_native_defect_res?: Partial<DefectResNativeDefectRes>;
-        }
-      >(queryParams?.api || _client?.api, config);
-};
-
-export const nativeDefectResAttachDefectRes = (
-  nativeDefectResId: number,
-  defectResId: number,
-  defectResNativeDefectRes?: Partial<DefectResNativeDefectRes>,
-  queryParams?: QueryParams
-): Promise<NativeDefectRes> => {
-  const config: QueryParams<{
-    id: number;
-    defect_res_id: number;
-    defect_res_native_defect_res?: Partial<DefectResNativeDefectRes>;
-  }> = {
-    method: 'put',
-    url: `${NativeDefectResRoute()}/${nativeDefectResId}`,
-    params: queryParams?.params,
-    data: {
-      id: nativeDefectResId,
-      defect_res_id: defectResId,
-      defect_res_native_defect_res: defectResNativeDefectRes,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<NativeDefectRes>(config)
-    : getResponse<
-        NativeDefectRes,
-        {
-          id: number;
-          defect_res_id: number;
-          defect_res_native_defect_res: Partial<DefectResNativeDefectRes>;
-        }
-      >(queryParams?.api || _client?.api, config);
-};
-
-export const nativeDefectResCreateWithDefectRes = (
-  defectResId: number,
-  data: Partial<NativeDefectRes>,
-  defectResNativeDefectRes?: Partial<DefectResNativeDefectRes>,
-  queryParams?: QueryParams
-): Promise<NativeDefectRes> => {
-  const config: QueryParams<
-    NativeDefectRes & {
-      defect_res_id: number;
-      defect_res_native_defect_res?: Partial<DefectResNativeDefectRes>;
-    }
-  > = {
-    method: 'post',
-    url: NativeDefectResRoute(),
-    params: queryParams?.params,
-    data: {
-      ...data,
-      defect_res_id: defectResId,
-      defect_res_native_defect_res: defectResNativeDefectRes,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<NativeDefectRes>(config)
-    : getResponse<
-        NativeDefectRes,
-        NativeDefectRes & {
-          defect_res_id: number;
-          defect_res_native_defect_res?: Partial<DefectResNativeDefectRes>;
-        }
-      >(queryParams?.api || _client?.api, config);
 };

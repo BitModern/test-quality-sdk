@@ -14,4 +14,5 @@ export interface CapabilityApi extends Capability {
   base_capability?: BaseCapabilityApi;
   integration?: IntegrationApi[];
   pivot?: CapabilityIntegrationApi;
+  capability_integration?: Partial<CapabilityIntegrationApi>;
 }

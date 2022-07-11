@@ -7,18 +7,9 @@
 
 import { LabelAssigned } from './LabelAssigned';
 import { LabelApi } from '../label/LabelApi';
-import { PlanApi } from '../plan/PlanApi';
-import { RunResultApi } from '../run_result/RunResultApi';
-import { AppApi } from '../app/AppApi';
-import { StepApi } from '../step/StepApi';
-import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
 import { RunApi } from '../run/RunApi';
 import { PlatVersionApi } from '../plat_version/PlatVersionApi';
-import { StatusApi } from '../status/StatusApi';
-import { PlatApi } from '../plat/PlatApi';
-import { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
 import { AppVersionApi } from '../app_version/AppVersionApi';
-import { MilestoneApi } from '../milestone/MilestoneApi';
 import { PurposeApi } from '../purpose/PurposeApi';
 import { StatusTypeApi } from '../status_type/StatusTypeApi';
 import { TestQualityApi } from '../test_quality/TestQualityApi';
@@ -30,21 +21,21 @@ import { TestApi } from '../test/TestApi';
 import { ProjectApi } from '../project/ProjectApi';
 import { CaseTypeApi } from '../case_type/CaseTypeApi';
 import { CasePriorityApi } from '../case_priority/CasePriorityApi';
+import { PlanApi } from '../plan/PlanApi';
+import { RunResultApi } from '../run_result/RunResultApi';
+import { AppApi } from '../app/AppApi';
+import { StepApi } from '../step/StepApi';
+import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
+import { StatusApi } from '../status/StatusApi';
+import { PlatApi } from '../plat/PlatApi';
+import { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
+import { MilestoneApi } from '../milestone/MilestoneApi';
 
 export interface LabelAssignedApi extends LabelAssigned {
   label?: LabelApi;
-  plan?: PlanApi;
-  run_result?: RunResultApi;
-  app?: AppApi;
-  step?: StepApi;
-  run_result_step?: RunResultStepApi;
   run?: RunApi;
   plat_version?: PlatVersionApi;
-  status?: StatusApi;
-  plat?: PlatApi;
-  app_version_plat_version?: AppVersionPlatVersionApi;
   app_version?: AppVersionApi;
-  milestone?: MilestoneApi;
   purpose?: PurposeApi;
   status_type?: StatusTypeApi;
   test_quality?: TestQualityApi;
@@ -56,4 +47,13 @@ export interface LabelAssignedApi extends LabelAssigned {
   project?: ProjectApi;
   case_type?: CaseTypeApi;
   case_priority?: CasePriorityApi;
+  plan?: PlanApi;
+  run_result?: RunResultApi;
+  app?: AppApi;
+  step?: StepApi;
+  run_result_step?: RunResultStepApi;
+  status?: StatusApi;
+  plat?: PlatApi;
+  app_version_plat_version?: AppVersionPlatVersionApi;
+  milestone?: MilestoneApi;
 }

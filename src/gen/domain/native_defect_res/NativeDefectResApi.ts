@@ -15,4 +15,5 @@ export interface NativeDefectResApi extends NativeDefectRes {
   defect_res?: DefectResApi[];
   defect_res_id?: number; // This field is required during create
   pivot?: DefectResNativeDefectResApi;
+  defect_res_native_defect_res?: Partial<DefectResNativeDefectResApi>;
 }

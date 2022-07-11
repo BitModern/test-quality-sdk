@@ -22,4 +22,7 @@ export interface IntegrationApi extends Integration {
   capability_id?: number;
   project?: ProjectApi[];
   pivot?: IntegrationUserApi | CapabilityIntegrationApi | IntegrationProjectApi;
+  integration_user?: Partial<IntegrationUserApi>;
+  capability_integration?: Partial<CapabilityIntegrationApi>;
+  integration_project?: Partial<IntegrationProjectApi>;
 }

@@ -15,4 +15,5 @@ export interface NativeDefectStatusApi extends NativeDefectStatus {
   defect_status?: DefectStatusApi[];
   defect_status_id?: number; // This field is required during create
   pivot?: DefectStatusNativeDefectStatusApi;
+  defect_status_native_defect_status?: Partial<DefectStatusNativeDefectStatusApi>;
 }

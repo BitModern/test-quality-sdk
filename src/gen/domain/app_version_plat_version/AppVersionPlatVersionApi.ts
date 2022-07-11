@@ -22,4 +22,5 @@ export interface AppVersionPlatVersionApi extends AppVersionPlatVersion {
   sequence_app_version_plat_version?: number;
   run_result?: RunResultApi[];
   pivot?: AppVersionPlatVersionPlanApi;
+  app_version_plat_version_plan?: Partial<AppVersionPlatVersionPlanApi>;
 }

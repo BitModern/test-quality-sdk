@@ -7,9 +7,6 @@ import { getResponse } from '../../actions/getResponse';
 import { QueryParams } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
-import { IntegrationRoute, UserRoute } from '../../routes/Routes';
-import { User } from '../user/User';
-import { Integration } from '../integration/Integration';
 import { IntegrationUser } from './IntegrationUser';
 import { IntegrationUserApi } from './IntegrationUserApi';
 
@@ -38,7 +35,7 @@ export const integrationUserUpdateOne = (
   id: number,
   data: Partial<IntegrationUser>,
   queryParams?: QueryParams<IntegrationUser>
-): Promise<Integration> => {
+): Promise<IntegrationUser> => {
   const config: QueryParams<IntegrationUser> = {
     method: 'put',
     url: `/integration_user/${id}`,
@@ -47,11 +44,24 @@ export const integrationUserUpdateOne = (
   };
 
   return queryParams?.batch
-    ? queryParams.batch.addBatch<Integration>(config)
-    : getResponse<Integration, Partial<IntegrationUser>>(
-        queryParams?.api || _client?.api,
-        config
-      );
+    ? queryParams.batch.addBatch<IntegrationUser>(config)
+    : getResponse<IntegrationUser>(queryParams?.api || _client?.api, config);
+};
+
+export const integrationUserCreateOne = (
+  data: Partial<IntegrationUser>,
+  queryParams?: QueryParams<IntegrationUser>
+): Promise<IntegrationUser> => {
+  const config: QueryParams<IntegrationUser> = {
+    method: 'post',
+    url: queryParams?.url || `/integration_user`,
+    params: queryParams?.params,
+    data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<IntegrationUser>(config)
+    : getResponse<IntegrationUser>(queryParams?.api || _client?.api, config);
 };
 
 export const integrationUserGetMany = (
@@ -89,188 +99,4 @@ export const integrationUserGetOne = (
         queryParams?.api || _client?.api,
         config
       );
-};
-
-/**
- * integrationAttachManyUser
- * This will remove any associations not in the list.
- * @param integrationId
- * @param list of children to associate
- * @param queryParams
- */
-export const integrationAttachManyUser = (
-  integrationId: number,
-  list: Partial<User>[],
-  queryParams?: QueryParams<Integration>
-): Promise<Integration> => {
-  const config: QueryParams<Integration & { user: Partial<User>[] }> = {
-    method: 'put',
-    url: `${IntegrationRoute()}/${integrationId}`,
-    params: queryParams?.params,
-    data: {
-      user: list,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Integration>(config)
-    : getResponse<Integration>(queryParams?.api || _client?.api, config);
-};
-
-/**
- * userAttachManyIntegration
- * This will remove any associations not in the list.
- * @param userId
- * @param list of children to associate
- * @param queryParams
- */
-export const userAttachManyIntegration = (
-  userId: number,
-  list: Partial<Integration>[],
-  queryParams?: QueryParams<User>
-): Promise<User> => {
-  const config: QueryParams<User & { integration: Partial<Integration>[] }> = {
-    method: 'put',
-    url: `${UserRoute()}/${userId}`,
-    params: queryParams?.params,
-    data: {
-      integration: list,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<User>(config)
-    : getResponse<User>(queryParams?.api || _client?.api, config);
-};
-
-export const integrationAttachUser = (
-  integrationId: number,
-  userId: number,
-  integrationUser?: Partial<IntegrationUser>,
-  queryParams?: QueryParams
-): Promise<Integration> => {
-  const config: QueryParams<{
-    id: number;
-    user_id: number;
-    integration_user?: Partial<IntegrationUser>;
-  }> = {
-    method: 'put',
-    url: `${IntegrationRoute()}/${integrationId}`,
-    params: queryParams?.params,
-    data: {
-      id: integrationId,
-      user_id: userId,
-      integration_user: integrationUser,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Integration>(config)
-    : getResponse<
-        Integration,
-        {
-          id: number;
-          user_id: number;
-          integration_user?: Partial<IntegrationUser>;
-        }
-      >(queryParams?.api || _client?.api, config);
-};
-
-export const integrationCreateWithUser = (
-  userId: number,
-  data: Partial<Integration>,
-  integrationUser?: Partial<IntegrationUser>,
-  queryParams?: QueryParams
-): Promise<Integration> => {
-  const config: QueryParams<
-    Integration & {
-      user_id: number;
-      integration_user?: Partial<IntegrationUser>;
-    }
-  > = {
-    method: 'post',
-    url: IntegrationRoute(),
-    params: queryParams?.params,
-    data: {
-      ...data,
-      user_id: userId,
-      integration_user: integrationUser,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Integration>(config)
-    : getResponse<
-        Integration,
-        Integration & {
-          user_id: number;
-          integration_user?: Partial<IntegrationUser>;
-        }
-      >(queryParams?.api || _client?.api, config);
-};
-
-export const userAttachIntegration = (
-  userId: number,
-  integrationId: number,
-  integrationUser?: Partial<IntegrationUser>,
-  queryParams?: QueryParams
-): Promise<User> => {
-  const config: QueryParams<{
-    id: number;
-    integration_id: number;
-    integration_user?: Partial<IntegrationUser>;
-  }> = {
-    method: 'put',
-    url: `${UserRoute()}/${userId}`,
-    params: queryParams?.params,
-    data: {
-      id: userId,
-      integration_id: integrationId,
-      integration_user: integrationUser,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<User>(config)
-    : getResponse<
-        User,
-        {
-          id: number;
-          integration_id: number;
-          integration_user: Partial<IntegrationUser>;
-        }
-      >(queryParams?.api || _client?.api, config);
-};
-
-export const userCreateWithIntegration = (
-  integrationId: number,
-  data: Partial<User>,
-  integrationUser?: Partial<IntegrationUser>,
-  queryParams?: QueryParams
-): Promise<User> => {
-  const config: QueryParams<
-    User & {
-      integration_id: number;
-      integration_user?: Partial<IntegrationUser>;
-    }
-  > = {
-    method: 'post',
-    url: UserRoute(),
-    params: queryParams?.params,
-    data: {
-      ...data,
-      integration_id: integrationId,
-      integration_user: integrationUser,
-    },
-  };
-
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<User>(config)
-    : getResponse<
-        User,
-        User & {
-          integration_id: number;
-          integration_user?: Partial<IntegrationUser>;
-        }
-      >(queryParams?.api || _client?.api, config);
 };

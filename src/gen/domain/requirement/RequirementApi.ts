@@ -18,4 +18,5 @@ export interface RequirementApi extends Requirement {
   defect_res?: DefectResApi;
   test?: TestApi[];
   pivot?: RequirementTestApi;
+  requirement_test?: Partial<RequirementTestApi>;
 }

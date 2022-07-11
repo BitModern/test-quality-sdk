@@ -31,4 +31,6 @@ export interface SuiteApi extends Suite {
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   requirement_test?: RequirementTestApi[];
   pivot?: SuiteTestApi | PlanSuiteApi;
+  suite_test?: Partial<SuiteTestApi>;
+  plan_suite?: Partial<PlanSuiteApi>;
 }

@@ -10,9 +10,9 @@ import { AccessRoleApi } from '../access_role/AccessRoleApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import { PlanApi } from '../plan/PlanApi';
 import { SuiteApi } from '../suite/SuiteApi';
+import { AttachmentApi } from '../attachment/AttachmentApi';
 import { TestApi } from '../test/TestApi';
 import { MilestoneApi } from '../milestone/MilestoneApi';
-import { AttachmentApi } from '../attachment/AttachmentApi';
 import { StepApi } from '../step/StepApi';
 import { RunResultApi } from '../run_result/RunResultApi';
 import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
@@ -31,9 +31,9 @@ export interface ProjectApi extends Project {
   label_assigned?: LabelAssignedApi;
   plan?: PlanApi[];
   suite?: SuiteApi[];
+  attachment?: AttachmentApi;
   test?: TestApi[];
   milestone?: MilestoneApi[];
-  attachment?: AttachmentApi;
   step?: StepApi[];
   run_result?: RunResultApi[];
   run_result_step?: RunResultStepApi[];
@@ -47,4 +47,5 @@ export interface ProjectApi extends Project {
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   filter?: FilterApi[];
   pivot?: IntegrationProjectApi;
+  integration_project?: Partial<IntegrationProjectApi>;
 }

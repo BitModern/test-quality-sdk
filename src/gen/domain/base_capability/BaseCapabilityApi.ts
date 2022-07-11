@@ -15,4 +15,5 @@ export interface BaseCapabilityApi extends BaseCapability {
   base_integration?: BaseIntegrationApi[];
   base_integration_id?: number; // This field is required during create
   pivot?: BaseCapabilityBaseIntegrationApi;
+  base_capability_base_integration?: Partial<BaseCapabilityBaseIntegrationApi>;
 }

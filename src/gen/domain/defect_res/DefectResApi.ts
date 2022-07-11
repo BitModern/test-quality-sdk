@@ -16,4 +16,5 @@ export interface DefectResApi extends DefectRes {
   defect?: DefectApi[];
   requirement?: RequirementApi[];
   pivot?: DefectResNativeDefectResApi;
+  defect_res_native_defect_res?: Partial<DefectResNativeDefectResApi>;
 }

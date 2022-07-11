@@ -16,4 +16,5 @@ export interface DefectStatusApi extends DefectStatus {
   native_defect_status?: NativeDefectStatusApi[];
   requirement?: RequirementApi[];
   pivot?: DefectStatusNativeDefectStatusApi;
+  defect_status_native_defect_status?: Partial<DefectStatusNativeDefectStatusApi>;
 }

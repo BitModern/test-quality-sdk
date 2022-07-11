@@ -33,4 +33,7 @@ export interface PlanApi extends Plan {
   attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   pivot?: PlanSuiteApi | AppVersionPlatVersionPlanApi | PlanPurposeApi;
+  plan_suite?: Partial<PlanSuiteApi>;
+  app_version_plat_version_plan?: Partial<AppVersionPlatVersionPlanApi>;
+  plan_purpose?: Partial<PlanPurposeApi>;
 }

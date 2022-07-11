@@ -2,84 +2,7 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
-export const UserRoute = (): string => `/user`;
-export const UserSubscriptionsRoute = (user_id: number): string =>
-  `/user/${user_id}/subscriptions`;
-export const UserSubscriptionUserRoute = (user_id: number): string =>
-  `/user/${user_id}/subscription_user`;
-export const UserQuoteRoute = (user_id: number): string =>
-  `/user/${user_id}/quote`;
-export const UserUserLogRoute = (user_id: number): string =>
-  `/user/${user_id}/user_log`;
-export const UserNotificationsRoute = (user_id: number): string =>
-  `/user/${user_id}/notifications`;
-export const UserExportRoute = (user_id: number): string =>
-  `/user/${user_id}/export`;
-export const UserReportRoute = (user_id: number): string =>
-  `/user/${user_id}/report`;
-export const UserFeatureUserRoute = (user_id: number): string =>
-  `/user/${user_id}/feature_user`;
-export const UserSupportRoute = (user_id: number): string =>
-  `/user/${user_id}/support`;
-export const UserSupportAgentRoute = (user_id: number): string =>
-  `/user/${user_id}/support_agent`;
-export const UserAccessRoleRoute = (user_id: number): string =>
-  `/user/${user_id}/access_role`;
-export const UserIntegrationRoute = (user_id: number): string =>
-  `/user/${user_id}/integration`;
-export const UserBillingContactRoute = (user_id: number): string =>
-  `/user/${user_id}/billing_contact`;
-export const PlanRoute = (): string => `/plan`;
-export const PlanLabelAssignedRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/label_assigned`;
-export const PlanSuiteRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/suite`;
-export const PlanAppVersionPlatVersionRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/app_version_plat_version`;
-export const PlanRunRoute = (plan_id: number): string => `/plan/${plan_id}/run`;
-export const PlanPurposeRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/purpose`;
-export const PlanCommentRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/comment`;
-export const PlanWatchRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/watch`;
-export const PlanAttachmentRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/attachment`;
-export const PlanPlanSuiteTestIncludeRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/plan_suite_test_include`;
-export const RunResultRoute = (): string => `/run_result`;
-export const RunResultLabelAssignedRoute = (run_result_id: number): string =>
-  `/run_result/${run_result_id}/label_assigned`;
-export const RunResultRunResultStepRoute = (run_result_id: number): string =>
-  `/run_result/${run_result_id}/run_result_step`;
-export const RunResultAttachmentRoute = (run_result_id: number): string =>
-  `/run_result/${run_result_id}/attachment`;
-export const RunResultCommentRoute = (run_result_id: number): string =>
-  `/run_result/${run_result_id}/comment`;
-export const RunResultDefectRoute = (run_result_id: number): string =>
-  `/run_result/${run_result_id}/defect`;
 export const PolicyRowsRoute = (): string => `/policy_rows`;
-export const AppRoute = (): string => `/app`;
-export const AppLabelAssignedRoute = (app_id: number): string =>
-  `/app/${app_id}/label_assigned`;
-export const AppAppVersionRoute = (app_id: number): string =>
-  `/app/${app_id}/app_version`;
-export const StepRoute = (): string => `/step`;
-export const StepLabelAssignedRoute = (step_id: number): string =>
-  `/step/${step_id}/label_assigned`;
-export const StepRunResultStepRoute = (step_id: number): string =>
-  `/step/${step_id}/run_result_step`;
-export const StepCommentRoute = (step_id: number): string =>
-  `/step/${step_id}/comment`;
-export const RunResultStepRoute = (): string => `/run_result_step`;
-export const RunResultStepLabelAssignedRoute = (
-  run_result_step_id: number
-): string => `/run_result_step/${run_result_step_id}/label_assigned`;
-export const RunResultStepAttachmentRoute = (
-  run_result_step_id: number
-): string => `/run_result_step/${run_result_step_id}/attachment`;
-export const RunResultStepCommentRoute = (run_result_step_id: number): string =>
-  `/run_result_step/${run_result_step_id}/comment`;
 export const RunRoute = (): string => `/run`;
 export const RunLabelAssignedRoute = (run_id: number): string =>
   `/run/${run_id}/label_assigned`;
@@ -94,31 +17,6 @@ export const PlatVersionLabelAssignedRoute = (
 export const PlatVersionAppVersionPlatVersionRoute = (
   plat_version_id: number
 ): string => `/plat_version/${plat_version_id}/app_version_plat_version`;
-export const StatusRoute = (): string => `/status`;
-export const StatusLabelAssignedRoute = (status_id: number): string =>
-  `/status/${status_id}/label_assigned`;
-export const StatusRunResultRoute = (status_id: number): string =>
-  `/status/${status_id}/run_result`;
-export const StatusRunResultStepRoute = (status_id: number): string =>
-  `/status/${status_id}/run_result_step`;
-export const PlatRoute = (): string => `/plat`;
-export const PlatLabelAssignedRoute = (plat_id: number): string =>
-  `/plat/${plat_id}/label_assigned`;
-export const PlatPlatVersionRoute = (plat_id: number): string =>
-  `/plat/${plat_id}/plat_version`;
-export const AppVersionPlatVersionRoute = (): string =>
-  `/app_version_plat_version`;
-export const AppVersionPlatVersionLabelAssignedRoute = (
-  app_version_plat_version_id: number
-): string =>
-  `/app_version_plat_version/${app_version_plat_version_id}/label_assigned`;
-export const AppVersionPlatVersionPlanRoute = (
-  app_version_plat_version_id: number
-): string => `/app_version_plat_version/${app_version_plat_version_id}/plan`;
-export const AppVersionPlatVersionRunResultRoute = (
-  app_version_plat_version_id: number
-): string =>
-  `/app_version_plat_version/${app_version_plat_version_id}/run_result`;
 export const AppVersionRoute = (): string => `/app_version`;
 export const AppVersionLabelAssignedRoute = (app_version_id: number): string =>
   `/app_version/${app_version_id}/label_assigned`;
@@ -132,26 +30,6 @@ export const IntegrationCapabilityRoute = (integration_id: number): string =>
   `/integration/${integration_id}/capability`;
 export const IntegrationProjectRoute = (integration_id: number): string =>
   `/integration/${integration_id}/project`;
-export const MilestoneRoute = (): string => `/milestone`;
-export const MilestoneLabelAssignedRoute = (milestone_id: number): string =>
-  `/milestone/${milestone_id}/label_assigned`;
-export const MilestoneCommentRoute = (milestone_id: number): string =>
-  `/milestone/${milestone_id}/comment`;
-export const MilestoneTargetRoute = (milestone_id: number): string =>
-  `/milestone/${milestone_id}/target`;
-export const MilestoneRunRoute = (milestone_id: number): string =>
-  `/milestone/${milestone_id}/run`;
-export const AccessRoleRoute = (): string => `/access_role`;
-export const AccessRolePolicyRoute = (access_role_id: number): string =>
-  `/access_role/${access_role_id}/policy`;
-export const AccessRoleProjectRoute = (access_role_id: number): string =>
-  `/access_role/${access_role_id}/project`;
-export const AccessRoleUserRoute = (access_role_id: number): string =>
-  `/access_role/${access_role_id}/user`;
-export const PolicyRoute = (): string => `/policy`;
-export const PolicyPolicyRowsRoute = (policy_id: number): string =>
-  `/policy/${policy_id}/policy_rows`;
-export const AttachmentRoute = (): string => `/attachment`;
 export const DefectRoute = (): string => `/defect`;
 export const VirtualRoute = (): string => `/virtual`;
 export const CapabilityRoute = (): string => `/capability`;
@@ -223,31 +101,31 @@ export const NativeDefectStatusDefectStatusRoute = (
   native_defect_status_id: number
 ): string => `/native_defect_status/${native_defect_status_id}/defect_status`;
 export const SubscriptionsRoute = (): string => `/subscriptions`;
+export const SubscriptionsQuoteItemRoute = (subscriptions_id: number): string =>
+  `/subscriptions/${subscriptions_id}/quote_item`;
 export const SubscriptionsSubscriptionUserRoute = (
   subscriptions_id: number
 ): string => `/subscriptions/${subscriptions_id}/subscription_user`;
-export const SubscriptionsQuoteItemRoute = (subscriptions_id: number): string =>
-  `/subscriptions/${subscriptions_id}/quote_item`;
 export const SubscriptionsBillingContactRoute = (
   subscriptions_id: number
 ): string => `/subscriptions/${subscriptions_id}/billing_contact`;
 export const SubscriptionUserRoute = (): string => `/subscription_user`;
 export const ProductRoute = (): string => `/product`;
-export const ProductSubscriptionsRoute = (product_id: number): string =>
-  `/product/${product_id}/subscriptions`;
-export const ProductQuoteItemRoute = (product_id: number): string =>
-  `/product/${product_id}/quote_item`;
 export const ProductCouponRoute = (product_id: number): string =>
   `/product/${product_id}/coupon`;
 export const ProductMarketplaceRoute = (product_id: number): string =>
   `/product/${product_id}/marketplace`;
+export const ProductSubscriptionsRoute = (product_id: number): string =>
+  `/product/${product_id}/subscriptions`;
+export const ProductQuoteItemRoute = (product_id: number): string =>
+  `/product/${product_id}/quote_item`;
 export const InvoiceRoute = (): string => `/invoice`;
-export const InvoiceAttachmentRoute = (invoice_id: number): string =>
-  `/invoice/${invoice_id}/attachment`;
 export const InvoicePaymentRoute = (invoice_id: number): string =>
   `/invoice/${invoice_id}/payment`;
 export const InvoiceDisputeRoute = (invoice_id: number): string =>
   `/invoice/${invoice_id}/dispute`;
+export const InvoiceAttachmentRoute = (invoice_id: number): string =>
+  `/invoice/${invoice_id}/attachment`;
 export const NotificationsRoute = (): string => `/notifications`;
 export const BaseIntegrationRoute = (): string => `/base_integration`;
 export const BaseIntegrationIntegrationRoute = (
@@ -267,6 +145,7 @@ export const BillingContactRoute = (): string => `/billing_contact`;
 export const PlanSuiteTestIncludeRoute = (): string =>
   `/plan_suite_test_include`;
 export const FilterRoute = (): string => `/filter`;
+export const IntegrationTemplateRoute = (): string => `/integration_template`;
 export const SuiteRoute = (): string => `/suite`;
 export const SuiteLabelAssignedRoute = (suite_id: number): string =>
   `/suite/${suite_id}/label_assigned`;
@@ -308,20 +187,18 @@ export const TestRequirementRoute = (test_id: number): string =>
 export const ProjectRoute = (): string => `/project`;
 export const ProjectLabelAssignedRoute = (project_id: number): string =>
   `/project/${project_id}/label_assigned`;
-export const ProjectTargetRoute = (project_id: number): string =>
-  `/project/${project_id}/target`;
 export const ProjectPlanRoute = (project_id: number): string =>
   `/project/${project_id}/plan`;
 export const ProjectSuiteRoute = (project_id: number): string =>
   `/project/${project_id}/suite`;
-export const ProjectTestRoute = (project_id: number): string =>
-  `/project/${project_id}/test`;
-export const ProjectMilestoneRoute = (project_id: number): string =>
-  `/project/${project_id}/milestone`;
 export const ProjectCodeRoute = (project_id: number): string =>
   `/project/${project_id}/code`;
 export const ProjectAttachmentRoute = (project_id: number): string =>
   `/project/${project_id}/attachment`;
+export const ProjectTestRoute = (project_id: number): string =>
+  `/project/${project_id}/test`;
+export const ProjectMilestoneRoute = (project_id: number): string =>
+  `/project/${project_id}/milestone`;
 export const ProjectStepRoute = (project_id: number): string =>
   `/project/${project_id}/step`;
 export const ProjectRunResultRoute = (project_id: number): string =>
@@ -345,6 +222,8 @@ export const ProjectRequirementRoute = (project_id: number): string =>
   `/project/${project_id}/requirement`;
 export const ProjectTaskRoute = (project_id: number): string =>
   `/project/${project_id}/task`;
+export const ProjectTargetRoute = (project_id: number): string =>
+  `/project/${project_id}/target`;
 export const ProjectPlanSuiteTestIncludeRoute = (project_id: number): string =>
   `/project/${project_id}/plan_suite_test_include`;
 export const ProjectFilterRoute = (project_id: number): string =>
@@ -365,4 +244,125 @@ export const CasePriorityLabelAssignedRoute = (
 ): string => `/case_priority/${case_priority_id}/label_assigned`;
 export const CasePriorityTestRoute = (case_priority_id: number): string =>
   `/case_priority/${case_priority_id}/test`;
-export const IntegrationTemplateRoute = (): string => `/integration_template`;
+export const UserRoute = (): string => `/user`;
+export const UserUserLogRoute = (user_id: number): string =>
+  `/user/${user_id}/user_log`;
+export const UserNotificationsRoute = (user_id: number): string =>
+  `/user/${user_id}/notifications`;
+export const UserExportRoute = (user_id: number): string =>
+  `/user/${user_id}/export`;
+export const UserReportRoute = (user_id: number): string =>
+  `/user/${user_id}/report`;
+export const UserFeatureUserRoute = (user_id: number): string =>
+  `/user/${user_id}/feature_user`;
+export const UserSupportRoute = (user_id: number): string =>
+  `/user/${user_id}/support`;
+export const UserSupportAgentRoute = (user_id: number): string =>
+  `/user/${user_id}/support_agent`;
+export const UserAccessRoleRoute = (user_id: number): string =>
+  `/user/${user_id}/access_role`;
+export const UserIntegrationRoute = (user_id: number): string =>
+  `/user/${user_id}/integration`;
+export const UserSubscriptionsRoute = (user_id: number): string =>
+  `/user/${user_id}/subscriptions`;
+export const UserSubscriptionUserRoute = (user_id: number): string =>
+  `/user/${user_id}/subscription_user`;
+export const UserQuoteRoute = (user_id: number): string =>
+  `/user/${user_id}/quote`;
+export const UserBillingContactRoute = (user_id: number): string =>
+  `/user/${user_id}/billing_contact`;
+export const PlanRoute = (): string => `/plan`;
+export const PlanLabelAssignedRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/label_assigned`;
+export const PlanSuiteRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/suite`;
+export const PlanAppVersionPlatVersionRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/app_version_plat_version`;
+export const PlanRunRoute = (plan_id: number): string => `/plan/${plan_id}/run`;
+export const PlanPurposeRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/purpose`;
+export const PlanCommentRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/comment`;
+export const PlanWatchRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/watch`;
+export const PlanAttachmentRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/attachment`;
+export const PlanPlanSuiteTestIncludeRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/plan_suite_test_include`;
+export const RunResultRoute = (): string => `/run_result`;
+export const RunResultLabelAssignedRoute = (run_result_id: number): string =>
+  `/run_result/${run_result_id}/label_assigned`;
+export const RunResultRunResultStepRoute = (run_result_id: number): string =>
+  `/run_result/${run_result_id}/run_result_step`;
+export const RunResultAttachmentRoute = (run_result_id: number): string =>
+  `/run_result/${run_result_id}/attachment`;
+export const RunResultCommentRoute = (run_result_id: number): string =>
+  `/run_result/${run_result_id}/comment`;
+export const RunResultDefectRoute = (run_result_id: number): string =>
+  `/run_result/${run_result_id}/defect`;
+export const AppRoute = (): string => `/app`;
+export const AppLabelAssignedRoute = (app_id: number): string =>
+  `/app/${app_id}/label_assigned`;
+export const AppAppVersionRoute = (app_id: number): string =>
+  `/app/${app_id}/app_version`;
+export const StepRoute = (): string => `/step`;
+export const StepLabelAssignedRoute = (step_id: number): string =>
+  `/step/${step_id}/label_assigned`;
+export const StepRunResultStepRoute = (step_id: number): string =>
+  `/step/${step_id}/run_result_step`;
+export const StepCommentRoute = (step_id: number): string =>
+  `/step/${step_id}/comment`;
+export const RunResultStepRoute = (): string => `/run_result_step`;
+export const RunResultStepLabelAssignedRoute = (
+  run_result_step_id: number
+): string => `/run_result_step/${run_result_step_id}/label_assigned`;
+export const RunResultStepAttachmentRoute = (
+  run_result_step_id: number
+): string => `/run_result_step/${run_result_step_id}/attachment`;
+export const RunResultStepCommentRoute = (run_result_step_id: number): string =>
+  `/run_result_step/${run_result_step_id}/comment`;
+export const StatusRoute = (): string => `/status`;
+export const StatusLabelAssignedRoute = (status_id: number): string =>
+  `/status/${status_id}/label_assigned`;
+export const StatusRunResultStepRoute = (status_id: number): string =>
+  `/status/${status_id}/run_result_step`;
+export const StatusRunResultRoute = (status_id: number): string =>
+  `/status/${status_id}/run_result`;
+export const PlatRoute = (): string => `/plat`;
+export const PlatLabelAssignedRoute = (plat_id: number): string =>
+  `/plat/${plat_id}/label_assigned`;
+export const PlatPlatVersionRoute = (plat_id: number): string =>
+  `/plat/${plat_id}/plat_version`;
+export const AppVersionPlatVersionRoute = (): string =>
+  `/app_version_plat_version`;
+export const AppVersionPlatVersionLabelAssignedRoute = (
+  app_version_plat_version_id: number
+): string =>
+  `/app_version_plat_version/${app_version_plat_version_id}/label_assigned`;
+export const AppVersionPlatVersionPlanRoute = (
+  app_version_plat_version_id: number
+): string => `/app_version_plat_version/${app_version_plat_version_id}/plan`;
+export const AppVersionPlatVersionRunResultRoute = (
+  app_version_plat_version_id: number
+): string =>
+  `/app_version_plat_version/${app_version_plat_version_id}/run_result`;
+export const MilestoneRoute = (): string => `/milestone`;
+export const MilestoneLabelAssignedRoute = (milestone_id: number): string =>
+  `/milestone/${milestone_id}/label_assigned`;
+export const MilestoneCommentRoute = (milestone_id: number): string =>
+  `/milestone/${milestone_id}/comment`;
+export const MilestoneTargetRoute = (milestone_id: number): string =>
+  `/milestone/${milestone_id}/target`;
+export const MilestoneRunRoute = (milestone_id: number): string =>
+  `/milestone/${milestone_id}/run`;
+export const AccessRoleRoute = (): string => `/access_role`;
+export const AccessRolePolicyRoute = (access_role_id: number): string =>
+  `/access_role/${access_role_id}/policy`;
+export const AccessRoleProjectRoute = (access_role_id: number): string =>
+  `/access_role/${access_role_id}/project`;
+export const AccessRoleUserRoute = (access_role_id: number): string =>
+  `/access_role/${access_role_id}/user`;
+export const PolicyRoute = (): string => `/policy`;
+export const PolicyPolicyRowsRoute = (policy_id: number): string =>
+  `/policy/${policy_id}/policy_rows`;
+export const AttachmentRoute = (): string => `/attachment`;
