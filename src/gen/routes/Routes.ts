@@ -68,6 +68,10 @@ export const DefectResDefectRoute = (defect_res_id: number): string =>
   `/defect_res/${defect_res_id}/defect`;
 export const DefectResRequirementRoute = (defect_res_id: number): string =>
   `/defect_res/${defect_res_id}/requirement`;
+export const DefectComponentRoute = (): string => `/defect_component`;
+export const DefectComponentDefectRoute = (
+  defect_component_id: number
+): string => `/defect_component/${defect_component_id}/defect`;
 export const StatusTypeRoute = (): string => `/status_type`;
 export const StatusTypeLabelAssignedRoute = (status_type_id: number): string =>
   `/status_type/${status_type_id}/label_assigned`;
