@@ -10,7 +10,6 @@ import { AccessRoleApi } from '../access_role/AccessRoleApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import { PlanApi } from '../plan/PlanApi';
 import { SuiteApi } from '../suite/SuiteApi';
-import { AttachmentApi } from '../attachment/AttachmentApi';
 import { TestApi } from '../test/TestApi';
 import { MilestoneApi } from '../milestone/MilestoneApi';
 import { StepApi } from '../step/StepApi';
@@ -23,6 +22,7 @@ import { CommentApi } from '../comment/CommentApi';
 import { WatchApi } from '../watch/WatchApi';
 import { DefectApi } from '../defect/DefectApi';
 import { RequirementApi } from '../requirement/RequirementApi';
+import { AttachmentApi } from '../attachment/AttachmentApi';
 import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import { FilterApi } from '../filter/FilterApi';
 
@@ -31,7 +31,6 @@ export interface ProjectApi extends Project {
   label_assigned?: LabelAssignedApi;
   plan?: PlanApi[];
   suite?: SuiteApi[];
-  attachment?: AttachmentApi;
   test?: TestApi[];
   milestone?: MilestoneApi[];
   step?: StepApi[];
@@ -44,6 +43,7 @@ export interface ProjectApi extends Project {
   watch?: WatchApi;
   defect?: DefectApi[];
   requirement?: RequirementApi[];
+  attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   filter?: FilterApi[];
   pivot?: IntegrationProjectApi;

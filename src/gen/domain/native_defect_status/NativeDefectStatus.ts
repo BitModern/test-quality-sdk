@@ -32,4 +32,5 @@ export interface NativeDefectStatus extends KeyedModel {
   key: number;
   external_reference_id?: string;
   integration_project_id: number;
+  integration_status_type_id?: number;
 }

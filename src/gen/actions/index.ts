@@ -1,4 +1,5 @@
 export * from './DataParams';
+export * from './LookupIntegrationParams';
 export * from './MessageResponse';
 export * from './QueryParams';
 export * from './TQRequestParameters';
