@@ -99,6 +99,9 @@ export const DefectStatusNativeDefectStatusRoute = (
 export const DefectStatusRequirementRoute = (
   defect_status_id: number
 ): string => `/defect_status/${defect_status_id}/requirement`;
+export const DefectUserRoute = (): string => `/defect_user`;
+export const DefectUserDefectRoute = (defect_user_id: number): string =>
+  `/defect_user/${defect_user_id}/defect`;
 export const FilterRoute = (): string => `/filter`;
 export const IntegrationRoute = (): string => `/integration`;
 export const IntegrationCapabilityRoute = (integration_id: number): string =>

@@ -9,4 +9,5 @@ export interface DefectLabel extends DefaultAttributes {
   name: string;
   description?: string;
   color?: string;
+  integration_project_id?: number;
 }

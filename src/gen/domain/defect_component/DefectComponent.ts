@@ -8,4 +8,5 @@ export interface DefectComponent extends DefaultAttributes {
   id: number;
   name: string;
   description?: string;
+  integration_project_id?: number;
 }

@@ -106,6 +106,8 @@ export * from './defect_status/defectStatusService';
 export { DefectStatusNativeDefectStatus } from './defect_status_native_defect_status/DefectStatusNativeDefectStatus';
 export { DefectStatusNativeDefectStatusApi } from './defect_status_native_defect_status/DefectStatusNativeDefectStatusApi';
 export * from './defect_status_native_defect_status/defectStatusNativeDefectStatusService';
+export { DefectUser } from './defect_user/DefectUser';
+export * from './defect_user/defectUserService';
 export { Filter } from './filter/Filter';
 export { FilterApi } from './filter/FilterApi';
 export { FilterHistory } from './filter/FilterHistory';
