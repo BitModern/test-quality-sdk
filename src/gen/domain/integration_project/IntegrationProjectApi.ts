@@ -16,6 +16,7 @@ import { DefectUserApi } from '../defect_user/DefectUserApi';
 import { DefectLabelApi } from '../defect_label/DefectLabelApi';
 import { DefectComponentApi } from '../defect_component/DefectComponentApi';
 import { DefectPriorityApi } from '../defect_priority/DefectPriorityApi';
+import { DefectTypeApi } from '../defect_type/DefectTypeApi';
 
 export interface IntegrationProjectApi extends IntegrationProject {
   project?: ProjectApi;
@@ -28,4 +29,5 @@ export interface IntegrationProjectApi extends IntegrationProject {
   defect_label?: DefectLabelApi[];
   defect_component?: DefectComponentApi[];
   defect_priority?: DefectPriorityApi[];
+  defect_type?: DefectTypeApi[];
 }

@@ -99,6 +99,7 @@ export const DefectStatusNativeDefectStatusRoute = (
 export const DefectStatusRequirementRoute = (
   defect_status_id: number
 ): string => `/defect_status/${defect_status_id}/requirement`;
+export const DefectTypeRoute = (): string => `/defect_type`;
 export const DefectUserRoute = (): string => `/defect_user`;
 export const DefectUserDefectRoute = (defect_user_id: number): string =>
   `/defect_user/${defect_user_id}/defect`;
