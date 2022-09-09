@@ -5,14 +5,6 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface Subscriptions extends KeyedModel {
-  user_id: number;
-  stripe_id: string;
-  stripe_plan: string;
-  quantity: number;
-  trial_ends_at?: string;
-  ends_at?: string;
-  created_at: string;
-  created_by: number;
   updated_at: string;
   updated_by: number;
   epoch: number;
@@ -34,4 +26,12 @@ export interface Subscriptions extends KeyedModel {
   is_auto_upgrade: boolean;
   coupon_id?: number;
   marketplace_id?: number;
+  user_id: number;
+  stripe_id: string;
+  stripe_plan: string;
+  quantity: number;
+  trial_ends_at?: string;
+  ends_at?: string;
+  created_at: string;
+  created_by: number;
 }
