@@ -8,8 +8,6 @@
 import { Project } from './Project';
 import { AccessRoleApi } from '../access_role/AccessRoleApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { PlanApi } from '../plan/PlanApi';
-import { SuiteApi } from '../suite/SuiteApi';
 import { TestApi } from '../test/TestApi';
 import { MilestoneApi } from '../milestone/MilestoneApi';
 import { StepApi } from '../step/StepApi';
@@ -18,6 +16,8 @@ import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
 import { RunApi } from '../run/RunApi';
 import { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
 import { IntegrationApi } from '../integration/IntegrationApi';
+import { PlanApi } from '../plan/PlanApi';
+import { SuiteApi } from '../suite/SuiteApi';
 import { CommentApi } from '../comment/CommentApi';
 import { WatchApi } from '../watch/WatchApi';
 import { DefectApi } from '../defect/DefectApi';
@@ -29,8 +29,6 @@ import { FilterApi } from '../filter/FilterApi';
 export interface ProjectApi extends Project {
   access_role?: AccessRoleApi;
   label_assigned?: LabelAssignedApi;
-  plan?: PlanApi[];
-  suite?: SuiteApi[];
   test?: TestApi[];
   milestone?: MilestoneApi[];
   step?: StepApi[];
@@ -39,6 +37,8 @@ export interface ProjectApi extends Project {
   run?: RunApi[];
   integration?: IntegrationApi[];
   integration_id?: number;
+  plan?: PlanApi[];
+  suite?: SuiteApi[];
   comment?: CommentApi;
   watch?: WatchApi;
   defect?: DefectApi[];

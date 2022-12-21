@@ -5,6 +5,7 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface Defect extends KeyedModel {
+  id: number;
   /**
    * Contains the ID of the linked defect in the external system.
    */
@@ -25,6 +26,5 @@ export interface Defect extends KeyedModel {
   project_id: number;
   defect_status_id?: number;
   key: number;
-  id: number;
   defect_res_id?: number;
 }

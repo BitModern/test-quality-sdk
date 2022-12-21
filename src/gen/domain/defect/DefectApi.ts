@@ -6,14 +6,17 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Defect } from './Defect';
-import { RunResultApi } from '../run_result/RunResultApi';
 import { ProjectApi } from '../project/ProjectApi';
 import { DefectStatusApi } from '../defect_status/DefectStatusApi';
 import { DefectResApi } from '../defect_res/DefectResApi';
+import { DefectRunResultApi } from '../defect_run_result/DefectRunResultApi';
+import { RunResultApi } from '../run_result/RunResultApi';
 
 export interface DefectApi extends Defect {
-  run_result?: RunResultApi;
   project?: ProjectApi;
   defect_status?: DefectStatusApi;
   defect_res?: DefectResApi;
+  run_result?: RunResultApi[];
+  pivot?: DefectRunResultApi;
+  defect_run_result?: Partial<DefectRunResultApi>;
 }

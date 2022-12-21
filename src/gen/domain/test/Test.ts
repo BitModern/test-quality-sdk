@@ -32,5 +32,5 @@ export interface Test extends KeyedModel {
    */
   state_mask?: number;
   test_type_id?: number;
-  data_table?: string;
+  data_set_id?: number;
 }

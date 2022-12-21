@@ -74,15 +74,8 @@ export const ClientVirtualRoute = (client_id: number): string =>
 export const CommentRoute = (): string => `/comment`;
 export const DefectRoute = (): string => `/defect`;
 export const DefectComponentRoute = (): string => `/defect_component`;
-export const DefectComponentDefectRoute = (
-  defect_component_id: number
-): string => `/defect_component/${defect_component_id}/defect`;
 export const DefectLabelRoute = (): string => `/defect_label`;
-export const DefectLabelDefectRoute = (defect_label_id: number): string =>
-  `/defect_label/${defect_label_id}/defect`;
 export const DefectPriorityRoute = (): string => `/defect_priority`;
-export const DefectPriorityDefectRoute = (defect_priority_id: number): string =>
-  `/defect_priority/${defect_priority_id}/defect`;
 export const DefectResRoute = (): string => `/defect_res`;
 export const DefectResDefectRoute = (defect_res_id: number): string =>
   `/defect_res/${defect_res_id}/defect`;
@@ -90,6 +83,8 @@ export const DefectResNativeDefectResRoute = (defect_res_id: number): string =>
   `/defect_res/${defect_res_id}/native_defect_res`;
 export const DefectResRequirementRoute = (defect_res_id: number): string =>
   `/defect_res/${defect_res_id}/requirement`;
+export const DefectRunResultRoute = (defect_id: number): string =>
+  `/defect/${defect_id}/run_result`;
 export const DefectStatusRoute = (): string => `/defect_status`;
 export const DefectStatusDefectRoute = (defect_status_id: number): string =>
   `/defect_status/${defect_status_id}/defect`;
@@ -101,8 +96,6 @@ export const DefectStatusRequirementRoute = (
 ): string => `/defect_status/${defect_status_id}/requirement`;
 export const DefectTypeRoute = (): string => `/defect_type`;
 export const DefectUserRoute = (): string => `/defect_user`;
-export const DefectUserDefectRoute = (defect_user_id: number): string =>
-  `/defect_user/${defect_user_id}/defect`;
 export const FilterRoute = (): string => `/filter`;
 export const IntegrationRoute = (): string => `/integration`;
 export const IntegrationCapabilityRoute = (integration_id: number): string =>
@@ -199,6 +192,8 @@ export const ProjectCodeRoute = (project_id: number): string =>
   `/project/${project_id}/code`;
 export const ProjectCommentRoute = (project_id: number): string =>
   `/project/${project_id}/comment`;
+export const ProjectDataSetRoute = (project_id: number): string =>
+  `/project/${project_id}/data_set`;
 export const ProjectDefectRoute = (project_id: number): string =>
   `/project/${project_id}/defect`;
 export const ProjectFilterRoute = (project_id: number): string =>
@@ -320,8 +315,6 @@ export const SuiteWatchRoute = (suite_id: number): string =>
 export const TestRoute = (): string => `/test`;
 export const TestAttachmentRoute = (test_id: number): string =>
   `/test/${test_id}/attachment`;
-export const TestCodeRoute = (test_id: number): string =>
-  `/test/${test_id}/code`;
 export const TestCommentRoute = (test_id: number): string =>
   `/test/${test_id}/comment`;
 export const TestLabelAssignedRoute = (test_id: number): string =>

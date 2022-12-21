@@ -5,12 +5,6 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface RunResult extends KeyedModel {
-  test_id: number;
-  created_by: number;
-  created_at: string;
-  updated_by: number;
-  updated_at: string;
-  epoch: number;
   /**
    * The id of the user this run_result is assigned to.
    */
@@ -35,4 +29,11 @@ export interface RunResult extends KeyedModel {
    * Indicates the flakiness of the this test
    */
   flakiness?: number;
+  data_set_row?: number;
+  test_id: number;
+  created_by: number;
+  created_at: string;
+  updated_by: number;
+  updated_at: string;
+  epoch: number;
 }
