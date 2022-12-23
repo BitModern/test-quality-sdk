@@ -10,6 +10,7 @@ import { ProjectApi } from '../project/ProjectApi';
 import { CaseTypeApi } from '../case_type/CaseTypeApi';
 import { CasePriorityApi } from '../case_priority/CasePriorityApi';
 import { TestQualityApi } from '../test_quality/TestQualityApi';
+import { DataSetApi } from '../data_set/DataSetApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import { StepApi } from '../step/StepApi';
 import { SuiteTestApi } from '../suite_test/SuiteTestApi';
@@ -27,6 +28,7 @@ export interface TestApi extends Test {
   case_type?: CaseTypeApi;
   case_priority?: CasePriorityApi;
   test_quality?: TestQualityApi;
+  data_set?: DataSetApi;
   label_assigned?: LabelAssignedApi;
   step?: StepApi[];
   suite?: SuiteApi[];

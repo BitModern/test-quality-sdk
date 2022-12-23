@@ -25,6 +25,7 @@ import { RequirementApi } from '../requirement/RequirementApi';
 import { AttachmentApi } from '../attachment/AttachmentApi';
 import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import { FilterApi } from '../filter/FilterApi';
+import { DataSetApi } from '../data_set/DataSetApi';
 
 export interface ProjectApi extends Project {
   access_role?: AccessRoleApi;
@@ -46,6 +47,7 @@ export interface ProjectApi extends Project {
   attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   filter?: FilterApi[];
+  data_set?: DataSetApi[];
   pivot?: IntegrationProjectApi;
   integration_project?: Partial<IntegrationProjectApi>;
 }

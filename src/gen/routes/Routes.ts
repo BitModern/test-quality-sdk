@@ -72,6 +72,9 @@ export const ClientKeyRoute = (client_id: number): string =>
 export const ClientVirtualRoute = (client_id: number): string =>
   `/client/${client_id}/virtual`;
 export const CommentRoute = (): string => `/comment`;
+export const DataSetRoute = (): string => `/data_set`;
+export const DataSetTestRoute = (data_set_id: number): string =>
+  `/data_set/${data_set_id}/test`;
 export const DefectRoute = (): string => `/defect`;
 export const DefectComponentRoute = (): string => `/defect_component`;
 export const DefectLabelRoute = (): string => `/defect_label`;
