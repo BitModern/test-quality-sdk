@@ -40,4 +40,6 @@ export interface Client extends DefaultAttributes {
   space_free: number;
   has_automatic_signup: boolean;
   domain_restriction?: string;
+  openid_url?: string;
+  openid_client_id?: string;
 }

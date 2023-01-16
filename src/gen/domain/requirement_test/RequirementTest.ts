@@ -12,7 +12,7 @@ export interface RequirementTest extends TenantScopedModel {
   epoch: number;
   client_id: number;
   id: number;
-  requirement_id: number;
-  test_id: number;
+  requirement_id?: number;
+  test_id?: number;
   suite_id?: number;
 }
