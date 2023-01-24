@@ -10,6 +10,7 @@ import { TokenStorage } from '../TokenStorage';
  */
 
 const grantPath = '/oauth/access_token';
+const ssoPath = '/sso';
 
 const doesNotRequireAuth: string[] = [
   'system/auth/complete_invite_user',
@@ -78,6 +79,7 @@ export class Auth {
   }
 
   private refreshRequest?: Promise<AxiosResponse<ReturnToken>>;
+  private remember = true;
 
   constructor(
     private tokenStorage: TokenStorage,
@@ -97,6 +99,7 @@ export class Auth {
     remember = false,
     properties?: any
   ): Promise<ReturnToken> {
+    this.remember = remember;
     return this.client.api
       .post<ReturnToken>(grantPath, {
         grant_type: 'password',
@@ -107,22 +110,44 @@ export class Auth {
         ...properties,
       })
       .then(Auth.checkForFailure)
-      .then(async ({ data: token }): Promise<ReturnToken> => {
-        await this.setToken(token, remember);
-        await this.handleExpired(token);
-        this.client.logger.info('Logged In');
-        if (this.authCallback) {
-          const tokenUpdate = await this.authCallback(
-            AuthCallbackActions.Connected,
-            token,
-            this
-          );
-          if (tokenUpdate) {
-            return tokenUpdate;
-          }
-        }
-        return token;
-      });
+      .then((res) => res.data)
+      .then(this.performLogin);
+  }
+
+  public loginSSO(username: string): Promise<{ redirect_url: string }> {
+    return this.client.api
+      .post(`${ssoPath}/openid`, {
+        client_id: this.client.clientId,
+        client_secret: this.client.clientSecret,
+        username,
+      })
+      .then((res) => ({ redirect_url: res.data.redirect_url }));
+  }
+
+  public loginGithub(): Promise<{ redirect_url: string }> {
+    return this.client.api
+      .post(`${ssoPath}/github`)
+      .then((res) => ({ redirect_url: res.data.redirect_url }));
+  }
+
+  public loginAtlassian(): Promise<{ redirect_url: string }> {
+    return this.client.api
+      .post(`${ssoPath}/atlassian`)
+      .then((res) => ({ redirect_url: res.data.redirect_url }));
+  }
+
+  public async performLogin(token: ReturnToken): Promise<ReturnToken> {
+    await this.setToken(token, this.remember);
+    await this.handleExpired(token);
+    this.client.logger.info('Logged In');
+    if (!this.authCallback) return token;
+    const tokenUpdate = await this.authCallback(
+      AuthCallbackActions.Connected,
+      token,
+      this
+    );
+    if (tokenUpdate) return tokenUpdate;
+    return token;
   }
 
   public logout(): Promise<ReturnToken | undefined> {
