@@ -1,6 +1,6 @@
 {
   "name": "@testquality/sdk",
-  "version": "1.6.0-rc.2",
+  "version": "1.6.0-rc.3",
   "description": "SDK for accessing TestQuality API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -56,6 +56,7 @@
     "sdk"
   ],
   "dependencies": {
+    "@testquality/sdk": "file:.yalc/@testquality/sdk",
     "axios": "^0.21.1",
     "querystring": "^0.2.1"
   }
