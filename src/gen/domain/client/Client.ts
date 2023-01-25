@@ -42,4 +42,5 @@ export interface Client extends DefaultAttributes {
   domain_restriction?: string;
   openid_url?: string;
   openid_client_id?: string;
+  signup_type?: number;
 }
