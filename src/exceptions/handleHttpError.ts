@@ -72,62 +72,59 @@ export function showNotificationError(newError: HttpError, client = _client) {
   return newError;
 }
 
-function getMessage(error: any) {
+function getMessage(error: any): string {
+  if (!error)
+    return 'Trouble communicating with server, please try again later.';
   let message = '';
-  if (error) {
-    if (error.exception && !error.data) {
-      error.data = error.exception;
+  if (error.exception && !error.data) {
+    error.data = error.exception;
+  }
+  if (error.status === 404 && !error?.data?.message) {
+    message = 'Resource Not Found.';
+  } else if (error.status === -1 && error.data === null) {
+    message = 'Oops, Could not obtain data from server due to network problem.';
+  } else if (error.data?.code === '23505') {
+    // duplicate
+    error.data.title = 'Duplicate';
+    message = 'Name already exists, try a different name.';
+  } else if (
+    error.data &&
+    error.data.validation_errors &&
+    error.data.validation_errors.email
+  ) {
+    if (Array.isArray(error.data.validation_errors.email)) {
+      message = error.data.validation_errors.email.join(', \n');
+    } else {
+      message = error.data.validation_errors.email;
     }
-    if (error.status === 404) {
-      message = 'Resource Not Found.';
-    } else if (error.status === -1 && error.data === null) {
-      message =
-        'Oops, Could not obtain data from server due to network problem.';
-    } else if (error.data?.code === '23505') {
-      // duplicate
-      error.data.title = 'Duplicate';
-      message = 'Name already exists, try a different name.';
-    } else if (
-      error.data &&
-      error.data.validation_errors &&
-      error.data.validation_errors.email
-    ) {
-      if (Array.isArray(error.data.validation_errors.email)) {
-        message = error.data.validation_errors.email.join(', \n');
-      } else {
-        message = error.data.validation_errors.email;
-      }
-    } else if (error.data && error.data.message) {
-      if (typeof error.data.message === 'string') {
-        message = error.data.message;
-      } else if (typeof error.data.message === 'object') {
-        for (const key in error.data.message) {
-          if (Object.prototype.hasOwnProperty.call(error.data.message, key)) {
-            if (Array.isArray(error.data.message[key])) {
-              message = error.data.message[key].join(', \n');
-            } else {
-              message = error.data.message[key];
-            }
+  } else if (error.data && error.data.message) {
+    if (typeof error.data.message === 'string') {
+      message = error.data.message;
+    } else if (typeof error.data.message === 'object') {
+      for (const key in error.data.message) {
+        if (Object.prototype.hasOwnProperty.call(error.data.message, key)) {
+          if (Array.isArray(error.data.message[key])) {
+            message = error.data.message[key].join(', \n');
+          } else {
+            message = error.data.message[key];
           }
         }
-      } else {
-        message = JSON.stringify(error.data.message);
       }
-    } else if (error.data && error.data.error) {
-      message = error.data.error;
-    } else if (error.data && error.data.detail) {
-      message = error.data.detail;
-    } else if (error.statusText) {
-      message = error.statusText;
-    } else if (error.message) {
-      message = error.message;
-    } else if (error.status === 401) {
-      message = 'Failed to authenticate.';
     } else {
-      message = 'Something went wrong';
+      message = JSON.stringify(error.data.message);
     }
+  } else if (error.data && error.data.error) {
+    message = error.data.error;
+  } else if (error.data && error.data.detail) {
+    message = error.data.detail;
+  } else if (error.statusText) {
+    message = error.statusText;
+  } else if (error.message) {
+    message = error.message;
+  } else if (error.status === 401) {
+    message = 'Failed to authenticate.';
   } else {
-    message = 'Trouble communicating with server, please try again later.';
+    message = 'Something went wrong';
   }
   return message;
 }
