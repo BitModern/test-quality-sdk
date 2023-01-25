@@ -110,8 +110,7 @@ export class Auth {
         ...properties,
       })
       .then(Auth.checkForFailure)
-      .then((res) => res.data)
-      .then(this.performLogin);
+      .then((res) => this.performLogin(res.data));
   }
 
   public loginSSO(username: string): Promise<{ redirect_url: string }> {
