@@ -35,4 +35,5 @@ export interface User extends KeyedModel {
   version_id: number;
   old_password?: string;
   is_expired: boolean;
+  signup_type?: number;
 }

@@ -5,10 +5,6 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface App extends KeyedModel {
-  virtual?: any;
-  is_default: boolean;
-  key: number;
-  picture?: string;
   id: number;
   created_by: number;
   created_at: string;
@@ -28,4 +24,8 @@ export interface App extends KeyedModel {
    */
   is_system?: boolean;
   client_id: number;
+  virtual?: any;
+  is_default: boolean;
+  key: number;
+  picture?: string;
 }

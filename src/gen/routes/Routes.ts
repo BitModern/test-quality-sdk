@@ -69,6 +69,8 @@ export const CaseTypeTestRoute = (case_type_id: number): string =>
 export const ClientRoute = (): string => `/client`;
 export const ClientKeyRoute = (client_id: number): string =>
   `/client/${client_id}/key`;
+export const ClientSignupOptionRoute = (client_id: number): string =>
+  `/client/${client_id}/signup_option`;
 export const ClientVirtualRoute = (client_id: number): string =>
   `/client/${client_id}/virtual`;
 export const CommentRoute = (): string => `/comment`;
@@ -269,6 +271,7 @@ export const RunResultStepLabelAssignedRoute = (
 ): string => `/run_result_step/${run_result_step_id}/label_assigned`;
 export const RunRunResultRoute = (run_id: number): string =>
   `/run/${run_id}/run_result`;
+export const SignupOptionRoute = (): string => `/signup_option`;
 export const StatusRoute = (): string => `/status`;
 export const StatusLabelAssignedRoute = (status_id: number): string =>
   `/status/${status_id}/label_assigned`;
