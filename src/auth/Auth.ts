@@ -1,7 +1,7 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ReturnToken } from './ReturnToken';
 import { AUTH, GeneralError, VERIFICATION } from '../exceptions';
-import { ClientSdk, _client } from '../ClientSdk';
+import { ClientSdk } from '../ClientSdk';
 import { getHttpResponse, HttpError, NO_REFRESH_TOKEN } from '../exceptions';
 import { TokenStorage } from '../TokenStorage';
 
@@ -54,20 +54,6 @@ export class Auth {
     return response;
   }
 
-  public static passwordRecovery(email: string) {
-    return _client.api.get(`/system/auth/begin_password_reset/${email}`, {
-      params: {
-        is_web: true,
-      },
-    });
-  }
-
-  public static passwordReset(email: string, password: string, token: string) {
-    return _client.api.get(
-      `/system/auth/complete_password_reset/${email}/${password}/${token}`
-    );
-  }
-
   public static urlRequiresAuth(url?: string) {
     if (!url) return false;
     for (let i = 0; i < doesNotRequireAuth.length; i += 1) {
@@ -83,7 +69,7 @@ export class Auth {
 
   constructor(
     private tokenStorage: TokenStorage,
-    private client: ClientSdk = _client,
+    private client: ClientSdk,
     private authCallback?: AuthCallback
   ) {
     this.addInterceptors();
@@ -91,6 +77,20 @@ export class Auth {
 
   public setAuthCallback(authCallback?: AuthCallback): void {
     this.authCallback = authCallback;
+  }
+
+  public passwordRecovery(email: string) {
+    return this.client.api.get(`/system/auth/begin_password_reset/${email}`, {
+      params: {
+        is_web: true,
+      },
+    });
+  }
+
+  public passwordReset(email: string, password: string, token: string) {
+    return this.client.api.get(
+      `/system/auth/complete_password_reset/${email}/${password}/${token}`
+    );
   }
 
   public login(

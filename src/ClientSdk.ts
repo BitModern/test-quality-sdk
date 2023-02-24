@@ -6,7 +6,7 @@ import { Auth, AuthCallback, TokenStorageImpl } from './auth';
 import { HttpError } from './exceptions';
 import { TokenStorage } from './TokenStorage';
 
-export let _client: ClientSdk;
+export let _client: ClientSdk | undefined;
 
 export class ClientSdk {
   private auth?: Auth;
@@ -53,10 +53,6 @@ export class ClientSdk {
     this.persistentStorage = options.persistentStorage;
     this.tokenStorage =
       options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
-
-    if (!_client) {
-      _client = this;
-    }
   }
 
   public setErrorHandler(errorHandler: (newError: HttpError) => void) {
@@ -71,4 +67,16 @@ export class ClientSdk {
     }
     return this.auth;
   }
+}
+
+export function setGlobalClient(client?: ClientSdk) {
+  _client = client;
+}
+
+export function getGlobalClient(): ClientSdk {
+  if (!_client) {
+    throw new Error('No global client has been set up');
+  }
+
+  return _client;
 }

@@ -1,12 +1,12 @@
 {
   "name": "@testquality/sdk",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "description": "SDK for accessing TestQuality API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "yarn clean && tsc --project ./tsconfig.json",
-    "rebuild": "tsc --project ./tsconfig.json",
+    "dev": "tsc --watch",
     "clean": "rimraf dist/*",
     "test": "jest",
     "lint": "eslint src --ext .ts",

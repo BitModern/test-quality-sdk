@@ -67,6 +67,9 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
 }
 
 export function showNotificationError(newError: HttpError, client = _client) {
+  if (!client) {
+    throw new Error('No global client has been set up');
+  }
   client.errorHandler(newError);
   // can't return Promise.reject here as it will trigger unhandled rejection
   return newError;
