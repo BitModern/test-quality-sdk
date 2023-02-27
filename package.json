@@ -10,7 +10,8 @@
     "clean": "rimraf dist/*",
     "test": "jest",
     "lint": "eslint src --ext .ts",
-    "format:fix": "prettier --write '(src|test)/**/*.ts'"
+    "format:fix": "prettier --write '(src|test)/**/*.ts'",
+    "prepublish": "yarn build"
   },
   "repository": {
     "type": "git",
