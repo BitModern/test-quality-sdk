@@ -59,10 +59,15 @@ export class BatchService {
   }
 
   public executeBatch(client = _client): Promise<BatchResponses> {
+    if (!client) {
+      throw new Error('No global client has been set up');
+    }
+
     const requests = this.batchContainers.map((c) => c.request);
     if (requests.length === 0) {
       return Promise.resolve({ responses: [] });
     }
+
     return new Promise<BatchResponses>((resolve, reject) => {
       client.api.post<BatchResponses>('/batch', { requests }).then(
         (response) => {

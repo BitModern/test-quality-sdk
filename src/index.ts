@@ -9,7 +9,7 @@ export * from './gen/routes/Routes';
 
 export * from './services/http/BatchService';
 
-export { ClientSdk, _client } from './ClientSdk';
+export { ClientSdk, setGlobalClient, getGlobalClient } from './ClientSdk';
 export { Options } from './Options';
 export { PersistentStorage } from './PersistentStorage';
 export { TokenStorage } from './TokenStorage';

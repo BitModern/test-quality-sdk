@@ -5,10 +5,14 @@
 import { AxiosInstance } from 'axios';
 import { QueryParams } from './QueryParams';
 
-export function getResponse<T, Q = T>(
-  api: AxiosInstance,
+export async function getResponse<T, Q = T>(
+  api: AxiosInstance | undefined,
   queryParams: QueryParams<Q>
 ): Promise<T> {
+  if (!api) {
+    throw new Error('No clientSkd.api provided');
+  }
+
   return api
     .request<T>({
       method: queryParams.method || 'get',
