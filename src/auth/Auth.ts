@@ -265,6 +265,11 @@ export class Auth {
     return this.tokenStorage.setToken(token, remember);
   }
 
+  public setPat(pat: string): this {
+    this.setToken({ access_token: pat } as any);
+    return this;
+  }
+
   public isExpired(token?: ReturnToken): boolean {
     return token !== undefined && token.is_expired === true;
   }
