@@ -113,25 +113,29 @@ export class Auth {
       .then((res) => this.performLogin(res.data));
   }
 
-  public loginSSO(username: string): Promise<{ redirect_url: string }> {
+  public loginSSO(
+    username: string,
+    callbackUrl: string
+  ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/openid`, {
         client_id: this.client.clientId,
         client_secret: this.client.clientSecret,
         username,
+        callbackUrl,
       })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
-  public loginGithub(): Promise<{ redirect_url: string }> {
+  public loginGithub(callbackUrl: string): Promise<{ redirect_url: string }> {
     return this.client.api
-      .post(`${ssoPath}/github`)
+      .post(`${ssoPath}/github`, { callbackUrl })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
-  public loginAtlassian(): Promise<{ redirect_url: string }> {
+  public loginAtlassian(callbacUrl: string): Promise<{ redirect_url: string }> {
     return this.client.api
-      .post(`${ssoPath}/atlassian`)
+      .post(`${ssoPath}/atlassian`, { callbacUrl })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
