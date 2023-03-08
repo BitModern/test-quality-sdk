@@ -4,14 +4,15 @@
 
 import { KeyedModel } from '../../models/KeyedModel';
 
-export interface SignupOption extends KeyedModel {
+export interface CheckSuite extends KeyedModel {
   id: number;
+  pull_request_id?: number;
+  external_reference_id: string;
+  head_sha?: string;
   created_at: string;
   created_by: number;
   updated_at: string;
   updated_by: number;
   epoch: number;
-  signup_type: number;
-  name: string;
   client_id: number;
 }

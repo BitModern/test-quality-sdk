@@ -5,6 +5,7 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface Invoice extends KeyedModel {
+  next_payment_attempt?: string;
   amount: number;
   created_at: string;
   created_by: number;
@@ -21,5 +22,4 @@ export interface Invoice extends KeyedModel {
   external_reference_id?: string;
   has_open_dispute: boolean;
   payment_attempts: number;
-  next_payment_attempt?: string;
 }

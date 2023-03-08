@@ -42,4 +42,9 @@ export interface Integration extends KeyedModel {
   server_version?: string;
   plugin_version?: string;
   external_reference_id?: string;
+  auth_client_id?: string;
+  auth_client_secret?: string;
+  access_token_request?: string;
+  refresh_token_request?: string;
+  scope?: string;
 }

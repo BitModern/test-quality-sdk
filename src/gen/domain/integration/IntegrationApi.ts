@@ -13,6 +13,7 @@ import { CapabilityIntegrationApi } from '../capability_integration/CapabilityIn
 import { CapabilityApi } from '../capability/CapabilityApi';
 import { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
 import { ProjectApi } from '../project/ProjectApi';
+import { AppInstallApi } from '../app_install/AppInstallApi';
 
 export interface IntegrationApi extends Integration {
   base_integration?: BaseIntegrationApi;
@@ -21,6 +22,7 @@ export interface IntegrationApi extends Integration {
   capability?: CapabilityApi[];
   capability_id?: number;
   project?: ProjectApi[];
+  app_install?: AppInstallApi[];
   pivot?: IntegrationUserApi | CapabilityIntegrationApi | IntegrationProjectApi;
   integration_user?: Partial<IntegrationUserApi>;
   capability_integration?: Partial<CapabilityIntegrationApi>;

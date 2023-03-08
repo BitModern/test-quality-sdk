@@ -26,4 +26,5 @@ export interface IntegrationUser extends TenantScopedModel {
   access_token?: string;
   external_reference_id?: string;
   app_version?: number;
+  refresh_token: string;
 }

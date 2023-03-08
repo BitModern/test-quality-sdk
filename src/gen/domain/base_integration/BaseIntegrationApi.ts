@@ -9,10 +9,12 @@ import { BaseIntegration } from './BaseIntegration';
 import { IntegrationApi } from '../integration/IntegrationApi';
 import { BaseCapabilityBaseIntegrationApi } from '../base_capability_base_integration/BaseCapabilityBaseIntegrationApi';
 import { BaseCapabilityApi } from '../base_capability/BaseCapabilityApi';
+import { AppConfigApi } from '../app_config/AppConfigApi';
 
 export interface BaseIntegrationApi extends BaseIntegration {
   integration?: IntegrationApi[];
   base_capability?: BaseCapabilityApi[];
+  app_config?: AppConfigApi[];
   pivot?: BaseCapabilityBaseIntegrationApi;
   base_capability_base_integration?: Partial<BaseCapabilityBaseIntegrationApi>;
 }

@@ -30,4 +30,10 @@ export interface BaseIntegration extends DefaultAttributes {
   description?: string;
   default_app_url?: string;
   is_basic_authentication: boolean;
+  auth_client_id?: string;
+  auth_client_secret?: string;
+  access_token_request?: string;
+  refresh_token_request?: string;
+  scope: string;
+  integration_auth_id?: number;
 }

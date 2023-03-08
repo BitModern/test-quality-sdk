@@ -30,5 +30,9 @@ export interface Plan extends KeyedModel {
   key: number;
   retain_runs: number;
   is_root?: boolean;
+  /**
+   * Whether to create run during Pull Request checks.
+   */
+  include_in_checks?: boolean;
   analysis?: PlanAnalysisApi;
 }

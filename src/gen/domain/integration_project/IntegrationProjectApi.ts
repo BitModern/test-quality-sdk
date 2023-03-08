@@ -12,6 +12,7 @@ import { DefectApi } from '../defect/DefectApi';
 import { RequirementApi } from '../requirement/RequirementApi';
 import { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
 import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
+import { AppInstallProjectApi } from '../app_install_project/AppInstallProjectApi';
 
 export interface IntegrationProjectApi extends IntegrationProject {
   project?: ProjectApi;
@@ -20,4 +21,5 @@ export interface IntegrationProjectApi extends IntegrationProject {
   requirement?: RequirementApi;
   native_defect_res?: NativeDefectResApi[];
   native_defect_status?: NativeDefectStatusApi[];
+  app_install_project?: AppInstallProjectApi[];
 }

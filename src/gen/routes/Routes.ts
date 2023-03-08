@@ -12,6 +12,17 @@ export const AccessRoleUserRoute = (access_role_id: number): string =>
 export const AppRoute = (): string => `/app`;
 export const AppAppVersionRoute = (app_id: number): string =>
   `/app/${app_id}/app_version`;
+export const AppConfigRoute = (): string => `/app_config`;
+export const AppConfigAppInstallRoute = (app_config_id: number): string =>
+  `/app_config/${app_config_id}/app_install`;
+export const AppInstallRoute = (): string => `/app_install`;
+export const AppInstallAppInstallProjectRoute = (
+  app_install_id: number
+): string => `/app_install/${app_install_id}/app_install_project`;
+export const AppInstallProjectRoute = (): string => `/app_install_project`;
+export const AppInstallProjectPullRequestRoute = (
+  app_install_project_id: number
+): string => `/app_install_project/${app_install_project_id}/pull_request`;
 export const AppLabelAssignedRoute = (app_id: number): string =>
   `/app/${app_id}/label_assigned`;
 export const AppVersionRoute = (): string => `/app_version`;
@@ -42,6 +53,9 @@ export const BaseCapabilityCapabilityRoute = (
   base_capability_id: number
 ): string => `/base_capability/${base_capability_id}/capability`;
 export const BaseIntegrationRoute = (): string => `/base_integration`;
+export const BaseIntegrationAppConfigRoute = (
+  base_integration_id: number
+): string => `/base_integration/${base_integration_id}/app_config`;
 export const BaseIntegrationBaseCapabilityRoute = (
   base_integration_id: number
 ): string => `/base_integration/${base_integration_id}/base_capability`;
@@ -66,6 +80,12 @@ export const CaseTypeLabelAssignedRoute = (case_type_id: number): string =>
   `/case_type/${case_type_id}/label_assigned`;
 export const CaseTypeTestRoute = (case_type_id: number): string =>
   `/case_type/${case_type_id}/test`;
+export const CheckRunRoute = (): string => `/check_run`;
+export const CheckRunRunRoute = (check_run_id: number): string =>
+  `/check_run/${check_run_id}/run`;
+export const CheckSuiteRoute = (): string => `/check_suite`;
+export const CheckSuiteCheckRunRoute = (check_suite_id: number): string =>
+  `/check_suite/${check_suite_id}/check_run`;
 export const ClientRoute = (): string => `/client`;
 export const ClientKeyRoute = (client_id: number): string =>
   `/client/${client_id}/key`;
@@ -103,6 +123,8 @@ export const DefectTypeRoute = (): string => `/defect_type`;
 export const DefectUserRoute = (): string => `/defect_user`;
 export const FilterRoute = (): string => `/filter`;
 export const IntegrationRoute = (): string => `/integration`;
+export const IntegrationAppInstallRoute = (integration_id: number): string =>
+  `/integration/${integration_id}/app_install`;
 export const IntegrationCapabilityRoute = (integration_id: number): string =>
   `/integration/${integration_id}/capability`;
 export const IntegrationProjectRoute = (integration_id: number): string =>
@@ -154,6 +176,8 @@ export const PlanCommentRoute = (plan_id: number): string =>
   `/plan/${plan_id}/comment`;
 export const PlanLabelAssignedRoute = (plan_id: number): string =>
   `/plan/${plan_id}/label_assigned`;
+export const PlanPlanPullRequestRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/plan_pull_request`;
 export const PlanPlanSuiteTestIncludeRoute = (plan_id: number): string =>
   `/plan/${plan_id}/plan_suite_test_include`;
 export const PlanPurposeRoute = (plan_id: number): string =>
@@ -236,6 +260,12 @@ export const ProjectTestRoute = (project_id: number): string =>
   `/project/${project_id}/test`;
 export const ProjectWatchRoute = (project_id: number): string =>
   `/project/${project_id}/watch`;
+export const PullRequestRoute = (): string => `/pull_request`;
+export const PullRequestCheckSuiteRoute = (pull_request_id: number): string =>
+  `/pull_request/${pull_request_id}/check_suite`;
+export const PullRequestPlanPullRequestRoute = (
+  pull_request_id: number
+): string => `/pull_request/${pull_request_id}/plan_pull_request`;
 export const PurposeRoute = (): string => `/purpose`;
 export const PurposeLabelAssignedRoute = (purpose_id: number): string =>
   `/purpose/${purpose_id}/label_assigned`;
