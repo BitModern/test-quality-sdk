@@ -133,6 +133,14 @@ export class Auth {
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
+  public loginGoogle(callbackUrl: string): Promise<{ redirect_url: string }> {
+    return this.client.api
+      .post(`${ssoPath}/google`, {
+        callbackUrl,
+      })
+      .then((res) => ({ redirect_url: res.data.redirect_url }));
+  }
+
   public loginAtlassian(callbacUrl: string): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/atlassian`, { callbacUrl })
