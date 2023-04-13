@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "strict": true,
-    "outDir": "dist",
+    "outDir": "build",
     "module": "commonjs",
-    "target": "es6",
-    "lib": ["es6", "esnext"],
+    "target": "es5",
+    "lib": ["es5", "es6", "esnext", "dom"],
     "sourceMap": true,
     "allowJs": true,
     "moduleResolution": "node",
