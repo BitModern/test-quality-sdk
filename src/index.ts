@@ -7,6 +7,7 @@ export * from './gen/domain';
 export * from './gen/models';
 export * from './gen/routes/Routes';
 export * from './services/testRail';
+export * from './services/requirements';
 
 export * from './services/http/BatchService';
 
