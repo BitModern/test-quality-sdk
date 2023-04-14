@@ -248,6 +248,8 @@ export const ProjectRunResultRoute = (project_id: number): string =>
   `/project/${project_id}/run_result`;
 export const ProjectRunResultStepRoute = (project_id: number): string =>
   `/project/${project_id}/run_result_step`;
+export const ProjectRunSuiteRoute = (project_id: number): string =>
+  `/project/${project_id}/run_suite`;
 export const ProjectStepRoute = (project_id: number): string =>
   `/project/${project_id}/step`;
 export const ProjectSuiteRoute = (project_id: number): string =>
@@ -301,6 +303,9 @@ export const RunResultStepLabelAssignedRoute = (
 ): string => `/run_result_step/${run_result_step_id}/label_assigned`;
 export const RunRunResultRoute = (run_id: number): string =>
   `/run/${run_id}/run_result`;
+export const RunRunSuiteRoute = (run_id: number): string =>
+  `/run/${run_id}/run_suite`;
+export const RunSuiteRoute = (): string => `/run_suite`;
 export const SignupOptionRoute = (): string => `/signup_option`;
 export const StatusRoute = (): string => `/status`;
 export const StatusLabelAssignedRoute = (status_id: number): string =>
