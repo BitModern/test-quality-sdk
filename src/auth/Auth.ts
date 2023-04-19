@@ -88,8 +88,13 @@ export class Auth {
   }
 
   public passwordReset(email: string, password: string, token: string) {
-    return this.client.api.get(
-      `/system/auth/complete_password_reset/${email}/${password}/${token}`
+    return this.client.api.post<ReturnToken>(
+      '/system/auth/complete_password_reset',
+      {
+        email,
+        password,
+        token,
+      }
     );
   }
 
