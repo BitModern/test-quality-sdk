@@ -1,9 +1,11 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { ReturnToken } from './ReturnToken';
 import { AUTH, GeneralError, VERIFICATION } from '../exceptions';
 import { ClientSdk } from '../ClientSdk';
 import { getHttpResponse, HttpError, NO_REFRESH_TOKEN } from '../exceptions';
 import { TokenStorage } from '../TokenStorage';
+
+type AxiosRequestConfig = InternalAxiosRequestConfig;
 
 /**
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved

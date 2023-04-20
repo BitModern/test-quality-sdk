@@ -1,12 +1,13 @@
 import axios, { AxiosInstance } from 'axios';
 import { PersistentStorage } from './PersistentStorage';
-import { EmptyLogger, LoggerInterface } from './common';
+import { ClientWorkerInterface, EmptyLogger, LoggerInterface } from './common';
 import { Options } from './Options';
 import { Auth, AuthCallback, TokenStorageImpl } from './auth';
 import { HttpError } from './exceptions';
 import { TokenStorage } from './TokenStorage';
 
 export let _client: ClientSdk | undefined;
+export let _worker: ClientWorkerInterface | undefined;
 
 export class ClientSdk {
   private auth?: Auth;
@@ -17,6 +18,7 @@ export class ClientSdk {
   public debug: boolean;
   public tokenStorage: TokenStorage;
   public persistentStorage?: PersistentStorage;
+  public worker?: ClientWorkerInterface;
 
   public errorHandlerDefault = (newError: HttpError) => {
     this.logger.error(
@@ -53,10 +55,21 @@ export class ClientSdk {
     this.persistentStorage = options.persistentStorage;
     this.tokenStorage =
       options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
+
+    if (options.worker) {
+      this.setWorker(options.worker);
+    }
   }
 
   public setErrorHandler(errorHandler: (newError: HttpError) => void) {
     this.errorHandler = errorHandler;
+  }
+
+  public setWorker(worker: ClientWorkerInterface) {
+    if (!_worker) {
+      _worker = worker;
+      this.worker = _worker;
+    }
   }
 
   public getAuth(authCallback?: AuthCallback) {

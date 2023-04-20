@@ -13,6 +13,14 @@ export async function getResponse<T, Q = T>(
     throw new Error('No clientSkd.api provided');
   }
 
+  // TODO
+  // Only for GET ?
+  // worker.post(action?, queryParams);
+  /* const { method = 'GET' } = queryParams;
+  if (method === 'GET') {
+    return Worker.query()
+  } */
+
   return api
     .request<T>({
       method: queryParams.method || 'get',

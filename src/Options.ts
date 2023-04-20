@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { PersistentStorage } from './PersistentStorage';
-import { LoggerInterface } from './common/LoggerInterface';
+import { ClientWorkerInterface, LoggerInterface } from './common';
 import { HttpError } from './exceptions/HttpError';
 import { TokenStorage } from './TokenStorage';
 
@@ -15,4 +15,5 @@ export interface Options {
   logger?: LoggerInterface;
   tokenStorage?: TokenStorage;
   persistentStorage?: PersistentStorage;
+  worker?: ClientWorkerInterface;
 }
