@@ -2,9 +2,11 @@
   "compilerOptions": {
     "strict": true,
     "outDir": "dist",
-    "module": "commonjs",
+    // "module": "commonjs",
+    "module": "esnext",
     "target": "es6",
     "lib": ["es6", "esnext"],
+    // "lib": ["es6", "esnext", "worker"],
     "sourceMap": true,
     "allowJs": true,
     "moduleResolution": "node",
