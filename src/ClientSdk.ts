@@ -1,13 +1,16 @@
 import axios, { AxiosInstance } from 'axios';
+import Debug from 'debug';
 import { PersistentStorage } from './PersistentStorage';
-import { ClientWorkerInterface, EmptyLogger, LoggerInterface } from './common';
+import { APIWorkerInterface, EmptyLogger, LoggerInterface } from './common';
 import { Options } from './Options';
-import { Auth, AuthCallback, TokenStorageImpl } from './auth';
+import { Auth, AuthCallback, ReturnToken, TokenStorageImpl } from './auth';
 import { HttpError } from './exceptions';
 import { TokenStorage } from './TokenStorage';
+import { APIWorker } from './workers';
 
 export let _client: ClientSdk | undefined;
-export let _worker: ClientWorkerInterface | undefined;
+
+const debug = Debug('tq:sdk:client');
 
 export class ClientSdk {
   private auth?: Auth;
@@ -18,7 +21,7 @@ export class ClientSdk {
   public debug: boolean;
   public tokenStorage: TokenStorage;
   public persistentStorage?: PersistentStorage;
-  public worker?: ClientWorkerInterface;
+  public apiWorker?: APIWorkerInterface;
 
   public errorHandlerDefault = (newError: HttpError) => {
     this.logger.error(
@@ -33,12 +36,14 @@ export class ClientSdk {
   public errorHandler: (newError: HttpError) => void = this.errorHandlerDefault;
 
   constructor(options: Options) {
+    debug('constructor', options);
+    const baseUrl = options.baseUrl || 'https://api.testquality.com';
     this.logger = options.logger || new EmptyLogger();
 
     this.api =
       options.api ||
       axios.create({
-        baseURL: (options.baseUrl || 'https://api.testquality.com') + '/api',
+        baseURL: `${baseUrl}/api`,
         timeout: 1000000,
         headers: {
           'Content-Type': 'application/json',
@@ -56,19 +61,47 @@ export class ClientSdk {
     this.tokenStorage =
       options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
 
-    if (options.worker) {
-      this.setWorker(options.worker);
+    if (options.enableAPIWorker) {
+      this.setWorker(options.worker, baseUrl);
     }
   }
 
-  public setErrorHandler(errorHandler: (newError: HttpError) => void) {
+  private async setWorker(
+    worker: APIWorkerInterface | undefined,
+    baseUrl: string
+  ) {
+    debug('setWorker', worker);
+    if (this.apiWorker) {
+      debug('apiWorker is already set');
+      return;
+    }
+    this.apiWorker = worker
+      ? worker
+      : new APIWorker(
+          {
+            baseUrl,
+            clientId: this.clientId,
+            clientSecret: this.clientSecret,
+            debug: this.debug,
+          },
+          await this.tokenStorage.getToken()
+        );
+    debug('setWorker end');
+  }
+
+  public setErrorHandler(errorHandler: (newError: HttpError) => void): void {
     this.errorHandler = errorHandler;
   }
 
-  public setWorker(worker: ClientWorkerInterface) {
-    if (!_worker) {
-      _worker = worker;
-      this.worker = _worker;
+  // TODO setAPIWorkerHandler
+
+  public async updateToken(token: ReturnToken | undefined) {
+    if (!this.apiWorker) {
+      return;
+    }
+    const tok = token || (await this.tokenStorage.getToken());
+    if (tok) {
+      this.apiWorker.setToken(tok);
     }
   }
 

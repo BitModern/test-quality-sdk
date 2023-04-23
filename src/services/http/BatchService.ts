@@ -70,8 +70,9 @@ export class BatchService {
 
     return new Promise<BatchResponses>((resolve, reject) => {
       let post;
-      if (client.worker) {
-        post = client.worker.postBatch(requests);
+      if (client.apiWorker) {
+        post = client.apiWorker.postBatch(requests);
+        // post = client.apiWorker.request({ method: 'post', data: requests });
       } else {
         post = client.api.post<BatchResponses>('/batch', { requests });
       }

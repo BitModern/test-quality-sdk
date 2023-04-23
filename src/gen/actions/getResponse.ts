@@ -3,7 +3,7 @@
  */
 
 import { AxiosInstance } from 'axios';
-import { _worker } from '../../ClientSdk';
+import { _client } from '../../ClientSdk';
 import { QueryParams } from './QueryParams';
 
 export async function getResponse<T, Q = T>(
@@ -15,7 +15,11 @@ export async function getResponse<T, Q = T>(
   }
 
   const { method = 'get' } = queryParams;
-  return (_worker && method.toLowerCase() === 'get' ? _worker : api)
+  return (
+    _client?.apiWorker && method.toLowerCase() === 'get'
+      ? _client.apiWorker
+      : api
+  )
     .request<T>({
       method,
       url: queryParams.url,
