@@ -15,6 +15,5 @@ export interface Options {
   logger?: LoggerInterface;
   tokenStorage?: TokenStorage;
   persistentStorage?: PersistentStorage;
-  worker?: APIWorkerInterface;
-  enableAPIWorker?: boolean;
+  apiWorker?: APIWorkerInterface;
 }

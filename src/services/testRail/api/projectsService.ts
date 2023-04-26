@@ -1,8 +1,8 @@
 import { _client } from '../../../ClientSdk';
 import { getResponse, QueryParams } from '../../../gen/actions';
+import { Project } from '../../../gen/domain';
 import { TestRailProject } from '../interfaces/TestRailProject';
 import { Mapping } from '../interfaces/Mapping';
-import { Project } from 'gen/domain';
 
 export const getProjects = (
   queryParams?: Omit<QueryParams<void>, 'url' | 'params'>

@@ -6,7 +6,6 @@ import { Options } from './Options';
 import { Auth, AuthCallback, ReturnToken, TokenStorageImpl } from './auth';
 import { HttpError } from './exceptions';
 import { TokenStorage } from './TokenStorage';
-import { APIWorker } from './workers';
 
 export let _client: ClientSdk | undefined;
 
@@ -60,33 +59,7 @@ export class ClientSdk {
     this.persistentStorage = options.persistentStorage;
     this.tokenStorage =
       options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
-
-    if (options.enableAPIWorker) {
-      this.setWorker(options.worker, baseUrl);
-    }
-  }
-
-  private async setWorker(
-    worker: APIWorkerInterface | undefined,
-    baseUrl: string
-  ) {
-    debug('setWorker', worker);
-    if (this.apiWorker) {
-      debug('apiWorker is already set');
-      return;
-    }
-    this.apiWorker = worker
-      ? worker
-      : new APIWorker(
-          {
-            baseUrl,
-            clientId: this.clientId,
-            clientSecret: this.clientSecret,
-            debug: this.debug,
-          },
-          await this.tokenStorage.getToken()
-        );
-    debug('setWorker end');
+    this.apiWorker = options.apiWorker;
   }
 
   public setErrorHandler(errorHandler: (newError: HttpError) => void): void {

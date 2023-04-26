@@ -6,8 +6,8 @@ export interface APIWorkerInterface {
   postBatch: (
     requests: BatchRequest[]
   ) => Promise<AxiosResponse<BatchResponses>>;
-  request: <T = any, R = AxiosResponse<T>, D = any>(
-    config: AxiosRequestConfig<D>
+  request: <T = any, R = AxiosResponse<T>>(
+    config: AxiosRequestConfig
   ) => Promise<R>;
   setToken: (token: ReturnToken) => void;
 }

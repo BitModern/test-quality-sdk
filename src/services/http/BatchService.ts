@@ -72,7 +72,6 @@ export class BatchService {
       let post;
       if (client.apiWorker) {
         post = client.apiWorker.postBatch(requests);
-        // post = client.apiWorker.request({ method: 'post', data: requests });
       } else {
         post = client.api.post<BatchResponses>('/batch', { requests });
       }
