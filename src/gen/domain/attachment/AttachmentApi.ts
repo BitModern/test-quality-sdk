@@ -12,6 +12,7 @@ import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
 import { PlanApi } from '../plan/PlanApi';
 import { InvoiceApi } from '../invoice/InvoiceApi';
 import { ProjectApi } from '../project/ProjectApi';
+import { RequirementApi } from '../requirement/RequirementApi';
 
 export interface AttachmentApi extends Attachment {
   test?: TestApi;
@@ -20,4 +21,5 @@ export interface AttachmentApi extends Attachment {
   plan?: PlanApi;
   invoice?: InvoiceApi;
   project?: ProjectApi;
+  requirement?: RequirementApi;
 }

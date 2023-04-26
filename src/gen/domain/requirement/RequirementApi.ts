@@ -10,13 +10,12 @@ import { ProjectApi } from '../project/ProjectApi';
 import { DefectStatusApi } from '../defect_status/DefectStatusApi';
 import { DefectResApi } from '../defect_res/DefectResApi';
 import { RequirementTestApi } from '../requirement_test/RequirementTestApi';
-import { TestApi } from '../test/TestApi';
+import { AttachmentApi } from '../attachment/AttachmentApi';
 
 export interface RequirementApi extends Requirement {
   project?: ProjectApi;
   defect_status?: DefectStatusApi;
   defect_res?: DefectResApi;
-  test?: TestApi[];
-  pivot?: RequirementTestApi;
-  requirement_test?: Partial<RequirementTestApi>;
+  requirement_test?: RequirementTestApi[];
+  attachment?: AttachmentApi;
 }
