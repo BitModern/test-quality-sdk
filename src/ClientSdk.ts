@@ -79,6 +79,13 @@ export class ClientSdk {
     }
     return this.auth;
   }
+
+  public setAPIWorker(apiWorker: APIWorkerInterface) {
+    debug('setAPIWorker');
+    if (!this.apiWorker) {
+      this.apiWorker = apiWorker;
+    }
+  }
 }
 
 export function setGlobalClient(client?: ClientSdk) {
