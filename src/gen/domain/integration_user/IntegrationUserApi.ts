@@ -6,10 +6,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { IntegrationUser } from './IntegrationUser';
-import { IntegrationApi } from '../integration/IntegrationApi';
 import { UserApi } from '../user/UserApi';
+import { IntegrationApi } from '../integration/IntegrationApi';
 
 export interface IntegrationUserApi extends IntegrationUser {
-  integration?: IntegrationApi;
   user?: UserApi;
+  integration?: IntegrationApi;
 }

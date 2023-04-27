@@ -21,7 +21,6 @@ import { RunResultApi } from '../run_result/RunResultApi';
 import { StepApi } from '../step/StepApi';
 import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import { RequirementTestApi } from '../requirement_test/RequirementTestApi';
-import { RequirementApi } from '../requirement/RequirementApi';
 
 export interface TestApi extends Test {
   test_quality?: TestQualityApi;
@@ -39,8 +38,7 @@ export interface TestApi extends Test {
   run_result?: RunResultApi[];
   step?: StepApi[];
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
-  requirement?: RequirementApi[];
-  pivot?: SuiteTestApi | RequirementTestApi;
+  requirement_test?: RequirementTestApi[];
+  pivot?: SuiteTestApi;
   suite_test?: Partial<SuiteTestApi>;
-  requirement_test?: Partial<RequirementTestApi>;
 }

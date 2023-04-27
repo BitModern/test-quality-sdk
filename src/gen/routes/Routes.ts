@@ -274,8 +274,11 @@ export const PurposeLabelAssignedRoute = (purpose_id: number): string =>
 export const PurposePlanRoute = (purpose_id: number): string =>
   `/purpose/${purpose_id}/plan`;
 export const RequirementRoute = (): string => `/requirement`;
-export const RequirementTestRoute = (requirement_id: number): string =>
-  `/requirement/${requirement_id}/test`;
+export const RequirementAttachmentRoute = (requirement_id: number): string =>
+  `/requirement/${requirement_id}/attachment`;
+export const RequirementRequirementTestRoute = (
+  requirement_id: number
+): string => `/requirement/${requirement_id}/requirement_test`;
 export const RunRoute = (): string => `/run`;
 export const RunCommentRoute = (run_id: number): string =>
   `/run/${run_id}/comment`;
@@ -375,8 +378,8 @@ export const TestQualityTypeLabelAssignedRoute = (
 export const TestQualityTypeTestQualityRoute = (
   test_quality_type_id: number
 ): string => `/test_quality_type/${test_quality_type_id}/test_quality`;
-export const TestRequirementRoute = (test_id: number): string =>
-  `/test/${test_id}/requirement`;
+export const TestRequirementTestRoute = (test_id: number): string =>
+  `/test/${test_id}/requirement_test`;
 export const TestRunResultRoute = (test_id: number): string =>
   `/test/${test_id}/run_result`;
 export const TestStepRoute = (test_id: number): string =>
