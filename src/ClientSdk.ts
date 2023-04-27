@@ -33,6 +33,8 @@ export class ClientSdk {
   };
 
   public errorHandler: (newError: HttpError) => void = this.errorHandlerDefault;
+  // eslint-disable-next-line
+  public tokenUpdateHandler: ((token?: ReturnToken) => void) | (() => void) = () => {};
 
   constructor(options: Options) {
     debug('constructor', options);
@@ -50,6 +52,7 @@ export class ClientSdk {
         },
       });
 
+    this.apiWorker = options.apiWorker;
     this.clientId = options.clientId;
     this.clientSecret = options.clientSecret;
     this.debug = !!options.debug;
@@ -59,23 +62,13 @@ export class ClientSdk {
     this.persistentStorage = options.persistentStorage;
     this.tokenStorage =
       options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
-    this.apiWorker = options.apiWorker;
+    if (options.tokenUpdateHandler) {
+      this.tokenUpdateHandler = options.tokenUpdateHandler;
+    }
   }
 
   public setErrorHandler(errorHandler: (newError: HttpError) => void): void {
     this.errorHandler = errorHandler;
-  }
-
-  // TODO setAPIWorkerHandler
-
-  public async updateToken(token: ReturnToken | undefined) {
-    if (!this.apiWorker) {
-      return;
-    }
-    const tok = token || (await this.tokenStorage.getToken());
-    if (tok) {
-      this.apiWorker.setToken(tok);
-    }
   }
 
   public getAuth(authCallback?: AuthCallback) {

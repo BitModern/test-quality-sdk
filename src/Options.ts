@@ -3,17 +3,19 @@ import { PersistentStorage } from './PersistentStorage';
 import { APIWorkerInterface, LoggerInterface } from './common';
 import { HttpError } from './exceptions/HttpError';
 import { TokenStorage } from './TokenStorage';
+import { ReturnToken } from 'auth';
 
 export interface Options {
   clientId: string;
   clientSecret: string;
 
   api?: AxiosInstance;
+  apiWorker?: APIWorkerInterface;
   baseUrl?: string;
   debug?: boolean;
   errorHandler?: (newError: HttpError) => void;
   logger?: LoggerInterface;
-  tokenStorage?: TokenStorage;
   persistentStorage?: PersistentStorage;
-  apiWorker?: APIWorkerInterface;
+  tokenStorage?: TokenStorage;
+  tokenUpdateHandler?: (token?: ReturnToken) => void;
 }
