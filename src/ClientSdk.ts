@@ -1,12 +1,15 @@
 import axios, { AxiosInstance } from 'axios';
+import Debug from 'debug';
 import { PersistentStorage } from './PersistentStorage';
-import { EmptyLogger, LoggerInterface } from './common';
+import { APIWorkerInterface, EmptyLogger, LoggerInterface } from './common';
 import { Options } from './Options';
-import { Auth, AuthCallback, TokenStorageImpl } from './auth';
+import { Auth, AuthCallback, ReturnToken, TokenStorageImpl } from './auth';
 import { HttpError } from './exceptions';
 import { TokenStorage } from './TokenStorage';
 
 export let _client: ClientSdk | undefined;
+
+const debug = Debug('tq:sdk:client');
 
 export class ClientSdk {
   private auth?: Auth;
@@ -17,6 +20,7 @@ export class ClientSdk {
   public debug: boolean;
   public tokenStorage: TokenStorage;
   public persistentStorage?: PersistentStorage;
+  public apiWorker?: APIWorkerInterface;
 
   public errorHandlerDefault = (newError: HttpError) => {
     this.logger.error(
@@ -29,14 +33,18 @@ export class ClientSdk {
   };
 
   public errorHandler: (newError: HttpError) => void = this.errorHandlerDefault;
+  // eslint-disable-next-line
+  public tokenUpdateHandler: ((token?: ReturnToken) => void) | (() => void) = () => {};
 
   constructor(options: Options) {
+    debug('constructor', options);
+    const baseUrl = options.baseUrl || 'https://api.testquality.com';
     this.logger = options.logger || new EmptyLogger();
 
     this.api =
       options.api ||
       axios.create({
-        baseURL: (options.baseUrl || 'https://api.testquality.com') + '/api',
+        baseURL: `${baseUrl}/api`,
         timeout: 1000000,
         headers: {
           'Content-Type': 'application/json',
@@ -44,6 +52,7 @@ export class ClientSdk {
         },
       });
 
+    this.apiWorker = options.apiWorker;
     this.clientId = options.clientId;
     this.clientSecret = options.clientSecret;
     this.debug = !!options.debug;
@@ -53,9 +62,12 @@ export class ClientSdk {
     this.persistentStorage = options.persistentStorage;
     this.tokenStorage =
       options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
+    if (options.tokenUpdateHandler) {
+      this.tokenUpdateHandler = options.tokenUpdateHandler;
+    }
   }
 
-  public setErrorHandler(errorHandler: (newError: HttpError) => void) {
+  public setErrorHandler(errorHandler: (newError: HttpError) => void): void {
     this.errorHandler = errorHandler;
   }
 
@@ -66,6 +78,13 @@ export class ClientSdk {
       this.auth.setAuthCallback(authCallback);
     }
     return this.auth;
+  }
+
+  public setAPIWorker(apiWorker: APIWorkerInterface) {
+    debug('setAPIWorker');
+    if (!this.apiWorker) {
+      this.apiWorker = apiWorker;
+    }
   }
 }
 

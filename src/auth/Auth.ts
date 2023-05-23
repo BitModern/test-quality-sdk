@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import { ReturnToken } from './ReturnToken';
 import { AUTH, GeneralError, VERIFICATION } from '../exceptions';
 import { ClientSdk } from '../ClientSdk';
@@ -278,6 +278,10 @@ export class Auth {
       const now = new Date();
       now.setSeconds(now.getSeconds() + (token.expires_in - 15)); //subtract 15 seconds to guard against latency
       token.expires_at = JSON.parse(JSON.stringify(now));
+    }
+    this.client.tokenUpdateHandler(token);
+    if (token) {
+      this.client.apiWorker?.setToken(token);
     }
     return this.tokenStorage.setToken(token, remember);
   }

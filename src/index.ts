@@ -10,7 +10,7 @@ export * from './services/testRail';
 export * from './services/requirements';
 export * from './services/role';
 
-export * from './services/http/BatchService';
+export * from './services/http';
 
 export { ClientSdk, setGlobalClient, getGlobalClient } from './ClientSdk';
 export { Options } from './Options';

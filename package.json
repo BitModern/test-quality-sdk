@@ -27,7 +27,9 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-typescript": "^7.15.0",
+    "@types/debug": "^4.1.7",
     "@types/jest": "^27.0.2",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
     "babel-jest": "^27.2.4",
@@ -58,6 +60,7 @@
   ],
   "dependencies": {
     "axios": "^0.21.1",
+    "debug": "^4.3.4",
     "querystring": "^0.2.1"
   }
 }

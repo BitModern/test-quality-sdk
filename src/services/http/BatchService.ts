@@ -9,13 +9,13 @@ import { QueryParams } from '../../gen/actions/QueryParams';
 import { getHttpResponse } from '../../exceptions/handleHttpError';
 import { _client } from '../../ClientSdk';
 
-interface BatchRequest {
+export interface BatchRequest {
   method: Method;
   endpoint: string;
   body?: any;
 }
 
-interface BatchResponse {
+export interface BatchResponse {
   method: string;
   endpoint: string;
   status?: number;
@@ -25,7 +25,7 @@ interface BatchResponse {
   processed?: boolean;
   config?: { url?: string };
 }
-interface BatchResponses {
+export interface BatchResponses {
   responses: BatchResponse[][];
 }
 
@@ -69,43 +69,15 @@ export class BatchService {
     }
 
     return new Promise<BatchResponses>((resolve, reject) => {
-      client.api.post<BatchResponses>('/batch', { requests }).then(
+      let post;
+      if (client.apiWorker) {
+        post = client.apiWorker.postBatch(requests);
+      } else {
+        post = client.api.post<BatchResponses>('/batch', { requests });
+      }
+      post.then(
         (response) => {
-          if (!response || !response.data || !response.data.responses) {
-            const error = new Error('Batch has no data');
-            this.failAll(error);
-            return reject(error);
-          }
-          const responses = response.data.responses[0];
-          this.batchContainers.forEach((batchContainer) => {
-            const res = responses.find(
-              (r) =>
-                r.method === batchContainer.request.method &&
-                r.endpoint === batchContainer.request.endpoint &&
-                !r.processed
-            );
-            if (res) {
-              res.processed = true;
-              if (res.status === 200 || res.status === 201) {
-                batchContainer.resolve(res.data);
-              } else {
-                res.config = {
-                  url: `${batchContainer.request.method}: ${batchContainer.request.endpoint}`,
-                };
-                batchContainer.reject(
-                  getHttpResponse(res as unknown as AxiosResponse)
-                );
-              }
-            } else {
-              batchContainer.reject({
-                status: 500,
-                statusText:
-                  `Endpoint mismatch, req: ${batchContainer.request.method}` +
-                  `: ${batchContainer.request.endpoint}`,
-              });
-            }
-          });
-          return resolve(response.data);
+          this.handleBatchResponse(response, resolve, reject);
         },
         (error) => {
           this.failAll(error);
@@ -113,6 +85,50 @@ export class BatchService {
         }
       );
     });
+  }
+
+  private handleBatchResponse(
+    response: AxiosResponse<BatchResponses>,
+    resolve: (value: BatchResponses | PromiseLike<BatchResponses>) => void,
+    reject: (reason?: any) => void
+  ) {
+    if (!response || !response.data || !response.data.responses) {
+      const error = new Error('Batch has no data');
+      this.failAll(error);
+      return reject(error);
+    }
+
+    const responses = response.data.responses[0];
+    this.batchContainers.forEach((batchContainer) => {
+      const res = responses.find(
+        (r) =>
+          r.method === batchContainer.request.method &&
+          r.endpoint === batchContainer.request.endpoint &&
+          !r.processed
+      );
+
+      if (res) {
+        res.processed = true;
+        if (res.status === 200 || res.status === 201) {
+          batchContainer.resolve(res.data);
+        } else {
+          res.config = {
+            url: `${batchContainer.request.method}: ${batchContainer.request.endpoint}`,
+          };
+          batchContainer.reject(
+            getHttpResponse(res as unknown as AxiosResponse)
+          );
+        }
+      } else {
+        batchContainer.reject({
+          status: 500,
+          statusText:
+            `Endpoint mismatch, req: ${batchContainer.request.method}` +
+            `: ${batchContainer.request.endpoint}`,
+        });
+      }
+    });
+    return resolve(response.data);
   }
 
   private failAll(error: AxiosError | Error) {

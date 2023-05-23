@@ -3,6 +3,7 @@
  */
 
 import { AxiosInstance } from 'axios';
+import { _client } from '../../ClientSdk';
 import { QueryParams } from './QueryParams';
 
 export async function getResponse<T, Q = T>(
@@ -13,9 +14,14 @@ export async function getResponse<T, Q = T>(
     throw new Error('No clientSkd.api provided');
   }
 
-  return api
+  const { method = 'get' } = queryParams;
+  return (
+    _client?.apiWorker && method.toLowerCase() === 'get'
+      ? _client.apiWorker
+      : api
+  )
     .request<T>({
-      method: queryParams.method || 'get',
+      method,
       url: queryParams.url,
       params: queryParams.params,
       data: queryParams.data,
