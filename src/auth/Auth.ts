@@ -146,9 +146,11 @@ export class Auth {
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
-  public loginAtlassian(callbacUrl: string): Promise<{ redirect_url: string }> {
+  public loginAtlassian(
+    callbackUrl: string
+  ): Promise<{ redirect_url: string }> {
     return this.client.api
-      .post(`${ssoPath}/atlassian`, { callbacUrl })
+      .post(`${ssoPath}/atlassian`, { callbackUrl })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
@@ -199,6 +201,20 @@ export class Auth {
         g_recaptcha_response: recaptcha,
       },
     });
+  }
+
+  public signUpWithEmail(
+    email: string,
+    password: string,
+    recaptcha: string
+  ): Promise<ReturnToken> {
+    return this.client.api
+      .post('/system/sign_up_with_email', {
+        email,
+        password,
+        g_recaptcha_response: recaptcha,
+      })
+      .then((res) => this.performLogin(res.data));
   }
 
   public async refresh(
