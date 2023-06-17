@@ -214,6 +214,7 @@ export class Auth {
         password,
         g_recaptcha_response: recaptcha,
       })
+      .then(Auth.checkForFailure)
       .then((res) => this.performLogin(res.data));
   }
 
