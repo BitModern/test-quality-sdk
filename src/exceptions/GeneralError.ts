@@ -5,6 +5,7 @@ import { HttpError } from './HttpError';
 
 export const VERIFICATION = '1001';
 export const AUTH = '1002';
+export const TOKEN = '1003';
 
 export class GeneralError extends HttpError {
   constructor(message: string, code: string) {
