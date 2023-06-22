@@ -1,9 +1,12 @@
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import { ReturnToken } from './ReturnToken';
-import { AUTH, GeneralError, VERIFICATION } from '../exceptions';
+import { AUTH, GeneralError, TOKEN, VERIFICATION } from '../exceptions';
 import { ClientSdk } from '../ClientSdk';
 import { getHttpResponse, HttpError, NO_REFRESH_TOKEN } from '../exceptions';
 import { TokenStorage } from '../TokenStorage';
+
+import Debug from 'debug';
+const debug = Debug('tq:sdk:Auth');
 
 /**
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
@@ -39,19 +42,22 @@ export type AuthCallback = (
 ) => Promise<ReturnToken | undefined>;
 
 export class Auth {
-  public static checkForFailure(
-    response: AxiosResponse<ReturnToken>
-  ): AxiosResponse<ReturnToken> {
-    if (response.data.verification_ended_at) {
+  public static validateTokenPayload(token: any) {
+    debug('validateTokenPayload: %j', token);
+    if (token?.error) {
+      throw new GeneralError(token.error, TOKEN);
+    } else if (token?.message) {
+      throw new GeneralError(token.message, TOKEN);
+    } else if (token?.verification_ended_at) {
       // if verification ended then we don't have a token
       throw new GeneralError(
         'Email verification is required to login',
         VERIFICATION
       );
-    } else if (!response.data.access_token) {
+    } else if (!token?.access_token) {
       throw new GeneralError('Auth failed', AUTH);
     }
-    return response;
+    debug('validateTokenPayload: ok');
   }
 
   public static urlRequiresAuth(url?: string) {
@@ -114,7 +120,6 @@ export class Auth {
         password,
         ...properties,
       })
-      .then(Auth.checkForFailure)
       .then((res) => this.performLogin(res.data));
   }
 
@@ -242,7 +247,6 @@ export class Auth {
     }
 
     return this.refreshRequest
-      .then(Auth.checkForFailure)
       .then(async ({ data }) => {
         await this.setToken(data);
         await this.handleExpired(data);
@@ -290,6 +294,9 @@ export class Auth {
     token?: ReturnToken,
     remember?: boolean
   ): Promise<ReturnToken | undefined> {
+    if (token) {
+      Auth.validateTokenPayload(token);
+    }
     if (token && token.expires_in) {
       const now = new Date();
       now.setSeconds(now.getSeconds() + (token.expires_in - 15)); //subtract 15 seconds to guard against latency
