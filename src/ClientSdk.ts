@@ -34,7 +34,8 @@ export class ClientSdk {
 
   public errorHandler: (newError: HttpError) => void = this.errorHandlerDefault;
   // eslint-disable-next-line
-  public tokenUpdateHandler: ((token?: ReturnToken) => void) | (() => void) = () => {};
+  public tokenUpdateHandler: ((token?: ReturnToken) => void) | (() => void) =
+    () => {};
 
   constructor(options: Options) {
     debug('constructor', options);
