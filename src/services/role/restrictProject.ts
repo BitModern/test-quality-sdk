@@ -3,7 +3,7 @@ import { getResponse, QueryParams } from '../../gen/actions';
 
 export type RestrictProjectParam = {
   access_role_id: number;
-  project_id: number;
+  project_id: number | number[];
 };
 
 export type RestrictProjectReturn = {
@@ -16,7 +16,7 @@ export const restrictProject = (
 ): Promise<RestrictProjectReturn> => {
   const config: QueryParams<RestrictProjectParam> = {
     method: 'post',
-    url: queryParams?.url || '/access_role/restrict_project',
+    url: queryParams?.url || '/access_role/project',
     params: queryParams?.params,
     data,
   };
