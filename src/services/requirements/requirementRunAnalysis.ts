@@ -1,12 +1,8 @@
+import { Run } from 'gen/domain';
 import { _client } from '../../ClientSdk';
 import { getResponse, QueryParams } from '../../gen/actions';
 
-type StatusTotal = { status_key: number; total: number };
-export type RequirementRunAnalysis = {
-  run_id: number;
-  status: StatusTotal[];
-  run_results_ids: number[];
-};
+export type RequirementRunAnalysis = { runs: Run[]; run_results_ids: number[] };
 
 export const getRequirementRunsAnalysis = (
   id: number,
