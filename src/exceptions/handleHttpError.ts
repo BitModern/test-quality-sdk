@@ -116,6 +116,11 @@ function getMessage(error: any): string {
     } else {
       message = JSON.stringify(error.data.message);
     }
+    if (error.data.errors) {
+      message += Object.entries(error.data.errors).map(
+        ([, value]) => `\n${value}`
+      );
+    }
   } else if (error.data && error.data.error) {
     message = error.data.error;
   } else if (error.data && error.data.detail) {
