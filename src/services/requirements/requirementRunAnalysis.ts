@@ -1,4 +1,4 @@
-import { Run } from 'gen/domain';
+import { Run } from '@sdk/gen/domain';
 import { _client } from '../../ClientSdk';
 import { getResponse, QueryParams } from '../../gen/actions';
 

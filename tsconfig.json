@@ -3,7 +3,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "declaration": true,
     "declarationMap": true,
     "emitDecoratorMetadata": true,
@@ -17,17 +17,23 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDirs": ["src"],
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
-    "target": "es6"
+    "target": "es6",
+    "plugins": [
+      {
+        // transform path aliases to relative paths
+        "transform": "typescript-transform-paths",
+        "useRootDirs": true,
+        "afterDeclarations": true
+      }
+    ],
+    "paths": {
+      "@sdk/*": ["./src/*"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "include": [
-    "src"
-  ]
+  "exclude": ["node_modules", "dist"],
+  "include": ["src"]
 }
