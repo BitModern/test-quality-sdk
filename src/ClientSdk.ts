@@ -21,6 +21,7 @@ export class ClientSdk {
   public tokenStorage: TokenStorage;
   public persistentStorage?: PersistentStorage;
   public apiWorker?: APIWorkerInterface;
+  public id = Math.random();
 
   public errorHandlerDefault = (newError: HttpError) => {
     this.logger.error(
@@ -38,7 +39,7 @@ export class ClientSdk {
     () => {};
 
   constructor(options: Options) {
-    debug('constructor', options);
+    debug('constructor', options, this.id);
     const baseUrl = options.baseUrl || 'https://api.testquality.com';
     this.logger = options.logger || new EmptyLogger();
 
@@ -75,9 +76,11 @@ export class ClientSdk {
   public getAuth(authCallback?: AuthCallback) {
     if (!this.auth) {
       this.auth = new Auth(this.tokenStorage, this, authCallback);
-    } else {
+    } else if (authCallback) {
+      debug('setAuthCallback', authCallback);
       this.auth.setAuthCallback(authCallback);
     }
+
     return this.auth;
   }
 

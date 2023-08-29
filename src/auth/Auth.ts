@@ -1,11 +1,11 @@
-import { AxiosResponse, AxiosRequestConfig } from 'axios';
+import { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import Debug from 'debug';
 import { ReturnToken } from './ReturnToken';
 import { AUTH, GeneralError, TOKEN, VERIFICATION } from '../exceptions';
 import { ClientSdk } from '../ClientSdk';
 import { getHttpResponse, HttpError, NO_REFRESH_TOKEN } from '../exceptions';
 import { TokenStorage } from '../TokenStorage';
 
-import Debug from 'debug';
 const debug = Debug('tq:sdk:Auth');
 
 /**
@@ -70,9 +70,11 @@ export class Auth {
     return true;
   }
 
-  private refreshRequest?: Promise<AxiosResponse<ReturnToken>>;
+  public id = Math.random();
+  private disableHandler = false;
+  private refreshRequest?: Promise<AxiosResponse<ReturnToken>> = undefined;
   private remember = true;
-
+  
   constructor(
     private tokenStorage: TokenStorage,
     private client: ClientSdk,
@@ -238,27 +240,34 @@ export class Auth {
     }
 
     if (!this.refreshRequest) {
-      this.refreshRequest = this.client.api.post<ReturnToken>(grantPath, {
-        grant_type: 'refresh_token',
-        client_id: this.client.clientId,
-        client_secret: this.client.clientSecret,
-        refresh_token: token,
+      this.refreshRequest = this.client.api.request<ReturnToken>({
+        method: 'post',
+        url: grantPath,
+        data: {
+          grant_type: 'refresh_token',
+          client_id: this.client.clientId,
+          client_secret: this.client.clientSecret,
+          refresh_token: token,
+        },
       });
     }
 
-    return this.refreshRequest
-      .then(async ({ data }) => {
+    return this.refreshRequest.then(
+      async ({ data }) => {
         await this.setToken(data);
         await this.handleExpired(data);
         if (this.authCallback) {
           return this.authCallback(AuthCallbackActions.Refreshed, data, this);
         }
         this.client.logger.info('Refreshed');
-        return data;
-      })
-      .finally(() => {
         this.refreshRequest = undefined;
-      });
+        return data;
+      },
+      (error) => {
+        this.refreshRequest = undefined;
+        return error;
+      }
+    );
   }
 
   public async getAccessToken(): Promise<string | undefined> {
@@ -340,7 +349,7 @@ export class Auth {
 
   protected addAddAuthorizationHeaderInterceptor() {
     this.client.api.interceptors.request.use(
-      async (config): Promise<AxiosRequestConfig> => {
+      async (config): Promise<InternalAxiosRequestConfig> => {
         const newConfig = { ...config };
         if (
           Auth.urlRequiresAuth(config.url) &&
@@ -380,9 +389,15 @@ export class Auth {
   // Axios interceptor for HTTP 401 Unauthorized
   // If the token is invalid or has expired, we regenerate a new token and then call the original REST again.
   protected addUnauthorizedInterceptor() {
-    const interceptor = this.client.api.interceptors.response.use(
+    this.client.api.interceptors.response.use(
       (response) => response,
-      async (error) => {
+      async (error: any) => {
+        debug(
+          'addUnauthorizedInterceptor',
+          this.id,
+          error,
+          !!this.authCallback
+        );
         // if error response is not HTTP 401, we do a reject to not process this error
         const status = error?.response?.status
           ? typeof error.response.status === 'string'
@@ -391,7 +406,11 @@ export class Auth {
           : undefined;
 
         // if not an authentication issue just let error flow through
-        if (status !== 401 || !Auth.urlRequiresAuth(error.config.url)) {
+        if (
+          this.disableHandler ||
+          status !== 401 ||
+          !Auth.urlRequiresAuth(error.config.url)
+        ) {
           return Promise.reject(getHttpResponse(error.response));
         }
         const accessToken = await this.getToken();
@@ -407,9 +426,9 @@ export class Auth {
         }
 
         // When response code is HTTP 401 Unauthorized, try to refresh the token.
-        // Eject the interceptor so it doesn't loop in case token refresh causes
+        // Don't handle again so it doesn't loop in case token refresh causes
         // the 401 response.
-        this.client.api.interceptors.response.eject(interceptor);
+        this.disableHandler = true;
 
         try {
           // use refresh token to generate new access token so request can be retried
@@ -436,7 +455,7 @@ export class Auth {
           }
           return Promise.reject(e);
         } finally {
-          this.addUnauthorizedInterceptor();
+          this.disableHandler = false;
         }
       }
     );
