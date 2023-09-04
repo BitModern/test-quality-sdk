@@ -19,6 +19,7 @@ export const policyGetMany = (
     url: queryParams?.url || PolicyRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const policyGetOne = (
     url: `${queryParams?.url || PolicyRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -53,6 +55,7 @@ export const policyDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || PolicyRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -73,6 +76,7 @@ export const policyUpdateOne = (
     url: `${queryParams?.url || PolicyRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -89,6 +93,7 @@ export const policyCreateOne = (
     url: queryParams?.url || PolicyRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

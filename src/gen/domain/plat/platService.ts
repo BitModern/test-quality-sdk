@@ -19,6 +19,7 @@ export const platGetMany = (
     url: queryParams?.url || PlatRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const platGetOne = (
     url: `${queryParams?.url || PlatRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -53,6 +55,7 @@ export const platDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || PlatRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -73,6 +76,7 @@ export const platUpdateOne = (
     url: `${queryParams?.url || PlatRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -89,6 +93,7 @@ export const platCreateOne = (
     url: queryParams?.url || PlatRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

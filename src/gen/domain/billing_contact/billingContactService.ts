@@ -19,6 +19,7 @@ export const billingContactGetMany = (
     url: queryParams?.url || BillingContactRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const billingContactGetOne = (
     url: `${queryParams?.url || BillingContactRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const billingContactDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || BillingContactRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const billingContactUpdateOne = (
     url: `${queryParams?.url || BillingContactRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const billingContactCreateOne = (
     url: queryParams?.url || BillingContactRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

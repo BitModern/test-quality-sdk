@@ -19,6 +19,7 @@ export const dataSetGetMany = (
     url: queryParams?.url || DataSetRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const dataSetGetOne = (
     url: `${queryParams?.url || DataSetRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const dataSetDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || DataSetRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const dataSetUpdateOne = (
     url: `${queryParams?.url || DataSetRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const dataSetCreateOne = (
     url: queryParams?.url || DataSetRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

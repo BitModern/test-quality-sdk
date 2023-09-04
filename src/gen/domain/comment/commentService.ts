@@ -19,6 +19,7 @@ export const commentGetMany = (
     url: queryParams?.url || CommentRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const commentGetOne = (
     url: `${queryParams?.url || CommentRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const commentDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || CommentRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const commentUpdateOne = (
     url: `${queryParams?.url || CommentRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const commentCreateOne = (
     url: queryParams?.url || CommentRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

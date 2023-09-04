@@ -19,6 +19,7 @@ export const nativeDefectStatusGetMany = (
     url: queryParams?.url || NativeDefectStatusRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const nativeDefectStatusGetOne = (
     url: `${queryParams?.url || NativeDefectStatusRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const nativeDefectStatusDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || NativeDefectStatusRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const nativeDefectStatusUpdateOne = (
     url: `${queryParams?.url || NativeDefectStatusRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const nativeDefectStatusCreateOne = (
     url: queryParams?.url || NativeDefectStatusRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

@@ -19,6 +19,7 @@ export const notificationsGetMany = (
     url: queryParams?.url || NotificationsRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const notificationsGetOne = (
     url: `${queryParams?.url || NotificationsRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const notificationsDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || NotificationsRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const notificationsUpdateOne = (
     url: `${queryParams?.url || NotificationsRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const notificationsCreateOne = (
     url: queryParams?.url || NotificationsRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

@@ -19,6 +19,7 @@ export const baseCapabilityGetMany = (
     url: queryParams?.url || BaseCapabilityRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const baseCapabilityGetOne = (
     url: `${queryParams?.url || BaseCapabilityRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const baseCapabilityDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || BaseCapabilityRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const baseCapabilityUpdateOne = (
     url: `${queryParams?.url || BaseCapabilityRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const baseCapabilityCreateOne = (
     url: queryParams?.url || BaseCapabilityRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

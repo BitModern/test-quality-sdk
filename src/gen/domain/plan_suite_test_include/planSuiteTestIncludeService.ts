@@ -19,6 +19,7 @@ export const planSuiteTestIncludeGetMany = (
     url: queryParams?.url || PlanSuiteTestIncludeRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const planSuiteTestIncludeGetOne = (
     url: `${queryParams?.url || PlanSuiteTestIncludeRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const planSuiteTestIncludeDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || PlanSuiteTestIncludeRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const planSuiteTestIncludeUpdateOne = (
     url: `${queryParams?.url || PlanSuiteTestIncludeRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -95,6 +99,7 @@ export const planSuiteTestIncludeCreateOne = (
     url: queryParams?.url || PlanSuiteTestIncludeRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

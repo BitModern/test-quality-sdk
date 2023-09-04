@@ -74,7 +74,7 @@ export class Auth {
   private disableHandler = false;
   private refreshRequest?: Promise<AxiosResponse<ReturnToken>> = undefined;
   private remember = true;
-  
+
   constructor(
     private tokenStorage: TokenStorage,
     private client: ClientSdk,

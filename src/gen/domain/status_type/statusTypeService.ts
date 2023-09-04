@@ -19,6 +19,7 @@ export const statusTypeGetMany = (
     url: queryParams?.url || StatusTypeRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const statusTypeGetOne = (
     url: `${queryParams?.url || StatusTypeRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const statusTypeDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || StatusTypeRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const statusTypeUpdateOne = (
     url: `${queryParams?.url || StatusTypeRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const statusTypeCreateOne = (
     url: queryParams?.url || StatusTypeRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

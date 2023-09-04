@@ -19,6 +19,7 @@ export const suiteGetMany = (
     url: queryParams?.url || SuiteRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const suiteGetOne = (
     url: `${queryParams?.url || SuiteRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -53,6 +55,7 @@ export const suiteDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || SuiteRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -73,6 +76,7 @@ export const suiteUpdateOne = (
     url: `${queryParams?.url || SuiteRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -89,6 +93,7 @@ export const suiteCreateOne = (
     url: queryParams?.url || SuiteRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

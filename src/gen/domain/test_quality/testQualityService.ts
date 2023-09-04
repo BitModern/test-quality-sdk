@@ -19,6 +19,7 @@ export const testQualityGetMany = (
     url: queryParams?.url || TestQualityRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const testQualityGetOne = (
     url: `${queryParams?.url || TestQualityRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const testQualityDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || TestQualityRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const testQualityUpdateOne = (
     url: `${queryParams?.url || TestQualityRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const testQualityCreateOne = (
     url: queryParams?.url || TestQualityRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

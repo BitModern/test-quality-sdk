@@ -19,6 +19,7 @@ export const pullRequestGetMany = (
     url: queryParams?.url || PullRequestRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const pullRequestGetOne = (
     url: `${queryParams?.url || PullRequestRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const pullRequestDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || PullRequestRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const pullRequestUpdateOne = (
     url: `${queryParams?.url || PullRequestRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const pullRequestCreateOne = (
     url: queryParams?.url || PullRequestRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

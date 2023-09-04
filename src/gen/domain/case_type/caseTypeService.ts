@@ -19,6 +19,7 @@ export const caseTypeGetMany = (
     url: queryParams?.url || CaseTypeRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const caseTypeGetOne = (
     url: `${queryParams?.url || CaseTypeRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const caseTypeDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || CaseTypeRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const caseTypeUpdateOne = (
     url: `${queryParams?.url || CaseTypeRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const caseTypeCreateOne = (
     url: queryParams?.url || CaseTypeRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

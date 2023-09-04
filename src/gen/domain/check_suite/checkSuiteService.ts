@@ -19,6 +19,7 @@ export const checkSuiteGetMany = (
     url: queryParams?.url || CheckSuiteRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const checkSuiteGetOne = (
     url: `${queryParams?.url || CheckSuiteRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const checkSuiteDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || CheckSuiteRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const checkSuiteUpdateOne = (
     url: `${queryParams?.url || CheckSuiteRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const checkSuiteCreateOne = (
     url: queryParams?.url || CheckSuiteRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

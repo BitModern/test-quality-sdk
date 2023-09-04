@@ -19,6 +19,7 @@ export const baseIntegrationGetMany = (
     url: queryParams?.url || BaseIntegrationRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const baseIntegrationGetOne = (
     url: `${queryParams?.url || BaseIntegrationRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const baseIntegrationDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || BaseIntegrationRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const baseIntegrationUpdateOne = (
     url: `${queryParams?.url || BaseIntegrationRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const baseIntegrationCreateOne = (
     url: queryParams?.url || BaseIntegrationRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

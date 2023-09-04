@@ -19,6 +19,7 @@ export const stepGetMany = (
     url: queryParams?.url || StepRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const stepGetOne = (
     url: `${queryParams?.url || StepRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -53,6 +55,7 @@ export const stepDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || StepRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -73,6 +76,7 @@ export const stepUpdateOne = (
     url: `${queryParams?.url || StepRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -89,6 +93,7 @@ export const stepCreateOne = (
     url: queryParams?.url || StepRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

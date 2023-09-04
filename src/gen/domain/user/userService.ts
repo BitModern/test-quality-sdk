@@ -19,6 +19,7 @@ export const userGetMany = (
     url: queryParams?.url || UserRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const userGetOne = (
     url: `${queryParams?.url || UserRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -53,6 +55,7 @@ export const userDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || UserRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -73,6 +76,7 @@ export const userUpdateOne = (
     url: `${queryParams?.url || UserRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -89,6 +93,7 @@ export const userCreateOne = (
     url: queryParams?.url || UserRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

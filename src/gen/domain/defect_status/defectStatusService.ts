@@ -19,6 +19,7 @@ export const defectStatusGetMany = (
     url: queryParams?.url || DefectStatusRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const defectStatusGetOne = (
     url: `${queryParams?.url || DefectStatusRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const defectStatusDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || DefectStatusRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const defectStatusUpdateOne = (
     url: `${queryParams?.url || DefectStatusRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const defectStatusCreateOne = (
     url: queryParams?.url || DefectStatusRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
