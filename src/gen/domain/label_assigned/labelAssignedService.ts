@@ -19,6 +19,7 @@ export const labelAssignedGetMany = (
     url: queryParams?.url || LabelAssignedRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const labelAssignedGetOne = (
     url: `${queryParams?.url || LabelAssignedRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const labelAssignedDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || LabelAssignedRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const labelAssignedUpdateOne = (
     url: `${queryParams?.url || LabelAssignedRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const labelAssignedCreateOne = (
     url: queryParams?.url || LabelAssignedRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

@@ -19,6 +19,7 @@ export const subscriptionsGetMany = (
     url: queryParams?.url || SubscriptionsRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const subscriptionsGetOne = (
     url: `${queryParams?.url || SubscriptionsRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const subscriptionsDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || SubscriptionsRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const subscriptionsUpdateOne = (
     url: `${queryParams?.url || SubscriptionsRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const subscriptionsCreateOne = (
     url: queryParams?.url || SubscriptionsRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

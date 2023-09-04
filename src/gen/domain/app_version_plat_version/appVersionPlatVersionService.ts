@@ -19,6 +19,7 @@ export const appVersionPlatVersionGetMany = (
     url: queryParams?.url || AppVersionPlatVersionRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const appVersionPlatVersionGetOne = (
     url: `${queryParams?.url || AppVersionPlatVersionRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const appVersionPlatVersionDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || AppVersionPlatVersionRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const appVersionPlatVersionUpdateOne = (
     url: `${queryParams?.url || AppVersionPlatVersionRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -95,6 +99,7 @@ export const appVersionPlatVersionCreateOne = (
     url: queryParams?.url || AppVersionPlatVersionRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

@@ -19,6 +19,7 @@ export const policyRowsGetMany = (
     url: queryParams?.url || PolicyRowsRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const policyRowsGetOne = (
     url: `${queryParams?.url || PolicyRowsRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const policyRowsDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || PolicyRowsRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const policyRowsUpdateOne = (
     url: `${queryParams?.url || PolicyRowsRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const policyRowsCreateOne = (
     url: queryParams?.url || PolicyRowsRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

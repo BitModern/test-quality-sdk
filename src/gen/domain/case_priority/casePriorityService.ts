@@ -19,6 +19,7 @@ export const casePriorityGetMany = (
     url: queryParams?.url || CasePriorityRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const casePriorityGetOne = (
     url: `${queryParams?.url || CasePriorityRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const casePriorityDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || CasePriorityRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const casePriorityUpdateOne = (
     url: `${queryParams?.url || CasePriorityRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const casePriorityCreateOne = (
     url: queryParams?.url || CasePriorityRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

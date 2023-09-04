@@ -19,6 +19,7 @@ export const milestoneGetMany = (
     url: queryParams?.url || MilestoneRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const milestoneGetOne = (
     url: `${queryParams?.url || MilestoneRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const milestoneDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || MilestoneRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const milestoneUpdateOne = (
     url: `${queryParams?.url || MilestoneRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const milestoneCreateOne = (
     url: queryParams?.url || MilestoneRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

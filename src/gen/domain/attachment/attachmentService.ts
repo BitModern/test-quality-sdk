@@ -19,6 +19,7 @@ export const attachmentGetMany = (
     url: queryParams?.url || AttachmentRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const attachmentGetOne = (
     url: `${queryParams?.url || AttachmentRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const attachmentDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || AttachmentRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const attachmentUpdateOne = (
     url: `${queryParams?.url || AttachmentRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const attachmentCreateOne = (
     url: queryParams?.url || AttachmentRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

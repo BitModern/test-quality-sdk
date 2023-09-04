@@ -19,6 +19,7 @@ export const invoiceGetMany = (
     url: queryParams?.url || InvoiceRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const invoiceGetOne = (
     url: `${queryParams?.url || InvoiceRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const invoiceDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || InvoiceRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const invoiceUpdateOne = (
     url: `${queryParams?.url || InvoiceRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const invoiceCreateOne = (
     url: queryParams?.url || InvoiceRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

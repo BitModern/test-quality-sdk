@@ -19,6 +19,7 @@ export const integrationTemplateGetMany = (
     url: queryParams?.url || IntegrationTemplateRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const integrationTemplateGetOne = (
     url: `${queryParams?.url || IntegrationTemplateRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const integrationTemplateDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || IntegrationTemplateRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const integrationTemplateUpdateOne = (
     url: `${queryParams?.url || IntegrationTemplateRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -95,6 +99,7 @@ export const integrationTemplateCreateOne = (
     url: queryParams?.url || IntegrationTemplateRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch

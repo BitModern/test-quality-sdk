@@ -19,6 +19,7 @@ export const appInstallGetMany = (
     url: queryParams?.url || AppInstallRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -38,6 +39,7 @@ export const appInstallGetOne = (
     url: `${queryParams?.url || AppInstallRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -56,6 +58,7 @@ export const appInstallDeleteOne = (
     method: 'delete',
     url: `${queryParams?.url || AppInstallRoute()}/${id}`,
     params: queryParams?.params,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -76,6 +79,7 @@ export const appInstallUpdateOne = (
     url: `${queryParams?.url || AppInstallRoute()}/${id}`,
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
@@ -92,6 +96,7 @@ export const appInstallCreateOne = (
     url: queryParams?.url || AppInstallRoute(),
     params: queryParams?.params,
     data,
+    headers: queryParams?.headers,
   };
 
   return queryParams?.batch
