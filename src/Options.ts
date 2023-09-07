@@ -3,7 +3,6 @@ import { PersistentStorage } from './PersistentStorage';
 import { APIWorkerInterface, LoggerInterface } from './common';
 import { HttpError } from './exceptions/HttpError';
 import { TokenStorage } from './TokenStorage';
-import { ReturnToken } from './auth';
 
 export interface Options {
   clientId: string;
@@ -17,5 +16,4 @@ export interface Options {
   logger?: LoggerInterface;
   persistentStorage?: PersistentStorage;
   tokenStorage?: TokenStorage;
-  tokenUpdateHandler?: (token?: ReturnToken) => void;
 }

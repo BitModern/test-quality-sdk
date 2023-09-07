@@ -3,7 +3,7 @@ import Debug from 'debug';
 import { PersistentStorage } from './PersistentStorage';
 import { APIWorkerInterface, EmptyLogger, LoggerInterface } from './common';
 import { Options } from './Options';
-import { Auth, AuthCallback, ReturnToken, TokenStorageImpl } from './auth';
+import { Auth, AuthCallback, TokenStorageImpl } from './auth';
 import { HttpError } from './exceptions';
 import { TokenStorage } from './TokenStorage';
 
@@ -34,9 +34,6 @@ export class ClientSdk {
   };
 
   public errorHandler: (newError: HttpError) => void = this.errorHandlerDefault;
-  // eslint-disable-next-line
-  public tokenUpdateHandler: ((token?: ReturnToken) => void) | (() => void) =
-    () => {};
 
   constructor(options: Options) {
     debug('constructor', options, this.id);
@@ -64,9 +61,6 @@ export class ClientSdk {
     this.persistentStorage = options.persistentStorage;
     this.tokenStorage =
       options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
-    if (options.tokenUpdateHandler) {
-      this.tokenUpdateHandler = options.tokenUpdateHandler;
-    }
   }
 
   public setErrorHandler(errorHandler: (newError: HttpError) => void): void {

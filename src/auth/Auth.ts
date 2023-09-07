@@ -34,7 +34,9 @@ export enum AuthCallbackActions {
   Refreshed,
   Unauthorized,
   Expired,
+  SetToken,
 }
+
 export type AuthCallback = (
   action: AuthCallbackActions,
   token?: ReturnToken,
@@ -43,7 +45,7 @@ export type AuthCallback = (
 
 export class Auth {
   public static validateTokenPayload(token: any) {
-    debug('validateTokenPayload: %j', token);
+    debug('validateTokenPayload', { token });
     if (token?.error) {
       throw new GeneralError(token.error, TOKEN);
     } else if (token?.message) {
@@ -227,6 +229,7 @@ export class Auth {
   public async refresh(
     refreshToken?: string
   ): Promise<ReturnToken | undefined> {
+    debug('refresh', { refreshToken });
     const token = refreshToken || (await this.getToken())?.refresh_token;
     if (!token) {
       return Promise.reject(
@@ -240,6 +243,7 @@ export class Auth {
     }
 
     if (!this.refreshRequest) {
+      debug('new refreshRequest');
       this.refreshRequest = this.client.api.request<ReturnToken>({
         method: 'post',
         url: grantPath,
@@ -303,6 +307,7 @@ export class Auth {
     token?: ReturnToken,
     remember?: boolean
   ): Promise<ReturnToken | undefined> {
+    debug('setToken', { token, remember });
     if (token) {
       Auth.validateTokenPayload(token);
     }
@@ -311,9 +316,11 @@ export class Auth {
       now.setSeconds(now.getSeconds() + (token.expires_in - 15)); //subtract 15 seconds to guard against latency
       token.expires_at = JSON.parse(JSON.stringify(now));
     }
-    this.client.tokenUpdateHandler(token);
-    if (token) {
-      this.client.apiWorker?.setToken(token);
+    if (this.authCallback) {
+      await this.authCallback(AuthCallbackActions.SetToken, token, this);
+    }
+    if (this.client.apiWorker?.setToken) {
+      await this.client.apiWorker?.setToken(token);
     }
     return this.tokenStorage.setToken(token, remember);
   }
@@ -392,18 +399,22 @@ export class Auth {
     this.client.api.interceptors.response.use(
       (response) => response,
       async (error: any) => {
-        debug(
-          'addUnauthorizedInterceptor',
-          this.id,
-          error,
-          !!this.authCallback
-        );
         // if error response is not HTTP 401, we do a reject to not process this error
         const status = error?.response?.status
           ? typeof error.response.status === 'string'
             ? parseInt(error.response.status, 10)
             : error.response.status
           : undefined;
+
+        debug('addUnauthorizedInterceptor', {
+          error,
+          id: this.id,
+          isAuthCallbackSet: !!this.authCallback,
+          isDisabled: this.disableHandler,
+          status,
+          url: error.config.url,
+          urlRequiresAuth: Auth.urlRequiresAuth(error.config.url),
+        });
 
         // if not an authentication issue just let error flow through
         if (

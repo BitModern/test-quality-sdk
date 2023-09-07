@@ -9,8 +9,5 @@ export interface APIWorkerInterface {
   request: <T = any, R = AxiosResponse<T>>(
     config: AxiosRequestConfig
   ) => Promise<R>;
-  setToken: (token: ReturnToken) => void;
-  setTokenUpdateHandler: (
-    tokenUpdateHandler: (token?: ReturnToken) => void
-  ) => void;
+  setToken?: (token?: ReturnToken) => Promise<void>;
 }
