@@ -39,7 +39,7 @@ export type AuthCallback = (
   action: AuthCallbackActions,
   token?: ReturnToken,
   me?: Auth
-) => Promise<ReturnToken | undefined>;
+) => Promise<void>;
 
 export class Auth {
   public static validateTokenPayload(token: any) {
@@ -165,13 +165,9 @@ export class Auth {
     await this.setToken(token, this.remember);
     await this.handleExpired(token);
     this.client.logger.info('Logged In');
-    if (!this.authCallback) return token;
-    const tokenUpdate = await this.authCallback(
-      AuthCallbackActions.Connected,
-      token,
-      this
-    );
-    if (tokenUpdate) return tokenUpdate;
+    if (this.authCallback) {
+      await this.authCallback(AuthCallbackActions.Connected, token, this);
+    }
     return token;
   }
 
@@ -252,22 +248,19 @@ export class Auth {
       });
     }
 
-    return this.refreshRequest.then(
-      async ({ data }) => {
+    return this.refreshRequest
+      .then(async ({ data }) => {
         await this.setToken(data);
         await this.handleExpired(data);
         if (this.authCallback) {
-          return this.authCallback(AuthCallbackActions.Refreshed, data, this);
+          await this.authCallback(AuthCallbackActions.Refreshed, data, this);
         }
         this.client.logger.info('Refreshed');
-        this.refreshRequest = undefined;
         return data;
-      },
-      (error) => {
+      })
+      .finally(() => {
         this.refreshRequest = undefined;
-        return error;
-      }
-    );
+      });
   }
 
   public async getAccessToken(): Promise<string | undefined> {
@@ -331,20 +324,10 @@ export class Auth {
     return token !== undefined && token.trial_ended_at !== undefined;
   }
 
-  protected async handleExpired(
-    token?: ReturnToken
-  ): Promise<ReturnToken | undefined> {
-    let newToken = token;
-    if (this.isExpired(token)) {
-      if (this.authCallback) {
-        newToken = await this.authCallback(
-          AuthCallbackActions.Expired,
-          token,
-          this
-        );
-      }
+  protected async handleExpired(token?: ReturnToken): Promise<undefined> {
+    if (this.authCallback && this.isExpired(token)) {
+      await this.authCallback(AuthCallbackActions.Expired, token, this);
     }
-    return newToken || token;
   }
 
   protected addAddAuthorizationHeaderInterceptor() {
@@ -405,9 +388,12 @@ export class Auth {
             : error.response.status
           : undefined;
 
+        const isRetry = Boolean(error.response?.config._retry);
+
         // if not an authentication issue just let error flow through
         if (
           this.disableHandler ||
+          isRetry ||
           status !== 401 ||
           !Auth.urlRequiresAuth(error.config.url)
         ) {
@@ -435,6 +421,7 @@ export class Auth {
           const token = await this.refresh();
           if (token && token.access_token) {
             error.response.config.headers.Authorization = `Bearer ${token.access_token}`;
+            error.response.config._retry = true;
             return this.client.api(error.response.config);
           }
           if (this.authCallback) {
