@@ -389,19 +389,18 @@ export class Auth {
             : error.response.status
           : undefined;
 
-<<<<<<< HEAD
+        const isRetry = Boolean(error.response?.config._retry);
+
         debug('addUnauthorizedInterceptor', {
           error,
           id: this.id,
           isAuthCallbackSet: !!this.authCallback,
           isDisabled: this.disableHandler,
+          isRetry,
           status,
           url: error.config.url,
           urlRequiresAuth: Auth.urlRequiresAuth(error.config.url),
         });
-=======
-        const isRetry = Boolean(error.response?.config._retry);
->>>>>>> origin/fix/infinteLoop
 
         // if not an authentication issue just let error flow through
         if (
