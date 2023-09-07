@@ -252,22 +252,19 @@ export class Auth {
       });
     }
 
-    return this.refreshRequest.then(
-      async ({ data }) => {
+    return this.refreshRequest
+      .then(async ({ data }) => {
         await this.setToken(data);
         await this.handleExpired(data);
         if (this.authCallback) {
-          return this.authCallback(AuthCallbackActions.Refreshed, data, this);
+          this.authCallback(AuthCallbackActions.Refreshed, data, this);
         }
         this.client.logger.info('Refreshed');
-        this.refreshRequest = undefined;
         return data;
-      },
-      (error) => {
+      })
+      .finally(() => {
         this.refreshRequest = undefined;
-        return error;
-      }
-    );
+      });
   }
 
   public async getAccessToken(): Promise<string | undefined> {
@@ -405,9 +402,12 @@ export class Auth {
             : error.response.status
           : undefined;
 
+        const isRetry = Boolean(error.response?.config._retry);
+
         // if not an authentication issue just let error flow through
         if (
           this.disableHandler ||
+          isRetry ||
           status !== 401 ||
           !Auth.urlRequiresAuth(error.config.url)
         ) {
@@ -435,6 +435,7 @@ export class Auth {
           const token = await this.refresh();
           if (token && token.access_token) {
             error.response.config.headers.Authorization = `Bearer ${token.access_token}`;
+            error.response.config._retry = true;
             return this.client.api(error.response.config);
           }
           if (this.authCallback) {
