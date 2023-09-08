@@ -16,17 +16,18 @@ const grantPath = '/oauth/access_token';
 const ssoPath = '/sso';
 
 const doesNotRequireAuth: string[] = [
-  'system/auth/complete_invite_user',
-  'system/auth/begin_password_reset',
-  'system/auth/complete_password_reset',
-  'system/create_client',
-  'system/validate_site_name',
-  'email-verification/error',
-  'email-verification/check',
-  'oauth/access_token',
   'auth/login',
   'auth/register',
+  'email-verification/check',
+  'email-verification/error',
+  'oauth/access_token',
+  'system/auth/begin_password_reset',
+  'system/auth/complete_invite_user',
+  'system/auth/complete_password_reset',
+  'system/create_client',
   'system/github/authorize',
+  'system/sign_up_with_email',
+  'system/validate_site_name',
 ];
 
 export enum AuthCallbackActions {
