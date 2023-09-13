@@ -7,9 +7,7 @@
 
 import { Product } from './Product';
 import { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
-import { CouponApi } from '../coupon/CouponApi';
 
 export interface ProductApi extends Product {
   subscriptions?: SubscriptionsApi[];
-  coupon?: CouponApi[];
 }

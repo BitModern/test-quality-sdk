@@ -209,8 +209,6 @@ export const PolicyPolicyRowsRoute = (policy_id: number): string =>
   `/policy/${policy_id}/policy_rows`;
 export const PolicyRowsRoute = (): string => `/policy_rows`;
 export const ProductRoute = (): string => `/product`;
-export const ProductCouponRoute = (product_id: number): string =>
-  `/product/${product_id}/coupon`;
 export const ProductMarketplaceRoute = (product_id: number): string =>
   `/product/${product_id}/marketplace`;
 export const ProductQuoteItemRoute = (product_id: number): string =>

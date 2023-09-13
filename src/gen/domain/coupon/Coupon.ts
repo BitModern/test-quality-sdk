@@ -11,10 +11,8 @@ export interface Coupon extends DefaultAttributes {
   updated_by: number;
   epoch: number;
   id: number;
-  email_addresses?: any;
   percent_off?: number;
   name: string;
-  is_universal: boolean;
   redeem_by?: string;
   code: string;
   description?: string;
@@ -24,5 +22,4 @@ export interface Coupon extends DefaultAttributes {
   duration_in_months?: number;
   max_redemptions?: number;
   is_active: boolean;
-  product_id?: number;
 }

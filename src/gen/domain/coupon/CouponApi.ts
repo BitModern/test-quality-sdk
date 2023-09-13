@@ -6,10 +6,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Coupon } from './Coupon';
-import { ProductApi } from '../product/ProductApi';
 import { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
 
 export interface CouponApi extends Coupon {
-  product?: ProductApi;
   subscriptions?: SubscriptionsApi[];
 }
