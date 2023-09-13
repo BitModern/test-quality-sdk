@@ -1,7 +1,8 @@
 import { AxiosInstance } from 'axios';
-import { PersistentStorage } from './PersistentStorage';
+import { AuthCallback } from './auth';
 import { APIWorkerInterface, LoggerInterface } from './common';
 import { HttpError } from './exceptions/HttpError';
+import { PersistentStorage } from './PersistentStorage';
 import { TokenStorage } from './TokenStorage';
 
 export interface Options {
@@ -10,6 +11,7 @@ export interface Options {
 
   api?: AxiosInstance;
   apiWorker?: APIWorkerInterface;
+  authCallback?: AuthCallback;
   baseUrl?: string;
   debug?: boolean;
   errorHandler?: (newError: HttpError) => void;

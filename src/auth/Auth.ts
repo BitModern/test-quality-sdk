@@ -34,8 +34,9 @@ export enum AuthCallbackActions {
   Connected = 1,
   Refreshed,
   Unauthorized,
-  Expired,
-  SetToken,
+  SubscriptionExpired,
+  TrialExpired,
+  TokenUpdated,
 }
 
 export type AuthCallback = (
@@ -83,11 +84,25 @@ export class Auth {
     private client: ClientSdk,
     private authCallback?: AuthCallback
   ) {
+    this.setAuthCallback(authCallback);
     this.addInterceptors();
   }
 
   public setAuthCallback(authCallback?: AuthCallback): void {
     this.authCallback = authCallback;
+    if (this.client.apiWorker) {
+      this.client.apiWorker.setAuthCallback(
+        async (action: AuthCallbackActions, token?: ReturnToken) => {
+          if (action === AuthCallbackActions.TokenUpdated) {
+            debug('token updated in apiWorker');
+            this.tokenStorage.setToken(token);
+          }
+          if (this.authCallback) {
+            this.authCallback(action, token);
+          }
+        }
+      );
+    }
   }
 
   public passwordRecovery(email: string) {
@@ -311,10 +326,10 @@ export class Auth {
       token.expires_at = JSON.parse(JSON.stringify(now));
     }
     if (this.authCallback) {
-      await this.authCallback(AuthCallbackActions.SetToken, token, this);
+      await this.authCallback(AuthCallbackActions.TokenUpdated, token, this);
     }
-    if (this.client.apiWorker?.setToken) {
-      await this.client.apiWorker?.setToken(token);
+    if (this.client.apiWorker) {
+      await this.client.apiWorker.setToken(token);
     }
     return this.tokenStorage.setToken(token, remember);
   }
@@ -328,13 +343,25 @@ export class Auth {
     return token !== undefined && token.is_expired === true;
   }
 
+  public isSubscriptionExpired(token?: ReturnToken): boolean {
+    return token !== undefined && token.subscription_ended_at !== undefined;
+  }
+
   public isTrialExpired(token?: ReturnToken): boolean {
     return token !== undefined && token.trial_ended_at !== undefined;
   }
 
   protected async handleExpired(token?: ReturnToken): Promise<undefined> {
-    if (this.authCallback && this.isExpired(token)) {
-      await this.authCallback(AuthCallbackActions.Expired, token, this);
+    if (this.authCallback) {
+      let action: AuthCallbackActions | undefined;
+      if (this.isSubscriptionExpired(token)) {
+        action = AuthCallbackActions.SubscriptionExpired;
+      } else if (this.isTrialExpired(token)) {
+        action = AuthCallbackActions.TrialExpired;
+      }
+      if (action) {
+        await this.authCallback(action, token, this);
+      }
     }
   }
 
