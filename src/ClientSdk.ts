@@ -3,7 +3,7 @@ import Debug from 'debug';
 import { PersistentStorage } from './PersistentStorage';
 import { APIWorkerInterface, EmptyLogger, LoggerInterface } from './common';
 import { Options } from './Options';
-import { Auth, AuthCallback, ReturnToken, TokenStorageImpl } from './auth';
+import { Auth, TokenStorageImpl } from './auth';
 import { HttpError } from './exceptions';
 import { TokenStorage } from './TokenStorage';
 
@@ -12,7 +12,7 @@ export let _client: ClientSdk | undefined;
 const debug = Debug('tq:sdk:client');
 
 export class ClientSdk {
-  private auth?: Auth;
+  private auth: Auth;
   public logger: LoggerInterface;
   public api: AxiosInstance;
   public clientId: string;
@@ -34,9 +34,6 @@ export class ClientSdk {
   };
 
   public errorHandler: (newError: HttpError) => void = this.errorHandlerDefault;
-  // eslint-disable-next-line
-  public tokenUpdateHandler: ((token?: ReturnToken) => void) | (() => void) =
-    () => {};
 
   constructor(options: Options) {
     debug('constructor', options, this.id);
@@ -64,24 +61,20 @@ export class ClientSdk {
     this.persistentStorage = options.persistentStorage;
     this.tokenStorage =
       options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
-    if (options.tokenUpdateHandler) {
-      this.tokenUpdateHandler = options.tokenUpdateHandler;
-    }
+
+    this.auth = new Auth(this.tokenStorage, this, options.authCallback);
+  }
+
+  public getAuth() {
+    return this.auth;
+  }
+
+  public setAuth() {
+    return this.getAuth();
   }
 
   public setErrorHandler(errorHandler: (newError: HttpError) => void): void {
     this.errorHandler = errorHandler;
-  }
-
-  public getAuth(authCallback?: AuthCallback) {
-    if (!this.auth) {
-      this.auth = new Auth(this.tokenStorage, this, authCallback);
-    } else if (authCallback) {
-      debug('setAuthCallback', authCallback);
-      this.auth.setAuthCallback(authCallback);
-    }
-
-    return this.auth;
   }
 
   public setAPIWorker(apiWorker: APIWorkerInterface) {

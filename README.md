@@ -16,20 +16,20 @@ To request a client id and secret please contact support@bitmodern.com.
 const singleClient = new ClientSdk({
   // clientId is provided when registering your app
   clientId: 'your client id',
-  
+
   // clientSecret is provided when registering your app
   clientSecret: 'your client secret',
-  
-  // errorHandler is convient function for capturing any backend error, 
+
+  // errorHandler is convient function for capturing any backend error,
   // errors are also provided in promises
   errorHandler: (newError: HttpError) => {
     logError(newError);
   },
-  
-  // persistentStorage is required if saving the tokens is needed, 
+
+  // persistentStorage is required if saving the tokens is needed,
   // this may not be the case if you are using personal access tokens
   persistentStorage: new EnvStorage(),
-  
+
   // logger provides way of captures any log information
   logger: logger as LoggerInterface,
 });
@@ -47,7 +47,7 @@ If a personal access token has been generated. Once client is created set the to
 
 ```js
   const client = new ClientSdk({...});
-  client.setAuth().setToken({access_token: 'your personal access token'});
+  client.getAuth().setToken({access_token: 'your personal access token'});
 
   ... call functions ...
 ```
@@ -56,7 +56,7 @@ If a personal access token has been generated. Once client is created set the to
 
 ```js
   const client = new ClientSdk({...});
-  client.setAuth().login('email', 'password', true /* store token using persistentStorage */);
+  client.getAuth().login('email', 'password', true /* store token using persistentStorage */);
 
   ... call functions ...
 ```

@@ -16,25 +16,29 @@ const grantPath = '/oauth/access_token';
 const ssoPath = '/sso';
 
 const doesNotRequireAuth: string[] = [
-  'system/auth/complete_invite_user',
-  'system/auth/begin_password_reset',
-  'system/auth/complete_password_reset',
-  'system/create_client',
-  'system/validate_site_name',
-  'email-verification/error',
-  'email-verification/check',
-  'oauth/access_token',
   'auth/login',
   'auth/register',
+  'email-verification/check',
+  'email-verification/error',
+  'oauth/access_token',
+  'system/auth/begin_password_reset',
+  'system/auth/complete_invite_user',
+  'system/auth/complete_password_reset',
+  'system/create_client',
   'system/github/authorize',
+  'system/sign_up_with_email',
+  'system/validate_site_name',
 ];
 
 export enum AuthCallbackActions {
   Connected = 1,
   Refreshed,
   Unauthorized,
-  Expired,
+  SubscriptionExpired,
+  TrialExpired,
+  TokenUpdated,
 }
+
 export type AuthCallback = (
   action: AuthCallbackActions,
   token?: ReturnToken,
@@ -43,7 +47,7 @@ export type AuthCallback = (
 
 export class Auth {
   public static validateTokenPayload(token: any) {
-    debug('validateTokenPayload: %j', token);
+    debug('validateTokenPayload', { token });
     if (token?.error) {
       throw new GeneralError(token.error, TOKEN);
     } else if (token?.message) {
@@ -80,11 +84,25 @@ export class Auth {
     private client: ClientSdk,
     private authCallback?: AuthCallback
   ) {
+    this.setAuthCallback(authCallback);
     this.addInterceptors();
   }
 
   public setAuthCallback(authCallback?: AuthCallback): void {
     this.authCallback = authCallback;
+    if (this.client.apiWorker) {
+      this.client.apiWorker.setAuthCallback(
+        async (action: AuthCallbackActions, token?: ReturnToken) => {
+          if (action === AuthCallbackActions.TokenUpdated) {
+            debug('token updated in apiWorker');
+            this.tokenStorage.setToken(token);
+          }
+          if (this.authCallback) {
+            this.authCallback(action, token);
+          }
+        }
+      );
+    }
   }
 
   public passwordRecovery(email: string) {
@@ -223,6 +241,7 @@ export class Auth {
   public async refresh(
     refreshToken?: string
   ): Promise<ReturnToken | undefined> {
+    debug('refresh', { refreshToken });
     const token = refreshToken || (await this.getToken())?.refresh_token;
     if (!token) {
       return Promise.reject(
@@ -236,6 +255,7 @@ export class Auth {
     }
 
     if (!this.refreshRequest) {
+      debug('new refreshRequest');
       this.refreshRequest = this.client.api.request<ReturnToken>({
         method: 'post',
         url: grantPath,
@@ -296,6 +316,7 @@ export class Auth {
     token?: ReturnToken,
     remember?: boolean
   ): Promise<ReturnToken | undefined> {
+    debug('setToken', { token, remember });
     if (token) {
       Auth.validateTokenPayload(token);
     }
@@ -304,9 +325,11 @@ export class Auth {
       now.setSeconds(now.getSeconds() + (token.expires_in - 15)); //subtract 15 seconds to guard against latency
       token.expires_at = JSON.parse(JSON.stringify(now));
     }
-    this.client.tokenUpdateHandler(token);
-    if (token) {
-      this.client.apiWorker?.setToken(token);
+    if (this.authCallback) {
+      await this.authCallback(AuthCallbackActions.TokenUpdated, token, this);
+    }
+    if (this.client.apiWorker) {
+      await this.client.apiWorker.setToken(token);
     }
     return this.tokenStorage.setToken(token, remember);
   }
@@ -320,13 +343,25 @@ export class Auth {
     return token !== undefined && token.is_expired === true;
   }
 
+  public isSubscriptionExpired(token?: ReturnToken): boolean {
+    return token !== undefined && token.subscription_ended_at !== undefined;
+  }
+
   public isTrialExpired(token?: ReturnToken): boolean {
     return token !== undefined && token.trial_ended_at !== undefined;
   }
 
   protected async handleExpired(token?: ReturnToken): Promise<undefined> {
-    if (this.authCallback && this.isExpired(token)) {
-      await this.authCallback(AuthCallbackActions.Expired, token, this);
+    if (this.authCallback) {
+      let action: AuthCallbackActions | undefined;
+      if (this.isSubscriptionExpired(token)) {
+        action = AuthCallbackActions.SubscriptionExpired;
+      } else if (this.isTrialExpired(token)) {
+        action = AuthCallbackActions.TrialExpired;
+      }
+      if (action) {
+        await this.authCallback(action, token, this);
+      }
     }
   }
 
@@ -375,12 +410,6 @@ export class Auth {
     this.client.api.interceptors.response.use(
       (response) => response,
       async (error: any) => {
-        debug(
-          'addUnauthorizedInterceptor',
-          this.id,
-          error,
-          !!this.authCallback
-        );
         // if error response is not HTTP 401, we do a reject to not process this error
         const status = error?.response?.status
           ? typeof error.response.status === 'string'
@@ -389,6 +418,17 @@ export class Auth {
           : undefined;
 
         const isRetry = Boolean(error.response?.config._retry);
+
+        debug('addUnauthorizedInterceptor', {
+          error,
+          id: this.id,
+          isAuthCallbackSet: !!this.authCallback,
+          isDisabled: this.disableHandler,
+          isRetry,
+          status,
+          url: error.config.url,
+          urlRequiresAuth: Auth.urlRequiresAuth(error.config.url),
+        });
 
         // if not an authentication issue just let error flow through
         if (
