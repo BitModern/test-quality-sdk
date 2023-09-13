@@ -18,7 +18,7 @@ export interface IntegrationProjectApi extends IntegrationProject {
   project?: ProjectApi;
   integration?: IntegrationApi;
   defect?: DefectApi[];
-  requirement?: RequirementApi;
+  requirement?: RequirementApi[];
   native_defect_res?: NativeDefectResApi[];
   native_defect_status?: NativeDefectStatusApi[];
   app_install_project?: AppInstallProjectApi[];
