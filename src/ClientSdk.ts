@@ -69,6 +69,10 @@ export class ClientSdk {
     return this.auth;
   }
 
+  public setAuth() {
+    return this.getAuth();
+  }
+
   public setErrorHandler(errorHandler: (newError: HttpError) => void): void {
     this.errorHandler = errorHandler;
   }
