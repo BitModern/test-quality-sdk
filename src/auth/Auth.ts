@@ -344,32 +344,61 @@ export class Auth {
   }
 
   public isSubscriptionExpired(token?: ReturnToken): boolean {
-    return (
-      token !== undefined &&
-      this.isExpired(token) &&
-      token.subscription_ended_at !== undefined
-    );
+    if (!token) {
+      return false;
+    }
+    const now = Date.now();
+    if (token.subscription_ends_at) {
+      return new Date(token.subscription_ends_at).getTime() < now;
+    }
+    if (token.subscription_ended_at) {
+      return new Date(token.subscription_ended_at).getTime() < now;
+    }
+    return false;
   }
 
   public isTrialExpired(token?: ReturnToken): boolean {
-    return (
-      token !== undefined &&
-      this.isExpired(token) &&
-      token.subscription_ended_at === undefined
-    );
+    if (!token) {
+      return false;
+    }
+    const now = Date.now();
+    if (token.trial_ends_at) {
+      return new Date(token.trial_ends_at).getTime() < now;
+    }
+    if (token.trial_ended_at) {
+      return new Date(token.trial_ended_at).getTime() < now;
+    }
+    return false;
   }
 
   protected async handleExpired(token?: ReturnToken): Promise<undefined> {
-    if (this.authCallback) {
-      let action: AuthCallbackActions | undefined;
-      if (this.isSubscriptionExpired(token)) {
-        action = AuthCallbackActions.SubscriptionExpired;
-      } else if (this.isTrialExpired(token)) {
-        action = AuthCallbackActions.TrialExpired;
-      }
-      if (action) {
-        await this.authCallback(action, token, this);
-      }
+    if (!this.authCallback) {
+      return;
+    }
+    if (token === undefined || !token.is_expired) {
+      return;
+    }
+
+    let action = AuthCallbackActions.SubscriptionExpired;
+    let time = 0;
+
+    if (new Date(token.subscription_ends_at).getTime() > time) {
+      time = new Date(token.subscription_ends_at).getTime();
+    }
+    if (new Date(token.subscription_ended_at).getTime() > time) {
+      time = new Date(token.subscription_ended_at).getTime();
+    }
+    if (new Date(token.trial_ends_at).getTime() > time) {
+      time = new Date(token.trial_ends_at).getTime();
+      action = AuthCallbackActions.TrialExpired;
+    }
+    if (new Date(token.trial_ended_at).getTime() > time) {
+      time = new Date(token.trial_ended_at).getTime();
+      action = AuthCallbackActions.TrialExpired;
+    }
+
+    if (time && time < Date.now()) {
+      await this.authCallback(action, token, this);
     }
   }
 
