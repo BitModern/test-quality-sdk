@@ -344,11 +344,19 @@ export class Auth {
   }
 
   public isSubscriptionExpired(token?: ReturnToken): boolean {
-    return token !== undefined && token.subscription_ended_at !== undefined;
+    return (
+      token !== undefined &&
+      this.isExpired(token) &&
+      token.subscription_ended_at !== undefined
+    );
   }
 
   public isTrialExpired(token?: ReturnToken): boolean {
-    return token !== undefined && token.trial_ended_at !== undefined;
+    return (
+      token !== undefined &&
+      this.isExpired(token) &&
+      token.subscription_ended_at === undefined
+    );
   }
 
   protected async handleExpired(token?: ReturnToken): Promise<undefined> {

@@ -3,7 +3,7 @@ import Debug from 'debug';
 import { PersistentStorage } from './PersistentStorage';
 import { APIWorkerInterface, EmptyLogger, LoggerInterface } from './common';
 import { Options } from './Options';
-import { Auth, TokenStorageImpl } from './auth';
+import { Auth, AuthCallback, TokenStorageImpl } from './auth';
 import { HttpError } from './exceptions';
 import { TokenStorage } from './TokenStorage';
 
@@ -65,11 +65,25 @@ export class ClientSdk {
     this.auth = new Auth(this.tokenStorage, this, options.authCallback);
   }
 
-  public getAuth() {
+  public getAuth(
+    /**
+     * @deprecated authCallback is set in constructor
+     */
+    authCallback?: AuthCallback
+  ) {
+    if (authCallback) {
+      console.warn(
+        'Param authCallback has been deprecated since version 1.12.11'
+      );
+    }
     return this.auth;
   }
 
+  /**
+   * @deprecated since version 1.12.11
+   */
   public setAuth() {
+    console.warn('Method has been deprecated since version 1.12.11');
     return this.getAuth();
   }
 
