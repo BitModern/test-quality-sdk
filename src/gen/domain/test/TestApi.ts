@@ -11,6 +11,7 @@ import { CaseTypeApi } from '../case_type/CaseTypeApi';
 import { CasePriorityApi } from '../case_priority/CasePriorityApi';
 import { ProjectApi } from '../project/ProjectApi';
 import { DataSetApi } from '../data_set/DataSetApi';
+import { SharedPreconditionApi } from '../shared_precondition/SharedPreconditionApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import { AttachmentApi } from '../attachment/AttachmentApi';
 import { CommentApi } from '../comment/CommentApi';
@@ -28,6 +29,7 @@ export interface TestApi extends Test {
   case_priority?: CasePriorityApi;
   project?: ProjectApi;
   data_set?: DataSetApi;
+  shared_precondition?: SharedPreconditionApi;
   label_assigned?: LabelAssignedApi;
   attachment?: AttachmentApi;
   comment?: CommentApi;

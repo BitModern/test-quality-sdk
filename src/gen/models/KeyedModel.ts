@@ -5,5 +5,5 @@
 import { TenantScopedModel } from './TenantScopedModel';
 
 export interface KeyedModel extends TenantScopedModel {
-  key: number;
+  key?: number;
 }

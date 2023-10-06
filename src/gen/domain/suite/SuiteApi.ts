@@ -14,8 +14,8 @@ import { SuiteTestApi } from '../suite_test/SuiteTestApi';
 import { TestApi } from '../test/TestApi';
 import { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
 import { PlanApi } from '../plan/PlanApi';
-import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import { RunResultApi } from '../run_result/RunResultApi';
+import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import { RequirementTestApi } from '../requirement_test/RequirementTestApi';
 
 export interface SuiteApi extends Suite {
@@ -27,8 +27,8 @@ export interface SuiteApi extends Suite {
   plan?: PlanApi[];
   plan_id?: number; // This field is required during create
   sequence_plan?: number;
-  plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   run_result?: RunResultApi[];
+  plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   requirement_test?: RequirementTestApi[];
   pivot?: SuiteTestApi | PlanSuiteApi;
   suite_test?: Partial<SuiteTestApi>;

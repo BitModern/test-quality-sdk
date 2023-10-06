@@ -50,4 +50,5 @@ export interface IntegrationProject extends TenantScopedModel {
   webhook_url?: string;
   org: string;
   project_reference_name?: string;
+  app_install_project_id?: number;
 }

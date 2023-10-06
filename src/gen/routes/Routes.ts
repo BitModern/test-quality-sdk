@@ -20,6 +20,10 @@ export const AppInstallAppInstallProjectRoute = (
   app_install_id: number
 ): string => `/app_install/${app_install_id}/app_install_project`;
 export const AppInstallProjectRoute = (): string => `/app_install_project`;
+export const AppInstallProjectIntegrationProjectRoute = (
+  app_install_project_id: number
+): string =>
+  `/app_install_project/${app_install_project_id}/integration_project`;
 export const AppInstallProjectPullRequestRoute = (
   app_install_project_id: number
 ): string => `/app_install_project/${app_install_project_id}/pull_request`;
@@ -310,6 +314,15 @@ export const RunRunResultRoute = (run_id: number): string =>
 export const RunRunSuiteRoute = (run_id: number): string =>
   `/run/${run_id}/run_suite`;
 export const RunSuiteRoute = (): string => `/run_suite`;
+export const SharedPreconditionRoute = (): string => `/shared_precondition`;
+export const SharedPreconditionTestRoute = (
+  shared_precondition_id: number
+): string => `/shared_precondition/${shared_precondition_id}/test`;
+export const SharedStepRoute = (): string => `/shared_step`;
+export const SharedStepLabelAssignedRoute = (shared_step_id: number): string =>
+  `/shared_step/${shared_step_id}/label_assigned`;
+export const SharedStepStepRoute = (shared_step_id: number): string =>
+  `/shared_step/${shared_step_id}/step`;
 export const SignupOptionRoute = (): string => `/signup_option`;
 export const StatusRoute = (): string => `/status`;
 export const StatusLabelAssignedRoute = (status_id: number): string =>

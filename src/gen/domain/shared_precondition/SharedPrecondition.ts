@@ -4,31 +4,22 @@
 
 import { KeyedModel } from '../../models/KeyedModel';
 
-export interface Step extends KeyedModel {
+export interface SharedPrecondition extends KeyedModel {
   created_by: number;
   created_at: string;
   updated_by: number;
   updated_at: string;
   epoch: number;
-  test_id: number;
   /**
    * A step is a finite portion of a test specifying what needs to be tested. A step has an expected result.
    * A test is made of one or more tests.
    */
-  step?: string;
-  /**
-   * The expected result for this step after testing it.
-   */
-  expected_result?: string;
-  virtual?: any;
+  precondition?: string;
   client_id: number;
   project_id: number;
   /**
    * specifies the order of steps within a test
    */
   sequence: number;
-  key: number;
-  step_type_id?: number;
   id: number;
-  shared_step_id?: number;
 }

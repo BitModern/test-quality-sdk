@@ -7,7 +7,6 @@ import { DefaultAttributes } from '../../models/DefaultAttributes';
 export interface AppInstallProject extends DefaultAttributes {
   id: number;
   app_install_id: number;
-  integration_project_id?: number;
   external_reference_id: string;
   owner: string;
   name?: string;

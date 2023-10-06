@@ -7,24 +7,24 @@
 
 import { Integration } from './Integration';
 import { BaseIntegrationApi } from '../base_integration/BaseIntegrationApi';
+import { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
+import { ProjectApi } from '../project/ProjectApi';
 import { IntegrationUserApi } from '../integration_user/IntegrationUserApi';
 import { UserApi } from '../user/UserApi';
 import { CapabilityIntegrationApi } from '../capability_integration/CapabilityIntegrationApi';
 import { CapabilityApi } from '../capability/CapabilityApi';
-import { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
-import { ProjectApi } from '../project/ProjectApi';
 import { AppInstallApi } from '../app_install/AppInstallApi';
 
 export interface IntegrationApi extends Integration {
   base_integration?: BaseIntegrationApi;
+  project?: ProjectApi[];
   user?: UserApi[];
   user_id?: number;
   capability?: CapabilityApi[];
   capability_id?: number;
-  project?: ProjectApi[];
   app_install?: AppInstallApi[];
-  pivot?: IntegrationUserApi | CapabilityIntegrationApi | IntegrationProjectApi;
+  pivot?: IntegrationProjectApi | IntegrationUserApi | CapabilityIntegrationApi;
+  integration_project?: Partial<IntegrationProjectApi>;
   integration_user?: Partial<IntegrationUserApi>;
   capability_integration?: Partial<CapabilityIntegrationApi>;
-  integration_project?: Partial<IntegrationProjectApi>;
 }
