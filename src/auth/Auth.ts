@@ -157,16 +157,26 @@ export class Auth {
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
-  public loginGithub(callbackUrl: string): Promise<{ redirect_url: string }> {
+  public loginGithub(
+    callbackUrl: string,
+    verificationToken?: string
+  ): Promise<{ redirect_url: string }> {
     return this.client.api
-      .post(`${ssoPath}/github`, { callbackUrl })
+      .post(`${ssoPath}/github`, {
+        callbackUrl,
+        verificationToken,
+      })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
-  public loginGoogle(callbackUrl: string): Promise<{ redirect_url: string }> {
+  public loginGoogle(
+    callbackUrl: string,
+    verificationToken?: string
+  ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/google`, {
         callbackUrl,
+        verificationToken,
       })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
