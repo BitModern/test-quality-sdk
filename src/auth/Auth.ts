@@ -241,8 +241,8 @@ export class Auth {
   public async refresh(
     refreshToken?: string
   ): Promise<ReturnToken | undefined> {
-    debug('refresh', { refreshToken });
     const token = refreshToken || (await this.getToken())?.refresh_token;
+    debug('refresh', { token });
     if (!token) {
       return Promise.reject(
         new HttpError(
@@ -270,6 +270,10 @@ export class Auth {
 
     return this.refreshRequest
       .then(async ({ data }) => {
+        const previousToken = await this.getToken();
+        if (previousToken?.access_token === data?.access_token) {
+          return previousToken;
+        }
         await this.setToken(data);
         await this.handleExpired(data);
         if (this.authCallback) {
@@ -292,6 +296,7 @@ export class Auth {
 
         if (diff < 0) {
           // token has expired, try to get a token
+          debug('getAccessToken: token expired, refreshing');
           token = await this.refresh();
         }
       }
