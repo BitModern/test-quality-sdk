@@ -13,6 +13,7 @@ import { PlanApi } from '../plan/PlanApi';
 import { InvoiceApi } from '../invoice/InvoiceApi';
 import { ProjectApi } from '../project/ProjectApi';
 import { RequirementApi } from '../requirement/RequirementApi';
+import { DefectApi } from '../defect/DefectApi';
 
 export interface AttachmentApi extends Attachment {
   test?: TestApi;
@@ -22,4 +23,5 @@ export interface AttachmentApi extends Attachment {
   invoice?: InvoiceApi;
   project?: ProjectApi;
   requirement?: RequirementApi;
+  defect?: DefectApi;
 }

@@ -6,9 +6,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Test } from './Test';
-import { TestQualityApi } from '../test_quality/TestQualityApi';
 import { CaseTypeApi } from '../case_type/CaseTypeApi';
 import { CasePriorityApi } from '../case_priority/CasePriorityApi';
+import { TestQualityApi } from '../test_quality/TestQualityApi';
 import { ProjectApi } from '../project/ProjectApi';
 import { DataSetApi } from '../data_set/DataSetApi';
 import { SharedPreconditionApi } from '../shared_precondition/SharedPreconditionApi';
@@ -24,9 +24,9 @@ import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTes
 import { RequirementTestApi } from '../requirement_test/RequirementTestApi';
 
 export interface TestApi extends Test {
-  test_quality?: TestQualityApi;
   case_type?: CaseTypeApi;
   case_priority?: CasePriorityApi;
+  test_quality?: TestQualityApi;
   project?: ProjectApi;
   data_set?: DataSetApi;
   shared_precondition?: SharedPreconditionApi;

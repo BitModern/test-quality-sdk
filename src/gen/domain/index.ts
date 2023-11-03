@@ -30,6 +30,11 @@ export { AppInstallProjectApi } from './app_install_project/AppInstallProjectApi
 export { AppInstallProjectHistory } from './app_install_project/AppInstallProjectHistory';
 export * from './app_install_project/appInstallProjectHistoryService';
 export * from './app_install_project/appInstallProjectService';
+export { AppUser } from './app_user/AppUser';
+export { AppUserApi } from './app_user/AppUserApi';
+export { AppUserHistory } from './app_user/AppUserHistory';
+export * from './app_user/appUserHistoryService';
+export * from './app_user/appUserService';
 export { AppVersion } from './app_version/AppVersion';
 export { AppVersionApi } from './app_version/AppVersionApi';
 export { AppVersionHistory } from './app_version/AppVersionHistory';

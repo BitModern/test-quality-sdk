@@ -266,25 +266,26 @@ export class Auth {
           refresh_token: token,
         },
       });
+      return this.refreshRequest
+        .then(async (response) => {
+          const data = response.data;
+          await this.setToken(data);
+          await this.handleExpired(data);
+          if (this.authCallback) {
+            await this.authCallback(AuthCallbackActions.Refreshed, data, this);
+          }
+          debug('Refreshed');
+          return data;
+        })
+        .finally(() => {
+          this.refreshRequest = undefined;
+        });
     }
 
-    return this.refreshRequest
-      .then(async ({ data }) => {
-        const previousToken = await this.getToken();
-        if (previousToken?.access_token === data?.access_token) {
-          return previousToken;
-        }
-        await this.setToken(data);
-        await this.handleExpired(data);
-        if (this.authCallback) {
-          await this.authCallback(AuthCallbackActions.Refreshed, data, this);
-        }
-        this.client.logger.info('Refreshed');
-        return data;
-      })
-      .finally(() => {
-        this.refreshRequest = undefined;
-      });
+    return this.refreshRequest.then(async ({ data }) => {
+      debug('refreshRequest: then resolved');
+      return data;
+    });
   }
 
   public async getAccessToken(): Promise<string | undefined> {
@@ -422,13 +423,7 @@ export class Auth {
               newConfig.headers.Authorization = `Bearer ${accessToken}`;
             }
           } catch (err) {
-            if (this.authCallback) {
-              await this.authCallback(
-                AuthCallbackActions.Unauthorized,
-                undefined,
-                this
-              );
-            }
+            debug('addAddAuthorizationHeaderInterceptor', err);
             // don't throw error because there is no check to see if it is calling TestQuality api
             // possible making calls that don't require authentication.
           }

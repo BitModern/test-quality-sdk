@@ -17,8 +17,8 @@ import { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
 import { SuiteApi } from '../suite/SuiteApi';
 import { AppVersionPlatVersionPlanApi } from '../app_version_plat_version_plan/AppVersionPlatVersionPlanApi';
 import { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
-import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import { RunApi } from '../run/RunApi';
+import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import { PlanPullRequestApi } from '../plan_pull_request/PlanPullRequestApi';
 
 export interface PlanApi extends Plan {
@@ -31,8 +31,8 @@ export interface PlanApi extends Plan {
   attachment?: AttachmentApi;
   suite?: SuiteApi[];
   app_version_plat_version?: AppVersionPlatVersionApi[];
-  plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   run?: RunApi[];
+  plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   plan_pull_request?: PlanPullRequestApi[];
   pivot?: PlanPurposeApi | PlanSuiteApi | AppVersionPlatVersionPlanApi;
   plan_purpose?: Partial<PlanPurposeApi>;

@@ -29,6 +29,9 @@ export const AppInstallProjectPullRequestRoute = (
 ): string => `/app_install_project/${app_install_project_id}/pull_request`;
 export const AppLabelAssignedRoute = (app_id: number): string =>
   `/app/${app_id}/label_assigned`;
+export const AppUserRoute = (): string => `/app_user`;
+export const AppUserAppInstallRoute = (app_user_id: number): string =>
+  `/app_user/${app_user_id}/app_install`;
 export const AppVersionRoute = (): string => `/app_version`;
 export const AppVersionAppVersionPlatVersionRoute = (
   app_version_id: number
@@ -105,6 +108,8 @@ export const DataSetRoute = (): string => `/data_set`;
 export const DataSetTestRoute = (data_set_id: number): string =>
   `/data_set/${data_set_id}/test`;
 export const DefectRoute = (): string => `/defect`;
+export const DefectAttachmentRoute = (defect_id: number): string =>
+  `/defect/${defect_id}/attachment`;
 export const DefectComponentRoute = (): string => `/defect_component`;
 export const DefectLabelRoute = (): string => `/defect_label`;
 export const DefectPriorityRoute = (): string => `/defect_priority`;

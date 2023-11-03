@@ -36,7 +36,7 @@ export class ClientSdk {
   public errorHandler: (newError: HttpError) => void = this.errorHandlerDefault;
 
   constructor(options: Options) {
-    debug('constructor', options, this.id);
+    debug('constructor', { id: this.id, versions: 1, options });
     const baseUrl = options.baseUrl || 'https://api.testquality.com';
     this.logger = options.logger || new EmptyLogger();
 

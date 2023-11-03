@@ -51,4 +51,5 @@ export interface IntegrationProject extends TenantScopedModel {
   org: string;
   project_reference_name?: string;
   app_install_project_id?: number;
+  org_id?: string;
 }

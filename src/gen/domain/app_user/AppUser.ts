@@ -4,18 +4,17 @@
 
 import { KeyedModel } from '../../models/KeyedModel';
 
-export interface AppInstallProject extends KeyedModel {
+export interface AppUser extends KeyedModel {
   id: number;
-  app_install_id: number;
   external_reference_id: string;
-  name?: string;
-  is_private?: boolean;
-  full_name?: string;
-  description?: string;
+  username: string;
   created_at: string;
   created_by: number;
   updated_at: string;
   updated_by: number;
   epoch: number;
+  avatar_url?: string;
+  html_url?: string;
   client_id: number;
+  type?: string;
 }
