@@ -159,12 +159,14 @@ export class Auth {
 
   public loginGithub(
     callbackUrl: string,
-    verificationToken?: string
+    verificationToken?: string,
+    appVersion?: number
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/github`, {
         callbackUrl,
         verificationToken,
+        appVersion,
       })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
