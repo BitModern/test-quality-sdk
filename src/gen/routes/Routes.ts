@@ -141,6 +141,12 @@ export const IntegrationCapabilityRoute = (integration_id: number): string =>
   `/integration/${integration_id}/capability`;
 export const IntegrationProjectRoute = (integration_id: number): string =>
   `/integration/${integration_id}/project`;
+export const IntegrationStatusTypeRoute = (): string =>
+  `/integration_status_type`;
+export const IntegrationStatusTypeNativeDefectStatusRoute = (
+  integration_status_type_id: number
+): string =>
+  `/integration_status_type/${integration_status_type_id}/native_defect_status`;
 export const IntegrationTemplateRoute = (): string => `/integration_template`;
 export const IntegrationUserRoute = (integration_id: number): string =>
   `/integration/${integration_id}/user`;
