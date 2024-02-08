@@ -16,6 +16,9 @@ export const AppConfigRoute = (): string => `/app_config`;
 export const AppConfigAppInstallRoute = (app_config_id: number): string =>
   `/app_config/${app_config_id}/app_install`;
 export const AppInstallRoute = (): string => `/app_install`;
+export const AppInstallAppInstallIntegrationRoute = (
+  app_install_id: number
+): string => `/app_install/${app_install_id}/app_install_integration`;
 export const AppInstallAppInstallProjectRoute = (
   app_install_id: number
 ): string => `/app_install/${app_install_id}/app_install_project`;
@@ -135,12 +138,19 @@ export const DefectTypeRoute = (): string => `/defect_type`;
 export const DefectUserRoute = (): string => `/defect_user`;
 export const FilterRoute = (): string => `/filter`;
 export const IntegrationRoute = (): string => `/integration`;
-export const IntegrationAppInstallRoute = (integration_id: number): string =>
-  `/integration/${integration_id}/app_install`;
+export const IntegrationAppInstallIntegrationRoute = (
+  integration_id: number
+): string => `/integration/${integration_id}/app_install_integration`;
 export const IntegrationCapabilityRoute = (integration_id: number): string =>
   `/integration/${integration_id}/capability`;
 export const IntegrationProjectRoute = (integration_id: number): string =>
   `/integration/${integration_id}/project`;
+export const IntegrationStatusTypeRoute = (): string =>
+  `/integration_status_type`;
+export const IntegrationStatusTypeNativeDefectStatusRoute = (
+  integration_status_type_id: number
+): string =>
+  `/integration_status_type/${integration_status_type_id}/native_defect_status`;
 export const IntegrationTemplateRoute = (): string => `/integration_template`;
 export const IntegrationUserRoute = (integration_id: number): string =>
   `/integration/${integration_id}/user`;

@@ -7,13 +7,11 @@
 
 import { AppInstall } from './AppInstall';
 import { AppConfigApi } from '../app_config/AppConfigApi';
-import { IntegrationApi } from '../integration/IntegrationApi';
 import { AppUserApi } from '../app_user/AppUserApi';
 import { AppInstallProjectApi } from '../app_install_project/AppInstallProjectApi';
 
 export interface AppInstallApi extends AppInstall {
   app_config?: AppConfigApi;
-  integration?: IntegrationApi;
   app_user?: AppUserApi;
   app_install_project?: AppInstallProjectApi[];
 }

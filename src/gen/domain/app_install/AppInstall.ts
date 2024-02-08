@@ -6,7 +6,6 @@ import { KeyedModel } from '../../models/KeyedModel';
 
 export interface AppInstall extends KeyedModel {
   id: number;
-  integration_id?: number;
   app_config_id?: number;
   external_reference_id: string;
   target_type?: string;
