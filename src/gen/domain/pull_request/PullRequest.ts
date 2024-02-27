@@ -10,7 +10,6 @@ export interface PullRequest extends KeyedModel {
   name: string;
   head_sha: string;
   state?: string;
-  user_reference_id?: string;
   number?: number;
   description?: string;
   html_url?: string;
@@ -23,4 +22,5 @@ export interface PullRequest extends KeyedModel {
   epoch: number;
   client_id: number;
   app_install_project_id: number;
+  app_user_id?: number;
 }

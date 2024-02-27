@@ -35,6 +35,8 @@ export const AppLabelAssignedRoute = (app_id: number): string =>
 export const AppUserRoute = (): string => `/app_user`;
 export const AppUserAppInstallRoute = (app_user_id: number): string =>
   `/app_user/${app_user_id}/app_install`;
+export const AppUserPullRequestRoute = (app_user_id: number): string =>
+  `/app_user/${app_user_id}/pull_request`;
 export const AppVersionRoute = (): string => `/app_version`;
 export const AppVersionAppVersionPlatVersionRoute = (
   app_version_id: number
@@ -196,10 +198,10 @@ export const PlanAttachmentRoute = (plan_id: number): string =>
   `/plan/${plan_id}/attachment`;
 export const PlanCommentRoute = (plan_id: number): string =>
   `/plan/${plan_id}/comment`;
+export const PlanIntegrationProjectRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/integration_project`;
 export const PlanLabelAssignedRoute = (plan_id: number): string =>
   `/plan/${plan_id}/label_assigned`;
-export const PlanPlanPullRequestRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/plan_pull_request`;
 export const PlanPlanSuiteTestIncludeRoute = (plan_id: number): string =>
   `/plan/${plan_id}/plan_suite_test_include`;
 export const PlanPurposeRoute = (plan_id: number): string =>
@@ -285,9 +287,12 @@ export const ProjectWatchRoute = (project_id: number): string =>
 export const PullRequestRoute = (): string => `/pull_request`;
 export const PullRequestCheckSuiteRoute = (pull_request_id: number): string =>
   `/pull_request/${pull_request_id}/check_suite`;
-export const PullRequestPlanPullRequestRoute = (
+export const PullRequestRequirementPullRequestRoute = (
   pull_request_id: number
-): string => `/pull_request/${pull_request_id}/plan_pull_request`;
+): string => `/pull_request/${pull_request_id}/requirement_pull_request`;
+export const PullRequestRunPullRequestRoute = (
+  pull_request_id: number
+): string => `/pull_request/${pull_request_id}/run_pull_request`;
 export const PurposeRoute = (): string => `/purpose`;
 export const PurposeLabelAssignedRoute = (purpose_id: number): string =>
   `/purpose/${purpose_id}/label_assigned`;
@@ -296,6 +301,9 @@ export const PurposePlanRoute = (purpose_id: number): string =>
 export const RequirementRoute = (): string => `/requirement`;
 export const RequirementAttachmentRoute = (requirement_id: number): string =>
   `/requirement/${requirement_id}/attachment`;
+export const RequirementRequirementPullRequestRoute = (
+  requirement_id: number
+): string => `/requirement/${requirement_id}/requirement_pull_request`;
 export const RequirementRequirementTestRoute = (
   requirement_id: number
 ): string => `/requirement/${requirement_id}/requirement_test`;
@@ -324,6 +332,8 @@ export const RunResultStepCommentRoute = (run_result_step_id: number): string =>
 export const RunResultStepLabelAssignedRoute = (
   run_result_step_id: number
 ): string => `/run_result_step/${run_result_step_id}/label_assigned`;
+export const RunRunPullRequestRoute = (run_id: number): string =>
+  `/run/${run_id}/run_pull_request`;
 export const RunRunResultRoute = (run_id: number): string =>
   `/run/${run_id}/run_result`;
 export const RunRunSuiteRoute = (run_id: number): string =>

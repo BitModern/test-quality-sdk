@@ -7,11 +7,11 @@
 
 import { PullRequest } from './PullRequest';
 import { AppInstallProjectApi } from '../app_install_project/AppInstallProjectApi';
+import { AppUserApi } from '../app_user/AppUserApi';
 import { CheckSuiteApi } from '../check_suite/CheckSuiteApi';
-import { PlanPullRequestApi } from '../plan_pull_request/PlanPullRequestApi';
 
 export interface PullRequestApi extends PullRequest {
   app_install_project?: AppInstallProjectApi;
+  app_user?: AppUserApi;
   check_suite?: CheckSuiteApi[];
-  plan_pull_request?: PlanPullRequestApi[];
 }

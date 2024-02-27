@@ -7,11 +7,6 @@
 
 import { LabelAssigned } from './LabelAssigned';
 import { LabelApi } from '../label/LabelApi';
-import { StatusTypeApi } from '../status_type/StatusTypeApi';
-import { TestQualityApi } from '../test_quality/TestQualityApi';
-import { TestQualityTypeApi } from '../test_quality_type/TestQualityTypeApi';
-import { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
-import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
 import { SharedStepApi } from '../shared_step/SharedStepApi';
 import { SuiteApi } from '../suite/SuiteApi';
 import { TestApi } from '../test/TestApi';
@@ -31,14 +26,14 @@ import { RunApi } from '../run/RunApi';
 import { PlatVersionApi } from '../plat_version/PlatVersionApi';
 import { AppVersionApi } from '../app_version/AppVersionApi';
 import { PurposeApi } from '../purpose/PurposeApi';
+import { StatusTypeApi } from '../status_type/StatusTypeApi';
+import { TestQualityApi } from '../test_quality/TestQualityApi';
+import { TestQualityTypeApi } from '../test_quality_type/TestQualityTypeApi';
+import { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
+import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
 
 export interface LabelAssignedApi extends LabelAssigned {
   label?: LabelApi;
-  status_type?: StatusTypeApi;
-  test_quality?: TestQualityApi;
-  test_quality_type?: TestQualityTypeApi;
-  native_defect_res?: NativeDefectResApi;
-  native_defect_status?: NativeDefectStatusApi;
   shared_step?: SharedStepApi;
   suite?: SuiteApi;
   test?: TestApi;
@@ -58,4 +53,9 @@ export interface LabelAssignedApi extends LabelAssigned {
   plat_version?: PlatVersionApi;
   app_version?: AppVersionApi;
   purpose?: PurposeApi;
+  status_type?: StatusTypeApi;
+  test_quality?: TestQualityApi;
+  test_quality_type?: TestQualityTypeApi;
+  native_defect_res?: NativeDefectResApi;
+  native_defect_status?: NativeDefectStatusApi;
 }

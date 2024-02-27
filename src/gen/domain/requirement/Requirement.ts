@@ -24,4 +24,8 @@ export interface Requirement extends KeyedModel {
   id: number;
   defect_status_id?: number;
   defect_res_id?: number;
+  /**
+   * Whether to create run during Pull Request checks.
+   */
+  include_in_checks?: boolean;
 }

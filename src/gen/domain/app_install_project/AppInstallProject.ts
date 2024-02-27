@@ -8,7 +8,7 @@ export interface AppInstallProject extends KeyedModel {
   id: number;
   app_install_id: number;
   external_reference_id: string;
-  name?: string;
+  name: string;
   is_private?: boolean;
   full_name?: string;
   description?: string;

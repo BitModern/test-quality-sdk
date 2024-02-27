@@ -52,4 +52,6 @@ export interface IntegrationProject extends TenantScopedModel {
   project_reference_name?: string;
   app_install_project_id?: number;
   org_id?: string;
+  enable_pull_request_testing: boolean;
+  plan_id?: number;
 }
