@@ -49,6 +49,16 @@ export class ClientSdk {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
+        transformResponse: [
+          function transformResponse(data, headers) {
+            if (headers['content-type'] === 'application/json') {
+              return JSON.parse(data, (_, value) =>
+                value === null ? undefined : value
+              );
+            }
+            return data;
+          },
+        ],
       });
 
     this.apiWorker = options.apiWorker;
