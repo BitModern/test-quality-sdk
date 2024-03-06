@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { TestRoute } from '../../routes/Routes';
@@ -99,4 +99,21 @@ export const testCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Test>(config)
     : getResponse<Test>(queryParams?.api || _client?.api, config);
+};
+
+export const testCreateMany = (
+  data: Partial<Test>[],
+  queryParams?: QueryParamsWithList<Test>
+): Promise<Test[]> => {
+  const config: QueryParamsWithList<Test> = {
+    method: 'post',
+    url: queryParams?.url || TestRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Test[]>(config)
+    : getResponse<Test[], Test>(queryParams?.api || _client?.api, config);
 };

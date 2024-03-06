@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { VirtualRoute } from '../../routes/Routes';
@@ -102,4 +102,21 @@ export const virtualCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Virtual>(config)
     : getResponse<Virtual>(queryParams?.api || _client?.api, config);
+};
+
+export const virtualCreateMany = (
+  data: Partial<Virtual>[],
+  queryParams?: QueryParamsWithList<Virtual>
+): Promise<Virtual[]> => {
+  const config: QueryParamsWithList<Virtual> = {
+    method: 'post',
+    url: queryParams?.url || VirtualRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Virtual[]>(config)
+    : getResponse<Virtual[], Virtual>(queryParams?.api || _client?.api, config);
 };

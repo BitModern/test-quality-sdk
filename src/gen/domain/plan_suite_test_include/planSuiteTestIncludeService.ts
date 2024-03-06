@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { PlanSuiteTestIncludeRoute } from '../../routes/Routes';
@@ -105,6 +105,26 @@ export const planSuiteTestIncludeCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanSuiteTestInclude>(config)
     : getResponse<PlanSuiteTestInclude>(
+        queryParams?.api || _client?.api,
+        config
+      );
+};
+
+export const planSuiteTestIncludeCreateMany = (
+  data: Partial<PlanSuiteTestInclude>[],
+  queryParams?: QueryParamsWithList<PlanSuiteTestInclude>
+): Promise<PlanSuiteTestInclude[]> => {
+  const config: QueryParamsWithList<PlanSuiteTestInclude> = {
+    method: 'post',
+    url: queryParams?.url || PlanSuiteTestIncludeRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<PlanSuiteTestInclude[]>(config)
+    : getResponse<PlanSuiteTestInclude[], PlanSuiteTestInclude>(
         queryParams?.api || _client?.api,
         config
       );

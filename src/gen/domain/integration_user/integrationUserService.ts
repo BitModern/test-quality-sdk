@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { IntegrationUser } from './IntegrationUser';
@@ -62,6 +62,25 @@ export const integrationUserCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationUser>(config)
     : getResponse<IntegrationUser>(queryParams?.api || _client?.api, config);
+};
+
+export const integrationUserCreateMany = (
+  data: Partial<IntegrationUser>[],
+  queryParams?: QueryParamsWithList<IntegrationUser>
+): Promise<IntegrationUser[]> => {
+  const config: QueryParamsWithList<IntegrationUser> = {
+    method: 'post',
+    url: queryParams?.url || `/integration_user`,
+    params: queryParams?.params,
+    list: data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<IntegrationUser[]>(config)
+    : getResponse<IntegrationUser[], IntegrationUser>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };
 
 export const integrationUserGetMany = (

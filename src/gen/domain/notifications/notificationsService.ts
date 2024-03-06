@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { NotificationsRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const notificationsCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Notifications>(config)
     : getResponse<Notifications>(queryParams?.api || _client?.api, config);
+};
+
+export const notificationsCreateMany = (
+  data: Partial<Notifications>[],
+  queryParams?: QueryParamsWithList<Notifications>
+): Promise<Notifications[]> => {
+  const config: QueryParamsWithList<Notifications> = {
+    method: 'post',
+    url: queryParams?.url || NotificationsRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Notifications[]>(config)
+    : getResponse<Notifications[], Notifications>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

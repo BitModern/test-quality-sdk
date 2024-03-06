@@ -6,6 +6,12 @@ import { CancelToken, Method, AxiosInstance } from 'axios';
 import { TQRequestParameters } from './TQRequestParameters';
 import { BatchService } from '../../services/http/BatchService';
 
+export function hasListProperty(
+  queryParams: any
+): queryParams is QueryParamsWithList {
+  return 'list' in queryParams;
+}
+
 export interface QueryParams<T = any> {
   api?: AxiosInstance;
   batch?: BatchService;

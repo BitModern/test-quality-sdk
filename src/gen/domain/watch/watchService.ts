@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { WatchRoute } from '../../routes/Routes';
@@ -99,4 +99,21 @@ export const watchCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Watch>(config)
     : getResponse<Watch>(queryParams?.api || _client?.api, config);
+};
+
+export const watchCreateMany = (
+  data: Partial<Watch>[],
+  queryParams?: QueryParamsWithList<Watch>
+): Promise<Watch[]> => {
+  const config: QueryParamsWithList<Watch> = {
+    method: 'post',
+    url: queryParams?.url || WatchRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Watch[]>(config)
+    : getResponse<Watch[], Watch>(queryParams?.api || _client?.api, config);
 };

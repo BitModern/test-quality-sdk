@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { AppInstallRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const appInstallCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppInstall>(config)
     : getResponse<AppInstall>(queryParams?.api || _client?.api, config);
+};
+
+export const appInstallCreateMany = (
+  data: Partial<AppInstall>[],
+  queryParams?: QueryParamsWithList<AppInstall>
+): Promise<AppInstall[]> => {
+  const config: QueryParamsWithList<AppInstall> = {
+    method: 'post',
+    url: queryParams?.url || AppInstallRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<AppInstall[]>(config)
+    : getResponse<AppInstall[], AppInstall>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

@@ -9,5 +9,5 @@ export interface DefaultAttributes {
   updated_by: number;
   updated_at: string;
   epoch: number;
-  metadata_model: string;
+  metadata_model?: string;
 }

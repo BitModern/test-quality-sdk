@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { CommentRoute } from '../../routes/Routes';
@@ -102,4 +102,21 @@ export const commentCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Comment>(config)
     : getResponse<Comment>(queryParams?.api || _client?.api, config);
+};
+
+export const commentCreateMany = (
+  data: Partial<Comment>[],
+  queryParams?: QueryParamsWithList<Comment>
+): Promise<Comment[]> => {
+  const config: QueryParamsWithList<Comment> = {
+    method: 'post',
+    url: queryParams?.url || CommentRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Comment[]>(config)
+    : getResponse<Comment[], Comment>(queryParams?.api || _client?.api, config);
 };

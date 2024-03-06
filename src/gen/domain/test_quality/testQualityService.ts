@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { TestQualityRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const testQualityCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQuality>(config)
     : getResponse<TestQuality>(queryParams?.api || _client?.api, config);
+};
+
+export const testQualityCreateMany = (
+  data: Partial<TestQuality>[],
+  queryParams?: QueryParamsWithList<TestQuality>
+): Promise<TestQuality[]> => {
+  const config: QueryParamsWithList<TestQuality> = {
+    method: 'post',
+    url: queryParams?.url || TestQualityRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<TestQuality[]>(config)
+    : getResponse<TestQuality[], TestQuality>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

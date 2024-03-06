@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { PullRequestRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const pullRequestCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequest>(config)
     : getResponse<PullRequest>(queryParams?.api || _client?.api, config);
+};
+
+export const pullRequestCreateMany = (
+  data: Partial<PullRequest>[],
+  queryParams?: QueryParamsWithList<PullRequest>
+): Promise<PullRequest[]> => {
+  const config: QueryParamsWithList<PullRequest> = {
+    method: 'post',
+    url: queryParams?.url || PullRequestRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<PullRequest[]>(config)
+    : getResponse<PullRequest[], PullRequest>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

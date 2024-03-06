@@ -105,6 +105,8 @@ export const ClientSignupOptionRoute = (client_id: number): string =>
   `/client/${client_id}/signup_option`;
 export const ClientVirtualRoute = (client_id: number): string =>
   `/client/${client_id}/virtual`;
+export const ClientWebhookRoute = (client_id: number): string =>
+  `/client/${client_id}/webhook`;
 export const CommentRoute = (): string => `/comment`;
 export const CouponRoute = (): string => `/coupon`;
 export const CouponSubscriptionsRoute = (coupon_id: number): string =>

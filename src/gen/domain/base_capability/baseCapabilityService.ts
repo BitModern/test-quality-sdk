@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { BaseCapabilityRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const baseCapabilityCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseCapability>(config)
     : getResponse<BaseCapability>(queryParams?.api || _client?.api, config);
+};
+
+export const baseCapabilityCreateMany = (
+  data: Partial<BaseCapability>[],
+  queryParams?: QueryParamsWithList<BaseCapability>
+): Promise<BaseCapability[]> => {
+  const config: QueryParamsWithList<BaseCapability> = {
+    method: 'post',
+    url: queryParams?.url || BaseCapabilityRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<BaseCapability[]>(config)
+    : getResponse<BaseCapability[], BaseCapability>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

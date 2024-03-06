@@ -47,5 +47,5 @@ export interface Integration extends KeyedModel {
   access_token_request?: string;
   refresh_token_request?: string;
   scope?: string;
-  auto_create_check?: boolean;
+  enable_pull_request_testing: boolean;
 }

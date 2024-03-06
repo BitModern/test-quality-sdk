@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { BaseCapabilityBaseIntegration } from './BaseCapabilityBaseIntegration';
@@ -68,6 +68,25 @@ export const baseCapabilityBaseIntegrationCreateOne = (
         queryParams?.api || _client?.api,
         config
       );
+};
+
+export const baseCapabilityBaseIntegrationCreateMany = (
+  data: Partial<BaseCapabilityBaseIntegration>[],
+  queryParams?: QueryParamsWithList<BaseCapabilityBaseIntegration>
+): Promise<BaseCapabilityBaseIntegration[]> => {
+  const config: QueryParamsWithList<BaseCapabilityBaseIntegration> = {
+    method: 'post',
+    url: queryParams?.url || `/base_capability_base_integration`,
+    params: queryParams?.params,
+    list: data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<BaseCapabilityBaseIntegration[]>(config)
+    : getResponse<
+        BaseCapabilityBaseIntegration[],
+        BaseCapabilityBaseIntegration
+      >(queryParams?.api || _client?.api, config);
 };
 
 export const baseCapabilityBaseIntegrationGetMany = (

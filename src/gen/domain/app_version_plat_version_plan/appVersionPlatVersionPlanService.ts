@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { AppVersionPlatVersionPlan } from './AppVersionPlatVersionPlan';
@@ -65,6 +65,25 @@ export const appVersionPlatVersionPlanCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersionPlatVersionPlan>(config)
     : getResponse<AppVersionPlatVersionPlan>(
+        queryParams?.api || _client?.api,
+        config
+      );
+};
+
+export const appVersionPlatVersionPlanCreateMany = (
+  data: Partial<AppVersionPlatVersionPlan>[],
+  queryParams?: QueryParamsWithList<AppVersionPlatVersionPlan>
+): Promise<AppVersionPlatVersionPlan[]> => {
+  const config: QueryParamsWithList<AppVersionPlatVersionPlan> = {
+    method: 'post',
+    url: queryParams?.url || `/app_version_plat_version_plan`,
+    params: queryParams?.params,
+    list: data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<AppVersionPlatVersionPlan[]>(config)
+    : getResponse<AppVersionPlatVersionPlan[], AppVersionPlatVersionPlan>(
         queryParams?.api || _client?.api,
         config
       );

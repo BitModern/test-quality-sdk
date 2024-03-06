@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { CheckSuiteRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const checkSuiteCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuite>(config)
     : getResponse<CheckSuite>(queryParams?.api || _client?.api, config);
+};
+
+export const checkSuiteCreateMany = (
+  data: Partial<CheckSuite>[],
+  queryParams?: QueryParamsWithList<CheckSuite>
+): Promise<CheckSuite[]> => {
+  const config: QueryParamsWithList<CheckSuite> = {
+    method: 'post',
+    url: queryParams?.url || CheckSuiteRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<CheckSuite[]>(config)
+    : getResponse<CheckSuite[], CheckSuite>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };
