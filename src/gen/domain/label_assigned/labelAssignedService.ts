@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { LabelAssignedRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const labelAssignedCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<LabelAssigned>(config)
     : getResponse<LabelAssigned>(queryParams?.api || _client?.api, config);
+};
+
+export const labelAssignedCreateMany = (
+  data: Partial<LabelAssigned>[],
+  queryParams?: QueryParamsWithList<LabelAssigned>
+): Promise<LabelAssigned[]> => {
+  const config: QueryParamsWithList<LabelAssigned> = {
+    method: 'post',
+    url: queryParams?.url || LabelAssignedRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<LabelAssigned[]>(config)
+    : getResponse<LabelAssigned[], LabelAssigned>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { MilestoneRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const milestoneCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Milestone>(config)
     : getResponse<Milestone>(queryParams?.api || _client?.api, config);
+};
+
+export const milestoneCreateMany = (
+  data: Partial<Milestone>[],
+  queryParams?: QueryParamsWithList<Milestone>
+): Promise<Milestone[]> => {
+  const config: QueryParamsWithList<Milestone> = {
+    method: 'post',
+    url: queryParams?.url || MilestoneRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Milestone[]>(config)
+    : getResponse<Milestone[], Milestone>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

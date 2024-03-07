@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { IntegrationProject } from './IntegrationProject';
@@ -62,6 +62,25 @@ export const integrationProjectCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationProject>(config)
     : getResponse<IntegrationProject>(queryParams?.api || _client?.api, config);
+};
+
+export const integrationProjectCreateMany = (
+  data: Partial<IntegrationProject>[],
+  queryParams?: QueryParamsWithList<IntegrationProject>
+): Promise<IntegrationProject[]> => {
+  const config: QueryParamsWithList<IntegrationProject> = {
+    method: 'post',
+    url: queryParams?.url || `/integration_project`,
+    params: queryParams?.params,
+    list: data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<IntegrationProject[]>(config)
+    : getResponse<IntegrationProject[], IntegrationProject>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };
 
 export const integrationProjectGetMany = (

@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { SubscriptionUserRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const subscriptionUserCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SubscriptionUser>(config)
     : getResponse<SubscriptionUser>(queryParams?.api || _client?.api, config);
+};
+
+export const subscriptionUserCreateMany = (
+  data: Partial<SubscriptionUser>[],
+  queryParams?: QueryParamsWithList<SubscriptionUser>
+): Promise<SubscriptionUser[]> => {
+  const config: QueryParamsWithList<SubscriptionUser> = {
+    method: 'post',
+    url: queryParams?.url || SubscriptionUserRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<SubscriptionUser[]>(config)
+    : getResponse<SubscriptionUser[], SubscriptionUser>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

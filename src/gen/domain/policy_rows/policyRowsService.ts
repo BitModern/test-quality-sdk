@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { PolicyRowsRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const policyRowsCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PolicyRows>(config)
     : getResponse<PolicyRows>(queryParams?.api || _client?.api, config);
+};
+
+export const policyRowsCreateMany = (
+  data: Partial<PolicyRows>[],
+  queryParams?: QueryParamsWithList<PolicyRows>
+): Promise<PolicyRows[]> => {
+  const config: QueryParamsWithList<PolicyRows> = {
+    method: 'post',
+    url: queryParams?.url || PolicyRowsRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<PolicyRows[]>(config)
+    : getResponse<PolicyRows[], PolicyRows>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

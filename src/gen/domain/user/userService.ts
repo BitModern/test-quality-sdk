@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { UserRoute } from '../../routes/Routes';
@@ -99,4 +99,21 @@ export const userCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<User>(config)
     : getResponse<User>(queryParams?.api || _client?.api, config);
+};
+
+export const userCreateMany = (
+  data: Partial<User>[],
+  queryParams?: QueryParamsWithList<User>
+): Promise<User[]> => {
+  const config: QueryParamsWithList<User> = {
+    method: 'post',
+    url: queryParams?.url || UserRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<User[]>(config)
+    : getResponse<User[], User>(queryParams?.api || _client?.api, config);
 };

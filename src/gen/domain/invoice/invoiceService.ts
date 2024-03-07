@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { InvoiceRoute } from '../../routes/Routes';
@@ -102,4 +102,21 @@ export const invoiceCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Invoice>(config)
     : getResponse<Invoice>(queryParams?.api || _client?.api, config);
+};
+
+export const invoiceCreateMany = (
+  data: Partial<Invoice>[],
+  queryParams?: QueryParamsWithList<Invoice>
+): Promise<Invoice[]> => {
+  const config: QueryParamsWithList<Invoice> = {
+    method: 'post',
+    url: queryParams?.url || InvoiceRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Invoice[]>(config)
+    : getResponse<Invoice[], Invoice>(queryParams?.api || _client?.api, config);
 };

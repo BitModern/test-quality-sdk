@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { DefectRoute } from '../../routes/Routes';
@@ -99,4 +99,21 @@ export const defectCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Defect>(config)
     : getResponse<Defect>(queryParams?.api || _client?.api, config);
+};
+
+export const defectCreateMany = (
+  data: Partial<Defect>[],
+  queryParams?: QueryParamsWithList<Defect>
+): Promise<Defect[]> => {
+  const config: QueryParamsWithList<Defect> = {
+    method: 'post',
+    url: queryParams?.url || DefectRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Defect[]>(config)
+    : getResponse<Defect[], Defect>(queryParams?.api || _client?.api, config);
 };

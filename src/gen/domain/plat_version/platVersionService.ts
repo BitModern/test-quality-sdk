@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { PlatVersionRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const platVersionCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlatVersion>(config)
     : getResponse<PlatVersion>(queryParams?.api || _client?.api, config);
+};
+
+export const platVersionCreateMany = (
+  data: Partial<PlatVersion>[],
+  queryParams?: QueryParamsWithList<PlatVersion>
+): Promise<PlatVersion[]> => {
+  const config: QueryParamsWithList<PlatVersion> = {
+    method: 'post',
+    url: queryParams?.url || PlatVersionRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<PlatVersion[]>(config)
+    : getResponse<PlatVersion[], PlatVersion>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

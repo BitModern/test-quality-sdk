@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { IntegrationStatusTypeRoute } from '../../routes/Routes';
@@ -105,6 +105,26 @@ export const integrationStatusTypeCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationStatusType>(config)
     : getResponse<IntegrationStatusType>(
+        queryParams?.api || _client?.api,
+        config
+      );
+};
+
+export const integrationStatusTypeCreateMany = (
+  data: Partial<IntegrationStatusType>[],
+  queryParams?: QueryParamsWithList<IntegrationStatusType>
+): Promise<IntegrationStatusType[]> => {
+  const config: QueryParamsWithList<IntegrationStatusType> = {
+    method: 'post',
+    url: queryParams?.url || IntegrationStatusTypeRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<IntegrationStatusType[]>(config)
+    : getResponse<IntegrationStatusType[], IntegrationStatusType>(
         queryParams?.api || _client?.api,
         config
       );

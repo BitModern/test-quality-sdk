@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { StatusRoute } from '../../routes/Routes';
@@ -99,4 +99,21 @@ export const statusCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Status>(config)
     : getResponse<Status>(queryParams?.api || _client?.api, config);
+};
+
+export const statusCreateMany = (
+  data: Partial<Status>[],
+  queryParams?: QueryParamsWithList<Status>
+): Promise<Status[]> => {
+  const config: QueryParamsWithList<Status> = {
+    method: 'post',
+    url: queryParams?.url || StatusRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Status[]>(config)
+    : getResponse<Status[], Status>(queryParams?.api || _client?.api, config);
 };

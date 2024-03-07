@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { CapabilityIntegration } from './CapabilityIntegration';
@@ -65,6 +65,25 @@ export const capabilityIntegrationCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CapabilityIntegration>(config)
     : getResponse<CapabilityIntegration>(
+        queryParams?.api || _client?.api,
+        config
+      );
+};
+
+export const capabilityIntegrationCreateMany = (
+  data: Partial<CapabilityIntegration>[],
+  queryParams?: QueryParamsWithList<CapabilityIntegration>
+): Promise<CapabilityIntegration[]> => {
+  const config: QueryParamsWithList<CapabilityIntegration> = {
+    method: 'post',
+    url: queryParams?.url || `/capability_integration`,
+    params: queryParams?.params,
+    list: data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<CapabilityIntegration[]>(config)
+    : getResponse<CapabilityIntegration[], CapabilityIntegration>(
         queryParams?.api || _client?.api,
         config
       );

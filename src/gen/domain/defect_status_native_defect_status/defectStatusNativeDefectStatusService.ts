@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { DefectStatusNativeDefectStatus } from './DefectStatusNativeDefectStatus';
@@ -68,6 +68,25 @@ export const defectStatusNativeDefectStatusCreateOne = (
         queryParams?.api || _client?.api,
         config
       );
+};
+
+export const defectStatusNativeDefectStatusCreateMany = (
+  data: Partial<DefectStatusNativeDefectStatus>[],
+  queryParams?: QueryParamsWithList<DefectStatusNativeDefectStatus>
+): Promise<DefectStatusNativeDefectStatus[]> => {
+  const config: QueryParamsWithList<DefectStatusNativeDefectStatus> = {
+    method: 'post',
+    url: queryParams?.url || `/defect_status_native_defect_status`,
+    params: queryParams?.params,
+    list: data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<DefectStatusNativeDefectStatus[]>(config)
+    : getResponse<
+        DefectStatusNativeDefectStatus[],
+        DefectStatusNativeDefectStatus
+      >(queryParams?.api || _client?.api, config);
 };
 
 export const defectStatusNativeDefectStatusGetMany = (

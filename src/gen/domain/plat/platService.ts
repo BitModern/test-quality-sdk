@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { PlatRoute } from '../../routes/Routes';
@@ -99,4 +99,21 @@ export const platCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plat>(config)
     : getResponse<Plat>(queryParams?.api || _client?.api, config);
+};
+
+export const platCreateMany = (
+  data: Partial<Plat>[],
+  queryParams?: QueryParamsWithList<Plat>
+): Promise<Plat[]> => {
+  const config: QueryParamsWithList<Plat> = {
+    method: 'post',
+    url: queryParams?.url || PlatRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Plat[]>(config)
+    : getResponse<Plat[], Plat>(queryParams?.api || _client?.api, config);
 };

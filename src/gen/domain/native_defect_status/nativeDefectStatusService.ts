@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { NativeDefectStatusRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const nativeDefectStatusCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<NativeDefectStatus>(config)
     : getResponse<NativeDefectStatus>(queryParams?.api || _client?.api, config);
+};
+
+export const nativeDefectStatusCreateMany = (
+  data: Partial<NativeDefectStatus>[],
+  queryParams?: QueryParamsWithList<NativeDefectStatus>
+): Promise<NativeDefectStatus[]> => {
+  const config: QueryParamsWithList<NativeDefectStatus> = {
+    method: 'post',
+    url: queryParams?.url || NativeDefectStatusRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<NativeDefectStatus[]>(config)
+    : getResponse<NativeDefectStatus[], NativeDefectStatus>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

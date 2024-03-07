@@ -1,16 +1,15 @@
 /**
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
-
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { LabelAssigned } from './LabelAssigned';
 import { LabelApi } from '../label/LabelApi';
-import { SharedStepApi } from '../shared_step/SharedStepApi';
 import { SuiteApi } from '../suite/SuiteApi';
 import { TestApi } from '../test/TestApi';
 import { ProjectApi } from '../project/ProjectApi';
+import { SharedStepApi } from '../shared_step/SharedStepApi';
 import { CaseTypeApi } from '../case_type/CaseTypeApi';
 import { CasePriorityApi } from '../case_priority/CasePriorityApi';
 import { PlanApi } from '../plan/PlanApi';
@@ -34,10 +33,10 @@ import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatu
 
 export interface LabelAssignedApi extends LabelAssigned {
   label?: LabelApi;
-  shared_step?: SharedStepApi;
   suite?: SuiteApi;
   test?: TestApi;
   project?: ProjectApi;
+  shared_step?: SharedStepApi;
   case_type?: CaseTypeApi;
   case_priority?: CasePriorityApi;
   plan?: PlanApi;

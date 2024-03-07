@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { PurposeRoute } from '../../routes/Routes';
@@ -102,4 +102,21 @@ export const purposeCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Purpose>(config)
     : getResponse<Purpose>(queryParams?.api || _client?.api, config);
+};
+
+export const purposeCreateMany = (
+  data: Partial<Purpose>[],
+  queryParams?: QueryParamsWithList<Purpose>
+): Promise<Purpose[]> => {
+  const config: QueryParamsWithList<Purpose> = {
+    method: 'post',
+    url: queryParams?.url || PurposeRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Purpose[]>(config)
+    : getResponse<Purpose[], Purpose>(queryParams?.api || _client?.api, config);
 };

@@ -3,11 +3,15 @@
  */
 
 import { AxiosInstance } from 'axios';
-import { QueryParams } from './QueryParams';
+import {
+  QueryParams,
+  QueryParamsWithList,
+  hasListProperty,
+} from './QueryParams';
 
 export async function getResponse<T, Q = T>(
   api: AxiosInstance | undefined,
-  queryParams: QueryParams<Q>
+  queryParams: QueryParams<Q> | QueryParamsWithList<Q>
 ): Promise<T> {
   if (!api) {
     throw new Error('No clientSkd.api provided');
@@ -18,7 +22,7 @@ export async function getResponse<T, Q = T>(
       method: queryParams.method || 'get',
       url: queryParams.url,
       params: queryParams.params,
-      data: queryParams.data,
+      data: hasListProperty(queryParams) ? queryParams.list : queryParams.data,
       headers: queryParams.headers,
     })
     .then((resp) => {

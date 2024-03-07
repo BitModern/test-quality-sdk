@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { RequirementTest } from './RequirementTest';
@@ -62,6 +62,25 @@ export const requirementTestCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<RequirementTest>(config)
     : getResponse<RequirementTest>(queryParams?.api || _client?.api, config);
+};
+
+export const requirementTestCreateMany = (
+  data: Partial<RequirementTest>[],
+  queryParams?: QueryParamsWithList<RequirementTest>
+): Promise<RequirementTest[]> => {
+  const config: QueryParamsWithList<RequirementTest> = {
+    method: 'post',
+    url: queryParams?.url || `/requirement_test`,
+    params: queryParams?.params,
+    list: data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<RequirementTest[]>(config)
+    : getResponse<RequirementTest[], RequirementTest>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };
 
 export const requirementTestGetMany = (

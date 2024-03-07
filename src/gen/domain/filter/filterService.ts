@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { FilterRoute } from '../../routes/Routes';
@@ -99,4 +99,21 @@ export const filterCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Filter>(config)
     : getResponse<Filter>(queryParams?.api || _client?.api, config);
+};
+
+export const filterCreateMany = (
+  data: Partial<Filter>[],
+  queryParams?: QueryParamsWithList<Filter>
+): Promise<Filter[]> => {
+  const config: QueryParamsWithList<Filter> = {
+    method: 'post',
+    url: queryParams?.url || FilterRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Filter[]>(config)
+    : getResponse<Filter[], Filter>(queryParams?.api || _client?.api, config);
 };

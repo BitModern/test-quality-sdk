@@ -5,6 +5,7 @@
 import { KeyedModel } from '../../models/KeyedModel';
 
 export interface Plat extends KeyedModel {
+  id: number;
   created_by: number;
   created_at: string;
   updated_by: number;
@@ -27,5 +28,4 @@ export interface Plat extends KeyedModel {
   is_default: boolean;
   key: number;
   picture?: string;
-  id: number;
 }

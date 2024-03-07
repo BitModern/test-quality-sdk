@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { SuiteRoute } from '../../routes/Routes';
@@ -99,4 +99,21 @@ export const suiteCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Suite>(config)
     : getResponse<Suite>(queryParams?.api || _client?.api, config);
+};
+
+export const suiteCreateMany = (
+  data: Partial<Suite>[],
+  queryParams?: QueryParamsWithList<Suite>
+): Promise<Suite[]> => {
+  const config: QueryParamsWithList<Suite> = {
+    method: 'post',
+    url: queryParams?.url || SuiteRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Suite[]>(config)
+    : getResponse<Suite[], Suite>(queryParams?.api || _client?.api, config);
 };

@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { SignupOptionRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const signupOptionCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SignupOption>(config)
     : getResponse<SignupOption>(queryParams?.api || _client?.api, config);
+};
+
+export const signupOptionCreateMany = (
+  data: Partial<SignupOption>[],
+  queryParams?: QueryParamsWithList<SignupOption>
+): Promise<SignupOption[]> => {
+  const config: QueryParamsWithList<SignupOption> = {
+    method: 'post',
+    url: queryParams?.url || SignupOptionRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<SignupOption[]>(config)
+    : getResponse<SignupOption[], SignupOption>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

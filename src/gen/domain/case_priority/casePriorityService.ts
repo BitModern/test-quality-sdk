@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { CasePriorityRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const casePriorityCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CasePriority>(config)
     : getResponse<CasePriority>(queryParams?.api || _client?.api, config);
+};
+
+export const casePriorityCreateMany = (
+  data: Partial<CasePriority>[],
+  queryParams?: QueryParamsWithList<CasePriority>
+): Promise<CasePriority[]> => {
+  const config: QueryParamsWithList<CasePriority> = {
+    method: 'post',
+    url: queryParams?.url || CasePriorityRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<CasePriority[]>(config)
+    : getResponse<CasePriority[], CasePriority>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

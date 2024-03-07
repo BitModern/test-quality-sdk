@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { PlanSuite } from './PlanSuite';
@@ -62,6 +62,25 @@ export const planSuiteCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanSuite>(config)
     : getResponse<PlanSuite>(queryParams?.api || _client?.api, config);
+};
+
+export const planSuiteCreateMany = (
+  data: Partial<PlanSuite>[],
+  queryParams?: QueryParamsWithList<PlanSuite>
+): Promise<PlanSuite[]> => {
+  const config: QueryParamsWithList<PlanSuite> = {
+    method: 'post',
+    url: queryParams?.url || `/plan_suite`,
+    params: queryParams?.params,
+    list: data,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<PlanSuite[]>(config)
+    : getResponse<PlanSuite[], PlanSuite>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };
 
 export const planSuiteGetMany = (

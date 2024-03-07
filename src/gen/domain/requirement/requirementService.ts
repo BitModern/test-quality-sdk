@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { RequirementRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const requirementCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Requirement>(config)
     : getResponse<Requirement>(queryParams?.api || _client?.api, config);
+};
+
+export const requirementCreateMany = (
+  data: Partial<Requirement>[],
+  queryParams?: QueryParamsWithList<Requirement>
+): Promise<Requirement[]> => {
+  const config: QueryParamsWithList<Requirement> = {
+    method: 'post',
+    url: queryParams?.url || RequirementRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<Requirement[]>(config)
+    : getResponse<Requirement[], Requirement>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

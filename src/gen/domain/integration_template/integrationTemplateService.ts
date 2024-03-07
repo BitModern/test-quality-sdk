@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { IntegrationTemplateRoute } from '../../routes/Routes';
@@ -105,6 +105,26 @@ export const integrationTemplateCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationTemplate>(config)
     : getResponse<IntegrationTemplate>(
+        queryParams?.api || _client?.api,
+        config
+      );
+};
+
+export const integrationTemplateCreateMany = (
+  data: Partial<IntegrationTemplate>[],
+  queryParams?: QueryParamsWithList<IntegrationTemplate>
+): Promise<IntegrationTemplate[]> => {
+  const config: QueryParamsWithList<IntegrationTemplate> = {
+    method: 'post',
+    url: queryParams?.url || IntegrationTemplateRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<IntegrationTemplate[]>(config)
+    : getResponse<IntegrationTemplate[], IntegrationTemplate>(
         queryParams?.api || _client?.api,
         config
       );

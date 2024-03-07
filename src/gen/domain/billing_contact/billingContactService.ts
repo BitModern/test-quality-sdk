@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { BillingContactRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const billingContactCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BillingContact>(config)
     : getResponse<BillingContact>(queryParams?.api || _client?.api, config);
+};
+
+export const billingContactCreateMany = (
+  data: Partial<BillingContact>[],
+  queryParams?: QueryParamsWithList<BillingContact>
+): Promise<BillingContact[]> => {
+  const config: QueryParamsWithList<BillingContact> = {
+    method: 'post',
+    url: queryParams?.url || BillingContactRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<BillingContact[]>(config)
+    : getResponse<BillingContact[], BillingContact>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };

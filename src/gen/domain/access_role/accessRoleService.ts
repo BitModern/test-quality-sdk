@@ -4,7 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
 import { MessageResponse } from '../../actions/MessageResponse';
 import { ResourceList } from '../../models/ResourceList';
 import { AccessRoleRoute } from '../../routes/Routes';
@@ -102,4 +102,24 @@ export const accessRoleCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRole>(config)
     : getResponse<AccessRole>(queryParams?.api || _client?.api, config);
+};
+
+export const accessRoleCreateMany = (
+  data: Partial<AccessRole>[],
+  queryParams?: QueryParamsWithList<AccessRole>
+): Promise<AccessRole[]> => {
+  const config: QueryParamsWithList<AccessRole> = {
+    method: 'post',
+    url: queryParams?.url || AccessRoleRoute(),
+    params: queryParams?.params,
+    list: data,
+    headers: queryParams?.headers,
+  };
+
+  return queryParams?.batch
+    ? queryParams.batch.addBatch<AccessRole[]>(config)
+    : getResponse<AccessRole[], AccessRole>(
+        queryParams?.api || _client?.api,
+        config
+      );
 };
