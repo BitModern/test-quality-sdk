@@ -5,10 +5,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { CheckSuite } from './CheckSuite';
-import { PullRequestApi } from '../pull_request/PullRequestApi';
+import { AppInstallProjectApi } from '../app_install_project/AppInstallProjectApi';
 import { CheckRunApi } from '../check_run/CheckRunApi';
 
 export interface CheckSuiteApi extends CheckSuite {
-  pull_request?: PullRequestApi;
+  app_install_project?: AppInstallProjectApi;
   check_run?: CheckRunApi[];
 }

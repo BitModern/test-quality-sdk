@@ -5,10 +5,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { PlanPurpose } from './PlanPurpose';
-import { PlanApi } from '../plan/PlanApi';
 import { PurposeApi } from '../purpose/PurposeApi';
+import { PlanApi } from '../plan/PlanApi';
 
 export interface PlanPurposeApi extends PlanPurpose {
-  plan?: PlanApi;
   purpose?: PurposeApi;
+  plan?: PlanApi;
 }

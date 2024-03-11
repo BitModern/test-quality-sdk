@@ -6,7 +6,6 @@ import { KeyedModel } from '../../models/KeyedModel';
 
 export interface CheckSuite extends KeyedModel {
   id: number;
-  pull_request_id?: number;
   external_reference_id: string;
   head_sha?: string;
   created_at: string;
@@ -15,4 +14,6 @@ export interface CheckSuite extends KeyedModel {
   updated_by: number;
   epoch: number;
   client_id: number;
+  head_branch?: string;
+  app_install_project_id: number;
 }

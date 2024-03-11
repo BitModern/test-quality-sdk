@@ -22,4 +22,5 @@ export interface CheckRun extends KeyedModel {
   epoch: number;
   client_id: number;
   check_suite_id?: number;
+  app_install_project_id: number;
 }

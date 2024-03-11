@@ -6,9 +6,11 @@
 
 import { CheckRun } from './CheckRun';
 import { CheckSuiteApi } from '../check_suite/CheckSuiteApi';
+import { AppInstallProjectApi } from '../app_install_project/AppInstallProjectApi';
 import { RunApi } from '../run/RunApi';
 
 export interface CheckRunApi extends CheckRun {
   check_suite?: CheckSuiteApi;
+  app_install_project?: AppInstallProjectApi;
   run?: RunApi[];
 }
