@@ -23,4 +23,6 @@ export interface PullRequest extends KeyedModel {
   client_id: number;
   app_install_project_id: number;
   app_user_id?: number;
+  base?: any;
+  head?: any;
 }

@@ -23,6 +23,12 @@ export const AppInstallAppInstallProjectRoute = (
   app_install_id: number
 ): string => `/app_install/${app_install_id}/app_install_project`;
 export const AppInstallProjectRoute = (): string => `/app_install_project`;
+export const AppInstallProjectCheckRunRoute = (
+  app_install_project_id: number
+): string => `/app_install_project/${app_install_project_id}/check_run`;
+export const AppInstallProjectCheckSuiteRoute = (
+  app_install_project_id: number
+): string => `/app_install_project/${app_install_project_id}/check_suite`;
 export const AppInstallProjectIntegrationProjectRoute = (
   app_install_project_id: number
 ): string =>
@@ -98,6 +104,9 @@ export const CheckRunRunRoute = (check_run_id: number): string =>
 export const CheckSuiteRoute = (): string => `/check_suite`;
 export const CheckSuiteCheckRunRoute = (check_suite_id: number): string =>
   `/check_suite/${check_suite_id}/check_run`;
+export const CheckSuiteCheckSuitePullRequestRoute = (
+  check_suite_id: number
+): string => `/check_suite/${check_suite_id}/check_suite_pull_request`;
 export const ClientRoute = (): string => `/client`;
 export const ClientKeyRoute = (client_id: number): string =>
   `/client/${client_id}/key`;
@@ -105,8 +114,6 @@ export const ClientSignupOptionRoute = (client_id: number): string =>
   `/client/${client_id}/signup_option`;
 export const ClientVirtualRoute = (client_id: number): string =>
   `/client/${client_id}/virtual`;
-export const ClientWebhookRoute = (client_id: number): string =>
-  `/client/${client_id}/webhook`;
 export const CommentRoute = (): string => `/comment`;
 export const CouponRoute = (): string => `/coupon`;
 export const CouponSubscriptionsRoute = (coupon_id: number): string =>
@@ -287,8 +294,9 @@ export const ProjectTestRoute = (project_id: number): string =>
 export const ProjectWatchRoute = (project_id: number): string =>
   `/project/${project_id}/watch`;
 export const PullRequestRoute = (): string => `/pull_request`;
-export const PullRequestCheckSuiteRoute = (pull_request_id: number): string =>
-  `/pull_request/${pull_request_id}/check_suite`;
+export const PullRequestCheckSuitePullRequestRoute = (
+  pull_request_id: number
+): string => `/pull_request/${pull_request_id}/check_suite_pull_request`;
 export const PullRequestRequirementPullRequestRoute = (
   pull_request_id: number
 ): string => `/pull_request/${pull_request_id}/requirement_pull_request`;
