@@ -11,7 +11,7 @@ import {
 
 export async function getResponse<T, Q = T>(
   api: AxiosInstance | undefined,
-  queryParams: QueryParams<Q> | QueryParamsWithList<Q>
+  queryParams: QueryParams<Q> | QueryParamsWithList<Q>,
 ): Promise<T> {
   if (!api) {
     throw new Error('No clientSkd.api provided');

@@ -12,7 +12,7 @@ export type UnrestrictProjectReturn = {
 
 export const unrestrictProject = (
   data: UnrestrictProjectParams,
-  queryParams?: QueryParams<UnrestrictProjectParams>
+  queryParams?: QueryParams<UnrestrictProjectParams>,
 ): Promise<UnrestrictProjectReturn> => {
   const config: QueryParams<UnrestrictProjectParams> = {
     method: 'delete',
@@ -25,6 +25,6 @@ export const unrestrictProject = (
     ? queryParams.batch.addBatch<UnrestrictProjectReturn>(config)
     : getResponse<UnrestrictProjectReturn, UnrestrictProjectParams>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

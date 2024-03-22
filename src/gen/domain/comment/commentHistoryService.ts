@@ -10,7 +10,7 @@ import { Comment } from './Comment';
 import { CommentHistory } from './CommentHistory';
 
 export const commentHistoryGet = (
-  queryParams?: QueryParams<Comment>
+  queryParams?: QueryParams<Comment>,
 ): Promise<CommentHistory[]> => {
   const config: QueryParams<Comment> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const commentHistoryGet = (
     ? queryParams.batch.addBatch<CommentHistory[]>(config)
     : getResponse<CommentHistory[], Comment>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

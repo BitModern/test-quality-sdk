@@ -10,7 +10,7 @@ import { Plat } from './Plat';
 import { PlatHistory } from './PlatHistory';
 
 export const platHistoryGet = (
-  queryParams?: QueryParams<Plat>
+  queryParams?: QueryParams<Plat>,
 ): Promise<PlatHistory[]> => {
   const config: QueryParams<Plat> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const platHistoryGet = (
     ? queryParams.batch.addBatch<PlatHistory[]>(config)
     : getResponse<PlatHistory[], Plat>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

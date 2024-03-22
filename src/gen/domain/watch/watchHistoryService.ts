@@ -10,7 +10,7 @@ import { Watch } from './Watch';
 import { WatchHistory } from './WatchHistory';
 
 export const watchHistoryGet = (
-  queryParams?: QueryParams<Watch>
+  queryParams?: QueryParams<Watch>,
 ): Promise<WatchHistory[]> => {
   const config: QueryParams<Watch> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const watchHistoryGet = (
     ? queryParams.batch.addBatch<WatchHistory[]>(config)
     : getResponse<WatchHistory[], Watch>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

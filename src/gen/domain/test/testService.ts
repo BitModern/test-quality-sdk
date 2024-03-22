@@ -12,7 +12,7 @@ import { Test } from './Test';
 import { TestApi } from './TestApi';
 
 export const testGetMany = (
-  queryParams?: QueryParams<Test>
+  queryParams?: QueryParams<Test>,
 ): Promise<ResourceList<TestApi>> => {
   const config: QueryParams<Test> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const testGetMany = (
     ? queryParams.batch.addBatch<ResourceList<TestApi>>(config)
     : getResponse<ResourceList<TestApi>, Test>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const testGetOne = (
   id: number,
-  queryParams?: QueryParams<Test>
+  queryParams?: QueryParams<Test>,
 ): Promise<TestApi> => {
   const config: QueryParams<Test> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const testGetOne = (
 
 export const testDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Test>
+  queryParams?: QueryParams<Test>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Test> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const testDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Test>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const testUpdateOne = (
   id: number,
   data: Partial<Test>,
-  queryParams?: QueryParams<Test>
+  queryParams?: QueryParams<Test>,
 ): Promise<Test> => {
   const config: QueryParams<Test> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const testUpdateOne = (
 
 export const testCreateOne = (
   data: Partial<Test>,
-  queryParams?: QueryParams<Test>
+  queryParams?: QueryParams<Test>,
 ): Promise<Test> => {
   const config: QueryParams<Test> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const testCreateOne = (
 
 export const testCreateMany = (
   data: Partial<Test>[],
-  queryParams?: QueryParamsWithList<Test>
+  queryParams?: QueryParamsWithList<Test>,
 ): Promise<Test[]> => {
   const config: QueryParamsWithList<Test> = {
     method: 'post',

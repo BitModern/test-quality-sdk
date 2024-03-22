@@ -10,7 +10,7 @@ import { DefectLabelRoute } from '../../routes/Routes';
 import { DefectLabel } from './DefectLabel';
 
 export const defectLabelGetMany = (
-  queryParams?: QueryParams<LookupIntegrationParams>
+  queryParams?: QueryParams<LookupIntegrationParams>,
 ): Promise<DefectLabel[]> => {
   const config: QueryParams<LookupIntegrationParams> = {
     method: 'get',
@@ -23,6 +23,6 @@ export const defectLabelGetMany = (
     ? queryParams.batch.addBatch<DefectLabel[]>(config)
     : getResponse<DefectLabel[], LookupIntegrationParams>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

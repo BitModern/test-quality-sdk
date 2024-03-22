@@ -12,7 +12,7 @@ import { RunResultStep } from './RunResultStep';
 import { RunResultStepApi } from './RunResultStepApi';
 
 export const runResultStepGetMany = (
-  queryParams?: QueryParams<RunResultStep>
+  queryParams?: QueryParams<RunResultStep>,
 ): Promise<ResourceList<RunResultStepApi>> => {
   const config: QueryParams<RunResultStep> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const runResultStepGetMany = (
     ? queryParams.batch.addBatch<ResourceList<RunResultStepApi>>(config)
     : getResponse<ResourceList<RunResultStepApi>, RunResultStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const runResultStepGetOne = (
   id: number,
-  queryParams?: QueryParams<RunResultStep>
+  queryParams?: QueryParams<RunResultStep>,
 ): Promise<RunResultStepApi> => {
   const config: QueryParams<RunResultStep> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const runResultStepGetOne = (
     ? queryParams.batch.addBatch<RunResultStepApi>(config)
     : getResponse<RunResultStepApi, RunResultStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const runResultStepDeleteOne = (
   id: number,
-  queryParams?: QueryParams<RunResultStep>
+  queryParams?: QueryParams<RunResultStep>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<RunResultStep> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const runResultStepDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, RunResultStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const runResultStepUpdateOne = (
   id: number,
   data: Partial<RunResultStep>,
-  queryParams?: QueryParams<RunResultStep>
+  queryParams?: QueryParams<RunResultStep>,
 ): Promise<RunResultStep> => {
   const config: QueryParams<RunResultStep> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const runResultStepUpdateOne = (
 
 export const runResultStepCreateOne = (
   data: Partial<RunResultStep>,
-  queryParams?: QueryParams<RunResultStep>
+  queryParams?: QueryParams<RunResultStep>,
 ): Promise<RunResultStep> => {
   const config: QueryParams<RunResultStep> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const runResultStepCreateOne = (
 
 export const runResultStepCreateMany = (
   data: Partial<RunResultStep>[],
-  queryParams?: QueryParamsWithList<RunResultStep>
+  queryParams?: QueryParamsWithList<RunResultStep>,
 ): Promise<RunResultStep[]> => {
   const config: QueryParamsWithList<RunResultStep> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const runResultStepCreateMany = (
     ? queryParams.batch.addBatch<RunResultStep[]>(config)
     : getResponse<RunResultStep[], RunResultStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

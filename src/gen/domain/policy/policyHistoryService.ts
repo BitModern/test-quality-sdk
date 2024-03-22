@@ -10,7 +10,7 @@ import { Policy } from './Policy';
 import { PolicyHistory } from './PolicyHistory';
 
 export const policyHistoryGet = (
-  queryParams?: QueryParams<Policy>
+  queryParams?: QueryParams<Policy>,
 ): Promise<PolicyHistory[]> => {
   const config: QueryParams<Policy> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const policyHistoryGet = (
     ? queryParams.batch.addBatch<PolicyHistory[]>(config)
     : getResponse<PolicyHistory[], Policy>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

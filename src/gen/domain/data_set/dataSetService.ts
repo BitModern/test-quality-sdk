@@ -12,7 +12,7 @@ import { DataSet } from './DataSet';
 import { DataSetApi } from './DataSetApi';
 
 export const dataSetGetMany = (
-  queryParams?: QueryParams<DataSet>
+  queryParams?: QueryParams<DataSet>,
 ): Promise<ResourceList<DataSetApi>> => {
   const config: QueryParams<DataSet> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const dataSetGetMany = (
     ? queryParams.batch.addBatch<ResourceList<DataSetApi>>(config)
     : getResponse<ResourceList<DataSetApi>, DataSet>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const dataSetGetOne = (
   id: number,
-  queryParams?: QueryParams<DataSet>
+  queryParams?: QueryParams<DataSet>,
 ): Promise<DataSetApi> => {
   const config: QueryParams<DataSet> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const dataSetGetOne = (
     ? queryParams.batch.addBatch<DataSetApi>(config)
     : getResponse<DataSetApi, DataSet>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const dataSetDeleteOne = (
   id: number,
-  queryParams?: QueryParams<DataSet>
+  queryParams?: QueryParams<DataSet>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<DataSet> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const dataSetDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, DataSet>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const dataSetUpdateOne = (
   id: number,
   data: Partial<DataSet>,
-  queryParams?: QueryParams<DataSet>
+  queryParams?: QueryParams<DataSet>,
 ): Promise<DataSet> => {
   const config: QueryParams<DataSet> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const dataSetUpdateOne = (
 
 export const dataSetCreateOne = (
   data: Partial<DataSet>,
-  queryParams?: QueryParams<DataSet>
+  queryParams?: QueryParams<DataSet>,
 ): Promise<DataSet> => {
   const config: QueryParams<DataSet> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const dataSetCreateOne = (
 
 export const dataSetCreateMany = (
   data: Partial<DataSet>[],
-  queryParams?: QueryParamsWithList<DataSet>
+  queryParams?: QueryParamsWithList<DataSet>,
 ): Promise<DataSet[]> => {
   const config: QueryParamsWithList<DataSet> = {
     method: 'post',

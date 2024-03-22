@@ -12,7 +12,7 @@ import { BaseCapabilityBaseIntegrationApi } from './BaseCapabilityBaseIntegratio
 
 export const baseCapabilityBaseIntegrationDetach = (
   data: Partial<BaseCapabilityBaseIntegration>,
-  queryParams?: QueryParams<BaseCapabilityBaseIntegration>
+  queryParams?: QueryParams<BaseCapabilityBaseIntegration>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
@@ -27,14 +27,14 @@ export const baseCapabilityBaseIntegrationDetach = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, BaseCapabilityBaseIntegration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const baseCapabilityBaseIntegrationUpdateOne = (
   id: number,
   data: Partial<BaseCapabilityBaseIntegration>,
-  queryParams?: QueryParams<BaseCapabilityBaseIntegration>
+  queryParams?: QueryParams<BaseCapabilityBaseIntegration>,
 ): Promise<BaseCapabilityBaseIntegration> => {
   const config: QueryParams<BaseCapabilityBaseIntegration> = {
     method: 'put',
@@ -47,13 +47,13 @@ export const baseCapabilityBaseIntegrationUpdateOne = (
     ? queryParams.batch.addBatch<BaseCapabilityBaseIntegration>(config)
     : getResponse<BaseCapabilityBaseIntegration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const baseCapabilityBaseIntegrationCreateOne = (
   data: Partial<BaseCapabilityBaseIntegration>,
-  queryParams?: QueryParams<BaseCapabilityBaseIntegration>
+  queryParams?: QueryParams<BaseCapabilityBaseIntegration>,
 ): Promise<BaseCapabilityBaseIntegration> => {
   const config: QueryParams<BaseCapabilityBaseIntegration> = {
     method: 'post',
@@ -66,13 +66,13 @@ export const baseCapabilityBaseIntegrationCreateOne = (
     ? queryParams.batch.addBatch<BaseCapabilityBaseIntegration>(config)
     : getResponse<BaseCapabilityBaseIntegration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const baseCapabilityBaseIntegrationCreateMany = (
   data: Partial<BaseCapabilityBaseIntegration>[],
-  queryParams?: QueryParamsWithList<BaseCapabilityBaseIntegration>
+  queryParams?: QueryParamsWithList<BaseCapabilityBaseIntegration>,
 ): Promise<BaseCapabilityBaseIntegration[]> => {
   const config: QueryParamsWithList<BaseCapabilityBaseIntegration> = {
     method: 'post',
@@ -90,7 +90,7 @@ export const baseCapabilityBaseIntegrationCreateMany = (
 };
 
 export const baseCapabilityBaseIntegrationGetMany = (
-  queryParams?: QueryParams<BaseCapabilityBaseIntegration>
+  queryParams?: QueryParams<BaseCapabilityBaseIntegration>,
 ): Promise<ResourceList<BaseCapabilityBaseIntegrationApi>> => {
   const config: QueryParams<BaseCapabilityBaseIntegration> = {
     method: 'get',
@@ -111,7 +111,7 @@ export const baseCapabilityBaseIntegrationGetMany = (
 
 export const baseCapabilityBaseIntegrationGetOne = (
   id: number,
-  queryParams?: QueryParams<BaseCapabilityBaseIntegration>
+  queryParams?: QueryParams<BaseCapabilityBaseIntegration>,
 ): Promise<BaseCapabilityBaseIntegrationApi> => {
   const config: QueryParams<BaseCapabilityBaseIntegration> = {
     method: 'get',

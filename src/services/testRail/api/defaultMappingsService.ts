@@ -3,7 +3,7 @@ import { getResponse, QueryParams } from '../../../gen/actions';
 import { DefaultMappings } from '../interfaces/DefaultMappings';
 
 export const getDefaultMappings = (
-  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>
+  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
 ): Promise<DefaultMappings> => {
   const config: QueryParams<void> = {
     method: 'get',
@@ -15,6 +15,6 @@ export const getDefaultMappings = (
     ? queryParams.batch.addBatch<DefaultMappings>(config)
     : getResponse<DefaultMappings, void>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

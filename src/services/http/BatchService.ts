@@ -82,7 +82,7 @@ export class BatchService {
         (error) => {
           this.failAll(error);
           reject(error);
-        }
+        },
       );
     });
   }
@@ -90,7 +90,7 @@ export class BatchService {
   private handleBatchResponse(
     response: AxiosResponse<BatchResponses>,
     resolve: (value: BatchResponses | PromiseLike<BatchResponses>) => void,
-    reject: (reason?: any) => void
+    reject: (reason?: any) => void,
   ) {
     if (!response || !response.data || !response.data.responses) {
       const error = new Error('Batch has no data');
@@ -104,7 +104,7 @@ export class BatchService {
         (r) =>
           r.method === batchContainer.request.method &&
           r.endpoint === batchContainer.request.endpoint &&
-          !r.processed
+          !r.processed,
       );
 
       if (res) {
@@ -116,7 +116,7 @@ export class BatchService {
             url: `${batchContainer.request.method}: ${batchContainer.request.endpoint}`,
           };
           batchContainer.reject(
-            getHttpResponse(res as unknown as AxiosResponse)
+            getHttpResponse(res as unknown as AxiosResponse),
           );
         }
       } else {

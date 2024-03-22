@@ -12,7 +12,7 @@ import { Policy } from './Policy';
 import { PolicyApi } from './PolicyApi';
 
 export const policyGetMany = (
-  queryParams?: QueryParams<Policy>
+  queryParams?: QueryParams<Policy>,
 ): Promise<ResourceList<PolicyApi>> => {
   const config: QueryParams<Policy> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const policyGetMany = (
     ? queryParams.batch.addBatch<ResourceList<PolicyApi>>(config)
     : getResponse<ResourceList<PolicyApi>, Policy>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const policyGetOne = (
   id: number,
-  queryParams?: QueryParams<Policy>
+  queryParams?: QueryParams<Policy>,
 ): Promise<PolicyApi> => {
   const config: QueryParams<Policy> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const policyGetOne = (
 
 export const policyDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Policy>
+  queryParams?: QueryParams<Policy>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Policy> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const policyDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Policy>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const policyUpdateOne = (
   id: number,
   data: Partial<Policy>,
-  queryParams?: QueryParams<Policy>
+  queryParams?: QueryParams<Policy>,
 ): Promise<Policy> => {
   const config: QueryParams<Policy> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const policyUpdateOne = (
 
 export const policyCreateOne = (
   data: Partial<Policy>,
-  queryParams?: QueryParams<Policy>
+  queryParams?: QueryParams<Policy>,
 ): Promise<Policy> => {
   const config: QueryParams<Policy> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const policyCreateOne = (
 
 export const policyCreateMany = (
   data: Partial<Policy>[],
-  queryParams?: QueryParamsWithList<Policy>
+  queryParams?: QueryParamsWithList<Policy>,
 ): Promise<Policy[]> => {
   const config: QueryParamsWithList<Policy> = {
     method: 'post',

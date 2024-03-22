@@ -10,7 +10,7 @@ import { SharedStep } from './SharedStep';
 import { SharedStepHistory } from './SharedStepHistory';
 
 export const sharedStepHistoryGet = (
-  queryParams?: QueryParams<SharedStep>
+  queryParams?: QueryParams<SharedStep>,
 ): Promise<SharedStepHistory[]> => {
   const config: QueryParams<SharedStep> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const sharedStepHistoryGet = (
     ? queryParams.batch.addBatch<SharedStepHistory[]>(config)
     : getResponse<SharedStepHistory[], SharedStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

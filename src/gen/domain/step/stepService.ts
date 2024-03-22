@@ -12,7 +12,7 @@ import { Step } from './Step';
 import { StepApi } from './StepApi';
 
 export const stepGetMany = (
-  queryParams?: QueryParams<Step>
+  queryParams?: QueryParams<Step>,
 ): Promise<ResourceList<StepApi>> => {
   const config: QueryParams<Step> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const stepGetMany = (
     ? queryParams.batch.addBatch<ResourceList<StepApi>>(config)
     : getResponse<ResourceList<StepApi>, Step>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const stepGetOne = (
   id: number,
-  queryParams?: QueryParams<Step>
+  queryParams?: QueryParams<Step>,
 ): Promise<StepApi> => {
   const config: QueryParams<Step> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const stepGetOne = (
 
 export const stepDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Step>
+  queryParams?: QueryParams<Step>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Step> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const stepDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Step>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const stepUpdateOne = (
   id: number,
   data: Partial<Step>,
-  queryParams?: QueryParams<Step>
+  queryParams?: QueryParams<Step>,
 ): Promise<Step> => {
   const config: QueryParams<Step> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const stepUpdateOne = (
 
 export const stepCreateOne = (
   data: Partial<Step>,
-  queryParams?: QueryParams<Step>
+  queryParams?: QueryParams<Step>,
 ): Promise<Step> => {
   const config: QueryParams<Step> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const stepCreateOne = (
 
 export const stepCreateMany = (
   data: Partial<Step>[],
-  queryParams?: QueryParamsWithList<Step>
+  queryParams?: QueryParamsWithList<Step>,
 ): Promise<Step[]> => {
   const config: QueryParamsWithList<Step> = {
     method: 'post',

@@ -12,7 +12,7 @@ import { RequirementTestApi } from './RequirementTestApi';
 
 export const requirementTestDetach = (
   data: Partial<RequirementTest>,
-  queryParams?: QueryParams<RequirementTest>
+  queryParams?: QueryParams<RequirementTest>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
@@ -27,14 +27,14 @@ export const requirementTestDetach = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, RequirementTest>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const requirementTestUpdateOne = (
   id: number,
   data: Partial<RequirementTest>,
-  queryParams?: QueryParams<RequirementTest>
+  queryParams?: QueryParams<RequirementTest>,
 ): Promise<RequirementTest> => {
   const config: QueryParams<RequirementTest> = {
     method: 'put',
@@ -50,7 +50,7 @@ export const requirementTestUpdateOne = (
 
 export const requirementTestCreateOne = (
   data: Partial<RequirementTest>,
-  queryParams?: QueryParams<RequirementTest>
+  queryParams?: QueryParams<RequirementTest>,
 ): Promise<RequirementTest> => {
   const config: QueryParams<RequirementTest> = {
     method: 'post',
@@ -66,7 +66,7 @@ export const requirementTestCreateOne = (
 
 export const requirementTestCreateMany = (
   data: Partial<RequirementTest>[],
-  queryParams?: QueryParamsWithList<RequirementTest>
+  queryParams?: QueryParamsWithList<RequirementTest>,
 ): Promise<RequirementTest[]> => {
   const config: QueryParamsWithList<RequirementTest> = {
     method: 'post',
@@ -79,12 +79,12 @@ export const requirementTestCreateMany = (
     ? queryParams.batch.addBatch<RequirementTest[]>(config)
     : getResponse<RequirementTest[], RequirementTest>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const requirementTestGetMany = (
-  queryParams?: QueryParams<RequirementTest>
+  queryParams?: QueryParams<RequirementTest>,
 ): Promise<ResourceList<RequirementTestApi>> => {
   const config: QueryParams<RequirementTest> = {
     method: 'get',
@@ -97,13 +97,13 @@ export const requirementTestGetMany = (
     ? queryParams.batch.addBatch<ResourceList<RequirementTestApi>>(config)
     : getResponse<ResourceList<RequirementTestApi>, RequirementTest>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const requirementTestGetOne = (
   id: number,
-  queryParams?: QueryParams<RequirementTest>
+  queryParams?: QueryParams<RequirementTest>,
 ): Promise<RequirementTestApi> => {
   const config: QueryParams<RequirementTest> = {
     method: 'get',
@@ -116,6 +116,6 @@ export const requirementTestGetOne = (
     ? queryParams.batch.addBatch<RequirementTestApi>(config)
     : getResponse<RequirementTestApi, RequirementTest>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

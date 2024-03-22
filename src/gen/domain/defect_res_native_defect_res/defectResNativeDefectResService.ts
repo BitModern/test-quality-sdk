@@ -12,7 +12,7 @@ import { DefectResNativeDefectResApi } from './DefectResNativeDefectResApi';
 
 export const defectResNativeDefectResDetach = (
   data: Partial<DefectResNativeDefectRes>,
-  queryParams?: QueryParams<DefectResNativeDefectRes>
+  queryParams?: QueryParams<DefectResNativeDefectRes>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
@@ -27,14 +27,14 @@ export const defectResNativeDefectResDetach = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, DefectResNativeDefectRes>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const defectResNativeDefectResUpdateOne = (
   id: number,
   data: Partial<DefectResNativeDefectRes>,
-  queryParams?: QueryParams<DefectResNativeDefectRes>
+  queryParams?: QueryParams<DefectResNativeDefectRes>,
 ): Promise<DefectResNativeDefectRes> => {
   const config: QueryParams<DefectResNativeDefectRes> = {
     method: 'put',
@@ -47,13 +47,13 @@ export const defectResNativeDefectResUpdateOne = (
     ? queryParams.batch.addBatch<DefectResNativeDefectRes>(config)
     : getResponse<DefectResNativeDefectRes>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const defectResNativeDefectResCreateOne = (
   data: Partial<DefectResNativeDefectRes>,
-  queryParams?: QueryParams<DefectResNativeDefectRes>
+  queryParams?: QueryParams<DefectResNativeDefectRes>,
 ): Promise<DefectResNativeDefectRes> => {
   const config: QueryParams<DefectResNativeDefectRes> = {
     method: 'post',
@@ -66,13 +66,13 @@ export const defectResNativeDefectResCreateOne = (
     ? queryParams.batch.addBatch<DefectResNativeDefectRes>(config)
     : getResponse<DefectResNativeDefectRes>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const defectResNativeDefectResCreateMany = (
   data: Partial<DefectResNativeDefectRes>[],
-  queryParams?: QueryParamsWithList<DefectResNativeDefectRes>
+  queryParams?: QueryParamsWithList<DefectResNativeDefectRes>,
 ): Promise<DefectResNativeDefectRes[]> => {
   const config: QueryParamsWithList<DefectResNativeDefectRes> = {
     method: 'post',
@@ -85,12 +85,12 @@ export const defectResNativeDefectResCreateMany = (
     ? queryParams.batch.addBatch<DefectResNativeDefectRes[]>(config)
     : getResponse<DefectResNativeDefectRes[], DefectResNativeDefectRes>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const defectResNativeDefectResGetMany = (
-  queryParams?: QueryParams<DefectResNativeDefectRes>
+  queryParams?: QueryParams<DefectResNativeDefectRes>,
 ): Promise<ResourceList<DefectResNativeDefectResApi>> => {
   const config: QueryParams<DefectResNativeDefectRes> = {
     method: 'get',
@@ -101,7 +101,7 @@ export const defectResNativeDefectResGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<DefectResNativeDefectResApi>>(
-        config
+        config,
       )
     : getResponse<
         ResourceList<DefectResNativeDefectResApi>,
@@ -111,7 +111,7 @@ export const defectResNativeDefectResGetMany = (
 
 export const defectResNativeDefectResGetOne = (
   id: number,
-  queryParams?: QueryParams<DefectResNativeDefectRes>
+  queryParams?: QueryParams<DefectResNativeDefectRes>,
 ): Promise<DefectResNativeDefectResApi> => {
   const config: QueryParams<DefectResNativeDefectRes> = {
     method: 'get',
@@ -124,6 +124,6 @@ export const defectResNativeDefectResGetOne = (
     ? queryParams.batch.addBatch<DefectResNativeDefectResApi>(config)
     : getResponse<DefectResNativeDefectResApi, DefectResNativeDefectRes>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

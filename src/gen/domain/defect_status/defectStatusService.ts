@@ -12,7 +12,7 @@ import { DefectStatus } from './DefectStatus';
 import { DefectStatusApi } from './DefectStatusApi';
 
 export const defectStatusGetMany = (
-  queryParams?: QueryParams<DefectStatus>
+  queryParams?: QueryParams<DefectStatus>,
 ): Promise<ResourceList<DefectStatusApi>> => {
   const config: QueryParams<DefectStatus> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const defectStatusGetMany = (
     ? queryParams.batch.addBatch<ResourceList<DefectStatusApi>>(config)
     : getResponse<ResourceList<DefectStatusApi>, DefectStatus>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const defectStatusGetOne = (
   id: number,
-  queryParams?: QueryParams<DefectStatus>
+  queryParams?: QueryParams<DefectStatus>,
 ): Promise<DefectStatusApi> => {
   const config: QueryParams<DefectStatus> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const defectStatusGetOne = (
     ? queryParams.batch.addBatch<DefectStatusApi>(config)
     : getResponse<DefectStatusApi, DefectStatus>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const defectStatusDeleteOne = (
   id: number,
-  queryParams?: QueryParams<DefectStatus>
+  queryParams?: QueryParams<DefectStatus>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<DefectStatus> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const defectStatusDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, DefectStatus>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const defectStatusUpdateOne = (
   id: number,
   data: Partial<DefectStatus>,
-  queryParams?: QueryParams<DefectStatus>
+  queryParams?: QueryParams<DefectStatus>,
 ): Promise<DefectStatus> => {
   const config: QueryParams<DefectStatus> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const defectStatusUpdateOne = (
 
 export const defectStatusCreateOne = (
   data: Partial<DefectStatus>,
-  queryParams?: QueryParams<DefectStatus>
+  queryParams?: QueryParams<DefectStatus>,
 ): Promise<DefectStatus> => {
   const config: QueryParams<DefectStatus> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const defectStatusCreateOne = (
 
 export const defectStatusCreateMany = (
   data: Partial<DefectStatus>[],
-  queryParams?: QueryParamsWithList<DefectStatus>
+  queryParams?: QueryParamsWithList<DefectStatus>,
 ): Promise<DefectStatus[]> => {
   const config: QueryParamsWithList<DefectStatus> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const defectStatusCreateMany = (
     ? queryParams.batch.addBatch<DefectStatus[]>(config)
     : getResponse<DefectStatus[], DefectStatus>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

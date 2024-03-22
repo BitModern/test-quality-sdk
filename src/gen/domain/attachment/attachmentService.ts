@@ -12,7 +12,7 @@ import { Attachment } from './Attachment';
 import { AttachmentApi } from './AttachmentApi';
 
 export const attachmentGetMany = (
-  queryParams?: QueryParams<Attachment>
+  queryParams?: QueryParams<Attachment>,
 ): Promise<ResourceList<AttachmentApi>> => {
   const config: QueryParams<Attachment> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const attachmentGetMany = (
     ? queryParams.batch.addBatch<ResourceList<AttachmentApi>>(config)
     : getResponse<ResourceList<AttachmentApi>, Attachment>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const attachmentGetOne = (
   id: number,
-  queryParams?: QueryParams<Attachment>
+  queryParams?: QueryParams<Attachment>,
 ): Promise<AttachmentApi> => {
   const config: QueryParams<Attachment> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const attachmentGetOne = (
     ? queryParams.batch.addBatch<AttachmentApi>(config)
     : getResponse<AttachmentApi, Attachment>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const attachmentDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Attachment>
+  queryParams?: QueryParams<Attachment>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Attachment> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const attachmentDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Attachment>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const attachmentUpdateOne = (
   id: number,
   data: Partial<Attachment>,
-  queryParams?: QueryParams<Attachment>
+  queryParams?: QueryParams<Attachment>,
 ): Promise<Attachment> => {
   const config: QueryParams<Attachment> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const attachmentUpdateOne = (
 
 export const attachmentCreateOne = (
   data: Partial<Attachment>,
-  queryParams?: QueryParams<Attachment>
+  queryParams?: QueryParams<Attachment>,
 ): Promise<Attachment> => {
   const config: QueryParams<Attachment> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const attachmentCreateOne = (
 
 export const attachmentCreateMany = (
   data: Partial<Attachment>[],
-  queryParams?: QueryParamsWithList<Attachment>
+  queryParams?: QueryParamsWithList<Attachment>,
 ): Promise<Attachment[]> => {
   const config: QueryParamsWithList<Attachment> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const attachmentCreateMany = (
     ? queryParams.batch.addBatch<Attachment[]>(config)
     : getResponse<Attachment[], Attachment>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

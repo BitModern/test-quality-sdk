@@ -12,7 +12,7 @@ import { LabelAssigned } from './LabelAssigned';
 import { LabelAssignedApi } from './LabelAssignedApi';
 
 export const labelAssignedGetMany = (
-  queryParams?: QueryParams<LabelAssigned>
+  queryParams?: QueryParams<LabelAssigned>,
 ): Promise<ResourceList<LabelAssignedApi>> => {
   const config: QueryParams<LabelAssigned> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const labelAssignedGetMany = (
     ? queryParams.batch.addBatch<ResourceList<LabelAssignedApi>>(config)
     : getResponse<ResourceList<LabelAssignedApi>, LabelAssigned>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const labelAssignedGetOne = (
   id: number,
-  queryParams?: QueryParams<LabelAssigned>
+  queryParams?: QueryParams<LabelAssigned>,
 ): Promise<LabelAssignedApi> => {
   const config: QueryParams<LabelAssigned> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const labelAssignedGetOne = (
     ? queryParams.batch.addBatch<LabelAssignedApi>(config)
     : getResponse<LabelAssignedApi, LabelAssigned>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const labelAssignedDeleteOne = (
   id: number,
-  queryParams?: QueryParams<LabelAssigned>
+  queryParams?: QueryParams<LabelAssigned>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<LabelAssigned> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const labelAssignedDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, LabelAssigned>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const labelAssignedUpdateOne = (
   id: number,
   data: Partial<LabelAssigned>,
-  queryParams?: QueryParams<LabelAssigned>
+  queryParams?: QueryParams<LabelAssigned>,
 ): Promise<LabelAssigned> => {
   const config: QueryParams<LabelAssigned> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const labelAssignedUpdateOne = (
 
 export const labelAssignedCreateOne = (
   data: Partial<LabelAssigned>,
-  queryParams?: QueryParams<LabelAssigned>
+  queryParams?: QueryParams<LabelAssigned>,
 ): Promise<LabelAssigned> => {
   const config: QueryParams<LabelAssigned> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const labelAssignedCreateOne = (
 
 export const labelAssignedCreateMany = (
   data: Partial<LabelAssigned>[],
-  queryParams?: QueryParamsWithList<LabelAssigned>
+  queryParams?: QueryParamsWithList<LabelAssigned>,
 ): Promise<LabelAssigned[]> => {
   const config: QueryParamsWithList<LabelAssigned> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const labelAssignedCreateMany = (
     ? queryParams.batch.addBatch<LabelAssigned[]>(config)
     : getResponse<LabelAssigned[], LabelAssigned>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

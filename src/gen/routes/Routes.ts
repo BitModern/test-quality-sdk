@@ -17,79 +17,84 @@ export const AppConfigAppInstallRoute = (app_config_id: number): string =>
   `/app_config/${app_config_id}/app_install`;
 export const AppInstallRoute = (): string => `/app_install`;
 export const AppInstallAppInstallIntegrationRoute = (
-  app_install_id: number
+  app_install_id: number,
 ): string => `/app_install/${app_install_id}/app_install_integration`;
 export const AppInstallAppInstallProjectRoute = (
-  app_install_id: number
+  app_install_id: number,
 ): string => `/app_install/${app_install_id}/app_install_project`;
 export const AppInstallProjectRoute = (): string => `/app_install_project`;
+export const AppInstallProjectBranchRoute = (
+  app_install_project_id: number,
+): string => `/app_install_project/${app_install_project_id}/branch`;
 export const AppInstallProjectCheckRunRoute = (
-  app_install_project_id: number
+  app_install_project_id: number,
 ): string => `/app_install_project/${app_install_project_id}/check_run`;
 export const AppInstallProjectCheckSuiteRoute = (
-  app_install_project_id: number
+  app_install_project_id: number,
 ): string => `/app_install_project/${app_install_project_id}/check_suite`;
 export const AppInstallProjectIntegrationProjectRoute = (
-  app_install_project_id: number
+  app_install_project_id: number,
 ): string =>
   `/app_install_project/${app_install_project_id}/integration_project`;
 export const AppInstallProjectPullRequestRoute = (
-  app_install_project_id: number
+  app_install_project_id: number,
 ): string => `/app_install_project/${app_install_project_id}/pull_request`;
 export const AppLabelAssignedRoute = (app_id: number): string =>
   `/app/${app_id}/label_assigned`;
 export const AppUserRoute = (): string => `/app_user`;
 export const AppUserAppInstallRoute = (app_user_id: number): string =>
   `/app_user/${app_user_id}/app_install`;
+export const AppUserBranchRoute = (app_user_id: number): string =>
+  `/app_user/${app_user_id}/branch`;
 export const AppUserPullRequestRoute = (app_user_id: number): string =>
   `/app_user/${app_user_id}/pull_request`;
 export const AppVersionRoute = (): string => `/app_version`;
 export const AppVersionAppVersionPlatVersionRoute = (
-  app_version_id: number
+  app_version_id: number,
 ): string => `/app_version/${app_version_id}/app_version_plat_version`;
 export const AppVersionLabelAssignedRoute = (app_version_id: number): string =>
   `/app_version/${app_version_id}/label_assigned`;
 export const AppVersionPlatVersionRoute = (): string =>
   `/app_version_plat_version`;
 export const AppVersionPlatVersionLabelAssignedRoute = (
-  app_version_plat_version_id: number
+  app_version_plat_version_id: number,
 ): string =>
   `/app_version_plat_version/${app_version_plat_version_id}/label_assigned`;
 export const AppVersionPlatVersionPlanRoute = (
-  app_version_plat_version_id: number
+  app_version_plat_version_id: number,
 ): string => `/app_version_plat_version/${app_version_plat_version_id}/plan`;
 export const AppVersionPlatVersionRunResultRoute = (
-  app_version_plat_version_id: number
+  app_version_plat_version_id: number,
 ): string =>
   `/app_version_plat_version/${app_version_plat_version_id}/run_result`;
 export const AttachmentRoute = (): string => `/attachment`;
 export const BaseCapabilityRoute = (): string => `/base_capability`;
 export const BaseCapabilityBaseIntegrationRoute = (
-  base_capability_id: number
+  base_capability_id: number,
 ): string => `/base_capability/${base_capability_id}/base_integration`;
 export const BaseCapabilityCapabilityRoute = (
-  base_capability_id: number
+  base_capability_id: number,
 ): string => `/base_capability/${base_capability_id}/capability`;
 export const BaseIntegrationRoute = (): string => `/base_integration`;
 export const BaseIntegrationAppConfigRoute = (
-  base_integration_id: number
+  base_integration_id: number,
 ): string => `/base_integration/${base_integration_id}/app_config`;
 export const BaseIntegrationBaseCapabilityRoute = (
-  base_integration_id: number
+  base_integration_id: number,
 ): string => `/base_integration/${base_integration_id}/base_capability`;
 export const BaseIntegrationIntegrationRoute = (
-  base_integration_id: number
+  base_integration_id: number,
 ): string => `/base_integration/${base_integration_id}/integration`;
 export const BillingContactRoute = (): string => `/billing_contact`;
 export const CapabilityRoute = (): string => `/capability`;
 export const CapabilityIntegrationRoute = (capability_id: number): string =>
   `/capability/${capability_id}/integration`;
 export const CapabilityProjectCapabilityDefaultRoute = (
-  capability_id: number
+  capability_id: number,
 ): string => `/capability/${capability_id}/project_capability_default`;
 export const CasePriorityRoute = (): string => `/case_priority`;
 export const CasePriorityLabelAssignedRoute = (
-  case_priority_id: number
+  case_priority_id: number,
 ): string => `/case_priority/${case_priority_id}/label_assigned`;
 export const CasePriorityTestRoute = (case_priority_id: number): string =>
   `/case_priority/${case_priority_id}/test`;
@@ -105,7 +110,7 @@ export const CheckSuiteRoute = (): string => `/check_suite`;
 export const CheckSuiteCheckRunRoute = (check_suite_id: number): string =>
   `/check_suite/${check_suite_id}/check_run`;
 export const CheckSuiteCheckSuitePullRequestRoute = (
-  check_suite_id: number
+  check_suite_id: number,
 ): string => `/check_suite/${check_suite_id}/check_suite_pull_request`;
 export const ClientRoute = (): string => `/client`;
 export const ClientKeyRoute = (client_id: number): string =>
@@ -140,17 +145,17 @@ export const DefectStatusRoute = (): string => `/defect_status`;
 export const DefectStatusDefectRoute = (defect_status_id: number): string =>
   `/defect_status/${defect_status_id}/defect`;
 export const DefectStatusNativeDefectStatusRoute = (
-  defect_status_id: number
+  defect_status_id: number,
 ): string => `/defect_status/${defect_status_id}/native_defect_status`;
 export const DefectStatusRequirementRoute = (
-  defect_status_id: number
+  defect_status_id: number,
 ): string => `/defect_status/${defect_status_id}/requirement`;
 export const DefectTypeRoute = (): string => `/defect_type`;
 export const DefectUserRoute = (): string => `/defect_user`;
 export const FilterRoute = (): string => `/filter`;
 export const IntegrationRoute = (): string => `/integration`;
 export const IntegrationAppInstallIntegrationRoute = (
-  integration_id: number
+  integration_id: number,
 ): string => `/integration/${integration_id}/app_install_integration`;
 export const IntegrationCapabilityRoute = (integration_id: number): string =>
   `/integration/${integration_id}/capability`;
@@ -159,7 +164,7 @@ export const IntegrationProjectRoute = (integration_id: number): string =>
 export const IntegrationStatusTypeRoute = (): string =>
   `/integration_status_type`;
 export const IntegrationStatusTypeNativeDefectStatusRoute = (
-  integration_status_type_id: number
+  integration_status_type_id: number,
 ): string =>
   `/integration_status_type/${integration_status_type_id}/native_defect_status`;
 export const IntegrationTemplateRoute = (): string => `/integration_template`;
@@ -187,17 +192,17 @@ export const MilestoneTargetRoute = (milestone_id: number): string =>
   `/milestone/${milestone_id}/target`;
 export const NativeDefectResRoute = (): string => `/native_defect_res`;
 export const NativeDefectResDefectResRoute = (
-  native_defect_res_id: number
+  native_defect_res_id: number,
 ): string => `/native_defect_res/${native_defect_res_id}/defect_res`;
 export const NativeDefectResLabelAssignedRoute = (
-  native_defect_res_id: number
+  native_defect_res_id: number,
 ): string => `/native_defect_res/${native_defect_res_id}/label_assigned`;
 export const NativeDefectStatusRoute = (): string => `/native_defect_status`;
 export const NativeDefectStatusDefectStatusRoute = (
-  native_defect_status_id: number
+  native_defect_status_id: number,
 ): string => `/native_defect_status/${native_defect_status_id}/defect_status`;
 export const NativeDefectStatusLabelAssignedRoute = (
-  native_defect_status_id: number
+  native_defect_status_id: number,
 ): string => `/native_defect_status/${native_defect_status_id}/label_assigned`;
 export const NotificationsRoute = (): string => `/notifications`;
 export const PlanRoute = (): string => `/plan`;
@@ -229,10 +234,10 @@ export const PlatPlatVersionRoute = (plat_id: number): string =>
   `/plat/${plat_id}/plat_version`;
 export const PlatVersionRoute = (): string => `/plat_version`;
 export const PlatVersionAppVersionPlatVersionRoute = (
-  plat_version_id: number
+  plat_version_id: number,
 ): string => `/plat_version/${plat_version_id}/app_version_plat_version`;
 export const PlatVersionLabelAssignedRoute = (
-  plat_version_id: number
+  plat_version_id: number,
 ): string => `/plat_version/${plat_version_id}/label_assigned`;
 export const PolicyRoute = (): string => `/policy`;
 export const PolicyPolicyRowsRoute = (policy_id: number): string =>
@@ -269,7 +274,7 @@ export const ProjectPlanRoute = (project_id: number): string =>
 export const ProjectPlanSuiteTestIncludeRoute = (project_id: number): string =>
   `/project/${project_id}/plan_suite_test_include`;
 export const ProjectProjectCapabilityDefaultRoute = (
-  project_id: number
+  project_id: number,
 ): string => `/project/${project_id}/project_capability_default`;
 export const ProjectRequirementRoute = (project_id: number): string =>
   `/project/${project_id}/requirement`;
@@ -295,13 +300,13 @@ export const ProjectWatchRoute = (project_id: number): string =>
   `/project/${project_id}/watch`;
 export const PullRequestRoute = (): string => `/pull_request`;
 export const PullRequestCheckSuitePullRequestRoute = (
-  pull_request_id: number
+  pull_request_id: number,
 ): string => `/pull_request/${pull_request_id}/check_suite_pull_request`;
 export const PullRequestRequirementPullRequestRoute = (
-  pull_request_id: number
+  pull_request_id: number,
 ): string => `/pull_request/${pull_request_id}/requirement_pull_request`;
 export const PullRequestRunPullRequestRoute = (
-  pull_request_id: number
+  pull_request_id: number,
 ): string => `/pull_request/${pull_request_id}/run_pull_request`;
 export const PurposeRoute = (): string => `/purpose`;
 export const PurposeLabelAssignedRoute = (purpose_id: number): string =>
@@ -312,10 +317,10 @@ export const RequirementRoute = (): string => `/requirement`;
 export const RequirementAttachmentRoute = (requirement_id: number): string =>
   `/requirement/${requirement_id}/attachment`;
 export const RequirementRequirementPullRequestRoute = (
-  requirement_id: number
+  requirement_id: number,
 ): string => `/requirement/${requirement_id}/requirement_pull_request`;
 export const RequirementRequirementTestRoute = (
-  requirement_id: number
+  requirement_id: number,
 ): string => `/requirement/${requirement_id}/requirement_test`;
 export const RunRoute = (): string => `/run`;
 export const RunCommentRoute = (run_id: number): string =>
@@ -335,12 +340,12 @@ export const RunResultRunResultStepRoute = (run_result_id: number): string =>
   `/run_result/${run_result_id}/run_result_step`;
 export const RunResultStepRoute = (): string => `/run_result_step`;
 export const RunResultStepAttachmentRoute = (
-  run_result_step_id: number
+  run_result_step_id: number,
 ): string => `/run_result_step/${run_result_step_id}/attachment`;
 export const RunResultStepCommentRoute = (run_result_step_id: number): string =>
   `/run_result_step/${run_result_step_id}/comment`;
 export const RunResultStepLabelAssignedRoute = (
-  run_result_step_id: number
+  run_result_step_id: number,
 ): string => `/run_result_step/${run_result_step_id}/label_assigned`;
 export const RunRunPullRequestRoute = (run_id: number): string =>
   `/run/${run_id}/run_pull_request`;
@@ -351,7 +356,7 @@ export const RunRunSuiteRoute = (run_id: number): string =>
 export const RunSuiteRoute = (): string => `/run_suite`;
 export const SharedPreconditionRoute = (): string => `/shared_precondition`;
 export const SharedPreconditionTestRoute = (
-  shared_precondition_id: number
+  shared_precondition_id: number,
 ): string => `/shared_precondition/${shared_precondition_id}/test`;
 export const SharedStepRoute = (): string => `/shared_step`;
 export const SharedStepLabelAssignedRoute = (shared_step_id: number): string =>
@@ -381,12 +386,12 @@ export const StepRunResultStepRoute = (step_id: number): string =>
 export const SubscriptionUserRoute = (): string => `/subscription_user`;
 export const SubscriptionsRoute = (): string => `/subscriptions`;
 export const SubscriptionsBillingContactRoute = (
-  subscriptions_id: number
+  subscriptions_id: number,
 ): string => `/subscriptions/${subscriptions_id}/billing_contact`;
 export const SubscriptionsQuoteItemRoute = (subscriptions_id: number): string =>
   `/subscriptions/${subscriptions_id}/quote_item`;
 export const SubscriptionsSubscriptionUserRoute = (
-  subscriptions_id: number
+  subscriptions_id: number,
 ): string => `/subscriptions/${subscriptions_id}/subscription_user`;
 export const SuiteRoute = (): string => `/suite`;
 export const SuiteCommentRoute = (suite_id: number): string =>
@@ -416,16 +421,16 @@ export const TestPlanSuiteTestIncludeRoute = (test_id: number): string =>
   `/test/${test_id}/plan_suite_test_include`;
 export const TestQualityRoute = (): string => `/test_quality`;
 export const TestQualityLabelAssignedRoute = (
-  test_quality_id: number
+  test_quality_id: number,
 ): string => `/test_quality/${test_quality_id}/label_assigned`;
 export const TestQualityTestRoute = (test_quality_id: number): string =>
   `/test_quality/${test_quality_id}/test`;
 export const TestQualityTypeRoute = (): string => `/test_quality_type`;
 export const TestQualityTypeLabelAssignedRoute = (
-  test_quality_type_id: number
+  test_quality_type_id: number,
 ): string => `/test_quality_type/${test_quality_type_id}/label_assigned`;
 export const TestQualityTypeTestQualityRoute = (
-  test_quality_type_id: number
+  test_quality_type_id: number,
 ): string => `/test_quality_type/${test_quality_type_id}/test_quality`;
 export const TestRequirementTestRoute = (test_id: number): string =>
   `/test/${test_id}/requirement_test`;

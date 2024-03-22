@@ -29,7 +29,7 @@ export class ClientSdk {
       newError.title,
       newError.status,
       newError.code,
-      newError.trace
+      newError.trace,
     );
   };
 
@@ -53,7 +53,7 @@ export class ClientSdk {
           function transformResponse(data, headers) {
             if (headers['content-type'] === 'application/json') {
               return JSON.parse(data, (_, value) =>
-                value === null ? undefined : value
+                value === null ? undefined : value,
               );
             }
             return data;
@@ -79,11 +79,11 @@ export class ClientSdk {
     /**
      * @deprecated authCallback is set in constructor
      */
-    authCallback?: AuthCallback
+    authCallback?: AuthCallback,
   ) {
     if (authCallback) {
       console.warn(
-        'Param authCallback has been deprecated since version 1.12.11'
+        'Param authCallback has been deprecated since version 1.12.11',
       );
     }
     return this.auth;

@@ -12,7 +12,7 @@ import { Project } from './Project';
 import { ProjectApi } from './ProjectApi';
 
 export const projectGetMany = (
-  queryParams?: QueryParams<Project>
+  queryParams?: QueryParams<Project>,
 ): Promise<ResourceList<ProjectApi>> => {
   const config: QueryParams<Project> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const projectGetMany = (
     ? queryParams.batch.addBatch<ResourceList<ProjectApi>>(config)
     : getResponse<ResourceList<ProjectApi>, Project>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const projectGetOne = (
   id: number,
-  queryParams?: QueryParams<Project>
+  queryParams?: QueryParams<Project>,
 ): Promise<ProjectApi> => {
   const config: QueryParams<Project> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const projectGetOne = (
     ? queryParams.batch.addBatch<ProjectApi>(config)
     : getResponse<ProjectApi, Project>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const projectDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Project>
+  queryParams?: QueryParams<Project>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Project> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const projectDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Project>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const projectUpdateOne = (
   id: number,
   data: Partial<Project>,
-  queryParams?: QueryParams<Project>
+  queryParams?: QueryParams<Project>,
 ): Promise<Project> => {
   const config: QueryParams<Project> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const projectUpdateOne = (
 
 export const projectCreateOne = (
   data: Partial<Project>,
-  queryParams?: QueryParams<Project>
+  queryParams?: QueryParams<Project>,
 ): Promise<Project> => {
   const config: QueryParams<Project> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const projectCreateOne = (
 
 export const projectCreateMany = (
   data: Partial<Project>[],
-  queryParams?: QueryParamsWithList<Project>
+  queryParams?: QueryParamsWithList<Project>,
 ): Promise<Project[]> => {
   const config: QueryParamsWithList<Project> = {
     method: 'post',

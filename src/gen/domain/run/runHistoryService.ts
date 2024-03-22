@@ -10,7 +10,7 @@ import { Run } from './Run';
 import { RunHistory } from './RunHistory';
 
 export const runHistoryGet = (
-  queryParams?: QueryParams<Run>
+  queryParams?: QueryParams<Run>,
 ): Promise<RunHistory[]> => {
   const config: QueryParams<Run> = {
     method: 'get',

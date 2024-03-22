@@ -10,7 +10,7 @@ import { DataSet } from './DataSet';
 import { DataSetHistory } from './DataSetHistory';
 
 export const dataSetHistoryGet = (
-  queryParams?: QueryParams<DataSet>
+  queryParams?: QueryParams<DataSet>,
 ): Promise<DataSetHistory[]> => {
   const config: QueryParams<DataSet> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const dataSetHistoryGet = (
     ? queryParams.batch.addBatch<DataSetHistory[]>(config)
     : getResponse<DataSetHistory[], DataSet>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

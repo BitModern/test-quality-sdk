@@ -5,8 +5,8 @@
 import { DefaultAttributes } from '../../models/DefaultAttributes';
 
 export interface DefectPriority extends DefaultAttributes {
-  id: number;
   name: string;
   description?: string;
+  id: number;
   integration_project_id?: number;
 }

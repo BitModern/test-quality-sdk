@@ -10,7 +10,7 @@ import { Label } from './Label';
 import { LabelHistory } from './LabelHistory';
 
 export const labelHistoryGet = (
-  queryParams?: QueryParams<Label>
+  queryParams?: QueryParams<Label>,
 ): Promise<LabelHistory[]> => {
   const config: QueryParams<Label> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const labelHistoryGet = (
     ? queryParams.batch.addBatch<LabelHistory[]>(config)
     : getResponse<LabelHistory[], Label>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

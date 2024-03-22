@@ -12,7 +12,7 @@ import { Suite } from './Suite';
 import { SuiteApi } from './SuiteApi';
 
 export const suiteGetMany = (
-  queryParams?: QueryParams<Suite>
+  queryParams?: QueryParams<Suite>,
 ): Promise<ResourceList<SuiteApi>> => {
   const config: QueryParams<Suite> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const suiteGetMany = (
     ? queryParams.batch.addBatch<ResourceList<SuiteApi>>(config)
     : getResponse<ResourceList<SuiteApi>, Suite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const suiteGetOne = (
   id: number,
-  queryParams?: QueryParams<Suite>
+  queryParams?: QueryParams<Suite>,
 ): Promise<SuiteApi> => {
   const config: QueryParams<Suite> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const suiteGetOne = (
 
 export const suiteDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Suite>
+  queryParams?: QueryParams<Suite>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Suite> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const suiteDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Suite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const suiteUpdateOne = (
   id: number,
   data: Partial<Suite>,
-  queryParams?: QueryParams<Suite>
+  queryParams?: QueryParams<Suite>,
 ): Promise<Suite> => {
   const config: QueryParams<Suite> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const suiteUpdateOne = (
 
 export const suiteCreateOne = (
   data: Partial<Suite>,
-  queryParams?: QueryParams<Suite>
+  queryParams?: QueryParams<Suite>,
 ): Promise<Suite> => {
   const config: QueryParams<Suite> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const suiteCreateOne = (
 
 export const suiteCreateMany = (
   data: Partial<Suite>[],
-  queryParams?: QueryParamsWithList<Suite>
+  queryParams?: QueryParamsWithList<Suite>,
 ): Promise<Suite[]> => {
   const config: QueryParamsWithList<Suite> = {
     method: 'post',

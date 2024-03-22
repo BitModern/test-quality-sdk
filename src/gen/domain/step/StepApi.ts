@@ -5,18 +5,18 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Step } from './Step';
-import { ProjectApi } from '../project/ProjectApi';
 import { SharedStepApi } from '../shared_step/SharedStepApi';
 import { TestApi } from '../test/TestApi';
+import { ProjectApi } from '../project/ProjectApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { CommentApi } from '../comment/CommentApi';
 import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
+import { CommentApi } from '../comment/CommentApi';
 
 export interface StepApi extends Step {
-  project?: ProjectApi;
   shared_step?: SharedStepApi;
   test?: TestApi;
+  project?: ProjectApi;
   label_assigned?: LabelAssignedApi;
-  comment?: CommentApi;
   run_result_step?: RunResultStepApi[];
+  comment?: CommentApi;
 }

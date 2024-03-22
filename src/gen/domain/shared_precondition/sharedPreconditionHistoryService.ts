@@ -10,7 +10,7 @@ import { SharedPrecondition } from './SharedPrecondition';
 import { SharedPreconditionHistory } from './SharedPreconditionHistory';
 
 export const sharedPreconditionHistoryGet = (
-  queryParams?: QueryParams<SharedPrecondition>
+  queryParams?: QueryParams<SharedPrecondition>,
 ): Promise<SharedPreconditionHistory[]> => {
   const config: QueryParams<SharedPrecondition> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const sharedPreconditionHistoryGet = (
     ? queryParams.batch.addBatch<SharedPreconditionHistory[]>(config)
     : getResponse<SharedPreconditionHistory[], SharedPrecondition>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

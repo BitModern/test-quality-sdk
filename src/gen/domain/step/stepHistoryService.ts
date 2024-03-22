@@ -10,7 +10,7 @@ import { Step } from './Step';
 import { StepHistory } from './StepHistory';
 
 export const stepHistoryGet = (
-  queryParams?: QueryParams<Step>
+  queryParams?: QueryParams<Step>,
 ): Promise<StepHistory[]> => {
   const config: QueryParams<Step> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const stepHistoryGet = (
     ? queryParams.batch.addBatch<StepHistory[]>(config)
     : getResponse<StepHistory[], Step>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

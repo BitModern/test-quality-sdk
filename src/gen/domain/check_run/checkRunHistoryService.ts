@@ -10,7 +10,7 @@ import { CheckRun } from './CheckRun';
 import { CheckRunHistory } from './CheckRunHistory';
 
 export const checkRunHistoryGet = (
-  queryParams?: QueryParams<CheckRun>
+  queryParams?: QueryParams<CheckRun>,
 ): Promise<CheckRunHistory[]> => {
   const config: QueryParams<CheckRun> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const checkRunHistoryGet = (
     ? queryParams.batch.addBatch<CheckRunHistory[]>(config)
     : getResponse<CheckRunHistory[], CheckRun>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -10,7 +10,7 @@ import { Milestone } from './Milestone';
 import { MilestoneHistory } from './MilestoneHistory';
 
 export const milestoneHistoryGet = (
-  queryParams?: QueryParams<Milestone>
+  queryParams?: QueryParams<Milestone>,
 ): Promise<MilestoneHistory[]> => {
   const config: QueryParams<Milestone> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const milestoneHistoryGet = (
     ? queryParams.batch.addBatch<MilestoneHistory[]>(config)
     : getResponse<MilestoneHistory[], Milestone>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -7,12 +7,12 @@
 import { Milestone } from './Milestone';
 import { ProjectApi } from '../project/ProjectApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { CommentApi } from '../comment/CommentApi';
 import { RunApi } from '../run/RunApi';
+import { CommentApi } from '../comment/CommentApi';
 
 export interface MilestoneApi extends Milestone {
   project?: ProjectApi;
   label_assigned?: LabelAssignedApi;
-  comment?: CommentApi;
   run?: RunApi[];
+  comment?: CommentApi;
 }

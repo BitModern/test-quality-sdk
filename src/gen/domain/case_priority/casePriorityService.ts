@@ -12,7 +12,7 @@ import { CasePriority } from './CasePriority';
 import { CasePriorityApi } from './CasePriorityApi';
 
 export const casePriorityGetMany = (
-  queryParams?: QueryParams<CasePriority>
+  queryParams?: QueryParams<CasePriority>,
 ): Promise<ResourceList<CasePriorityApi>> => {
   const config: QueryParams<CasePriority> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const casePriorityGetMany = (
     ? queryParams.batch.addBatch<ResourceList<CasePriorityApi>>(config)
     : getResponse<ResourceList<CasePriorityApi>, CasePriority>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const casePriorityGetOne = (
   id: number,
-  queryParams?: QueryParams<CasePriority>
+  queryParams?: QueryParams<CasePriority>,
 ): Promise<CasePriorityApi> => {
   const config: QueryParams<CasePriority> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const casePriorityGetOne = (
     ? queryParams.batch.addBatch<CasePriorityApi>(config)
     : getResponse<CasePriorityApi, CasePriority>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const casePriorityDeleteOne = (
   id: number,
-  queryParams?: QueryParams<CasePriority>
+  queryParams?: QueryParams<CasePriority>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<CasePriority> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const casePriorityDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, CasePriority>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const casePriorityUpdateOne = (
   id: number,
   data: Partial<CasePriority>,
-  queryParams?: QueryParams<CasePriority>
+  queryParams?: QueryParams<CasePriority>,
 ): Promise<CasePriority> => {
   const config: QueryParams<CasePriority> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const casePriorityUpdateOne = (
 
 export const casePriorityCreateOne = (
   data: Partial<CasePriority>,
-  queryParams?: QueryParams<CasePriority>
+  queryParams?: QueryParams<CasePriority>,
 ): Promise<CasePriority> => {
   const config: QueryParams<CasePriority> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const casePriorityCreateOne = (
 
 export const casePriorityCreateMany = (
   data: Partial<CasePriority>[],
-  queryParams?: QueryParamsWithList<CasePriority>
+  queryParams?: QueryParamsWithList<CasePriority>,
 ): Promise<CasePriority[]> => {
   const config: QueryParamsWithList<CasePriority> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const casePriorityCreateMany = (
     ? queryParams.batch.addBatch<CasePriority[]>(config)
     : getResponse<CasePriority[], CasePriority>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

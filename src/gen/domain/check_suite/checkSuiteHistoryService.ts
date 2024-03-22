@@ -10,7 +10,7 @@ import { CheckSuite } from './CheckSuite';
 import { CheckSuiteHistory } from './CheckSuiteHistory';
 
 export const checkSuiteHistoryGet = (
-  queryParams?: QueryParams<CheckSuite>
+  queryParams?: QueryParams<CheckSuite>,
 ): Promise<CheckSuiteHistory[]> => {
   const config: QueryParams<CheckSuite> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const checkSuiteHistoryGet = (
     ? queryParams.batch.addBatch<CheckSuiteHistory[]>(config)
     : getResponse<CheckSuiteHistory[], CheckSuite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

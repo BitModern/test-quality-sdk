@@ -5,22 +5,22 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Run } from './Run';
-import { ProjectApi } from '../project/ProjectApi';
-import { PlanApi } from '../plan/PlanApi';
 import { MilestoneApi } from '../milestone/MilestoneApi';
 import { CheckRunApi } from '../check_run/CheckRunApi';
+import { ProjectApi } from '../project/ProjectApi';
+import { PlanApi } from '../plan/PlanApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import { RunSuiteApi } from '../run_suite/RunSuiteApi';
 import { RunResultApi } from '../run_result/RunResultApi';
 import { CommentApi } from '../comment/CommentApi';
-import { RunSuiteApi } from '../run_suite/RunSuiteApi';
 
 export interface RunApi extends Run {
-  project?: ProjectApi;
-  plan?: PlanApi;
   milestone?: MilestoneApi;
   check_run?: CheckRunApi;
+  project?: ProjectApi;
+  plan?: PlanApi;
   label_assigned?: LabelAssignedApi;
+  run_suite?: RunSuiteApi[];
   run_result?: RunResultApi[];
   comment?: CommentApi;
-  run_suite?: RunSuiteApi[];
 }

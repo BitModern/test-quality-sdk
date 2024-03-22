@@ -12,7 +12,7 @@ export type RestrictProjectReturn = {
 
 export const restrictProject = (
   data: Partial<RestrictProjectParam>,
-  queryParams?: QueryParams<RestrictProjectParam>
+  queryParams?: QueryParams<RestrictProjectParam>,
 ): Promise<RestrictProjectReturn> => {
   const config: QueryParams<RestrictProjectParam> = {
     method: 'post',
@@ -25,6 +25,6 @@ export const restrictProject = (
     ? queryParams.batch.addBatch<RestrictProjectReturn>(config)
     : getResponse<RestrictProjectReturn, RestrictProjectParam>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

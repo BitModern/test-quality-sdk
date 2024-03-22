@@ -24,7 +24,7 @@ export class TokenStorageImpl implements TokenStorage {
 
   public async setToken(
     token?: ReturnToken,
-    remember?: boolean
+    remember?: boolean,
   ): Promise<ReturnToken | undefined> {
     this.token = token;
     this.remember =

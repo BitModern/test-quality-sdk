@@ -10,7 +10,7 @@ import { AccessRole } from './AccessRole';
 import { AccessRoleHistory } from './AccessRoleHistory';
 
 export const accessRoleHistoryGet = (
-  queryParams?: QueryParams<AccessRole>
+  queryParams?: QueryParams<AccessRole>,
 ): Promise<AccessRoleHistory[]> => {
   const config: QueryParams<AccessRole> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const accessRoleHistoryGet = (
     ? queryParams.batch.addBatch<AccessRoleHistory[]>(config)
     : getResponse<AccessRoleHistory[], AccessRole>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

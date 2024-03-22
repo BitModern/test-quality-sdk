@@ -12,7 +12,7 @@ import { CaseType } from './CaseType';
 import { CaseTypeApi } from './CaseTypeApi';
 
 export const caseTypeGetMany = (
-  queryParams?: QueryParams<CaseType>
+  queryParams?: QueryParams<CaseType>,
 ): Promise<ResourceList<CaseTypeApi>> => {
   const config: QueryParams<CaseType> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const caseTypeGetMany = (
     ? queryParams.batch.addBatch<ResourceList<CaseTypeApi>>(config)
     : getResponse<ResourceList<CaseTypeApi>, CaseType>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const caseTypeGetOne = (
   id: number,
-  queryParams?: QueryParams<CaseType>
+  queryParams?: QueryParams<CaseType>,
 ): Promise<CaseTypeApi> => {
   const config: QueryParams<CaseType> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const caseTypeGetOne = (
     ? queryParams.batch.addBatch<CaseTypeApi>(config)
     : getResponse<CaseTypeApi, CaseType>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const caseTypeDeleteOne = (
   id: number,
-  queryParams?: QueryParams<CaseType>
+  queryParams?: QueryParams<CaseType>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<CaseType> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const caseTypeDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, CaseType>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const caseTypeUpdateOne = (
   id: number,
   data: Partial<CaseType>,
-  queryParams?: QueryParams<CaseType>
+  queryParams?: QueryParams<CaseType>,
 ): Promise<CaseType> => {
   const config: QueryParams<CaseType> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const caseTypeUpdateOne = (
 
 export const caseTypeCreateOne = (
   data: Partial<CaseType>,
-  queryParams?: QueryParams<CaseType>
+  queryParams?: QueryParams<CaseType>,
 ): Promise<CaseType> => {
   const config: QueryParams<CaseType> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const caseTypeCreateOne = (
 
 export const caseTypeCreateMany = (
   data: Partial<CaseType>[],
-  queryParams?: QueryParamsWithList<CaseType>
+  queryParams?: QueryParamsWithList<CaseType>,
 ): Promise<CaseType[]> => {
   const config: QueryParamsWithList<CaseType> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const caseTypeCreateMany = (
     ? queryParams.batch.addBatch<CaseType[]>(config)
     : getResponse<CaseType[], CaseType>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

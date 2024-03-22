@@ -12,7 +12,7 @@ import { Client } from './Client';
 import { ClientApi } from './ClientApi';
 
 export const clientGetMany = (
-  queryParams?: QueryParams<Client>
+  queryParams?: QueryParams<Client>,
 ): Promise<ResourceList<ClientApi>> => {
   const config: QueryParams<Client> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const clientGetMany = (
     ? queryParams.batch.addBatch<ResourceList<ClientApi>>(config)
     : getResponse<ResourceList<ClientApi>, Client>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const clientGetOne = (
   id: number,
-  queryParams?: QueryParams<Client>
+  queryParams?: QueryParams<Client>,
 ): Promise<ClientApi> => {
   const config: QueryParams<Client> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const clientGetOne = (
 
 export const clientDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Client>
+  queryParams?: QueryParams<Client>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Client> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const clientDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Client>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const clientUpdateOne = (
   id: number,
   data: Partial<Client>,
-  queryParams?: QueryParams<Client>
+  queryParams?: QueryParams<Client>,
 ): Promise<Client> => {
   const config: QueryParams<Client> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const clientUpdateOne = (
 
 export const clientCreateOne = (
   data: Partial<Client>,
-  queryParams?: QueryParams<Client>
+  queryParams?: QueryParams<Client>,
 ): Promise<Client> => {
   const config: QueryParams<Client> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const clientCreateOne = (
 
 export const clientCreateMany = (
   data: Partial<Client>[],
-  queryParams?: QueryParamsWithList<Client>
+  queryParams?: QueryParamsWithList<Client>,
 ): Promise<Client[]> => {
   const config: QueryParamsWithList<Client> = {
     method: 'post',

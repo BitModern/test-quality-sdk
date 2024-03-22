@@ -7,10 +7,16 @@ import { TQRequestParameters } from './TQRequestParameters';
 import { BatchService } from '../../services/http/BatchService';
 
 export function hasListProperty(
-  queryParams: any
+  queryParams: any,
 ): queryParams is QueryParamsWithList {
   return 'list' in queryParams;
 }
+
+type AddInSuffix<T> = {
+  [K in keyof T as `${K & string}-in`]: string;
+};
+
+type ParamsWithInSuffix<T> = Partial<T & AddInSuffix<T>> & TQRequestParameters;
 
 export interface QueryParams<T = any> {
   api?: AxiosInstance;
@@ -20,10 +26,14 @@ export interface QueryParams<T = any> {
   headers?: any;
   id?: number | string;
   method?: Method;
-  params?: Partial<T> & TQRequestParameters;
+  params?: ParamsWithInSuffix<T>;
   url?: string;
 }
 
 export interface QueryParamsWithList<T = any> extends QueryParams<T> {
   list: Partial<T>[];
+}
+
+export interface QueryParamsWithInSuffix<T = any> extends QueryParams<T> {
+  params?: ParamsWithInSuffix<T>;
 }

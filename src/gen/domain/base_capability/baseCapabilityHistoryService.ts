@@ -10,7 +10,7 @@ import { BaseCapability } from './BaseCapability';
 import { BaseCapabilityHistory } from './BaseCapabilityHistory';
 
 export const baseCapabilityHistoryGet = (
-  queryParams?: QueryParams<BaseCapability>
+  queryParams?: QueryParams<BaseCapability>,
 ): Promise<BaseCapabilityHistory[]> => {
   const config: QueryParams<BaseCapability> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const baseCapabilityHistoryGet = (
     ? queryParams.batch.addBatch<BaseCapabilityHistory[]>(config)
     : getResponse<BaseCapabilityHistory[], BaseCapability>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

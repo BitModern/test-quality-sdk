@@ -10,7 +10,7 @@ import { RunResult } from './RunResult';
 import { RunResultHistory } from './RunResultHistory';
 
 export const runResultHistoryGet = (
-  queryParams?: QueryParams<RunResult>
+  queryParams?: QueryParams<RunResult>,
 ): Promise<RunResultHistory[]> => {
   const config: QueryParams<RunResult> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const runResultHistoryGet = (
     ? queryParams.batch.addBatch<RunResultHistory[]>(config)
     : getResponse<RunResultHistory[], RunResult>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -10,7 +10,7 @@ import { Subscriptions } from './Subscriptions';
 import { SubscriptionsHistory } from './SubscriptionsHistory';
 
 export const subscriptionsHistoryGet = (
-  queryParams?: QueryParams<Subscriptions>
+  queryParams?: QueryParams<Subscriptions>,
 ): Promise<SubscriptionsHistory[]> => {
   const config: QueryParams<Subscriptions> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const subscriptionsHistoryGet = (
     ? queryParams.batch.addBatch<SubscriptionsHistory[]>(config)
     : getResponse<SubscriptionsHistory[], Subscriptions>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -12,7 +12,7 @@ import { AppVersion } from './AppVersion';
 import { AppVersionApi } from './AppVersionApi';
 
 export const appVersionGetMany = (
-  queryParams?: QueryParams<AppVersion>
+  queryParams?: QueryParams<AppVersion>,
 ): Promise<ResourceList<AppVersionApi>> => {
   const config: QueryParams<AppVersion> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const appVersionGetMany = (
     ? queryParams.batch.addBatch<ResourceList<AppVersionApi>>(config)
     : getResponse<ResourceList<AppVersionApi>, AppVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appVersionGetOne = (
   id: number,
-  queryParams?: QueryParams<AppVersion>
+  queryParams?: QueryParams<AppVersion>,
 ): Promise<AppVersionApi> => {
   const config: QueryParams<AppVersion> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const appVersionGetOne = (
     ? queryParams.batch.addBatch<AppVersionApi>(config)
     : getResponse<AppVersionApi, AppVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appVersionDeleteOne = (
   id: number,
-  queryParams?: QueryParams<AppVersion>
+  queryParams?: QueryParams<AppVersion>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<AppVersion> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const appVersionDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appVersionUpdateOne = (
   id: number,
   data: Partial<AppVersion>,
-  queryParams?: QueryParams<AppVersion>
+  queryParams?: QueryParams<AppVersion>,
 ): Promise<AppVersion> => {
   const config: QueryParams<AppVersion> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const appVersionUpdateOne = (
 
 export const appVersionCreateOne = (
   data: Partial<AppVersion>,
-  queryParams?: QueryParams<AppVersion>
+  queryParams?: QueryParams<AppVersion>,
 ): Promise<AppVersion> => {
   const config: QueryParams<AppVersion> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const appVersionCreateOne = (
 
 export const appVersionCreateMany = (
   data: Partial<AppVersion>[],
-  queryParams?: QueryParamsWithList<AppVersion>
+  queryParams?: QueryParamsWithList<AppVersion>,
 ): Promise<AppVersion[]> => {
   const config: QueryParamsWithList<AppVersion> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const appVersionCreateMany = (
     ? queryParams.batch.addBatch<AppVersion[]>(config)
     : getResponse<AppVersion[], AppVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

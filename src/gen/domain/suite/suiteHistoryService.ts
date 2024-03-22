@@ -10,7 +10,7 @@ import { Suite } from './Suite';
 import { SuiteHistory } from './SuiteHistory';
 
 export const suiteHistoryGet = (
-  queryParams?: QueryParams<Suite>
+  queryParams?: QueryParams<Suite>,
 ): Promise<SuiteHistory[]> => {
   const config: QueryParams<Suite> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const suiteHistoryGet = (
     ? queryParams.batch.addBatch<SuiteHistory[]>(config)
     : getResponse<SuiteHistory[], Suite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

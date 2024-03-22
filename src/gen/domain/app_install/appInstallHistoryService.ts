@@ -10,7 +10,7 @@ import { AppInstall } from './AppInstall';
 import { AppInstallHistory } from './AppInstallHistory';
 
 export const appInstallHistoryGet = (
-  queryParams?: QueryParams<AppInstall>
+  queryParams?: QueryParams<AppInstall>,
 ): Promise<AppInstallHistory[]> => {
   const config: QueryParams<AppInstall> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const appInstallHistoryGet = (
     ? queryParams.batch.addBatch<AppInstallHistory[]>(config)
     : getResponse<AppInstallHistory[], AppInstall>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

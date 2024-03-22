@@ -5,7 +5,7 @@ import { TestRailProject } from '../interfaces/TestRailProject';
 import { Mapping } from '../interfaces/Mapping';
 
 export const getProjects = (
-  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>
+  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
 ): Promise<TestRailProject[]> => {
   const config: QueryParams<void> = {
     method: 'get',
@@ -17,14 +17,14 @@ export const getProjects = (
     ? queryParams.batch.addBatch<TestRailProject[]>(config)
     : getResponse<TestRailProject[], void>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const postImportProject = (
   testRailProjectId: number | string,
   mapping: Mapping,
-  queryParams?: Omit<QueryParams<void>, 'url' | 'params' | 'data'>
+  queryParams?: Omit<QueryParams<void>, 'url' | 'params' | 'data'>,
 ) => {
   const config: QueryParams<{
     projectId: number | string;

@@ -10,7 +10,7 @@ import { AppConfig } from './AppConfig';
 import { AppConfigHistory } from './AppConfigHistory';
 
 export const appConfigHistoryGet = (
-  queryParams?: QueryParams<AppConfig>
+  queryParams?: QueryParams<AppConfig>,
 ): Promise<AppConfigHistory[]> => {
   const config: QueryParams<AppConfig> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const appConfigHistoryGet = (
     ? queryParams.batch.addBatch<AppConfigHistory[]>(config)
     : getResponse<AppConfigHistory[], AppConfig>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

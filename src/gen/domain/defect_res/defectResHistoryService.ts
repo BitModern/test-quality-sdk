@@ -10,7 +10,7 @@ import { DefectRes } from './DefectRes';
 import { DefectResHistory } from './DefectResHistory';
 
 export const defectResHistoryGet = (
-  queryParams?: QueryParams<DefectRes>
+  queryParams?: QueryParams<DefectRes>,
 ): Promise<DefectResHistory[]> => {
   const config: QueryParams<DefectRes> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const defectResHistoryGet = (
     ? queryParams.batch.addBatch<DefectResHistory[]>(config)
     : getResponse<DefectResHistory[], DefectRes>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

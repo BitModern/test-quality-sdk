@@ -12,7 +12,7 @@ import { BaseCapability } from './BaseCapability';
 import { BaseCapabilityApi } from './BaseCapabilityApi';
 
 export const baseCapabilityGetMany = (
-  queryParams?: QueryParams<BaseCapability>
+  queryParams?: QueryParams<BaseCapability>,
 ): Promise<ResourceList<BaseCapabilityApi>> => {
   const config: QueryParams<BaseCapability> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const baseCapabilityGetMany = (
     ? queryParams.batch.addBatch<ResourceList<BaseCapabilityApi>>(config)
     : getResponse<ResourceList<BaseCapabilityApi>, BaseCapability>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const baseCapabilityGetOne = (
   id: number,
-  queryParams?: QueryParams<BaseCapability>
+  queryParams?: QueryParams<BaseCapability>,
 ): Promise<BaseCapabilityApi> => {
   const config: QueryParams<BaseCapability> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const baseCapabilityGetOne = (
     ? queryParams.batch.addBatch<BaseCapabilityApi>(config)
     : getResponse<BaseCapabilityApi, BaseCapability>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const baseCapabilityDeleteOne = (
   id: number,
-  queryParams?: QueryParams<BaseCapability>
+  queryParams?: QueryParams<BaseCapability>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<BaseCapability> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const baseCapabilityDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, BaseCapability>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const baseCapabilityUpdateOne = (
   id: number,
   data: Partial<BaseCapability>,
-  queryParams?: QueryParams<BaseCapability>
+  queryParams?: QueryParams<BaseCapability>,
 ): Promise<BaseCapability> => {
   const config: QueryParams<BaseCapability> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const baseCapabilityUpdateOne = (
 
 export const baseCapabilityCreateOne = (
   data: Partial<BaseCapability>,
-  queryParams?: QueryParams<BaseCapability>
+  queryParams?: QueryParams<BaseCapability>,
 ): Promise<BaseCapability> => {
   const config: QueryParams<BaseCapability> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const baseCapabilityCreateOne = (
 
 export const baseCapabilityCreateMany = (
   data: Partial<BaseCapability>[],
-  queryParams?: QueryParamsWithList<BaseCapability>
+  queryParams?: QueryParamsWithList<BaseCapability>,
 ): Promise<BaseCapability[]> => {
   const config: QueryParamsWithList<BaseCapability> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const baseCapabilityCreateMany = (
     ? queryParams.batch.addBatch<BaseCapability[]>(config)
     : getResponse<BaseCapability[], BaseCapability>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

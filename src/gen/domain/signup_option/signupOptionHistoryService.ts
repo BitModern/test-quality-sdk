@@ -10,7 +10,7 @@ import { SignupOption } from './SignupOption';
 import { SignupOptionHistory } from './SignupOptionHistory';
 
 export const signupOptionHistoryGet = (
-  queryParams?: QueryParams<SignupOption>
+  queryParams?: QueryParams<SignupOption>,
 ): Promise<SignupOptionHistory[]> => {
   const config: QueryParams<SignupOption> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const signupOptionHistoryGet = (
     ? queryParams.batch.addBatch<SignupOptionHistory[]>(config)
     : getResponse<SignupOptionHistory[], SignupOption>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

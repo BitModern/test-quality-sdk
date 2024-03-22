@@ -5,16 +5,16 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Subscriptions } from './Subscriptions';
+import { CouponApi } from '../coupon/CouponApi';
 import { UserApi } from '../user/UserApi';
 import { ProductApi } from '../product/ProductApi';
-import { CouponApi } from '../coupon/CouponApi';
 import { SubscriptionUserApi } from '../subscription_user/SubscriptionUserApi';
 import { BillingContactApi } from '../billing_contact/BillingContactApi';
 
 export interface SubscriptionsApi extends Subscriptions {
+  coupon?: CouponApi;
   user?: UserApi;
   product?: ProductApi;
-  coupon?: CouponApi;
   subscription_user?: SubscriptionUserApi[];
   billing_contact?: BillingContactApi[];
 }

@@ -12,7 +12,7 @@ import { AppUser } from './AppUser';
 import { AppUserApi } from './AppUserApi';
 
 export const appUserGetMany = (
-  queryParams?: QueryParams<AppUser>
+  queryParams?: QueryParams<AppUser>,
 ): Promise<ResourceList<AppUserApi>> => {
   const config: QueryParams<AppUser> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const appUserGetMany = (
     ? queryParams.batch.addBatch<ResourceList<AppUserApi>>(config)
     : getResponse<ResourceList<AppUserApi>, AppUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appUserGetOne = (
   id: number,
-  queryParams?: QueryParams<AppUser>
+  queryParams?: QueryParams<AppUser>,
 ): Promise<AppUserApi> => {
   const config: QueryParams<AppUser> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const appUserGetOne = (
     ? queryParams.batch.addBatch<AppUserApi>(config)
     : getResponse<AppUserApi, AppUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appUserDeleteOne = (
   id: number,
-  queryParams?: QueryParams<AppUser>
+  queryParams?: QueryParams<AppUser>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<AppUser> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const appUserDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appUserUpdateOne = (
   id: number,
   data: Partial<AppUser>,
-  queryParams?: QueryParams<AppUser>
+  queryParams?: QueryParams<AppUser>,
 ): Promise<AppUser> => {
   const config: QueryParams<AppUser> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const appUserUpdateOne = (
 
 export const appUserCreateOne = (
   data: Partial<AppUser>,
-  queryParams?: QueryParams<AppUser>
+  queryParams?: QueryParams<AppUser>,
 ): Promise<AppUser> => {
   const config: QueryParams<AppUser> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const appUserCreateOne = (
 
 export const appUserCreateMany = (
   data: Partial<AppUser>[],
-  queryParams?: QueryParamsWithList<AppUser>
+  queryParams?: QueryParamsWithList<AppUser>,
 ): Promise<AppUser[]> => {
   const config: QueryParamsWithList<AppUser> = {
     method: 'post',

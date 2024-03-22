@@ -10,7 +10,7 @@ import { Filter } from './Filter';
 import { FilterHistory } from './FilterHistory';
 
 export const filterHistoryGet = (
-  queryParams?: QueryParams<Filter>
+  queryParams?: QueryParams<Filter>,
 ): Promise<FilterHistory[]> => {
   const config: QueryParams<Filter> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const filterHistoryGet = (
     ? queryParams.batch.addBatch<FilterHistory[]>(config)
     : getResponse<FilterHistory[], Filter>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

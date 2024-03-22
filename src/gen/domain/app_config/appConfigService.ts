@@ -12,7 +12,7 @@ import { AppConfig } from './AppConfig';
 import { AppConfigApi } from './AppConfigApi';
 
 export const appConfigGetMany = (
-  queryParams?: QueryParams<AppConfig>
+  queryParams?: QueryParams<AppConfig>,
 ): Promise<ResourceList<AppConfigApi>> => {
   const config: QueryParams<AppConfig> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const appConfigGetMany = (
     ? queryParams.batch.addBatch<ResourceList<AppConfigApi>>(config)
     : getResponse<ResourceList<AppConfigApi>, AppConfig>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appConfigGetOne = (
   id: number,
-  queryParams?: QueryParams<AppConfig>
+  queryParams?: QueryParams<AppConfig>,
 ): Promise<AppConfigApi> => {
   const config: QueryParams<AppConfig> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const appConfigGetOne = (
     ? queryParams.batch.addBatch<AppConfigApi>(config)
     : getResponse<AppConfigApi, AppConfig>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appConfigDeleteOne = (
   id: number,
-  queryParams?: QueryParams<AppConfig>
+  queryParams?: QueryParams<AppConfig>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<AppConfig> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const appConfigDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppConfig>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appConfigUpdateOne = (
   id: number,
   data: Partial<AppConfig>,
-  queryParams?: QueryParams<AppConfig>
+  queryParams?: QueryParams<AppConfig>,
 ): Promise<AppConfig> => {
   const config: QueryParams<AppConfig> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const appConfigUpdateOne = (
 
 export const appConfigCreateOne = (
   data: Partial<AppConfig>,
-  queryParams?: QueryParams<AppConfig>
+  queryParams?: QueryParams<AppConfig>,
 ): Promise<AppConfig> => {
   const config: QueryParams<AppConfig> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const appConfigCreateOne = (
 
 export const appConfigCreateMany = (
   data: Partial<AppConfig>[],
-  queryParams?: QueryParamsWithList<AppConfig>
+  queryParams?: QueryParamsWithList<AppConfig>,
 ): Promise<AppConfig[]> => {
   const config: QueryParamsWithList<AppConfig> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const appConfigCreateMany = (
     ? queryParams.batch.addBatch<AppConfig[]>(config)
     : getResponse<AppConfig[], AppConfig>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -10,7 +10,7 @@ import { TestQualityType } from './TestQualityType';
 import { TestQualityTypeHistory } from './TestQualityTypeHistory';
 
 export const testQualityTypeHistoryGet = (
-  queryParams?: QueryParams<TestQualityType>
+  queryParams?: QueryParams<TestQualityType>,
 ): Promise<TestQualityTypeHistory[]> => {
   const config: QueryParams<TestQualityType> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const testQualityTypeHistoryGet = (
     ? queryParams.batch.addBatch<TestQualityTypeHistory[]>(config)
     : getResponse<TestQualityTypeHistory[], TestQualityType>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

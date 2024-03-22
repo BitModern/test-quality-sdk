@@ -16,4 +16,5 @@ export interface CheckSuite extends KeyedModel {
   client_id: number;
   head_branch?: string;
   app_install_project_id: number;
+  status?: string;
 }

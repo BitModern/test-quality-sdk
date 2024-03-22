@@ -12,7 +12,7 @@ import { AppVersionPlatVersionPlanApi } from './AppVersionPlatVersionPlanApi';
 
 export const appVersionPlatVersionPlanDetach = (
   data: Partial<AppVersionPlatVersionPlan>,
-  queryParams?: QueryParams<AppVersionPlatVersionPlan>
+  queryParams?: QueryParams<AppVersionPlatVersionPlan>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
@@ -27,14 +27,14 @@ export const appVersionPlatVersionPlanDetach = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppVersionPlatVersionPlan>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appVersionPlatVersionPlanUpdateOne = (
   id: number,
   data: Partial<AppVersionPlatVersionPlan>,
-  queryParams?: QueryParams<AppVersionPlatVersionPlan>
+  queryParams?: QueryParams<AppVersionPlatVersionPlan>,
 ): Promise<AppVersionPlatVersionPlan> => {
   const config: QueryParams<AppVersionPlatVersionPlan> = {
     method: 'put',
@@ -47,13 +47,13 @@ export const appVersionPlatVersionPlanUpdateOne = (
     ? queryParams.batch.addBatch<AppVersionPlatVersionPlan>(config)
     : getResponse<AppVersionPlatVersionPlan>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appVersionPlatVersionPlanCreateOne = (
   data: Partial<AppVersionPlatVersionPlan>,
-  queryParams?: QueryParams<AppVersionPlatVersionPlan>
+  queryParams?: QueryParams<AppVersionPlatVersionPlan>,
 ): Promise<AppVersionPlatVersionPlan> => {
   const config: QueryParams<AppVersionPlatVersionPlan> = {
     method: 'post',
@@ -66,13 +66,13 @@ export const appVersionPlatVersionPlanCreateOne = (
     ? queryParams.batch.addBatch<AppVersionPlatVersionPlan>(config)
     : getResponse<AppVersionPlatVersionPlan>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appVersionPlatVersionPlanCreateMany = (
   data: Partial<AppVersionPlatVersionPlan>[],
-  queryParams?: QueryParamsWithList<AppVersionPlatVersionPlan>
+  queryParams?: QueryParamsWithList<AppVersionPlatVersionPlan>,
 ): Promise<AppVersionPlatVersionPlan[]> => {
   const config: QueryParamsWithList<AppVersionPlatVersionPlan> = {
     method: 'post',
@@ -85,12 +85,12 @@ export const appVersionPlatVersionPlanCreateMany = (
     ? queryParams.batch.addBatch<AppVersionPlatVersionPlan[]>(config)
     : getResponse<AppVersionPlatVersionPlan[], AppVersionPlatVersionPlan>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appVersionPlatVersionPlanGetMany = (
-  queryParams?: QueryParams<AppVersionPlatVersionPlan>
+  queryParams?: QueryParams<AppVersionPlatVersionPlan>,
 ): Promise<ResourceList<AppVersionPlatVersionPlanApi>> => {
   const config: QueryParams<AppVersionPlatVersionPlan> = {
     method: 'get',
@@ -101,7 +101,7 @@ export const appVersionPlatVersionPlanGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<AppVersionPlatVersionPlanApi>>(
-        config
+        config,
       )
     : getResponse<
         ResourceList<AppVersionPlatVersionPlanApi>,
@@ -111,7 +111,7 @@ export const appVersionPlatVersionPlanGetMany = (
 
 export const appVersionPlatVersionPlanGetOne = (
   id: number,
-  queryParams?: QueryParams<AppVersionPlatVersionPlan>
+  queryParams?: QueryParams<AppVersionPlatVersionPlan>,
 ): Promise<AppVersionPlatVersionPlanApi> => {
   const config: QueryParams<AppVersionPlatVersionPlan> = {
     method: 'get',
@@ -124,6 +124,6 @@ export const appVersionPlatVersionPlanGetOne = (
     ? queryParams.batch.addBatch<AppVersionPlatVersionPlanApi>(config)
     : getResponse<AppVersionPlatVersionPlanApi, AppVersionPlatVersionPlan>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

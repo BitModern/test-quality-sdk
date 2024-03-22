@@ -12,7 +12,7 @@ import { Virtual } from './Virtual';
 import { VirtualApi } from './VirtualApi';
 
 export const virtualGetMany = (
-  queryParams?: QueryParams<Virtual>
+  queryParams?: QueryParams<Virtual>,
 ): Promise<ResourceList<VirtualApi>> => {
   const config: QueryParams<Virtual> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const virtualGetMany = (
     ? queryParams.batch.addBatch<ResourceList<VirtualApi>>(config)
     : getResponse<ResourceList<VirtualApi>, Virtual>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const virtualGetOne = (
   id: number,
-  queryParams?: QueryParams<Virtual>
+  queryParams?: QueryParams<Virtual>,
 ): Promise<VirtualApi> => {
   const config: QueryParams<Virtual> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const virtualGetOne = (
     ? queryParams.batch.addBatch<VirtualApi>(config)
     : getResponse<VirtualApi, Virtual>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const virtualDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Virtual>
+  queryParams?: QueryParams<Virtual>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Virtual> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const virtualDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Virtual>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const virtualUpdateOne = (
   id: number,
   data: Partial<Virtual>,
-  queryParams?: QueryParams<Virtual>
+  queryParams?: QueryParams<Virtual>,
 ): Promise<Virtual> => {
   const config: QueryParams<Virtual> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const virtualUpdateOne = (
 
 export const virtualCreateOne = (
   data: Partial<Virtual>,
-  queryParams?: QueryParams<Virtual>
+  queryParams?: QueryParams<Virtual>,
 ): Promise<Virtual> => {
   const config: QueryParams<Virtual> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const virtualCreateOne = (
 
 export const virtualCreateMany = (
   data: Partial<Virtual>[],
-  queryParams?: QueryParamsWithList<Virtual>
+  queryParams?: QueryParamsWithList<Virtual>,
 ): Promise<Virtual[]> => {
   const config: QueryParamsWithList<Virtual> = {
     method: 'post',

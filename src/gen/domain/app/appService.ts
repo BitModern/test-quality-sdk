@@ -12,7 +12,7 @@ import { App } from './App';
 import { AppApi } from './AppApi';
 
 export const appGetMany = (
-  queryParams?: QueryParams<App>
+  queryParams?: QueryParams<App>,
 ): Promise<ResourceList<AppApi>> => {
   const config: QueryParams<App> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const appGetMany = (
     ? queryParams.batch.addBatch<ResourceList<AppApi>>(config)
     : getResponse<ResourceList<AppApi>, App>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appGetOne = (
   id: number,
-  queryParams?: QueryParams<App>
+  queryParams?: QueryParams<App>,
 ): Promise<AppApi> => {
   const config: QueryParams<App> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const appGetOne = (
 
 export const appDeleteOne = (
   id: number,
-  queryParams?: QueryParams<App>
+  queryParams?: QueryParams<App>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<App> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const appDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, App>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appUpdateOne = (
   id: number,
   data: Partial<App>,
-  queryParams?: QueryParams<App>
+  queryParams?: QueryParams<App>,
 ): Promise<App> => {
   const config: QueryParams<App> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const appUpdateOne = (
 
 export const appCreateOne = (
   data: Partial<App>,
-  queryParams?: QueryParams<App>
+  queryParams?: QueryParams<App>,
 ): Promise<App> => {
   const config: QueryParams<App> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const appCreateOne = (
 
 export const appCreateMany = (
   data: Partial<App>[],
-  queryParams?: QueryParamsWithList<App>
+  queryParams?: QueryParamsWithList<App>,
 ): Promise<App[]> => {
   const config: QueryParamsWithList<App> = {
     method: 'post',

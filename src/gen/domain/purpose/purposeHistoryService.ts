@@ -10,7 +10,7 @@ import { Purpose } from './Purpose';
 import { PurposeHistory } from './PurposeHistory';
 
 export const purposeHistoryGet = (
-  queryParams?: QueryParams<Purpose>
+  queryParams?: QueryParams<Purpose>,
 ): Promise<PurposeHistory[]> => {
   const config: QueryParams<Purpose> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const purposeHistoryGet = (
     ? queryParams.batch.addBatch<PurposeHistory[]>(config)
     : getResponse<PurposeHistory[], Purpose>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

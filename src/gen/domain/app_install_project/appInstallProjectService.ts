@@ -12,7 +12,7 @@ import { AppInstallProject } from './AppInstallProject';
 import { AppInstallProjectApi } from './AppInstallProjectApi';
 
 export const appInstallProjectGetMany = (
-  queryParams?: QueryParams<AppInstallProject>
+  queryParams?: QueryParams<AppInstallProject>,
 ): Promise<ResourceList<AppInstallProjectApi>> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const appInstallProjectGetMany = (
     ? queryParams.batch.addBatch<ResourceList<AppInstallProjectApi>>(config)
     : getResponse<ResourceList<AppInstallProjectApi>, AppInstallProject>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appInstallProjectGetOne = (
   id: number,
-  queryParams?: QueryParams<AppInstallProject>
+  queryParams?: QueryParams<AppInstallProject>,
 ): Promise<AppInstallProjectApi> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const appInstallProjectGetOne = (
     ? queryParams.batch.addBatch<AppInstallProjectApi>(config)
     : getResponse<AppInstallProjectApi, AppInstallProject>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appInstallProjectDeleteOne = (
   id: number,
-  queryParams?: QueryParams<AppInstallProject>
+  queryParams?: QueryParams<AppInstallProject>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const appInstallProjectDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppInstallProject>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appInstallProjectUpdateOne = (
   id: number,
   data: Partial<AppInstallProject>,
-  queryParams?: QueryParams<AppInstallProject>
+  queryParams?: QueryParams<AppInstallProject>,
 ): Promise<AppInstallProject> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const appInstallProjectUpdateOne = (
 
 export const appInstallProjectCreateOne = (
   data: Partial<AppInstallProject>,
-  queryParams?: QueryParams<AppInstallProject>
+  queryParams?: QueryParams<AppInstallProject>,
 ): Promise<AppInstallProject> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const appInstallProjectCreateOne = (
 
 export const appInstallProjectCreateMany = (
   data: Partial<AppInstallProject>[],
-  queryParams?: QueryParamsWithList<AppInstallProject>
+  queryParams?: QueryParamsWithList<AppInstallProject>,
 ): Promise<AppInstallProject[]> => {
   const config: QueryParamsWithList<AppInstallProject> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const appInstallProjectCreateMany = (
     ? queryParams.batch.addBatch<AppInstallProject[]>(config)
     : getResponse<AppInstallProject[], AppInstallProject>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

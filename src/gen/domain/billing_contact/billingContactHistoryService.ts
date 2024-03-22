@@ -10,7 +10,7 @@ import { BillingContact } from './BillingContact';
 import { BillingContactHistory } from './BillingContactHistory';
 
 export const billingContactHistoryGet = (
-  queryParams?: QueryParams<BillingContact>
+  queryParams?: QueryParams<BillingContact>,
 ): Promise<BillingContactHistory[]> => {
   const config: QueryParams<BillingContact> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const billingContactHistoryGet = (
     ? queryParams.batch.addBatch<BillingContactHistory[]>(config)
     : getResponse<BillingContactHistory[], BillingContact>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

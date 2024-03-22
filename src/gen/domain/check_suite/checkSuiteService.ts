@@ -12,7 +12,7 @@ import { CheckSuite } from './CheckSuite';
 import { CheckSuiteApi } from './CheckSuiteApi';
 
 export const checkSuiteGetMany = (
-  queryParams?: QueryParams<CheckSuite>
+  queryParams?: QueryParams<CheckSuite>,
 ): Promise<ResourceList<CheckSuiteApi>> => {
   const config: QueryParams<CheckSuite> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const checkSuiteGetMany = (
     ? queryParams.batch.addBatch<ResourceList<CheckSuiteApi>>(config)
     : getResponse<ResourceList<CheckSuiteApi>, CheckSuite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const checkSuiteGetOne = (
   id: number,
-  queryParams?: QueryParams<CheckSuite>
+  queryParams?: QueryParams<CheckSuite>,
 ): Promise<CheckSuiteApi> => {
   const config: QueryParams<CheckSuite> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const checkSuiteGetOne = (
     ? queryParams.batch.addBatch<CheckSuiteApi>(config)
     : getResponse<CheckSuiteApi, CheckSuite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const checkSuiteDeleteOne = (
   id: number,
-  queryParams?: QueryParams<CheckSuite>
+  queryParams?: QueryParams<CheckSuite>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<CheckSuite> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const checkSuiteDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, CheckSuite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const checkSuiteUpdateOne = (
   id: number,
   data: Partial<CheckSuite>,
-  queryParams?: QueryParams<CheckSuite>
+  queryParams?: QueryParams<CheckSuite>,
 ): Promise<CheckSuite> => {
   const config: QueryParams<CheckSuite> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const checkSuiteUpdateOne = (
 
 export const checkSuiteCreateOne = (
   data: Partial<CheckSuite>,
-  queryParams?: QueryParams<CheckSuite>
+  queryParams?: QueryParams<CheckSuite>,
 ): Promise<CheckSuite> => {
   const config: QueryParams<CheckSuite> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const checkSuiteCreateOne = (
 
 export const checkSuiteCreateMany = (
   data: Partial<CheckSuite>[],
-  queryParams?: QueryParamsWithList<CheckSuite>
+  queryParams?: QueryParamsWithList<CheckSuite>,
 ): Promise<CheckSuite[]> => {
   const config: QueryParamsWithList<CheckSuite> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const checkSuiteCreateMany = (
     ? queryParams.batch.addBatch<CheckSuite[]>(config)
     : getResponse<CheckSuite[], CheckSuite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

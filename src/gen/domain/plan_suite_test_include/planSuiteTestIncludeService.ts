@@ -12,7 +12,7 @@ import { PlanSuiteTestInclude } from './PlanSuiteTestInclude';
 import { PlanSuiteTestIncludeApi } from './PlanSuiteTestIncludeApi';
 
 export const planSuiteTestIncludeGetMany = (
-  queryParams?: QueryParams<PlanSuiteTestInclude>
+  queryParams?: QueryParams<PlanSuiteTestInclude>,
 ): Promise<ResourceList<PlanSuiteTestIncludeApi>> => {
   const config: QueryParams<PlanSuiteTestInclude> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const planSuiteTestIncludeGetMany = (
     ? queryParams.batch.addBatch<ResourceList<PlanSuiteTestIncludeApi>>(config)
     : getResponse<ResourceList<PlanSuiteTestIncludeApi>, PlanSuiteTestInclude>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planSuiteTestIncludeGetOne = (
   id: number,
-  queryParams?: QueryParams<PlanSuiteTestInclude>
+  queryParams?: QueryParams<PlanSuiteTestInclude>,
 ): Promise<PlanSuiteTestIncludeApi> => {
   const config: QueryParams<PlanSuiteTestInclude> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const planSuiteTestIncludeGetOne = (
     ? queryParams.batch.addBatch<PlanSuiteTestIncludeApi>(config)
     : getResponse<PlanSuiteTestIncludeApi, PlanSuiteTestInclude>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planSuiteTestIncludeDeleteOne = (
   id: number,
-  queryParams?: QueryParams<PlanSuiteTestInclude>
+  queryParams?: QueryParams<PlanSuiteTestInclude>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<PlanSuiteTestInclude> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const planSuiteTestIncludeDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PlanSuiteTestInclude>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planSuiteTestIncludeUpdateOne = (
   id: number,
   data: Partial<PlanSuiteTestInclude>,
-  queryParams?: QueryParams<PlanSuiteTestInclude>
+  queryParams?: QueryParams<PlanSuiteTestInclude>,
 ): Promise<PlanSuiteTestInclude> => {
   const config: QueryParams<PlanSuiteTestInclude> = {
     method: 'put',
@@ -86,13 +86,13 @@ export const planSuiteTestIncludeUpdateOne = (
     ? queryParams.batch.addBatch<PlanSuiteTestInclude>(config)
     : getResponse<PlanSuiteTestInclude>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planSuiteTestIncludeCreateOne = (
   data: Partial<PlanSuiteTestInclude>,
-  queryParams?: QueryParams<PlanSuiteTestInclude>
+  queryParams?: QueryParams<PlanSuiteTestInclude>,
 ): Promise<PlanSuiteTestInclude> => {
   const config: QueryParams<PlanSuiteTestInclude> = {
     method: 'post',
@@ -106,13 +106,13 @@ export const planSuiteTestIncludeCreateOne = (
     ? queryParams.batch.addBatch<PlanSuiteTestInclude>(config)
     : getResponse<PlanSuiteTestInclude>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planSuiteTestIncludeCreateMany = (
   data: Partial<PlanSuiteTestInclude>[],
-  queryParams?: QueryParamsWithList<PlanSuiteTestInclude>
+  queryParams?: QueryParamsWithList<PlanSuiteTestInclude>,
 ): Promise<PlanSuiteTestInclude[]> => {
   const config: QueryParamsWithList<PlanSuiteTestInclude> = {
     method: 'post',
@@ -126,6 +126,6 @@ export const planSuiteTestIncludeCreateMany = (
     ? queryParams.batch.addBatch<PlanSuiteTestInclude[]>(config)
     : getResponse<PlanSuiteTestInclude[], PlanSuiteTestInclude>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

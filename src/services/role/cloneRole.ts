@@ -10,7 +10,7 @@ export type CloneRoleParam = {
 
 export const cloneRole = (
   data: Partial<CloneRoleParam>,
-  queryParams?: QueryParams<CloneRoleParam>
+  queryParams?: QueryParams<CloneRoleParam>,
 ): Promise<AccessRole> => {
   const config: QueryParams<CloneRoleParam> = {
     method: 'post',

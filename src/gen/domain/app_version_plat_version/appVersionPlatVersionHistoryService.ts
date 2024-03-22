@@ -10,7 +10,7 @@ import { AppVersionPlatVersion } from './AppVersionPlatVersion';
 import { AppVersionPlatVersionHistory } from './AppVersionPlatVersionHistory';
 
 export const appVersionPlatVersionHistoryGet = (
-  queryParams?: QueryParams<AppVersionPlatVersion>
+  queryParams?: QueryParams<AppVersionPlatVersion>,
 ): Promise<AppVersionPlatVersionHistory[]> => {
   const config: QueryParams<AppVersionPlatVersion> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const appVersionPlatVersionHistoryGet = (
     ? queryParams.batch.addBatch<AppVersionPlatVersionHistory[]>(config)
     : getResponse<AppVersionPlatVersionHistory[], AppVersionPlatVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

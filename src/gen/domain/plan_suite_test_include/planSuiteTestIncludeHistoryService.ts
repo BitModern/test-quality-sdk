@@ -10,7 +10,7 @@ import { PlanSuiteTestInclude } from './PlanSuiteTestInclude';
 import { PlanSuiteTestIncludeHistory } from './PlanSuiteTestIncludeHistory';
 
 export const planSuiteTestIncludeHistoryGet = (
-  queryParams?: QueryParams<PlanSuiteTestInclude>
+  queryParams?: QueryParams<PlanSuiteTestInclude>,
 ): Promise<PlanSuiteTestIncludeHistory[]> => {
   const config: QueryParams<PlanSuiteTestInclude> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const planSuiteTestIncludeHistoryGet = (
     ? queryParams.batch.addBatch<PlanSuiteTestIncludeHistory[]>(config)
     : getResponse<PlanSuiteTestIncludeHistory[], PlanSuiteTestInclude>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

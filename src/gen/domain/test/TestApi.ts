@@ -12,15 +12,15 @@ import { CaseTypeApi } from '../case_type/CaseTypeApi';
 import { CasePriorityApi } from '../case_priority/CasePriorityApi';
 import { ProjectApi } from '../project/ProjectApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { CommentApi } from '../comment/CommentApi';
-import { WatchApi } from '../watch/WatchApi';
-import { AttachmentApi } from '../attachment/AttachmentApi';
 import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import { RequirementTestApi } from '../requirement_test/RequirementTestApi';
 import { SuiteTestApi } from '../suite_test/SuiteTestApi';
 import { SuiteApi } from '../suite/SuiteApi';
 import { RunResultApi } from '../run_result/RunResultApi';
 import { StepApi } from '../step/StepApi';
+import { AttachmentApi } from '../attachment/AttachmentApi';
+import { CommentApi } from '../comment/CommentApi';
+import { WatchApi } from '../watch/WatchApi';
 
 export interface TestApi extends Test {
   test_quality?: TestQualityApi;
@@ -30,9 +30,6 @@ export interface TestApi extends Test {
   case_priority?: CasePriorityApi;
   project?: ProjectApi;
   label_assigned?: LabelAssignedApi;
-  comment?: CommentApi;
-  watch?: WatchApi;
-  attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   requirement_test?: RequirementTestApi[];
   suite?: SuiteApi[];
@@ -40,6 +37,9 @@ export interface TestApi extends Test {
   sequence_suite?: number;
   run_result?: RunResultApi[];
   step?: StepApi[];
+  attachment?: AttachmentApi;
+  comment?: CommentApi;
+  watch?: WatchApi;
   pivot?: SuiteTestApi;
   suite_test?: Partial<SuiteTestApi>;
 }

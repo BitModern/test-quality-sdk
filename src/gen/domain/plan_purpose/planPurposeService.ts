@@ -12,7 +12,7 @@ import { PlanPurposeApi } from './PlanPurposeApi';
 
 export const planPurposeDetach = (
   data: Partial<PlanPurpose>,
-  queryParams?: QueryParams<PlanPurpose>
+  queryParams?: QueryParams<PlanPurpose>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
@@ -27,14 +27,14 @@ export const planPurposeDetach = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PlanPurpose>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planPurposeUpdateOne = (
   id: number,
   data: Partial<PlanPurpose>,
-  queryParams?: QueryParams<PlanPurpose>
+  queryParams?: QueryParams<PlanPurpose>,
 ): Promise<PlanPurpose> => {
   const config: QueryParams<PlanPurpose> = {
     method: 'put',
@@ -50,7 +50,7 @@ export const planPurposeUpdateOne = (
 
 export const planPurposeCreateOne = (
   data: Partial<PlanPurpose>,
-  queryParams?: QueryParams<PlanPurpose>
+  queryParams?: QueryParams<PlanPurpose>,
 ): Promise<PlanPurpose> => {
   const config: QueryParams<PlanPurpose> = {
     method: 'post',
@@ -66,7 +66,7 @@ export const planPurposeCreateOne = (
 
 export const planPurposeCreateMany = (
   data: Partial<PlanPurpose>[],
-  queryParams?: QueryParamsWithList<PlanPurpose>
+  queryParams?: QueryParamsWithList<PlanPurpose>,
 ): Promise<PlanPurpose[]> => {
   const config: QueryParamsWithList<PlanPurpose> = {
     method: 'post',
@@ -79,12 +79,12 @@ export const planPurposeCreateMany = (
     ? queryParams.batch.addBatch<PlanPurpose[]>(config)
     : getResponse<PlanPurpose[], PlanPurpose>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planPurposeGetMany = (
-  queryParams?: QueryParams<PlanPurpose>
+  queryParams?: QueryParams<PlanPurpose>,
 ): Promise<ResourceList<PlanPurposeApi>> => {
   const config: QueryParams<PlanPurpose> = {
     method: 'get',
@@ -97,13 +97,13 @@ export const planPurposeGetMany = (
     ? queryParams.batch.addBatch<ResourceList<PlanPurposeApi>>(config)
     : getResponse<ResourceList<PlanPurposeApi>, PlanPurpose>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planPurposeGetOne = (
   id: number,
-  queryParams?: QueryParams<PlanPurpose>
+  queryParams?: QueryParams<PlanPurpose>,
 ): Promise<PlanPurposeApi> => {
   const config: QueryParams<PlanPurpose> = {
     method: 'get',
@@ -116,6 +116,6 @@ export const planPurposeGetOne = (
     ? queryParams.batch.addBatch<PlanPurposeApi>(config)
     : getResponse<PlanPurposeApi, PlanPurpose>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

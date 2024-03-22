@@ -12,7 +12,7 @@ import { Requirement } from './Requirement';
 import { RequirementApi } from './RequirementApi';
 
 export const requirementGetMany = (
-  queryParams?: QueryParams<Requirement>
+  queryParams?: QueryParams<Requirement>,
 ): Promise<ResourceList<RequirementApi>> => {
   const config: QueryParams<Requirement> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const requirementGetMany = (
     ? queryParams.batch.addBatch<ResourceList<RequirementApi>>(config)
     : getResponse<ResourceList<RequirementApi>, Requirement>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const requirementGetOne = (
   id: number,
-  queryParams?: QueryParams<Requirement>
+  queryParams?: QueryParams<Requirement>,
 ): Promise<RequirementApi> => {
   const config: QueryParams<Requirement> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const requirementGetOne = (
     ? queryParams.batch.addBatch<RequirementApi>(config)
     : getResponse<RequirementApi, Requirement>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const requirementDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Requirement>
+  queryParams?: QueryParams<Requirement>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Requirement> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const requirementDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Requirement>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const requirementUpdateOne = (
   id: number,
   data: Partial<Requirement>,
-  queryParams?: QueryParams<Requirement>
+  queryParams?: QueryParams<Requirement>,
 ): Promise<Requirement> => {
   const config: QueryParams<Requirement> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const requirementUpdateOne = (
 
 export const requirementCreateOne = (
   data: Partial<Requirement>,
-  queryParams?: QueryParams<Requirement>
+  queryParams?: QueryParams<Requirement>,
 ): Promise<Requirement> => {
   const config: QueryParams<Requirement> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const requirementCreateOne = (
 
 export const requirementCreateMany = (
   data: Partial<Requirement>[],
-  queryParams?: QueryParamsWithList<Requirement>
+  queryParams?: QueryParamsWithList<Requirement>,
 ): Promise<Requirement[]> => {
   const config: QueryParamsWithList<Requirement> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const requirementCreateMany = (
     ? queryParams.batch.addBatch<Requirement[]>(config)
     : getResponse<Requirement[], Requirement>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

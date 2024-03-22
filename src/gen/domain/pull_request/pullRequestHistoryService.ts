@@ -10,7 +10,7 @@ import { PullRequest } from './PullRequest';
 import { PullRequestHistory } from './PullRequestHistory';
 
 export const pullRequestHistoryGet = (
-  queryParams?: QueryParams<PullRequest>
+  queryParams?: QueryParams<PullRequest>,
 ): Promise<PullRequestHistory[]> => {
   const config: QueryParams<PullRequest> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const pullRequestHistoryGet = (
     ? queryParams.batch.addBatch<PullRequestHistory[]>(config)
     : getResponse<PullRequestHistory[], PullRequest>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

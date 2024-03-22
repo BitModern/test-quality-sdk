@@ -10,7 +10,7 @@ import { PlatVersion } from './PlatVersion';
 import { PlatVersionHistory } from './PlatVersionHistory';
 
 export const platVersionHistoryGet = (
-  queryParams?: QueryParams<PlatVersion>
+  queryParams?: QueryParams<PlatVersion>,
 ): Promise<PlatVersionHistory[]> => {
   const config: QueryParams<PlatVersion> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const platVersionHistoryGet = (
     ? queryParams.batch.addBatch<PlatVersionHistory[]>(config)
     : getResponse<PlatVersionHistory[], PlatVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

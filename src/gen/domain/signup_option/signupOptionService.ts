@@ -12,7 +12,7 @@ import { SignupOption } from './SignupOption';
 import { SignupOptionApi } from './SignupOptionApi';
 
 export const signupOptionGetMany = (
-  queryParams?: QueryParams<SignupOption>
+  queryParams?: QueryParams<SignupOption>,
 ): Promise<ResourceList<SignupOptionApi>> => {
   const config: QueryParams<SignupOption> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const signupOptionGetMany = (
     ? queryParams.batch.addBatch<ResourceList<SignupOptionApi>>(config)
     : getResponse<ResourceList<SignupOptionApi>, SignupOption>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const signupOptionGetOne = (
   id: number,
-  queryParams?: QueryParams<SignupOption>
+  queryParams?: QueryParams<SignupOption>,
 ): Promise<SignupOptionApi> => {
   const config: QueryParams<SignupOption> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const signupOptionGetOne = (
     ? queryParams.batch.addBatch<SignupOptionApi>(config)
     : getResponse<SignupOptionApi, SignupOption>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const signupOptionDeleteOne = (
   id: number,
-  queryParams?: QueryParams<SignupOption>
+  queryParams?: QueryParams<SignupOption>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<SignupOption> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const signupOptionDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, SignupOption>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const signupOptionUpdateOne = (
   id: number,
   data: Partial<SignupOption>,
-  queryParams?: QueryParams<SignupOption>
+  queryParams?: QueryParams<SignupOption>,
 ): Promise<SignupOption> => {
   const config: QueryParams<SignupOption> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const signupOptionUpdateOne = (
 
 export const signupOptionCreateOne = (
   data: Partial<SignupOption>,
-  queryParams?: QueryParams<SignupOption>
+  queryParams?: QueryParams<SignupOption>,
 ): Promise<SignupOption> => {
   const config: QueryParams<SignupOption> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const signupOptionCreateOne = (
 
 export const signupOptionCreateMany = (
   data: Partial<SignupOption>[],
-  queryParams?: QueryParamsWithList<SignupOption>
+  queryParams?: QueryParamsWithList<SignupOption>,
 ): Promise<SignupOption[]> => {
   const config: QueryParamsWithList<SignupOption> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const signupOptionCreateMany = (
     ? queryParams.batch.addBatch<SignupOption[]>(config)
     : getResponse<SignupOption[], SignupOption>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

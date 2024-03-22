@@ -41,7 +41,7 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
         'Network Error',
         500,
         undefined,
-        response?.config?.url
+        response?.config?.url,
       );
     }
   } else if (response.status === 400 && response.data?.validation_errors) {
@@ -52,7 +52,7 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
       response.status,
       response.data.code,
       response?.config?.url,
-      response.data.trace
+      response.data.trace,
     );
   }
   return new HttpError(
@@ -62,7 +62,7 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
     response?.status,
     response?.data?.code,
     response?.config?.url,
-    response?.data?.trace
+    response?.data?.trace,
   );
 }
 
@@ -118,7 +118,7 @@ function getMessage(error: any): string {
     }
     if (error.data.errors) {
       message += Object.entries(error.data.errors).map(
-        ([, value]) => `\n${value}`
+        ([, value]) => `\n${value}`,
       );
     }
   } else if (error.data && error.data.error) {

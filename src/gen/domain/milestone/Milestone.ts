@@ -62,4 +62,6 @@ export interface Milestone extends KeyedModel {
   key: number;
   deleted_at?: string;
   total_test_cases: number;
+  parent_id?: number;
+  milestone_type_id?: number;
 }

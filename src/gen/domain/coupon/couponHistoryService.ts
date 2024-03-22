@@ -10,7 +10,7 @@ import { Coupon } from './Coupon';
 import { CouponHistory } from './CouponHistory';
 
 export const couponHistoryGet = (
-  queryParams?: QueryParams<Coupon>
+  queryParams?: QueryParams<Coupon>,
 ): Promise<CouponHistory[]> => {
   const config: QueryParams<Coupon> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const couponHistoryGet = (
     ? queryParams.batch.addBatch<CouponHistory[]>(config)
     : getResponse<CouponHistory[], Coupon>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

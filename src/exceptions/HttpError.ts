@@ -22,7 +22,7 @@ export class HttpError extends Error {
     status?: number,
     code?: string,
     url?: string,
-    trace?: Trace[]
+    trace?: Trace[],
   ) {
     super(message);
     // super wipes out passed in data, so must reset

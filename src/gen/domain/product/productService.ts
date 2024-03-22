@@ -12,7 +12,7 @@ import { Product } from './Product';
 import { ProductApi } from './ProductApi';
 
 export const productGetMany = (
-  queryParams?: QueryParams<Product>
+  queryParams?: QueryParams<Product>,
 ): Promise<ResourceList<ProductApi>> => {
   const config: QueryParams<Product> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const productGetMany = (
     ? queryParams.batch.addBatch<ResourceList<ProductApi>>(config)
     : getResponse<ResourceList<ProductApi>, Product>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const productGetOne = (
   id: number,
-  queryParams?: QueryParams<Product>
+  queryParams?: QueryParams<Product>,
 ): Promise<ProductApi> => {
   const config: QueryParams<Product> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const productGetOne = (
     ? queryParams.batch.addBatch<ProductApi>(config)
     : getResponse<ProductApi, Product>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const productDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Product>
+  queryParams?: QueryParams<Product>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Product> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const productDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Product>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const productUpdateOne = (
   id: number,
   data: Partial<Product>,
-  queryParams?: QueryParams<Product>
+  queryParams?: QueryParams<Product>,
 ): Promise<Product> => {
   const config: QueryParams<Product> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const productUpdateOne = (
 
 export const productCreateOne = (
   data: Partial<Product>,
-  queryParams?: QueryParams<Product>
+  queryParams?: QueryParams<Product>,
 ): Promise<Product> => {
   const config: QueryParams<Product> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const productCreateOne = (
 
 export const productCreateMany = (
   data: Partial<Product>[],
-  queryParams?: QueryParamsWithList<Product>
+  queryParams?: QueryParamsWithList<Product>,
 ): Promise<Product[]> => {
   const config: QueryParamsWithList<Product> = {
     method: 'post',

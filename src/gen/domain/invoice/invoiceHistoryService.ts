@@ -10,7 +10,7 @@ import { Invoice } from './Invoice';
 import { InvoiceHistory } from './InvoiceHistory';
 
 export const invoiceHistoryGet = (
-  queryParams?: QueryParams<Invoice>
+  queryParams?: QueryParams<Invoice>,
 ): Promise<InvoiceHistory[]> => {
   const config: QueryParams<Invoice> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const invoiceHistoryGet = (
     ? queryParams.batch.addBatch<InvoiceHistory[]>(config)
     : getResponse<InvoiceHistory[], Invoice>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

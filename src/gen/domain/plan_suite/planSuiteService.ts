@@ -12,7 +12,7 @@ import { PlanSuiteApi } from './PlanSuiteApi';
 
 export const planSuiteDetach = (
   data: Partial<PlanSuite>,
-  queryParams?: QueryParams<PlanSuite>
+  queryParams?: QueryParams<PlanSuite>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
@@ -27,14 +27,14 @@ export const planSuiteDetach = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PlanSuite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planSuiteUpdateOne = (
   id: number,
   data: Partial<PlanSuite>,
-  queryParams?: QueryParams<PlanSuite>
+  queryParams?: QueryParams<PlanSuite>,
 ): Promise<PlanSuite> => {
   const config: QueryParams<PlanSuite> = {
     method: 'put',
@@ -50,7 +50,7 @@ export const planSuiteUpdateOne = (
 
 export const planSuiteCreateOne = (
   data: Partial<PlanSuite>,
-  queryParams?: QueryParams<PlanSuite>
+  queryParams?: QueryParams<PlanSuite>,
 ): Promise<PlanSuite> => {
   const config: QueryParams<PlanSuite> = {
     method: 'post',
@@ -66,7 +66,7 @@ export const planSuiteCreateOne = (
 
 export const planSuiteCreateMany = (
   data: Partial<PlanSuite>[],
-  queryParams?: QueryParamsWithList<PlanSuite>
+  queryParams?: QueryParamsWithList<PlanSuite>,
 ): Promise<PlanSuite[]> => {
   const config: QueryParamsWithList<PlanSuite> = {
     method: 'post',
@@ -79,12 +79,12 @@ export const planSuiteCreateMany = (
     ? queryParams.batch.addBatch<PlanSuite[]>(config)
     : getResponse<PlanSuite[], PlanSuite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planSuiteGetMany = (
-  queryParams?: QueryParams<PlanSuite>
+  queryParams?: QueryParams<PlanSuite>,
 ): Promise<ResourceList<PlanSuiteApi>> => {
   const config: QueryParams<PlanSuite> = {
     method: 'get',
@@ -97,13 +97,13 @@ export const planSuiteGetMany = (
     ? queryParams.batch.addBatch<ResourceList<PlanSuiteApi>>(config)
     : getResponse<ResourceList<PlanSuiteApi>, PlanSuite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planSuiteGetOne = (
   id: number,
-  queryParams?: QueryParams<PlanSuite>
+  queryParams?: QueryParams<PlanSuite>,
 ): Promise<PlanSuiteApi> => {
   const config: QueryParams<PlanSuite> = {
     method: 'get',
@@ -116,6 +116,6 @@ export const planSuiteGetOne = (
     ? queryParams.batch.addBatch<PlanSuiteApi>(config)
     : getResponse<PlanSuiteApi, PlanSuite>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -12,7 +12,7 @@ import { Milestone } from './Milestone';
 import { MilestoneApi } from './MilestoneApi';
 
 export const milestoneGetMany = (
-  queryParams?: QueryParams<Milestone>
+  queryParams?: QueryParams<Milestone>,
 ): Promise<ResourceList<MilestoneApi>> => {
   const config: QueryParams<Milestone> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const milestoneGetMany = (
     ? queryParams.batch.addBatch<ResourceList<MilestoneApi>>(config)
     : getResponse<ResourceList<MilestoneApi>, Milestone>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const milestoneGetOne = (
   id: number,
-  queryParams?: QueryParams<Milestone>
+  queryParams?: QueryParams<Milestone>,
 ): Promise<MilestoneApi> => {
   const config: QueryParams<Milestone> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const milestoneGetOne = (
     ? queryParams.batch.addBatch<MilestoneApi>(config)
     : getResponse<MilestoneApi, Milestone>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const milestoneDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Milestone>
+  queryParams?: QueryParams<Milestone>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Milestone> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const milestoneDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Milestone>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const milestoneUpdateOne = (
   id: number,
   data: Partial<Milestone>,
-  queryParams?: QueryParams<Milestone>
+  queryParams?: QueryParams<Milestone>,
 ): Promise<Milestone> => {
   const config: QueryParams<Milestone> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const milestoneUpdateOne = (
 
 export const milestoneCreateOne = (
   data: Partial<Milestone>,
-  queryParams?: QueryParams<Milestone>
+  queryParams?: QueryParams<Milestone>,
 ): Promise<Milestone> => {
   const config: QueryParams<Milestone> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const milestoneCreateOne = (
 
 export const milestoneCreateMany = (
   data: Partial<Milestone>[],
-  queryParams?: QueryParamsWithList<Milestone>
+  queryParams?: QueryParamsWithList<Milestone>,
 ): Promise<Milestone[]> => {
   const config: QueryParamsWithList<Milestone> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const milestoneCreateMany = (
     ? queryParams.batch.addBatch<Milestone[]>(config)
     : getResponse<Milestone[], Milestone>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

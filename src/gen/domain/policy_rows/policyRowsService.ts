@@ -12,7 +12,7 @@ import { PolicyRows } from './PolicyRows';
 import { PolicyRowsApi } from './PolicyRowsApi';
 
 export const policyRowsGetMany = (
-  queryParams?: QueryParams<PolicyRows>
+  queryParams?: QueryParams<PolicyRows>,
 ): Promise<ResourceList<PolicyRowsApi>> => {
   const config: QueryParams<PolicyRows> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const policyRowsGetMany = (
     ? queryParams.batch.addBatch<ResourceList<PolicyRowsApi>>(config)
     : getResponse<ResourceList<PolicyRowsApi>, PolicyRows>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const policyRowsGetOne = (
   id: number,
-  queryParams?: QueryParams<PolicyRows>
+  queryParams?: QueryParams<PolicyRows>,
 ): Promise<PolicyRowsApi> => {
   const config: QueryParams<PolicyRows> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const policyRowsGetOne = (
     ? queryParams.batch.addBatch<PolicyRowsApi>(config)
     : getResponse<PolicyRowsApi, PolicyRows>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const policyRowsDeleteOne = (
   id: number,
-  queryParams?: QueryParams<PolicyRows>
+  queryParams?: QueryParams<PolicyRows>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<PolicyRows> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const policyRowsDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PolicyRows>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const policyRowsUpdateOne = (
   id: number,
   data: Partial<PolicyRows>,
-  queryParams?: QueryParams<PolicyRows>
+  queryParams?: QueryParams<PolicyRows>,
 ): Promise<PolicyRows> => {
   const config: QueryParams<PolicyRows> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const policyRowsUpdateOne = (
 
 export const policyRowsCreateOne = (
   data: Partial<PolicyRows>,
-  queryParams?: QueryParams<PolicyRows>
+  queryParams?: QueryParams<PolicyRows>,
 ): Promise<PolicyRows> => {
   const config: QueryParams<PolicyRows> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const policyRowsCreateOne = (
 
 export const policyRowsCreateMany = (
   data: Partial<PolicyRows>[],
-  queryParams?: QueryParamsWithList<PolicyRows>
+  queryParams?: QueryParamsWithList<PolicyRows>,
 ): Promise<PolicyRows[]> => {
   const config: QueryParamsWithList<PolicyRows> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const policyRowsCreateMany = (
     ? queryParams.batch.addBatch<PolicyRows[]>(config)
     : getResponse<PolicyRows[], PolicyRows>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

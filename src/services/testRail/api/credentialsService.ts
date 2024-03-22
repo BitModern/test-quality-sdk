@@ -3,7 +3,7 @@ import { getResponse, QueryParams } from '../../../gen/actions';
 import { TestRailCredentials } from '../interfaces/TestRailCredentials';
 
 export const clearCredentials = (
-  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>
+  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
 ): Promise<any> => {
   const config: QueryParams<void> = {
     method: 'delete',
@@ -17,7 +17,7 @@ export const clearCredentials = (
 };
 
 export const getCredentials = (
-  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>
+  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
 ): Promise<TestRailCredentials | null> => {
   const config: QueryParams<void> = {
     method: 'get',
@@ -29,13 +29,13 @@ export const getCredentials = (
     ? queryParams.batch.addBatch<TestRailCredentials | null>(config)
     : getResponse<TestRailCredentials | null, void>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const postCredentials = (
   queryParams: Required<Pick<QueryParams<TestRailCredentials>, 'data'>> &
-    Omit<QueryParams<TestRailCredentials>, 'url' | 'params'>
+    Omit<QueryParams<TestRailCredentials>, 'url' | 'params'>,
 ) => {
   const config: QueryParams<TestRailCredentials> = {
     method: 'post',
@@ -48,6 +48,6 @@ export const postCredentials = (
     ? queryParams.batch.addBatch<TestRailCredentials>(config)
     : getResponse<any, TestRailCredentials>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -12,7 +12,7 @@ import { RunResult } from './RunResult';
 import { RunResultApi } from './RunResultApi';
 
 export const runResultGetMany = (
-  queryParams?: QueryParams<RunResult>
+  queryParams?: QueryParams<RunResult>,
 ): Promise<ResourceList<RunResultApi>> => {
   const config: QueryParams<RunResult> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const runResultGetMany = (
     ? queryParams.batch.addBatch<ResourceList<RunResultApi>>(config)
     : getResponse<ResourceList<RunResultApi>, RunResult>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const runResultGetOne = (
   id: number,
-  queryParams?: QueryParams<RunResult>
+  queryParams?: QueryParams<RunResult>,
 ): Promise<RunResultApi> => {
   const config: QueryParams<RunResult> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const runResultGetOne = (
     ? queryParams.batch.addBatch<RunResultApi>(config)
     : getResponse<RunResultApi, RunResult>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const runResultDeleteOne = (
   id: number,
-  queryParams?: QueryParams<RunResult>
+  queryParams?: QueryParams<RunResult>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<RunResult> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const runResultDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, RunResult>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const runResultUpdateOne = (
   id: number,
   data: Partial<RunResult>,
-  queryParams?: QueryParams<RunResult>
+  queryParams?: QueryParams<RunResult>,
 ): Promise<RunResult> => {
   const config: QueryParams<RunResult> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const runResultUpdateOne = (
 
 export const runResultCreateOne = (
   data: Partial<RunResult>,
-  queryParams?: QueryParams<RunResult>
+  queryParams?: QueryParams<RunResult>,
 ): Promise<RunResult> => {
   const config: QueryParams<RunResult> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const runResultCreateOne = (
 
 export const runResultCreateMany = (
   data: Partial<RunResult>[],
-  queryParams?: QueryParamsWithList<RunResult>
+  queryParams?: QueryParamsWithList<RunResult>,
 ): Promise<RunResult[]> => {
   const config: QueryParamsWithList<RunResult> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const runResultCreateMany = (
     ? queryParams.batch.addBatch<RunResult[]>(config)
     : getResponse<RunResult[], RunResult>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

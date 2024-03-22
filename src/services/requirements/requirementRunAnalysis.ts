@@ -6,7 +6,7 @@ export type RequirementRunAnalysis = { runs: Run[]; run_results_ids: number[] };
 
 export const getRequirementRunsAnalysis = (
   id: number,
-  queryParams?: QueryParams<RequirementRunAnalysis>
+  queryParams?: QueryParams<RequirementRunAnalysis>,
 ): Promise<RequirementRunAnalysis> => {
   const config: QueryParams<RequirementRunAnalysis> = {
     method: 'get',
@@ -19,6 +19,6 @@ export const getRequirementRunsAnalysis = (
     ? queryParams.batch.addBatch(config)
     : getResponse<RequirementRunAnalysis>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

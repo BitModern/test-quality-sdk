@@ -50,7 +50,7 @@ describe('Projects Test', () => {
           password: testEnv.auth.password,
           access_role_id: admin?.id,
         } as any,
-        { api: client.api }
+        { api: client.api },
       );
     }
 

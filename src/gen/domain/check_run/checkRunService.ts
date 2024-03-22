@@ -12,7 +12,7 @@ import { CheckRun } from './CheckRun';
 import { CheckRunApi } from './CheckRunApi';
 
 export const checkRunGetMany = (
-  queryParams?: QueryParams<CheckRun>
+  queryParams?: QueryParams<CheckRun>,
 ): Promise<ResourceList<CheckRunApi>> => {
   const config: QueryParams<CheckRun> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const checkRunGetMany = (
     ? queryParams.batch.addBatch<ResourceList<CheckRunApi>>(config)
     : getResponse<ResourceList<CheckRunApi>, CheckRun>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const checkRunGetOne = (
   id: number,
-  queryParams?: QueryParams<CheckRun>
+  queryParams?: QueryParams<CheckRun>,
 ): Promise<CheckRunApi> => {
   const config: QueryParams<CheckRun> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const checkRunGetOne = (
     ? queryParams.batch.addBatch<CheckRunApi>(config)
     : getResponse<CheckRunApi, CheckRun>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const checkRunDeleteOne = (
   id: number,
-  queryParams?: QueryParams<CheckRun>
+  queryParams?: QueryParams<CheckRun>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<CheckRun> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const checkRunDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, CheckRun>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const checkRunUpdateOne = (
   id: number,
   data: Partial<CheckRun>,
-  queryParams?: QueryParams<CheckRun>
+  queryParams?: QueryParams<CheckRun>,
 ): Promise<CheckRun> => {
   const config: QueryParams<CheckRun> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const checkRunUpdateOne = (
 
 export const checkRunCreateOne = (
   data: Partial<CheckRun>,
-  queryParams?: QueryParams<CheckRun>
+  queryParams?: QueryParams<CheckRun>,
 ): Promise<CheckRun> => {
   const config: QueryParams<CheckRun> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const checkRunCreateOne = (
 
 export const checkRunCreateMany = (
   data: Partial<CheckRun>[],
-  queryParams?: QueryParamsWithList<CheckRun>
+  queryParams?: QueryParamsWithList<CheckRun>,
 ): Promise<CheckRun[]> => {
   const config: QueryParamsWithList<CheckRun> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const checkRunCreateMany = (
     ? queryParams.batch.addBatch<CheckRun[]>(config)
     : getResponse<CheckRun[], CheckRun>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -12,7 +12,7 @@ import { Purpose } from './Purpose';
 import { PurposeApi } from './PurposeApi';
 
 export const purposeGetMany = (
-  queryParams?: QueryParams<Purpose>
+  queryParams?: QueryParams<Purpose>,
 ): Promise<ResourceList<PurposeApi>> => {
   const config: QueryParams<Purpose> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const purposeGetMany = (
     ? queryParams.batch.addBatch<ResourceList<PurposeApi>>(config)
     : getResponse<ResourceList<PurposeApi>, Purpose>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const purposeGetOne = (
   id: number,
-  queryParams?: QueryParams<Purpose>
+  queryParams?: QueryParams<Purpose>,
 ): Promise<PurposeApi> => {
   const config: QueryParams<Purpose> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const purposeGetOne = (
     ? queryParams.batch.addBatch<PurposeApi>(config)
     : getResponse<PurposeApi, Purpose>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const purposeDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Purpose>
+  queryParams?: QueryParams<Purpose>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Purpose> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const purposeDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Purpose>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const purposeUpdateOne = (
   id: number,
   data: Partial<Purpose>,
-  queryParams?: QueryParams<Purpose>
+  queryParams?: QueryParams<Purpose>,
 ): Promise<Purpose> => {
   const config: QueryParams<Purpose> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const purposeUpdateOne = (
 
 export const purposeCreateOne = (
   data: Partial<Purpose>,
-  queryParams?: QueryParams<Purpose>
+  queryParams?: QueryParams<Purpose>,
 ): Promise<Purpose> => {
   const config: QueryParams<Purpose> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const purposeCreateOne = (
 
 export const purposeCreateMany = (
   data: Partial<Purpose>[],
-  queryParams?: QueryParamsWithList<Purpose>
+  queryParams?: QueryParamsWithList<Purpose>,
 ): Promise<Purpose[]> => {
   const config: QueryParamsWithList<Purpose> = {
     method: 'post',

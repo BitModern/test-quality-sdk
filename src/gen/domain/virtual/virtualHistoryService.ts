@@ -10,7 +10,7 @@ import { Virtual } from './Virtual';
 import { VirtualHistory } from './VirtualHistory';
 
 export const virtualHistoryGet = (
-  queryParams?: QueryParams<Virtual>
+  queryParams?: QueryParams<Virtual>,
 ): Promise<VirtualHistory[]> => {
   const config: QueryParams<Virtual> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const virtualHistoryGet = (
     ? queryParams.batch.addBatch<VirtualHistory[]>(config)
     : getResponse<VirtualHistory[], Virtual>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

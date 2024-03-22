@@ -10,7 +10,7 @@ import { DefectPriorityRoute } from '../../routes/Routes';
 import { DefectPriority } from './DefectPriority';
 
 export const defectPriorityGetMany = (
-  queryParams?: QueryParams<LookupIntegrationParams>
+  queryParams?: QueryParams<LookupIntegrationParams>,
 ): Promise<DefectPriority[]> => {
   const config: QueryParams<LookupIntegrationParams> = {
     method: 'get',
@@ -23,6 +23,6 @@ export const defectPriorityGetMany = (
     ? queryParams.batch.addBatch<DefectPriority[]>(config)
     : getResponse<DefectPriority[], LookupIntegrationParams>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

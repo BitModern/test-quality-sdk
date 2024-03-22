@@ -10,7 +10,7 @@ import { RunResultStep } from './RunResultStep';
 import { RunResultStepHistory } from './RunResultStepHistory';
 
 export const runResultStepHistoryGet = (
-  queryParams?: QueryParams<RunResultStep>
+  queryParams?: QueryParams<RunResultStep>,
 ): Promise<RunResultStepHistory[]> => {
   const config: QueryParams<RunResultStep> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const runResultStepHistoryGet = (
     ? queryParams.batch.addBatch<RunResultStepHistory[]>(config)
     : getResponse<RunResultStepHistory[], RunResultStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

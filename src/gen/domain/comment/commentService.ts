@@ -12,7 +12,7 @@ import { Comment } from './Comment';
 import { CommentApi } from './CommentApi';
 
 export const commentGetMany = (
-  queryParams?: QueryParams<Comment>
+  queryParams?: QueryParams<Comment>,
 ): Promise<ResourceList<CommentApi>> => {
   const config: QueryParams<Comment> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const commentGetMany = (
     ? queryParams.batch.addBatch<ResourceList<CommentApi>>(config)
     : getResponse<ResourceList<CommentApi>, Comment>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const commentGetOne = (
   id: number,
-  queryParams?: QueryParams<Comment>
+  queryParams?: QueryParams<Comment>,
 ): Promise<CommentApi> => {
   const config: QueryParams<Comment> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const commentGetOne = (
     ? queryParams.batch.addBatch<CommentApi>(config)
     : getResponse<CommentApi, Comment>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const commentDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Comment>
+  queryParams?: QueryParams<Comment>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Comment> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const commentDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Comment>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const commentUpdateOne = (
   id: number,
   data: Partial<Comment>,
-  queryParams?: QueryParams<Comment>
+  queryParams?: QueryParams<Comment>,
 ): Promise<Comment> => {
   const config: QueryParams<Comment> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const commentUpdateOne = (
 
 export const commentCreateOne = (
   data: Partial<Comment>,
-  queryParams?: QueryParams<Comment>
+  queryParams?: QueryParams<Comment>,
 ): Promise<Comment> => {
   const config: QueryParams<Comment> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const commentCreateOne = (
 
 export const commentCreateMany = (
   data: Partial<Comment>[],
-  queryParams?: QueryParamsWithList<Comment>
+  queryParams?: QueryParamsWithList<Comment>,
 ): Promise<Comment[]> => {
   const config: QueryParamsWithList<Comment> = {
     method: 'post',

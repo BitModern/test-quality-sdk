@@ -12,7 +12,7 @@ import { SharedStep } from './SharedStep';
 import { SharedStepApi } from './SharedStepApi';
 
 export const sharedStepGetMany = (
-  queryParams?: QueryParams<SharedStep>
+  queryParams?: QueryParams<SharedStep>,
 ): Promise<ResourceList<SharedStepApi>> => {
   const config: QueryParams<SharedStep> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const sharedStepGetMany = (
     ? queryParams.batch.addBatch<ResourceList<SharedStepApi>>(config)
     : getResponse<ResourceList<SharedStepApi>, SharedStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const sharedStepGetOne = (
   id: number,
-  queryParams?: QueryParams<SharedStep>
+  queryParams?: QueryParams<SharedStep>,
 ): Promise<SharedStepApi> => {
   const config: QueryParams<SharedStep> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const sharedStepGetOne = (
     ? queryParams.batch.addBatch<SharedStepApi>(config)
     : getResponse<SharedStepApi, SharedStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const sharedStepDeleteOne = (
   id: number,
-  queryParams?: QueryParams<SharedStep>
+  queryParams?: QueryParams<SharedStep>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<SharedStep> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const sharedStepDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, SharedStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const sharedStepUpdateOne = (
   id: number,
   data: Partial<SharedStep>,
-  queryParams?: QueryParams<SharedStep>
+  queryParams?: QueryParams<SharedStep>,
 ): Promise<SharedStep> => {
   const config: QueryParams<SharedStep> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const sharedStepUpdateOne = (
 
 export const sharedStepCreateOne = (
   data: Partial<SharedStep>,
-  queryParams?: QueryParams<SharedStep>
+  queryParams?: QueryParams<SharedStep>,
 ): Promise<SharedStep> => {
   const config: QueryParams<SharedStep> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const sharedStepCreateOne = (
 
 export const sharedStepCreateMany = (
   data: Partial<SharedStep>[],
-  queryParams?: QueryParamsWithList<SharedStep>
+  queryParams?: QueryParamsWithList<SharedStep>,
 ): Promise<SharedStep[]> => {
   const config: QueryParamsWithList<SharedStep> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const sharedStepCreateMany = (
     ? queryParams.batch.addBatch<SharedStep[]>(config)
     : getResponse<SharedStep[], SharedStep>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

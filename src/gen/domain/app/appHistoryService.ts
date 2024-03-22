@@ -10,7 +10,7 @@ import { App } from './App';
 import { AppHistory } from './AppHistory';
 
 export const appHistoryGet = (
-  queryParams?: QueryParams<App>
+  queryParams?: QueryParams<App>,
 ): Promise<AppHistory[]> => {
   const config: QueryParams<App> = {
     method: 'get',

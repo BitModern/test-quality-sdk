@@ -10,7 +10,7 @@ import { DefectTypeRoute } from '../../routes/Routes';
 import { DefectType } from './DefectType';
 
 export const defectTypeGetMany = (
-  queryParams?: QueryParams<LookupIntegrationParams>
+  queryParams?: QueryParams<LookupIntegrationParams>,
 ): Promise<DefectType[]> => {
   const config: QueryParams<LookupIntegrationParams> = {
     method: 'get',
@@ -23,6 +23,6 @@ export const defectTypeGetMany = (
     ? queryParams.batch.addBatch<DefectType[]>(config)
     : getResponse<DefectType[], LookupIntegrationParams>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

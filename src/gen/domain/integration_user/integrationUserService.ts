@@ -12,7 +12,7 @@ import { IntegrationUserApi } from './IntegrationUserApi';
 
 export const integrationUserDetach = (
   data: Partial<IntegrationUser>,
-  queryParams?: QueryParams<IntegrationUser>
+  queryParams?: QueryParams<IntegrationUser>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
@@ -27,14 +27,14 @@ export const integrationUserDetach = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, IntegrationUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const integrationUserUpdateOne = (
   id: number,
   data: Partial<IntegrationUser>,
-  queryParams?: QueryParams<IntegrationUser>
+  queryParams?: QueryParams<IntegrationUser>,
 ): Promise<IntegrationUser> => {
   const config: QueryParams<IntegrationUser> = {
     method: 'put',
@@ -50,7 +50,7 @@ export const integrationUserUpdateOne = (
 
 export const integrationUserCreateOne = (
   data: Partial<IntegrationUser>,
-  queryParams?: QueryParams<IntegrationUser>
+  queryParams?: QueryParams<IntegrationUser>,
 ): Promise<IntegrationUser> => {
   const config: QueryParams<IntegrationUser> = {
     method: 'post',
@@ -66,7 +66,7 @@ export const integrationUserCreateOne = (
 
 export const integrationUserCreateMany = (
   data: Partial<IntegrationUser>[],
-  queryParams?: QueryParamsWithList<IntegrationUser>
+  queryParams?: QueryParamsWithList<IntegrationUser>,
 ): Promise<IntegrationUser[]> => {
   const config: QueryParamsWithList<IntegrationUser> = {
     method: 'post',
@@ -79,12 +79,12 @@ export const integrationUserCreateMany = (
     ? queryParams.batch.addBatch<IntegrationUser[]>(config)
     : getResponse<IntegrationUser[], IntegrationUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const integrationUserGetMany = (
-  queryParams?: QueryParams<IntegrationUser>
+  queryParams?: QueryParams<IntegrationUser>,
 ): Promise<ResourceList<IntegrationUserApi>> => {
   const config: QueryParams<IntegrationUser> = {
     method: 'get',
@@ -97,13 +97,13 @@ export const integrationUserGetMany = (
     ? queryParams.batch.addBatch<ResourceList<IntegrationUserApi>>(config)
     : getResponse<ResourceList<IntegrationUserApi>, IntegrationUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const integrationUserGetOne = (
   id: number,
-  queryParams?: QueryParams<IntegrationUser>
+  queryParams?: QueryParams<IntegrationUser>,
 ): Promise<IntegrationUserApi> => {
   const config: QueryParams<IntegrationUser> = {
     method: 'get',
@@ -116,6 +116,6 @@ export const integrationUserGetOne = (
     ? queryParams.batch.addBatch<IntegrationUserApi>(config)
     : getResponse<IntegrationUserApi, IntegrationUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

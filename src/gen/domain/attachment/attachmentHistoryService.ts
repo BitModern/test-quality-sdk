@@ -10,7 +10,7 @@ import { Attachment } from './Attachment';
 import { AttachmentHistory } from './AttachmentHistory';
 
 export const attachmentHistoryGet = (
-  queryParams?: QueryParams<Attachment>
+  queryParams?: QueryParams<Attachment>,
 ): Promise<AttachmentHistory[]> => {
   const config: QueryParams<Attachment> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const attachmentHistoryGet = (
     ? queryParams.batch.addBatch<AttachmentHistory[]>(config)
     : getResponse<AttachmentHistory[], Attachment>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

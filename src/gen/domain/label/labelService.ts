@@ -12,7 +12,7 @@ import { Label } from './Label';
 import { LabelApi } from './LabelApi';
 
 export const labelGetMany = (
-  queryParams?: QueryParams<Label>
+  queryParams?: QueryParams<Label>,
 ): Promise<ResourceList<LabelApi>> => {
   const config: QueryParams<Label> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const labelGetMany = (
     ? queryParams.batch.addBatch<ResourceList<LabelApi>>(config)
     : getResponse<ResourceList<LabelApi>, Label>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const labelGetOne = (
   id: number,
-  queryParams?: QueryParams<Label>
+  queryParams?: QueryParams<Label>,
 ): Promise<LabelApi> => {
   const config: QueryParams<Label> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const labelGetOne = (
 
 export const labelDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Label>
+  queryParams?: QueryParams<Label>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Label> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const labelDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Label>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const labelUpdateOne = (
   id: number,
   data: Partial<Label>,
-  queryParams?: QueryParams<Label>
+  queryParams?: QueryParams<Label>,
 ): Promise<Label> => {
   const config: QueryParams<Label> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const labelUpdateOne = (
 
 export const labelCreateOne = (
   data: Partial<Label>,
-  queryParams?: QueryParams<Label>
+  queryParams?: QueryParams<Label>,
 ): Promise<Label> => {
   const config: QueryParams<Label> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const labelCreateOne = (
 
 export const labelCreateMany = (
   data: Partial<Label>[],
-  queryParams?: QueryParamsWithList<Label>
+  queryParams?: QueryParamsWithList<Label>,
 ): Promise<Label[]> => {
   const config: QueryParamsWithList<Label> = {
     method: 'post',

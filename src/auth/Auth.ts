@@ -42,7 +42,7 @@ export enum AuthCallbackActions {
 export type AuthCallback = (
   action: AuthCallbackActions,
   token?: ReturnToken,
-  me?: Auth
+  me?: Auth,
 ) => Promise<void>;
 
 export class Auth {
@@ -56,7 +56,7 @@ export class Auth {
       // if verification ended then we don't have a token
       throw new GeneralError(
         'Email verification is required to login',
-        VERIFICATION
+        VERIFICATION,
       );
     } else if (!token?.access_token) {
       throw new GeneralError('Auth failed', AUTH);
@@ -82,7 +82,7 @@ export class Auth {
   constructor(
     private tokenStorage: TokenStorage,
     private client: ClientSdk,
-    private authCallback?: AuthCallback
+    private authCallback?: AuthCallback,
   ) {
     this.setAuthCallback(authCallback);
     this.addInterceptors();
@@ -100,7 +100,7 @@ export class Auth {
           if (this.authCallback) {
             this.authCallback(action, token);
           }
-        }
+        },
       );
     }
   }
@@ -120,7 +120,7 @@ export class Auth {
         email,
         password,
         token,
-      }
+      },
     );
   }
 
@@ -128,7 +128,7 @@ export class Auth {
     username: string,
     password: string,
     remember = false,
-    properties?: any
+    properties?: any,
   ): Promise<ReturnToken> {
     this.remember = remember;
     return this.client.api
@@ -145,7 +145,7 @@ export class Auth {
 
   public loginSSO(
     username: string,
-    callbackUrl: string
+    callbackUrl: string,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/openid`, {
@@ -160,7 +160,7 @@ export class Auth {
   public loginGithub(
     callbackUrl: string,
     verificationToken?: string,
-    appVersion?: number
+    appVersion?: number,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/github`, {
@@ -173,7 +173,7 @@ export class Auth {
 
   public loginGoogle(
     callbackUrl: string,
-    verificationToken?: string
+    verificationToken?: string,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/google`, {
@@ -184,7 +184,7 @@ export class Auth {
   }
 
   public loginAtlassian(
-    callbackUrl: string
+    callbackUrl: string,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/atlassian`, { callbackUrl })
@@ -220,7 +220,7 @@ export class Auth {
     email: string,
     password: string,
     site: string,
-    recaptcha: string
+    recaptcha: string,
   ) {
     return this.client.api.post('/system/create_client', {
       name: site,
@@ -239,7 +239,7 @@ export class Auth {
   public signUpWithEmail(
     email: string,
     password: string,
-    recaptcha: string
+    recaptcha: string,
   ): Promise<ReturnToken> {
     return this.client.api
       .post('/system/sign_up_with_email', {
@@ -251,7 +251,7 @@ export class Auth {
   }
 
   public async refresh(
-    refreshToken?: string
+    refreshToken?: string,
   ): Promise<ReturnToken | undefined> {
     const token = refreshToken || (await this.getToken())?.refresh_token;
     debug('refresh', { token });
@@ -261,8 +261,8 @@ export class Auth {
           'No refresh token found.',
           NO_REFRESH_TOKEN,
           'Token Error',
-          400
-        )
+          400,
+        ),
       );
     }
 
@@ -332,7 +332,7 @@ export class Auth {
 
   public async setToken(
     token?: ReturnToken,
-    remember?: boolean
+    remember?: boolean,
   ): Promise<ReturnToken | undefined> {
     debug('setToken', { token, remember });
     if (token) {
@@ -449,7 +449,7 @@ export class Auth {
       (error: any) => {
         this.client.logger.error('Request error', error);
         return Promise.reject(error);
-      }
+      },
     );
   }
 
@@ -494,7 +494,7 @@ export class Auth {
             await this.authCallback(
               AuthCallbackActions.Unauthorized,
               undefined,
-              this
+              this,
             );
           }
           return Promise.reject(getHttpResponse(error.response));
@@ -517,7 +517,7 @@ export class Auth {
             await this.authCallback(
               AuthCallbackActions.Unauthorized,
               undefined,
-              this
+              this,
             );
           }
           return Promise.reject(getHttpResponse(error.response));
@@ -526,14 +526,14 @@ export class Auth {
             await this.authCallback(
               AuthCallbackActions.Unauthorized,
               undefined,
-              this
+              this,
             );
           }
           return Promise.reject(e);
         } finally {
           this.disableHandler = false;
         }
-      }
+      },
     );
   }
 

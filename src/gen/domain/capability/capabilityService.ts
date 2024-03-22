@@ -12,7 +12,7 @@ import { Capability } from './Capability';
 import { CapabilityApi } from './CapabilityApi';
 
 export const capabilityGetMany = (
-  queryParams?: QueryParams<Capability>
+  queryParams?: QueryParams<Capability>,
 ): Promise<ResourceList<CapabilityApi>> => {
   const config: QueryParams<Capability> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const capabilityGetMany = (
     ? queryParams.batch.addBatch<ResourceList<CapabilityApi>>(config)
     : getResponse<ResourceList<CapabilityApi>, Capability>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const capabilityGetOne = (
   id: number,
-  queryParams?: QueryParams<Capability>
+  queryParams?: QueryParams<Capability>,
 ): Promise<CapabilityApi> => {
   const config: QueryParams<Capability> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const capabilityGetOne = (
     ? queryParams.batch.addBatch<CapabilityApi>(config)
     : getResponse<CapabilityApi, Capability>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const capabilityDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Capability>
+  queryParams?: QueryParams<Capability>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Capability> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const capabilityDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Capability>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const capabilityUpdateOne = (
   id: number,
   data: Partial<Capability>,
-  queryParams?: QueryParams<Capability>
+  queryParams?: QueryParams<Capability>,
 ): Promise<Capability> => {
   const config: QueryParams<Capability> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const capabilityUpdateOne = (
 
 export const capabilityCreateOne = (
   data: Partial<Capability>,
-  queryParams?: QueryParams<Capability>
+  queryParams?: QueryParams<Capability>,
 ): Promise<Capability> => {
   const config: QueryParams<Capability> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const capabilityCreateOne = (
 
 export const capabilityCreateMany = (
   data: Partial<Capability>[],
-  queryParams?: QueryParamsWithList<Capability>
+  queryParams?: QueryParamsWithList<Capability>,
 ): Promise<Capability[]> => {
   const config: QueryParamsWithList<Capability> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const capabilityCreateMany = (
     ? queryParams.batch.addBatch<Capability[]>(config)
     : getResponse<Capability[], Capability>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

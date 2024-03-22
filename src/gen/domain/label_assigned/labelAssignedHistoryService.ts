@@ -10,7 +10,7 @@ import { LabelAssigned } from './LabelAssigned';
 import { LabelAssignedHistory } from './LabelAssignedHistory';
 
 export const labelAssignedHistoryGet = (
-  queryParams?: QueryParams<LabelAssigned>
+  queryParams?: QueryParams<LabelAssigned>,
 ): Promise<LabelAssignedHistory[]> => {
   const config: QueryParams<LabelAssigned> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const labelAssignedHistoryGet = (
     ? queryParams.batch.addBatch<LabelAssignedHistory[]>(config)
     : getResponse<LabelAssignedHistory[], LabelAssigned>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

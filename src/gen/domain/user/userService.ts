@@ -12,7 +12,7 @@ import { User } from './User';
 import { UserApi } from './UserApi';
 
 export const userGetMany = (
-  queryParams?: QueryParams<User>
+  queryParams?: QueryParams<User>,
 ): Promise<ResourceList<UserApi>> => {
   const config: QueryParams<User> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const userGetMany = (
     ? queryParams.batch.addBatch<ResourceList<UserApi>>(config)
     : getResponse<ResourceList<UserApi>, User>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const userGetOne = (
   id: number,
-  queryParams?: QueryParams<User>
+  queryParams?: QueryParams<User>,
 ): Promise<UserApi> => {
   const config: QueryParams<User> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const userGetOne = (
 
 export const userDeleteOne = (
   id: number,
-  queryParams?: QueryParams<User>
+  queryParams?: QueryParams<User>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<User> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const userDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, User>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const userUpdateOne = (
   id: number,
   data: Partial<User>,
-  queryParams?: QueryParams<User>
+  queryParams?: QueryParams<User>,
 ): Promise<User> => {
   const config: QueryParams<User> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const userUpdateOne = (
 
 export const userCreateOne = (
   data: Partial<User>,
-  queryParams?: QueryParams<User>
+  queryParams?: QueryParams<User>,
 ): Promise<User> => {
   const config: QueryParams<User> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const userCreateOne = (
 
 export const userCreateMany = (
   data: Partial<User>[],
-  queryParams?: QueryParamsWithList<User>
+  queryParams?: QueryParamsWithList<User>,
 ): Promise<User[]> => {
   const config: QueryParamsWithList<User> = {
     method: 'post',

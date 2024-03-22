@@ -3,7 +3,7 @@ import { getResponse, QueryParams } from '../../../gen/actions';
 import { TestRailStatus } from '../interfaces/TestRailStatus';
 
 export const getStatuses = (
-  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>
+  queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
 ): Promise<TestRailStatus[]> => {
   const config: QueryParams<void> = {
     method: 'get',
@@ -15,6 +15,6 @@ export const getStatuses = (
     ? queryParams.batch.addBatch<TestRailStatus[]>(config)
     : getResponse<TestRailStatus[], void>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

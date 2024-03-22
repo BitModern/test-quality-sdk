@@ -10,7 +10,7 @@ import { CasePriority } from './CasePriority';
 import { CasePriorityHistory } from './CasePriorityHistory';
 
 export const casePriorityHistoryGet = (
-  queryParams?: QueryParams<CasePriority>
+  queryParams?: QueryParams<CasePriority>,
 ): Promise<CasePriorityHistory[]> => {
   const config: QueryParams<CasePriority> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const casePriorityHistoryGet = (
     ? queryParams.batch.addBatch<CasePriorityHistory[]>(config)
     : getResponse<CasePriorityHistory[], CasePriority>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

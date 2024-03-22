@@ -10,7 +10,7 @@ import { User } from './User';
 import { UserHistory } from './UserHistory';
 
 export const userHistoryGet = (
-  queryParams?: QueryParams<User>
+  queryParams?: QueryParams<User>,
 ): Promise<UserHistory[]> => {
   const config: QueryParams<User> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const userHistoryGet = (
     ? queryParams.batch.addBatch<UserHistory[]>(config)
     : getResponse<UserHistory[], User>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

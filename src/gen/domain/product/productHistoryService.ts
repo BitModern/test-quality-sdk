@@ -10,7 +10,7 @@ import { Product } from './Product';
 import { ProductHistory } from './ProductHistory';
 
 export const productHistoryGet = (
-  queryParams?: QueryParams<Product>
+  queryParams?: QueryParams<Product>,
 ): Promise<ProductHistory[]> => {
   const config: QueryParams<Product> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const productHistoryGet = (
     ? queryParams.batch.addBatch<ProductHistory[]>(config)
     : getResponse<ProductHistory[], Product>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -10,7 +10,7 @@ import { NativeDefectStatus } from './NativeDefectStatus';
 import { NativeDefectStatusHistory } from './NativeDefectStatusHistory';
 
 export const nativeDefectStatusHistoryGet = (
-  queryParams?: QueryParams<NativeDefectStatus>
+  queryParams?: QueryParams<NativeDefectStatus>,
 ): Promise<NativeDefectStatusHistory[]> => {
   const config: QueryParams<NativeDefectStatus> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const nativeDefectStatusHistoryGet = (
     ? queryParams.batch.addBatch<NativeDefectStatusHistory[]>(config)
     : getResponse<NativeDefectStatusHistory[], NativeDefectStatus>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

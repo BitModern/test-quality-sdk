@@ -10,7 +10,7 @@ import { Client } from './Client';
 import { ClientHistory } from './ClientHistory';
 
 export const clientHistoryGet = (
-  queryParams?: QueryParams<Client>
+  queryParams?: QueryParams<Client>,
 ): Promise<ClientHistory[]> => {
   const config: QueryParams<Client> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const clientHistoryGet = (
     ? queryParams.batch.addBatch<ClientHistory[]>(config)
     : getResponse<ClientHistory[], Client>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

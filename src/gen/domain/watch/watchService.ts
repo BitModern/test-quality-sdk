@@ -12,7 +12,7 @@ import { Watch } from './Watch';
 import { WatchApi } from './WatchApi';
 
 export const watchGetMany = (
-  queryParams?: QueryParams<Watch>
+  queryParams?: QueryParams<Watch>,
 ): Promise<ResourceList<WatchApi>> => {
   const config: QueryParams<Watch> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const watchGetMany = (
     ? queryParams.batch.addBatch<ResourceList<WatchApi>>(config)
     : getResponse<ResourceList<WatchApi>, Watch>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const watchGetOne = (
   id: number,
-  queryParams?: QueryParams<Watch>
+  queryParams?: QueryParams<Watch>,
 ): Promise<WatchApi> => {
   const config: QueryParams<Watch> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const watchGetOne = (
 
 export const watchDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Watch>
+  queryParams?: QueryParams<Watch>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Watch> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const watchDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Watch>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const watchUpdateOne = (
   id: number,
   data: Partial<Watch>,
-  queryParams?: QueryParams<Watch>
+  queryParams?: QueryParams<Watch>,
 ): Promise<Watch> => {
   const config: QueryParams<Watch> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const watchUpdateOne = (
 
 export const watchCreateOne = (
   data: Partial<Watch>,
-  queryParams?: QueryParams<Watch>
+  queryParams?: QueryParams<Watch>,
 ): Promise<Watch> => {
   const config: QueryParams<Watch> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const watchCreateOne = (
 
 export const watchCreateMany = (
   data: Partial<Watch>[],
-  queryParams?: QueryParamsWithList<Watch>
+  queryParams?: QueryParamsWithList<Watch>,
 ): Promise<Watch[]> => {
   const config: QueryParamsWithList<Watch> = {
     method: 'post',

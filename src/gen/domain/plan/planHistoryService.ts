@@ -10,7 +10,7 @@ import { Plan } from './Plan';
 import { PlanHistory } from './PlanHistory';
 
 export const planHistoryGet = (
-  queryParams?: QueryParams<Plan>
+  queryParams?: QueryParams<Plan>,
 ): Promise<PlanHistory[]> => {
   const config: QueryParams<Plan> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const planHistoryGet = (
     ? queryParams.batch.addBatch<PlanHistory[]>(config)
     : getResponse<PlanHistory[], Plan>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

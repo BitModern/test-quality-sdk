@@ -12,7 +12,7 @@ import { Integration } from './Integration';
 import { IntegrationApi } from './IntegrationApi';
 
 export const integrationGetMany = (
-  queryParams?: QueryParams<Integration>
+  queryParams?: QueryParams<Integration>,
 ): Promise<ResourceList<IntegrationApi>> => {
   const config: QueryParams<Integration> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const integrationGetMany = (
     ? queryParams.batch.addBatch<ResourceList<IntegrationApi>>(config)
     : getResponse<ResourceList<IntegrationApi>, Integration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const integrationGetOne = (
   id: number,
-  queryParams?: QueryParams<Integration>
+  queryParams?: QueryParams<Integration>,
 ): Promise<IntegrationApi> => {
   const config: QueryParams<Integration> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const integrationGetOne = (
     ? queryParams.batch.addBatch<IntegrationApi>(config)
     : getResponse<IntegrationApi, Integration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const integrationDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Integration>
+  queryParams?: QueryParams<Integration>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Integration> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const integrationDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Integration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const integrationUpdateOne = (
   id: number,
   data: Partial<Integration>,
-  queryParams?: QueryParams<Integration>
+  queryParams?: QueryParams<Integration>,
 ): Promise<Integration> => {
   const config: QueryParams<Integration> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const integrationUpdateOne = (
 
 export const integrationCreateOne = (
   data: Partial<Integration>,
-  queryParams?: QueryParams<Integration>
+  queryParams?: QueryParams<Integration>,
 ): Promise<Integration> => {
   const config: QueryParams<Integration> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const integrationCreateOne = (
 
 export const integrationCreateMany = (
   data: Partial<Integration>[],
-  queryParams?: QueryParamsWithList<Integration>
+  queryParams?: QueryParamsWithList<Integration>,
 ): Promise<Integration[]> => {
   const config: QueryParamsWithList<Integration> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const integrationCreateMany = (
     ? queryParams.batch.addBatch<Integration[]>(config)
     : getResponse<Integration[], Integration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

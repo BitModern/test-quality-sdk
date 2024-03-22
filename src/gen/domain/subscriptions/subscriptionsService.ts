@@ -12,7 +12,7 @@ import { Subscriptions } from './Subscriptions';
 import { SubscriptionsApi } from './SubscriptionsApi';
 
 export const subscriptionsGetMany = (
-  queryParams?: QueryParams<Subscriptions>
+  queryParams?: QueryParams<Subscriptions>,
 ): Promise<ResourceList<SubscriptionsApi>> => {
   const config: QueryParams<Subscriptions> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const subscriptionsGetMany = (
     ? queryParams.batch.addBatch<ResourceList<SubscriptionsApi>>(config)
     : getResponse<ResourceList<SubscriptionsApi>, Subscriptions>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const subscriptionsGetOne = (
   id: number,
-  queryParams?: QueryParams<Subscriptions>
+  queryParams?: QueryParams<Subscriptions>,
 ): Promise<SubscriptionsApi> => {
   const config: QueryParams<Subscriptions> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const subscriptionsGetOne = (
     ? queryParams.batch.addBatch<SubscriptionsApi>(config)
     : getResponse<SubscriptionsApi, Subscriptions>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const subscriptionsDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Subscriptions>
+  queryParams?: QueryParams<Subscriptions>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Subscriptions> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const subscriptionsDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Subscriptions>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const subscriptionsUpdateOne = (
   id: number,
   data: Partial<Subscriptions>,
-  queryParams?: QueryParams<Subscriptions>
+  queryParams?: QueryParams<Subscriptions>,
 ): Promise<Subscriptions> => {
   const config: QueryParams<Subscriptions> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const subscriptionsUpdateOne = (
 
 export const subscriptionsCreateOne = (
   data: Partial<Subscriptions>,
-  queryParams?: QueryParams<Subscriptions>
+  queryParams?: QueryParams<Subscriptions>,
 ): Promise<Subscriptions> => {
   const config: QueryParams<Subscriptions> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const subscriptionsCreateOne = (
 
 export const subscriptionsCreateMany = (
   data: Partial<Subscriptions>[],
-  queryParams?: QueryParamsWithList<Subscriptions>
+  queryParams?: QueryParamsWithList<Subscriptions>,
 ): Promise<Subscriptions[]> => {
   const config: QueryParamsWithList<Subscriptions> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const subscriptionsCreateMany = (
     ? queryParams.batch.addBatch<Subscriptions[]>(config)
     : getResponse<Subscriptions[], Subscriptions>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

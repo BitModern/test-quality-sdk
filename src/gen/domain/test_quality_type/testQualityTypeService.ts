@@ -12,7 +12,7 @@ import { TestQualityType } from './TestQualityType';
 import { TestQualityTypeApi } from './TestQualityTypeApi';
 
 export const testQualityTypeGetMany = (
-  queryParams?: QueryParams<TestQualityType>
+  queryParams?: QueryParams<TestQualityType>,
 ): Promise<ResourceList<TestQualityTypeApi>> => {
   const config: QueryParams<TestQualityType> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const testQualityTypeGetMany = (
     ? queryParams.batch.addBatch<ResourceList<TestQualityTypeApi>>(config)
     : getResponse<ResourceList<TestQualityTypeApi>, TestQualityType>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const testQualityTypeGetOne = (
   id: number,
-  queryParams?: QueryParams<TestQualityType>
+  queryParams?: QueryParams<TestQualityType>,
 ): Promise<TestQualityTypeApi> => {
   const config: QueryParams<TestQualityType> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const testQualityTypeGetOne = (
     ? queryParams.batch.addBatch<TestQualityTypeApi>(config)
     : getResponse<TestQualityTypeApi, TestQualityType>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const testQualityTypeDeleteOne = (
   id: number,
-  queryParams?: QueryParams<TestQualityType>
+  queryParams?: QueryParams<TestQualityType>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<TestQualityType> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const testQualityTypeDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, TestQualityType>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const testQualityTypeUpdateOne = (
   id: number,
   data: Partial<TestQualityType>,
-  queryParams?: QueryParams<TestQualityType>
+  queryParams?: QueryParams<TestQualityType>,
 ): Promise<TestQualityType> => {
   const config: QueryParams<TestQualityType> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const testQualityTypeUpdateOne = (
 
 export const testQualityTypeCreateOne = (
   data: Partial<TestQualityType>,
-  queryParams?: QueryParams<TestQualityType>
+  queryParams?: QueryParams<TestQualityType>,
 ): Promise<TestQualityType> => {
   const config: QueryParams<TestQualityType> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const testQualityTypeCreateOne = (
 
 export const testQualityTypeCreateMany = (
   data: Partial<TestQualityType>[],
-  queryParams?: QueryParamsWithList<TestQualityType>
+  queryParams?: QueryParamsWithList<TestQualityType>,
 ): Promise<TestQualityType[]> => {
   const config: QueryParamsWithList<TestQualityType> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const testQualityTypeCreateMany = (
     ? queryParams.batch.addBatch<TestQualityType[]>(config)
     : getResponse<TestQualityType[], TestQualityType>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -12,7 +12,7 @@ import { PlatVersion } from './PlatVersion';
 import { PlatVersionApi } from './PlatVersionApi';
 
 export const platVersionGetMany = (
-  queryParams?: QueryParams<PlatVersion>
+  queryParams?: QueryParams<PlatVersion>,
 ): Promise<ResourceList<PlatVersionApi>> => {
   const config: QueryParams<PlatVersion> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const platVersionGetMany = (
     ? queryParams.batch.addBatch<ResourceList<PlatVersionApi>>(config)
     : getResponse<ResourceList<PlatVersionApi>, PlatVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const platVersionGetOne = (
   id: number,
-  queryParams?: QueryParams<PlatVersion>
+  queryParams?: QueryParams<PlatVersion>,
 ): Promise<PlatVersionApi> => {
   const config: QueryParams<PlatVersion> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const platVersionGetOne = (
     ? queryParams.batch.addBatch<PlatVersionApi>(config)
     : getResponse<PlatVersionApi, PlatVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const platVersionDeleteOne = (
   id: number,
-  queryParams?: QueryParams<PlatVersion>
+  queryParams?: QueryParams<PlatVersion>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<PlatVersion> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const platVersionDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PlatVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const platVersionUpdateOne = (
   id: number,
   data: Partial<PlatVersion>,
-  queryParams?: QueryParams<PlatVersion>
+  queryParams?: QueryParams<PlatVersion>,
 ): Promise<PlatVersion> => {
   const config: QueryParams<PlatVersion> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const platVersionUpdateOne = (
 
 export const platVersionCreateOne = (
   data: Partial<PlatVersion>,
-  queryParams?: QueryParams<PlatVersion>
+  queryParams?: QueryParams<PlatVersion>,
 ): Promise<PlatVersion> => {
   const config: QueryParams<PlatVersion> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const platVersionCreateOne = (
 
 export const platVersionCreateMany = (
   data: Partial<PlatVersion>[],
-  queryParams?: QueryParamsWithList<PlatVersion>
+  queryParams?: QueryParamsWithList<PlatVersion>,
 ): Promise<PlatVersion[]> => {
   const config: QueryParamsWithList<PlatVersion> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const platVersionCreateMany = (
     ? queryParams.batch.addBatch<PlatVersion[]>(config)
     : getResponse<PlatVersion[], PlatVersion>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

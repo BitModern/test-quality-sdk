@@ -12,7 +12,7 @@ import { Coupon } from './Coupon';
 import { CouponApi } from './CouponApi';
 
 export const couponGetMany = (
-  queryParams?: QueryParams<Coupon>
+  queryParams?: QueryParams<Coupon>,
 ): Promise<ResourceList<CouponApi>> => {
   const config: QueryParams<Coupon> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const couponGetMany = (
     ? queryParams.batch.addBatch<ResourceList<CouponApi>>(config)
     : getResponse<ResourceList<CouponApi>, Coupon>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const couponGetOne = (
   id: number,
-  queryParams?: QueryParams<Coupon>
+  queryParams?: QueryParams<Coupon>,
 ): Promise<CouponApi> => {
   const config: QueryParams<Coupon> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const couponGetOne = (
 
 export const couponDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Coupon>
+  queryParams?: QueryParams<Coupon>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Coupon> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const couponDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Coupon>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const couponUpdateOne = (
   id: number,
   data: Partial<Coupon>,
-  queryParams?: QueryParams<Coupon>
+  queryParams?: QueryParams<Coupon>,
 ): Promise<Coupon> => {
   const config: QueryParams<Coupon> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const couponUpdateOne = (
 
 export const couponCreateOne = (
   data: Partial<Coupon>,
-  queryParams?: QueryParams<Coupon>
+  queryParams?: QueryParams<Coupon>,
 ): Promise<Coupon> => {
   const config: QueryParams<Coupon> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const couponCreateOne = (
 
 export const couponCreateMany = (
   data: Partial<Coupon>[],
-  queryParams?: QueryParamsWithList<Coupon>
+  queryParams?: QueryParamsWithList<Coupon>,
 ): Promise<Coupon[]> => {
   const config: QueryParamsWithList<Coupon> = {
     method: 'post',

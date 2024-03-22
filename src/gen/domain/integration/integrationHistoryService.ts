@@ -10,7 +10,7 @@ import { Integration } from './Integration';
 import { IntegrationHistory } from './IntegrationHistory';
 
 export const integrationHistoryGet = (
-  queryParams?: QueryParams<Integration>
+  queryParams?: QueryParams<Integration>,
 ): Promise<IntegrationHistory[]> => {
   const config: QueryParams<Integration> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const integrationHistoryGet = (
     ? queryParams.batch.addBatch<IntegrationHistory[]>(config)
     : getResponse<IntegrationHistory[], Integration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -12,7 +12,7 @@ import { AppInstall } from './AppInstall';
 import { AppInstallApi } from './AppInstallApi';
 
 export const appInstallGetMany = (
-  queryParams?: QueryParams<AppInstall>
+  queryParams?: QueryParams<AppInstall>,
 ): Promise<ResourceList<AppInstallApi>> => {
   const config: QueryParams<AppInstall> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const appInstallGetMany = (
     ? queryParams.batch.addBatch<ResourceList<AppInstallApi>>(config)
     : getResponse<ResourceList<AppInstallApi>, AppInstall>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appInstallGetOne = (
   id: number,
-  queryParams?: QueryParams<AppInstall>
+  queryParams?: QueryParams<AppInstall>,
 ): Promise<AppInstallApi> => {
   const config: QueryParams<AppInstall> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const appInstallGetOne = (
     ? queryParams.batch.addBatch<AppInstallApi>(config)
     : getResponse<AppInstallApi, AppInstall>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appInstallDeleteOne = (
   id: number,
-  queryParams?: QueryParams<AppInstall>
+  queryParams?: QueryParams<AppInstall>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<AppInstall> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const appInstallDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppInstall>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const appInstallUpdateOne = (
   id: number,
   data: Partial<AppInstall>,
-  queryParams?: QueryParams<AppInstall>
+  queryParams?: QueryParams<AppInstall>,
 ): Promise<AppInstall> => {
   const config: QueryParams<AppInstall> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const appInstallUpdateOne = (
 
 export const appInstallCreateOne = (
   data: Partial<AppInstall>,
-  queryParams?: QueryParams<AppInstall>
+  queryParams?: QueryParams<AppInstall>,
 ): Promise<AppInstall> => {
   const config: QueryParams<AppInstall> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const appInstallCreateOne = (
 
 export const appInstallCreateMany = (
   data: Partial<AppInstall>[],
-  queryParams?: QueryParamsWithList<AppInstall>
+  queryParams?: QueryParamsWithList<AppInstall>,
 ): Promise<AppInstall[]> => {
   const config: QueryParamsWithList<AppInstall> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const appInstallCreateMany = (
     ? queryParams.batch.addBatch<AppInstall[]>(config)
     : getResponse<AppInstall[], AppInstall>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

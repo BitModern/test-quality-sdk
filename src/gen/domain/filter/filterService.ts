@@ -12,7 +12,7 @@ import { Filter } from './Filter';
 import { FilterApi } from './FilterApi';
 
 export const filterGetMany = (
-  queryParams?: QueryParams<Filter>
+  queryParams?: QueryParams<Filter>,
 ): Promise<ResourceList<FilterApi>> => {
   const config: QueryParams<Filter> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const filterGetMany = (
     ? queryParams.batch.addBatch<ResourceList<FilterApi>>(config)
     : getResponse<ResourceList<FilterApi>, Filter>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const filterGetOne = (
   id: number,
-  queryParams?: QueryParams<Filter>
+  queryParams?: QueryParams<Filter>,
 ): Promise<FilterApi> => {
   const config: QueryParams<Filter> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const filterGetOne = (
 
 export const filterDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Filter>
+  queryParams?: QueryParams<Filter>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Filter> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const filterDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Filter>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const filterUpdateOne = (
   id: number,
   data: Partial<Filter>,
-  queryParams?: QueryParams<Filter>
+  queryParams?: QueryParams<Filter>,
 ): Promise<Filter> => {
   const config: QueryParams<Filter> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const filterUpdateOne = (
 
 export const filterCreateOne = (
   data: Partial<Filter>,
-  queryParams?: QueryParams<Filter>
+  queryParams?: QueryParams<Filter>,
 ): Promise<Filter> => {
   const config: QueryParams<Filter> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const filterCreateOne = (
 
 export const filterCreateMany = (
   data: Partial<Filter>[],
-  queryParams?: QueryParamsWithList<Filter>
+  queryParams?: QueryParamsWithList<Filter>,
 ): Promise<Filter[]> => {
   const config: QueryParamsWithList<Filter> = {
     method: 'post',

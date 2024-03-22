@@ -10,7 +10,7 @@ import { Requirement } from './Requirement';
 import { RequirementHistory } from './RequirementHistory';
 
 export const requirementHistoryGet = (
-  queryParams?: QueryParams<Requirement>
+  queryParams?: QueryParams<Requirement>,
 ): Promise<RequirementHistory[]> => {
   const config: QueryParams<Requirement> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const requirementHistoryGet = (
     ? queryParams.batch.addBatch<RequirementHistory[]>(config)
     : getResponse<RequirementHistory[], Requirement>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

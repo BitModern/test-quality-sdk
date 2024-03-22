@@ -12,7 +12,7 @@ import { BaseIntegration } from './BaseIntegration';
 import { BaseIntegrationApi } from './BaseIntegrationApi';
 
 export const baseIntegrationGetMany = (
-  queryParams?: QueryParams<BaseIntegration>
+  queryParams?: QueryParams<BaseIntegration>,
 ): Promise<ResourceList<BaseIntegrationApi>> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const baseIntegrationGetMany = (
     ? queryParams.batch.addBatch<ResourceList<BaseIntegrationApi>>(config)
     : getResponse<ResourceList<BaseIntegrationApi>, BaseIntegration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const baseIntegrationGetOne = (
   id: number,
-  queryParams?: QueryParams<BaseIntegration>
+  queryParams?: QueryParams<BaseIntegration>,
 ): Promise<BaseIntegrationApi> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const baseIntegrationGetOne = (
     ? queryParams.batch.addBatch<BaseIntegrationApi>(config)
     : getResponse<BaseIntegrationApi, BaseIntegration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const baseIntegrationDeleteOne = (
   id: number,
-  queryParams?: QueryParams<BaseIntegration>
+  queryParams?: QueryParams<BaseIntegration>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const baseIntegrationDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, BaseIntegration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const baseIntegrationUpdateOne = (
   id: number,
   data: Partial<BaseIntegration>,
-  queryParams?: QueryParams<BaseIntegration>
+  queryParams?: QueryParams<BaseIntegration>,
 ): Promise<BaseIntegration> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const baseIntegrationUpdateOne = (
 
 export const baseIntegrationCreateOne = (
   data: Partial<BaseIntegration>,
-  queryParams?: QueryParams<BaseIntegration>
+  queryParams?: QueryParams<BaseIntegration>,
 ): Promise<BaseIntegration> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const baseIntegrationCreateOne = (
 
 export const baseIntegrationCreateMany = (
   data: Partial<BaseIntegration>[],
-  queryParams?: QueryParamsWithList<BaseIntegration>
+  queryParams?: QueryParamsWithList<BaseIntegration>,
 ): Promise<BaseIntegration[]> => {
   const config: QueryParamsWithList<BaseIntegration> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const baseIntegrationCreateMany = (
     ? queryParams.batch.addBatch<BaseIntegration[]>(config)
     : getResponse<BaseIntegration[], BaseIntegration>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

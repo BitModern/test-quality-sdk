@@ -12,7 +12,7 @@ import { Plat } from './Plat';
 import { PlatApi } from './PlatApi';
 
 export const platGetMany = (
-  queryParams?: QueryParams<Plat>
+  queryParams?: QueryParams<Plat>,
 ): Promise<ResourceList<PlatApi>> => {
   const config: QueryParams<Plat> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const platGetMany = (
     ? queryParams.batch.addBatch<ResourceList<PlatApi>>(config)
     : getResponse<ResourceList<PlatApi>, Plat>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const platGetOne = (
   id: number,
-  queryParams?: QueryParams<Plat>
+  queryParams?: QueryParams<Plat>,
 ): Promise<PlatApi> => {
   const config: QueryParams<Plat> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const platGetOne = (
 
 export const platDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Plat>
+  queryParams?: QueryParams<Plat>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Plat> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const platDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Plat>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const platUpdateOne = (
   id: number,
   data: Partial<Plat>,
-  queryParams?: QueryParams<Plat>
+  queryParams?: QueryParams<Plat>,
 ): Promise<Plat> => {
   const config: QueryParams<Plat> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const platUpdateOne = (
 
 export const platCreateOne = (
   data: Partial<Plat>,
-  queryParams?: QueryParams<Plat>
+  queryParams?: QueryParams<Plat>,
 ): Promise<Plat> => {
   const config: QueryParams<Plat> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const platCreateOne = (
 
 export const platCreateMany = (
   data: Partial<Plat>[],
-  queryParams?: QueryParamsWithList<Plat>
+  queryParams?: QueryParamsWithList<Plat>,
 ): Promise<Plat[]> => {
   const config: QueryParamsWithList<Plat> = {
     method: 'post',

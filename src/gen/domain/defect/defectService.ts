@@ -12,7 +12,7 @@ import { Defect } from './Defect';
 import { DefectApi } from './DefectApi';
 
 export const defectGetMany = (
-  queryParams?: QueryParams<Defect>
+  queryParams?: QueryParams<Defect>,
 ): Promise<ResourceList<DefectApi>> => {
   const config: QueryParams<Defect> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const defectGetMany = (
     ? queryParams.batch.addBatch<ResourceList<DefectApi>>(config)
     : getResponse<ResourceList<DefectApi>, Defect>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const defectGetOne = (
   id: number,
-  queryParams?: QueryParams<Defect>
+  queryParams?: QueryParams<Defect>,
 ): Promise<DefectApi> => {
   const config: QueryParams<Defect> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const defectGetOne = (
 
 export const defectDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Defect>
+  queryParams?: QueryParams<Defect>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Defect> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const defectDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Defect>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const defectUpdateOne = (
   id: number,
   data: Partial<Defect>,
-  queryParams?: QueryParams<Defect>
+  queryParams?: QueryParams<Defect>,
 ): Promise<Defect> => {
   const config: QueryParams<Defect> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const defectUpdateOne = (
 
 export const defectCreateOne = (
   data: Partial<Defect>,
-  queryParams?: QueryParams<Defect>
+  queryParams?: QueryParams<Defect>,
 ): Promise<Defect> => {
   const config: QueryParams<Defect> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const defectCreateOne = (
 
 export const defectCreateMany = (
   data: Partial<Defect>[],
-  queryParams?: QueryParamsWithList<Defect>
+  queryParams?: QueryParamsWithList<Defect>,
 ): Promise<Defect[]> => {
   const config: QueryParamsWithList<Defect> = {
     method: 'post',

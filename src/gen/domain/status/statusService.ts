@@ -12,7 +12,7 @@ import { Status } from './Status';
 import { StatusApi } from './StatusApi';
 
 export const statusGetMany = (
-  queryParams?: QueryParams<Status>
+  queryParams?: QueryParams<Status>,
 ): Promise<ResourceList<StatusApi>> => {
   const config: QueryParams<Status> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const statusGetMany = (
     ? queryParams.batch.addBatch<ResourceList<StatusApi>>(config)
     : getResponse<ResourceList<StatusApi>, Status>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const statusGetOne = (
   id: number,
-  queryParams?: QueryParams<Status>
+  queryParams?: QueryParams<Status>,
 ): Promise<StatusApi> => {
   const config: QueryParams<Status> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const statusGetOne = (
 
 export const statusDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Status>
+  queryParams?: QueryParams<Status>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Status> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const statusDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Status>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const statusUpdateOne = (
   id: number,
   data: Partial<Status>,
-  queryParams?: QueryParams<Status>
+  queryParams?: QueryParams<Status>,
 ): Promise<Status> => {
   const config: QueryParams<Status> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const statusUpdateOne = (
 
 export const statusCreateOne = (
   data: Partial<Status>,
-  queryParams?: QueryParams<Status>
+  queryParams?: QueryParams<Status>,
 ): Promise<Status> => {
   const config: QueryParams<Status> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const statusCreateOne = (
 
 export const statusCreateMany = (
   data: Partial<Status>[],
-  queryParams?: QueryParamsWithList<Status>
+  queryParams?: QueryParamsWithList<Status>,
 ): Promise<Status[]> => {
   const config: QueryParamsWithList<Status> = {
     method: 'post',

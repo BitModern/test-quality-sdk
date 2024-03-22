@@ -12,7 +12,7 @@ import { NativeDefectStatus } from './NativeDefectStatus';
 import { NativeDefectStatusApi } from './NativeDefectStatusApi';
 
 export const nativeDefectStatusGetMany = (
-  queryParams?: QueryParams<NativeDefectStatus>
+  queryParams?: QueryParams<NativeDefectStatus>,
 ): Promise<ResourceList<NativeDefectStatusApi>> => {
   const config: QueryParams<NativeDefectStatus> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const nativeDefectStatusGetMany = (
     ? queryParams.batch.addBatch<ResourceList<NativeDefectStatusApi>>(config)
     : getResponse<ResourceList<NativeDefectStatusApi>, NativeDefectStatus>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const nativeDefectStatusGetOne = (
   id: number,
-  queryParams?: QueryParams<NativeDefectStatus>
+  queryParams?: QueryParams<NativeDefectStatus>,
 ): Promise<NativeDefectStatusApi> => {
   const config: QueryParams<NativeDefectStatus> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const nativeDefectStatusGetOne = (
     ? queryParams.batch.addBatch<NativeDefectStatusApi>(config)
     : getResponse<NativeDefectStatusApi, NativeDefectStatus>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const nativeDefectStatusDeleteOne = (
   id: number,
-  queryParams?: QueryParams<NativeDefectStatus>
+  queryParams?: QueryParams<NativeDefectStatus>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<NativeDefectStatus> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const nativeDefectStatusDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, NativeDefectStatus>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const nativeDefectStatusUpdateOne = (
   id: number,
   data: Partial<NativeDefectStatus>,
-  queryParams?: QueryParams<NativeDefectStatus>
+  queryParams?: QueryParams<NativeDefectStatus>,
 ): Promise<NativeDefectStatus> => {
   const config: QueryParams<NativeDefectStatus> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const nativeDefectStatusUpdateOne = (
 
 export const nativeDefectStatusCreateOne = (
   data: Partial<NativeDefectStatus>,
-  queryParams?: QueryParams<NativeDefectStatus>
+  queryParams?: QueryParams<NativeDefectStatus>,
 ): Promise<NativeDefectStatus> => {
   const config: QueryParams<NativeDefectStatus> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const nativeDefectStatusCreateOne = (
 
 export const nativeDefectStatusCreateMany = (
   data: Partial<NativeDefectStatus>[],
-  queryParams?: QueryParamsWithList<NativeDefectStatus>
+  queryParams?: QueryParamsWithList<NativeDefectStatus>,
 ): Promise<NativeDefectStatus[]> => {
   const config: QueryParamsWithList<NativeDefectStatus> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const nativeDefectStatusCreateMany = (
     ? queryParams.batch.addBatch<NativeDefectStatus[]>(config)
     : getResponse<NativeDefectStatus[], NativeDefectStatus>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

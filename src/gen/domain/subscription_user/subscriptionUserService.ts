@@ -12,7 +12,7 @@ import { SubscriptionUser } from './SubscriptionUser';
 import { SubscriptionUserApi } from './SubscriptionUserApi';
 
 export const subscriptionUserGetMany = (
-  queryParams?: QueryParams<SubscriptionUser>
+  queryParams?: QueryParams<SubscriptionUser>,
 ): Promise<ResourceList<SubscriptionUserApi>> => {
   const config: QueryParams<SubscriptionUser> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const subscriptionUserGetMany = (
     ? queryParams.batch.addBatch<ResourceList<SubscriptionUserApi>>(config)
     : getResponse<ResourceList<SubscriptionUserApi>, SubscriptionUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const subscriptionUserGetOne = (
   id: number,
-  queryParams?: QueryParams<SubscriptionUser>
+  queryParams?: QueryParams<SubscriptionUser>,
 ): Promise<SubscriptionUserApi> => {
   const config: QueryParams<SubscriptionUser> = {
     method: 'get',
@@ -46,13 +46,13 @@ export const subscriptionUserGetOne = (
     ? queryParams.batch.addBatch<SubscriptionUserApi>(config)
     : getResponse<SubscriptionUserApi, SubscriptionUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const subscriptionUserDeleteOne = (
   id: number,
-  queryParams?: QueryParams<SubscriptionUser>
+  queryParams?: QueryParams<SubscriptionUser>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<SubscriptionUser> = {
     method: 'delete',
@@ -65,14 +65,14 @@ export const subscriptionUserDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, SubscriptionUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const subscriptionUserUpdateOne = (
   id: number,
   data: Partial<SubscriptionUser>,
-  queryParams?: QueryParams<SubscriptionUser>
+  queryParams?: QueryParams<SubscriptionUser>,
 ): Promise<SubscriptionUser> => {
   const config: QueryParams<SubscriptionUser> = {
     method: 'put',
@@ -89,7 +89,7 @@ export const subscriptionUserUpdateOne = (
 
 export const subscriptionUserCreateOne = (
   data: Partial<SubscriptionUser>,
-  queryParams?: QueryParams<SubscriptionUser>
+  queryParams?: QueryParams<SubscriptionUser>,
 ): Promise<SubscriptionUser> => {
   const config: QueryParams<SubscriptionUser> = {
     method: 'post',
@@ -106,7 +106,7 @@ export const subscriptionUserCreateOne = (
 
 export const subscriptionUserCreateMany = (
   data: Partial<SubscriptionUser>[],
-  queryParams?: QueryParamsWithList<SubscriptionUser>
+  queryParams?: QueryParamsWithList<SubscriptionUser>,
 ): Promise<SubscriptionUser[]> => {
   const config: QueryParamsWithList<SubscriptionUser> = {
     method: 'post',
@@ -120,6 +120,6 @@ export const subscriptionUserCreateMany = (
     ? queryParams.batch.addBatch<SubscriptionUser[]>(config)
     : getResponse<SubscriptionUser[], SubscriptionUser>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

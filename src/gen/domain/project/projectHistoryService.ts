@@ -10,7 +10,7 @@ import { Project } from './Project';
 import { ProjectHistory } from './ProjectHistory';
 
 export const projectHistoryGet = (
-  queryParams?: QueryParams<Project>
+  queryParams?: QueryParams<Project>,
 ): Promise<ProjectHistory[]> => {
   const config: QueryParams<Project> = {
     method: 'get',
@@ -25,6 +25,6 @@ export const projectHistoryGet = (
     ? queryParams.batch.addBatch<ProjectHistory[]>(config)
     : getResponse<ProjectHistory[], Project>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };

@@ -12,7 +12,7 @@ import { Plan } from './Plan';
 import { PlanApi } from './PlanApi';
 
 export const planGetMany = (
-  queryParams?: QueryParams<Plan>
+  queryParams?: QueryParams<Plan>,
 ): Promise<ResourceList<PlanApi>> => {
   const config: QueryParams<Plan> = {
     method: 'get',
@@ -26,13 +26,13 @@ export const planGetMany = (
     ? queryParams.batch.addBatch<ResourceList<PlanApi>>(config)
     : getResponse<ResourceList<PlanApi>, Plan>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planGetOne = (
   id: number,
-  queryParams?: QueryParams<Plan>
+  queryParams?: QueryParams<Plan>,
 ): Promise<PlanApi> => {
   const config: QueryParams<Plan> = {
     method: 'get',
@@ -49,7 +49,7 @@ export const planGetOne = (
 
 export const planDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Plan>
+  queryParams?: QueryParams<Plan>,
 ): Promise<MessageResponse> => {
   const config: QueryParams<Plan> = {
     method: 'delete',
@@ -62,14 +62,14 @@ export const planDeleteOne = (
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Plan>(
         queryParams?.api || _client?.api,
-        config
+        config,
       );
 };
 
 export const planUpdateOne = (
   id: number,
   data: Partial<Plan>,
-  queryParams?: QueryParams<Plan>
+  queryParams?: QueryParams<Plan>,
 ): Promise<Plan> => {
   const config: QueryParams<Plan> = {
     method: 'put',
@@ -86,7 +86,7 @@ export const planUpdateOne = (
 
 export const planCreateOne = (
   data: Partial<Plan>,
-  queryParams?: QueryParams<Plan>
+  queryParams?: QueryParams<Plan>,
 ): Promise<Plan> => {
   const config: QueryParams<Plan> = {
     method: 'post',
@@ -103,7 +103,7 @@ export const planCreateOne = (
 
 export const planCreateMany = (
   data: Partial<Plan>[],
-  queryParams?: QueryParamsWithList<Plan>
+  queryParams?: QueryParamsWithList<Plan>,
 ): Promise<Plan[]> => {
   const config: QueryParamsWithList<Plan> = {
     method: 'post',
