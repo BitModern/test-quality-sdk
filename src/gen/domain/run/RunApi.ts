@@ -11,7 +11,8 @@ import { ProjectApi } from '../project/ProjectApi';
 import { PlanApi } from '../plan/PlanApi';
 import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import { RunSuiteApi } from '../run_suite/RunSuiteApi';
-import { RunPullRequestApi } from '../run_pull_request/RunPullRequestApi';
+import { PullRequestRunApi } from '../pull_request_run/PullRequestRunApi';
+import { PullRequestApi } from '../pull_request/PullRequestApi';
 import { RunResultApi } from '../run_result/RunResultApi';
 import { CommentApi } from '../comment/CommentApi';
 
@@ -22,7 +23,9 @@ export interface RunApi extends Run {
   plan?: PlanApi;
   label_assigned?: LabelAssignedApi;
   run_suite?: RunSuiteApi[];
-  run_pull_request?: RunPullRequestApi[];
+  pull_request?: PullRequestApi[];
   run_result?: RunResultApi[];
   comment?: CommentApi;
+  pivot?: PullRequestRunApi;
+  pull_request_run?: Partial<PullRequestRunApi>;
 }

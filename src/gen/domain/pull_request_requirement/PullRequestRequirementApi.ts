@@ -4,11 +4,11 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { RunPullRequest } from './RunPullRequest';
+import { PullRequestRequirement } from './PullRequestRequirement';
 import { PullRequestApi } from '../pull_request/PullRequestApi';
-import { RunApi } from '../run/RunApi';
+import { RequirementApi } from '../requirement/RequirementApi';
 
-export interface RunPullRequestApi extends RunPullRequest {
+export interface PullRequestRequirementApi extends PullRequestRequirement {
   pull_request?: PullRequestApi;
-  run?: RunApi;
+  requirement?: RequirementApi;
 }

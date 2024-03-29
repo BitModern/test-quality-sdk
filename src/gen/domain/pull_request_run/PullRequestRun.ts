@@ -4,7 +4,7 @@
 
 import { TenantScopedModel } from '../../models/TenantScopedModel';
 
-export interface RequirementPullRequest extends TenantScopedModel {
+export interface PullRequestRun extends TenantScopedModel {
   id: number;
   created_at: string;
   created_by: number;
@@ -13,5 +13,5 @@ export interface RequirementPullRequest extends TenantScopedModel {
   epoch: number;
   client_id: number;
   pull_request_id: number;
-  requirement_id: number;
+  run_id: number;
 }
