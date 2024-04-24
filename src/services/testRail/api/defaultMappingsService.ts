@@ -1,6 +1,6 @@
 import { _client } from '../../../ClientSdk';
-import { getResponse, QueryParams } from '../../../gen/actions';
-import { DefaultMappings } from '../interfaces/DefaultMappings';
+import { getResponse, type QueryParams } from '../../../gen/actions';
+import { type DefaultMappings } from '../interfaces/DefaultMappings';
 
 export const getDefaultMappings = (
   queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
@@ -14,7 +14,7 @@ export const getDefaultMappings = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefaultMappings>(config)
     : getResponse<DefaultMappings, void>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

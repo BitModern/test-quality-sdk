@@ -4,11 +4,14 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
-import { IntegrationProject } from './IntegrationProject';
-import { IntegrationProjectApi } from './IntegrationProjectApi';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
+import type { IntegrationProject } from './IntegrationProject';
+import type { IntegrationProjectApi } from './IntegrationProjectApi';
 
 export const integrationProjectDetach = (
   data: Partial<IntegrationProject>,
@@ -26,7 +29,7 @@ export const integrationProjectDetach = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, IntegrationProject>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -45,7 +48,7 @@ export const integrationProjectUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationProject>(config)
-    : getResponse<IntegrationProject>(queryParams?.api || _client?.api, config);
+    : getResponse<IntegrationProject>(queryParams?.api ?? _client?.api, config);
 };
 
 export const integrationProjectCreateOne = (
@@ -54,14 +57,14 @@ export const integrationProjectCreateOne = (
 ): Promise<IntegrationProject> => {
   const config: QueryParams<IntegrationProject> = {
     method: 'post',
-    url: queryParams?.url || `/integration_project`,
+    url: queryParams?.url ?? `/integration_project`,
     params: queryParams?.params,
     data,
   };
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationProject>(config)
-    : getResponse<IntegrationProject>(queryParams?.api || _client?.api, config);
+    : getResponse<IntegrationProject>(queryParams?.api ?? _client?.api, config);
 };
 
 export const integrationProjectCreateMany = (
@@ -70,7 +73,7 @@ export const integrationProjectCreateMany = (
 ): Promise<IntegrationProject[]> => {
   const config: QueryParamsWithList<IntegrationProject> = {
     method: 'post',
-    url: queryParams?.url || `/integration_project`,
+    url: queryParams?.url ?? `/integration_project`,
     params: queryParams?.params,
     list: data,
   };
@@ -78,7 +81,7 @@ export const integrationProjectCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationProject[]>(config)
     : getResponse<IntegrationProject[], IntegrationProject>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -88,7 +91,7 @@ export const integrationProjectGetMany = (
 ): Promise<ResourceList<IntegrationProjectApi>> => {
   const config: QueryParams<IntegrationProject> = {
     method: 'get',
-    url: queryParams?.url || `/integration_project`,
+    url: queryParams?.url ?? `/integration_project`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -96,7 +99,7 @@ export const integrationProjectGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<IntegrationProjectApi>>(config)
     : getResponse<ResourceList<IntegrationProjectApi>, IntegrationProject>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -107,7 +110,7 @@ export const integrationProjectGetOne = (
 ): Promise<IntegrationProjectApi> => {
   const config: QueryParams<IntegrationProject> = {
     method: 'get',
-    url: `${queryParams?.url || `/integration_project/${id}`}`,
+    url: `${queryParams?.url ?? `/integration_project/${id}`}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -115,7 +118,7 @@ export const integrationProjectGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationProjectApi>(config)
     : getResponse<IntegrationProjectApi, IntegrationProject>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

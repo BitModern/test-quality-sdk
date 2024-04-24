@@ -4,10 +4,10 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { PlatVersion } from './PlatVersion';
-import { PlatApi } from '../plat/PlatApi';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
+import type { PlatVersion } from './PlatVersion';
+import type { PlatApi } from '../plat/PlatApi';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
 
 export interface PlatVersionApi extends PlatVersion {
   plat?: PlatApi;

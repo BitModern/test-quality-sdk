@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { AppUserRoute } from '../../routes/Routes';
-import { AppUser } from './AppUser';
-import { AppUserApi } from './AppUserApi';
+import type { AppUser } from './AppUser';
+import type { AppUserApi } from './AppUserApi';
 
 export const appUserGetMany = (
   queryParams?: QueryParams<AppUser>,
 ): Promise<ResourceList<AppUserApi>> => {
   const config: QueryParams<AppUser> = {
     method: 'get',
-    url: queryParams?.url || AppUserRoute(),
+    url: queryParams?.url ?? AppUserRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const appUserGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<AppUserApi>>(config)
     : getResponse<ResourceList<AppUserApi>, AppUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const appUserGetOne = (
 ): Promise<AppUserApi> => {
   const config: QueryParams<AppUser> = {
     method: 'get',
-    url: `${queryParams?.url || AppUserRoute()}/${id}`,
+    url: `${queryParams?.url ?? AppUserRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const appUserGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUserApi>(config)
     : getResponse<AppUserApi, AppUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const appUserDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<AppUser> = {
     method: 'delete',
-    url: `${queryParams?.url || AppUserRoute()}/${id}`,
+    url: `${queryParams?.url ?? AppUserRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const appUserDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const appUserUpdateOne = (
 ): Promise<AppUser> => {
   const config: QueryParams<AppUser> = {
     method: 'put',
-    url: `${queryParams?.url || AppUserRoute()}/${id}`,
+    url: `${queryParams?.url ?? AppUserRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const appUserUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUser>(config)
-    : getResponse<AppUser>(queryParams?.api || _client?.api, config);
+    : getResponse<AppUser>(queryParams?.api ?? _client?.api, config);
 };
 
 export const appUserCreateOne = (
@@ -93,7 +96,7 @@ export const appUserCreateOne = (
 ): Promise<AppUser> => {
   const config: QueryParams<AppUser> = {
     method: 'post',
-    url: queryParams?.url || AppUserRoute(),
+    url: queryParams?.url ?? AppUserRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const appUserCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUser>(config)
-    : getResponse<AppUser>(queryParams?.api || _client?.api, config);
+    : getResponse<AppUser>(queryParams?.api ?? _client?.api, config);
 };
 
 export const appUserCreateMany = (
@@ -110,7 +113,7 @@ export const appUserCreateMany = (
 ): Promise<AppUser[]> => {
   const config: QueryParamsWithList<AppUser> = {
     method: 'post',
-    url: queryParams?.url || AppUserRoute(),
+    url: queryParams?.url ?? AppUserRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -118,5 +121,5 @@ export const appUserCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUser[]>(config)
-    : getResponse<AppUser[], AppUser>(queryParams?.api || _client?.api, config);
+    : getResponse<AppUser[], AppUser>(queryParams?.api ?? _client?.api, config);
 };

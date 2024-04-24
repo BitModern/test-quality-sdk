@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { PlanSuiteTestInclude } from './PlanSuiteTestInclude';
+import type { PlanSuiteTestInclude } from './PlanSuiteTestInclude';
 
 export interface PlanSuiteTestIncludeHistory extends PlanSuiteTestInclude {
   _id: string;

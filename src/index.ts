@@ -13,8 +13,8 @@ export * from './services/role';
 export * from './services/http';
 
 export { ClientSdk, setGlobalClient, getGlobalClient } from './ClientSdk';
-export { Options } from './Options';
-export { PersistentStorage } from './PersistentStorage';
-export { TokenStorage } from './TokenStorage';
+export type { Options } from './Options';
+export type { PersistentStorage } from './PersistentStorage';
+export type { TokenStorage } from './TokenStorage';
 
 export * from './integration';

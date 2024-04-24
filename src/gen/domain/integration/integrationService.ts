@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { IntegrationRoute } from '../../routes/Routes';
-import { Integration } from './Integration';
-import { IntegrationApi } from './IntegrationApi';
+import type { Integration } from './Integration';
+import type { IntegrationApi } from './IntegrationApi';
 
 export const integrationGetMany = (
   queryParams?: QueryParams<Integration>,
 ): Promise<ResourceList<IntegrationApi>> => {
   const config: QueryParams<Integration> = {
     method: 'get',
-    url: queryParams?.url || IntegrationRoute(),
+    url: queryParams?.url ?? IntegrationRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const integrationGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<IntegrationApi>>(config)
     : getResponse<ResourceList<IntegrationApi>, Integration>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const integrationGetOne = (
 ): Promise<IntegrationApi> => {
   const config: QueryParams<Integration> = {
     method: 'get',
-    url: `${queryParams?.url || IntegrationRoute()}/${id}`,
+    url: `${queryParams?.url ?? IntegrationRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const integrationGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationApi>(config)
     : getResponse<IntegrationApi, Integration>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const integrationDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Integration> = {
     method: 'delete',
-    url: `${queryParams?.url || IntegrationRoute()}/${id}`,
+    url: `${queryParams?.url ?? IntegrationRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const integrationDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Integration>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const integrationUpdateOne = (
 ): Promise<Integration> => {
   const config: QueryParams<Integration> = {
     method: 'put',
-    url: `${queryParams?.url || IntegrationRoute()}/${id}`,
+    url: `${queryParams?.url ?? IntegrationRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const integrationUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Integration>(config)
-    : getResponse<Integration>(queryParams?.api || _client?.api, config);
+    : getResponse<Integration>(queryParams?.api ?? _client?.api, config);
 };
 
 export const integrationCreateOne = (
@@ -93,7 +96,7 @@ export const integrationCreateOne = (
 ): Promise<Integration> => {
   const config: QueryParams<Integration> = {
     method: 'post',
-    url: queryParams?.url || IntegrationRoute(),
+    url: queryParams?.url ?? IntegrationRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const integrationCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Integration>(config)
-    : getResponse<Integration>(queryParams?.api || _client?.api, config);
+    : getResponse<Integration>(queryParams?.api ?? _client?.api, config);
 };
 
 export const integrationCreateMany = (
@@ -110,7 +113,7 @@ export const integrationCreateMany = (
 ): Promise<Integration[]> => {
   const config: QueryParamsWithList<Integration> = {
     method: 'post',
-    url: queryParams?.url || IntegrationRoute(),
+    url: queryParams?.url ?? IntegrationRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const integrationCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Integration[]>(config)
     : getResponse<Integration[], Integration>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

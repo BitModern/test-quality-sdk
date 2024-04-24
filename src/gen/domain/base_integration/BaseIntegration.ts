@@ -2,7 +2,7 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
-import { DefaultAttributes } from '../../models/DefaultAttributes';
+import type { DefaultAttributes } from '../../models/DefaultAttributes';
 
 export interface BaseIntegration extends DefaultAttributes {
   id: number;

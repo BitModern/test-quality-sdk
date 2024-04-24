@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { AppInstallProject } from './AppInstallProject';
+import type { AppInstallProject } from './AppInstallProject';
 
 export interface AppInstallProjectHistory extends AppInstallProject {
   _id: string;

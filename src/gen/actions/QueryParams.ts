@@ -2,9 +2,9 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
-import { CancelToken, Method, AxiosInstance } from 'axios';
-import { TQRequestParameters } from './TQRequestParameters';
-import { BatchService } from '../../services/http/BatchService';
+import type { CancelToken, Method, AxiosInstance } from 'axios';
+import type { TQRequestParameters } from './TQRequestParameters';
+import type { BatchService } from '../../services/http/BatchService';
 
 export function hasListProperty(
   queryParams: any,

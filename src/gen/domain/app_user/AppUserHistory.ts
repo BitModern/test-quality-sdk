@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { AppUser } from './AppUser';
+import type { AppUser } from './AppUser';
 
 export interface AppUserHistory extends AppUser {
   _id: string;

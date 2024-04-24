@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { StatusRoute } from '../../routes/Routes';
-import { Status } from './Status';
-import { StatusApi } from './StatusApi';
+import type { Status } from './Status';
+import type { StatusApi } from './StatusApi';
 
 export const statusGetMany = (
   queryParams?: QueryParams<Status>,
 ): Promise<ResourceList<StatusApi>> => {
   const config: QueryParams<Status> = {
     method: 'get',
-    url: queryParams?.url || StatusRoute(),
+    url: queryParams?.url ?? StatusRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const statusGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<StatusApi>>(config)
     : getResponse<ResourceList<StatusApi>, Status>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const statusGetOne = (
 ): Promise<StatusApi> => {
   const config: QueryParams<Status> = {
     method: 'get',
-    url: `${queryParams?.url || StatusRoute()}/${id}`,
+    url: `${queryParams?.url ?? StatusRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -44,7 +47,7 @@ export const statusGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StatusApi>(config)
-    : getResponse<StatusApi, Status>(queryParams?.api || _client?.api, config);
+    : getResponse<StatusApi, Status>(queryParams?.api ?? _client?.api, config);
 };
 
 export const statusDeleteOne = (
@@ -53,7 +56,7 @@ export const statusDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Status> = {
     method: 'delete',
-    url: `${queryParams?.url || StatusRoute()}/${id}`,
+    url: `${queryParams?.url ?? StatusRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -61,7 +64,7 @@ export const statusDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Status>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -73,7 +76,7 @@ export const statusUpdateOne = (
 ): Promise<Status> => {
   const config: QueryParams<Status> = {
     method: 'put',
-    url: `${queryParams?.url || StatusRoute()}/${id}`,
+    url: `${queryParams?.url ?? StatusRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -81,7 +84,7 @@ export const statusUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Status>(config)
-    : getResponse<Status>(queryParams?.api || _client?.api, config);
+    : getResponse<Status>(queryParams?.api ?? _client?.api, config);
 };
 
 export const statusCreateOne = (
@@ -90,7 +93,7 @@ export const statusCreateOne = (
 ): Promise<Status> => {
   const config: QueryParams<Status> = {
     method: 'post',
-    url: queryParams?.url || StatusRoute(),
+    url: queryParams?.url ?? StatusRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -98,7 +101,7 @@ export const statusCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Status>(config)
-    : getResponse<Status>(queryParams?.api || _client?.api, config);
+    : getResponse<Status>(queryParams?.api ?? _client?.api, config);
 };
 
 export const statusCreateMany = (
@@ -107,7 +110,7 @@ export const statusCreateMany = (
 ): Promise<Status[]> => {
   const config: QueryParamsWithList<Status> = {
     method: 'post',
-    url: queryParams?.url || StatusRoute(),
+    url: queryParams?.url ?? StatusRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -115,5 +118,5 @@ export const statusCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Status[]>(config)
-    : getResponse<Status[], Status>(queryParams?.api || _client?.api, config);
+    : getResponse<Status[], Status>(queryParams?.api ?? _client?.api, config);
 };

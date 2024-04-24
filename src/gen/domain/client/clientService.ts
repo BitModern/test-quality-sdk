@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { ClientRoute } from '../../routes/Routes';
-import { Client } from './Client';
-import { ClientApi } from './ClientApi';
+import type { Client } from './Client';
+import type { ClientApi } from './ClientApi';
 
 export const clientGetMany = (
   queryParams?: QueryParams<Client>,
 ): Promise<ResourceList<ClientApi>> => {
   const config: QueryParams<Client> = {
     method: 'get',
-    url: queryParams?.url || ClientRoute(),
+    url: queryParams?.url ?? ClientRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const clientGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<ClientApi>>(config)
     : getResponse<ResourceList<ClientApi>, Client>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const clientGetOne = (
 ): Promise<ClientApi> => {
   const config: QueryParams<Client> = {
     method: 'get',
-    url: `${queryParams?.url || ClientRoute()}/${id}`,
+    url: `${queryParams?.url ?? ClientRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -44,7 +47,7 @@ export const clientGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ClientApi>(config)
-    : getResponse<ClientApi, Client>(queryParams?.api || _client?.api, config);
+    : getResponse<ClientApi, Client>(queryParams?.api ?? _client?.api, config);
 };
 
 export const clientDeleteOne = (
@@ -53,7 +56,7 @@ export const clientDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Client> = {
     method: 'delete',
-    url: `${queryParams?.url || ClientRoute()}/${id}`,
+    url: `${queryParams?.url ?? ClientRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -61,7 +64,7 @@ export const clientDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Client>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -73,7 +76,7 @@ export const clientUpdateOne = (
 ): Promise<Client> => {
   const config: QueryParams<Client> = {
     method: 'put',
-    url: `${queryParams?.url || ClientRoute()}/${id}`,
+    url: `${queryParams?.url ?? ClientRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -81,7 +84,7 @@ export const clientUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Client>(config)
-    : getResponse<Client>(queryParams?.api || _client?.api, config);
+    : getResponse<Client>(queryParams?.api ?? _client?.api, config);
 };
 
 export const clientCreateOne = (
@@ -90,7 +93,7 @@ export const clientCreateOne = (
 ): Promise<Client> => {
   const config: QueryParams<Client> = {
     method: 'post',
-    url: queryParams?.url || ClientRoute(),
+    url: queryParams?.url ?? ClientRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -98,7 +101,7 @@ export const clientCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Client>(config)
-    : getResponse<Client>(queryParams?.api || _client?.api, config);
+    : getResponse<Client>(queryParams?.api ?? _client?.api, config);
 };
 
 export const clientCreateMany = (
@@ -107,7 +110,7 @@ export const clientCreateMany = (
 ): Promise<Client[]> => {
   const config: QueryParamsWithList<Client> = {
     method: 'post',
-    url: queryParams?.url || ClientRoute(),
+    url: queryParams?.url ?? ClientRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -115,5 +118,5 @@ export const clientCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Client[]>(config)
-    : getResponse<Client[], Client>(queryParams?.api || _client?.api, config);
+    : getResponse<Client[], Client>(queryParams?.api ?? _client?.api, config);
 };

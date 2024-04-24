@@ -2,7 +2,7 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
-import { TenantScopedModel } from '../../models/TenantScopedModel';
+import type { TenantScopedModel } from '../../models/TenantScopedModel';
 
 export interface CapabilityIntegration extends TenantScopedModel {
   id: number;

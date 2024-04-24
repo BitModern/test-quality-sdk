@@ -4,16 +4,16 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { IntegrationProject } from './IntegrationProject';
-import { AppInstallProjectApi } from '../app_install_project/AppInstallProjectApi';
-import { PlanApi } from '../plan/PlanApi';
-import { ProjectApi } from '../project/ProjectApi';
-import { IntegrationApi } from '../integration/IntegrationApi';
-import { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
-import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
-import { IntegrationStatusTypeApi } from '../integration_status_type/IntegrationStatusTypeApi';
-import { DefectApi } from '../defect/DefectApi';
-import { RequirementApi } from '../requirement/RequirementApi';
+import type { IntegrationProject } from './IntegrationProject';
+import type { AppInstallProjectApi } from '../app_install_project/AppInstallProjectApi';
+import type { PlanApi } from '../plan/PlanApi';
+import type { ProjectApi } from '../project/ProjectApi';
+import type { IntegrationApi } from '../integration/IntegrationApi';
+import type { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
+import type { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
+import type { IntegrationStatusTypeApi } from '../integration_status_type/IntegrationStatusTypeApi';
+import type { DefectApi } from '../defect/DefectApi';
+import type { RequirementApi } from '../requirement/RequirementApi';
 
 export interface IntegrationProjectApi extends IntegrationProject {
   app_install_project?: AppInstallProjectApi;

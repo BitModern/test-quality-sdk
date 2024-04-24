@@ -4,11 +4,11 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { AccessRole } from './AccessRole';
-import { PolicyApi } from '../policy/PolicyApi';
-import { ProjectApi } from '../project/ProjectApi';
-import { AccessRoleUserApi } from '../access_role_user/AccessRoleUserApi';
-import { UserApi } from '../user/UserApi';
+import type { AccessRole } from './AccessRole';
+import type { PolicyApi } from '../policy/PolicyApi';
+import type { ProjectApi } from '../project/ProjectApi';
+import type { AccessRoleUserApi } from '../access_role_user/AccessRoleUserApi';
+import type { UserApi } from '../user/UserApi';
 
 export interface AccessRoleApi extends AccessRole {
   policy?: PolicyApi[];

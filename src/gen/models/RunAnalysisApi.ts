@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
-import { RunStatusAnalysisApi } from './RunStatusAnalysisApi';
+import type { RunStatusAnalysisApi } from './RunStatusAnalysisApi';
 
 export interface RunAnalysisApi {
   status: RunStatusAnalysisApi[];

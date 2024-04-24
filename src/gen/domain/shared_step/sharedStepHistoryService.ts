@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { SharedStepRoute } from '../../routes/Routes';
-import { SharedStep } from './SharedStep';
-import { SharedStepHistory } from './SharedStepHistory';
+import type { SharedStep } from './SharedStep';
+import type { SharedStepHistory } from './SharedStepHistory';
 
 export const sharedStepHistoryGet = (
   queryParams?: QueryParams<SharedStep>,
 ): Promise<SharedStepHistory[]> => {
   const config: QueryParams<SharedStep> = {
     method: 'get',
-    url: `${queryParams?.url || SharedStepRoute()}${
+    url: `${queryParams?.url ?? SharedStepRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const sharedStepHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SharedStepHistory[]>(config)
     : getResponse<SharedStepHistory[], SharedStep>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

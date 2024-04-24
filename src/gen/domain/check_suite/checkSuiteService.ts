@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { CheckSuiteRoute } from '../../routes/Routes';
-import { CheckSuite } from './CheckSuite';
-import { CheckSuiteApi } from './CheckSuiteApi';
+import type { CheckSuite } from './CheckSuite';
+import type { CheckSuiteApi } from './CheckSuiteApi';
 
 export const checkSuiteGetMany = (
   queryParams?: QueryParams<CheckSuite>,
 ): Promise<ResourceList<CheckSuiteApi>> => {
   const config: QueryParams<CheckSuite> = {
     method: 'get',
-    url: queryParams?.url || CheckSuiteRoute(),
+    url: queryParams?.url ?? CheckSuiteRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const checkSuiteGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<CheckSuiteApi>>(config)
     : getResponse<ResourceList<CheckSuiteApi>, CheckSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const checkSuiteGetOne = (
 ): Promise<CheckSuiteApi> => {
   const config: QueryParams<CheckSuite> = {
     method: 'get',
-    url: `${queryParams?.url || CheckSuiteRoute()}/${id}`,
+    url: `${queryParams?.url ?? CheckSuiteRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const checkSuiteGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuiteApi>(config)
     : getResponse<CheckSuiteApi, CheckSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const checkSuiteDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<CheckSuite> = {
     method: 'delete',
-    url: `${queryParams?.url || CheckSuiteRoute()}/${id}`,
+    url: `${queryParams?.url ?? CheckSuiteRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const checkSuiteDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, CheckSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const checkSuiteUpdateOne = (
 ): Promise<CheckSuite> => {
   const config: QueryParams<CheckSuite> = {
     method: 'put',
-    url: `${queryParams?.url || CheckSuiteRoute()}/${id}`,
+    url: `${queryParams?.url ?? CheckSuiteRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const checkSuiteUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuite>(config)
-    : getResponse<CheckSuite>(queryParams?.api || _client?.api, config);
+    : getResponse<CheckSuite>(queryParams?.api ?? _client?.api, config);
 };
 
 export const checkSuiteCreateOne = (
@@ -93,7 +96,7 @@ export const checkSuiteCreateOne = (
 ): Promise<CheckSuite> => {
   const config: QueryParams<CheckSuite> = {
     method: 'post',
-    url: queryParams?.url || CheckSuiteRoute(),
+    url: queryParams?.url ?? CheckSuiteRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const checkSuiteCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuite>(config)
-    : getResponse<CheckSuite>(queryParams?.api || _client?.api, config);
+    : getResponse<CheckSuite>(queryParams?.api ?? _client?.api, config);
 };
 
 export const checkSuiteCreateMany = (
@@ -110,7 +113,7 @@ export const checkSuiteCreateMany = (
 ): Promise<CheckSuite[]> => {
   const config: QueryParamsWithList<CheckSuite> = {
     method: 'post',
-    url: queryParams?.url || CheckSuiteRoute(),
+    url: queryParams?.url ?? CheckSuiteRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const checkSuiteCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuite[]>(config)
     : getResponse<CheckSuite[], CheckSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

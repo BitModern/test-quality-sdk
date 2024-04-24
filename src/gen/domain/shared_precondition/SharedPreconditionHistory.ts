@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { SharedPrecondition } from './SharedPrecondition';
+import type { SharedPrecondition } from './SharedPrecondition';
 
 export interface SharedPreconditionHistory extends SharedPrecondition {
   _id: string;

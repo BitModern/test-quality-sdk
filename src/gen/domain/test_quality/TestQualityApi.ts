@@ -4,10 +4,10 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { TestQuality } from './TestQuality';
-import { TestQualityTypeApi } from '../test_quality_type/TestQualityTypeApi';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { TestApi } from '../test/TestApi';
+import type { TestQuality } from './TestQuality';
+import type { TestQualityTypeApi } from '../test_quality_type/TestQualityTypeApi';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { TestApi } from '../test/TestApi';
 
 export interface TestQualityApi extends TestQuality {
   test_quality_type?: TestQualityTypeApi;

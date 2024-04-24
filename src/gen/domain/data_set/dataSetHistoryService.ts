@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { DataSetRoute } from '../../routes/Routes';
-import { DataSet } from './DataSet';
-import { DataSetHistory } from './DataSetHistory';
+import type { DataSet } from './DataSet';
+import type { DataSetHistory } from './DataSetHistory';
 
 export const dataSetHistoryGet = (
   queryParams?: QueryParams<DataSet>,
 ): Promise<DataSetHistory[]> => {
   const config: QueryParams<DataSet> = {
     method: 'get',
-    url: `${queryParams?.url || DataSetRoute()}${
+    url: `${queryParams?.url ?? DataSetRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const dataSetHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DataSetHistory[]>(config)
     : getResponse<DataSetHistory[], DataSet>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

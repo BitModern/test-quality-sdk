@@ -1,18 +1,22 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { type AxiosInstance } from 'axios';
 import Debug from 'debug';
-import { PersistentStorage } from './PersistentStorage';
-import { APIWorkerInterface, EmptyLogger, LoggerInterface } from './common';
-import { Options } from './Options';
-import { Auth, AuthCallback, TokenStorageImpl } from './auth';
-import { HttpError } from './exceptions';
-import { TokenStorage } from './TokenStorage';
+import { type PersistentStorage } from './PersistentStorage';
+import {
+  type APIWorkerInterface,
+  EmptyLogger,
+  type LoggerInterface,
+} from './common';
+import { type Options } from './Options';
+import { Auth, type AuthCallback, TokenStorageImpl } from './auth';
+import { type HttpError } from './exceptions';
+import { type TokenStorage } from './TokenStorage';
 
 export let _client: ClientSdk | undefined;
 
 const debug = Debug('tq:sdk:client');
 
 export class ClientSdk {
-  private auth: Auth;
+  private readonly auth: Auth;
   public logger: LoggerInterface;
   public api: AxiosInstance;
   public clientId: string;
@@ -37,11 +41,11 @@ export class ClientSdk {
 
   constructor(options: Options) {
     debug('constructor', { id: this.id, versions: 1, options });
-    const baseUrl = options.baseUrl || 'https://api.testquality.com';
-    this.logger = options.logger || new EmptyLogger();
+    const baseUrl = options.baseUrl ?? 'https://api.testquality.com';
+    this.logger = options.logger ?? new EmptyLogger();
 
     this.api =
-      options.api ||
+      options.api ??
       axios.create({
         baseURL: `${baseUrl}/api`,
         timeout: 1000000,
@@ -70,7 +74,7 @@ export class ClientSdk {
     }
     this.persistentStorage = options.persistentStorage;
     this.tokenStorage =
-      options.tokenStorage || new TokenStorageImpl(options.persistentStorage);
+      options.tokenStorage ?? new TokenStorageImpl(options.persistentStorage);
 
     this.auth = new Auth(this.tokenStorage, this, options.authCallback);
   }

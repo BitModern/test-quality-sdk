@@ -1,6 +1,6 @@
 export interface Trace {
   function: string; // The current function name.
-  line: number; //The current line number.
+  line: number; // The current line number.
   file: string; // The current file name.
   class: string; // The current class name.
   type: string; // The current call type. If a method call, "->" is returned. If a static method call, "::" is returned. If a function call, nothing is returned.

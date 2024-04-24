@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Capability } from './Capability';
+import type { Capability } from './Capability';
 
 export interface CapabilityHistory extends Capability {
   _id: string;

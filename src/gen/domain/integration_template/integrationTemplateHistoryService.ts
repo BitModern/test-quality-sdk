@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { IntegrationTemplateRoute } from '../../routes/Routes';
-import { IntegrationTemplate } from './IntegrationTemplate';
-import { IntegrationTemplateHistory } from './IntegrationTemplateHistory';
+import type { IntegrationTemplate } from './IntegrationTemplate';
+import type { IntegrationTemplateHistory } from './IntegrationTemplateHistory';
 
 export const integrationTemplateHistoryGet = (
   queryParams?: QueryParams<IntegrationTemplate>,
 ): Promise<IntegrationTemplateHistory[]> => {
   const config: QueryParams<IntegrationTemplate> = {
     method: 'get',
-    url: `${queryParams?.url || IntegrationTemplateRoute()}${
+    url: `${queryParams?.url ?? IntegrationTemplateRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const integrationTemplateHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationTemplateHistory[]>(config)
     : getResponse<IntegrationTemplateHistory[], IntegrationTemplate>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

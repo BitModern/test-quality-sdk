@@ -4,11 +4,14 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
-import { CheckSuitePullRequest } from './CheckSuitePullRequest';
-import { CheckSuitePullRequestApi } from './CheckSuitePullRequestApi';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
+import type { CheckSuitePullRequest } from './CheckSuitePullRequest';
+import type { CheckSuitePullRequestApi } from './CheckSuitePullRequestApi';
 
 export const checkSuitePullRequestDetach = (
   data: Partial<CheckSuitePullRequest>,
@@ -26,7 +29,7 @@ export const checkSuitePullRequestDetach = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, CheckSuitePullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -46,7 +49,7 @@ export const checkSuitePullRequestUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuitePullRequest>(config)
     : getResponse<CheckSuitePullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -57,7 +60,7 @@ export const checkSuitePullRequestCreateOne = (
 ): Promise<CheckSuitePullRequest> => {
   const config: QueryParams<CheckSuitePullRequest> = {
     method: 'post',
-    url: queryParams?.url || `/check_suite_pull_request`,
+    url: queryParams?.url ?? `/check_suite_pull_request`,
     params: queryParams?.params,
     data,
   };
@@ -65,7 +68,7 @@ export const checkSuitePullRequestCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuitePullRequest>(config)
     : getResponse<CheckSuitePullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const checkSuitePullRequestCreateMany = (
 ): Promise<CheckSuitePullRequest[]> => {
   const config: QueryParamsWithList<CheckSuitePullRequest> = {
     method: 'post',
-    url: queryParams?.url || `/check_suite_pull_request`,
+    url: queryParams?.url ?? `/check_suite_pull_request`,
     params: queryParams?.params,
     list: data,
   };
@@ -84,7 +87,7 @@ export const checkSuitePullRequestCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuitePullRequest[]>(config)
     : getResponse<CheckSuitePullRequest[], CheckSuitePullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -94,7 +97,7 @@ export const checkSuitePullRequestGetMany = (
 ): Promise<ResourceList<CheckSuitePullRequestApi>> => {
   const config: QueryParams<CheckSuitePullRequest> = {
     method: 'get',
-    url: queryParams?.url || `/check_suite_pull_request`,
+    url: queryParams?.url ?? `/check_suite_pull_request`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -104,7 +107,7 @@ export const checkSuitePullRequestGetMany = (
     : getResponse<
         ResourceList<CheckSuitePullRequestApi>,
         CheckSuitePullRequest
-      >(queryParams?.api || _client?.api, config);
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const checkSuitePullRequestGetOne = (
@@ -113,7 +116,7 @@ export const checkSuitePullRequestGetOne = (
 ): Promise<CheckSuitePullRequestApi> => {
   const config: QueryParams<CheckSuitePullRequest> = {
     method: 'get',
-    url: `${queryParams?.url || `/check_suite_pull_request/${id}`}`,
+    url: `${queryParams?.url ?? `/check_suite_pull_request/${id}`}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -121,7 +124,7 @@ export const checkSuitePullRequestGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuitePullRequestApi>(config)
     : getResponse<CheckSuitePullRequestApi, CheckSuitePullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

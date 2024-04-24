@@ -4,10 +4,10 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { NativeDefectRes } from './NativeDefectRes';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { DefectResNativeDefectResApi } from '../defect_res_native_defect_res/DefectResNativeDefectResApi';
-import { DefectResApi } from '../defect_res/DefectResApi';
+import type { NativeDefectRes } from './NativeDefectRes';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { DefectResNativeDefectResApi } from '../defect_res_native_defect_res/DefectResNativeDefectResApi';
+import type { DefectResApi } from '../defect_res/DefectResApi';
 
 export interface NativeDefectResApi extends NativeDefectRes {
   label_assigned?: LabelAssignedApi;

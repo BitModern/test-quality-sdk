@@ -4,9 +4,9 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Plat } from './Plat';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { PlatVersionApi } from '../plat_version/PlatVersionApi';
+import type { Plat } from './Plat';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { PlatVersionApi } from '../plat_version/PlatVersionApi';
 
 export interface PlatApi extends Plat {
   label_assigned?: LabelAssignedApi;

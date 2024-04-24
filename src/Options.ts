@@ -1,9 +1,9 @@
-import { AxiosInstance } from 'axios';
-import { AuthCallback } from './auth';
-import { APIWorkerInterface, LoggerInterface } from './common';
-import { HttpError } from './exceptions/HttpError';
-import { PersistentStorage } from './PersistentStorage';
-import { TokenStorage } from './TokenStorage';
+import { type AxiosInstance } from 'axios';
+import { type AuthCallback } from './auth';
+import { type APIWorkerInterface, type LoggerInterface } from './common';
+import { type HttpError } from './exceptions/HttpError';
+import { type PersistentStorage } from './PersistentStorage';
+import { type TokenStorage } from './TokenStorage';
 
 export interface Options {
   clientId: string;

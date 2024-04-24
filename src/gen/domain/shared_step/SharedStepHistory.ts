@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { SharedStep } from './SharedStep';
+import type { SharedStep } from './SharedStep';
 
 export interface SharedStepHistory extends SharedStep {
   _id: string;

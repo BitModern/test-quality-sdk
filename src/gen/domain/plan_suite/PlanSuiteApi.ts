@@ -4,10 +4,10 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { PlanSuite } from './PlanSuite';
-import { PlanApi } from '../plan/PlanApi';
-import { SuiteApi } from '../suite/SuiteApi';
-import { RunSuiteApi } from '../run_suite/RunSuiteApi';
+import type { PlanSuite } from './PlanSuite';
+import type { PlanApi } from '../plan/PlanApi';
+import type { SuiteApi } from '../suite/SuiteApi';
+import type { RunSuiteApi } from '../run_suite/RunSuiteApi';
 
 export interface PlanSuiteApi extends PlanSuite {
   plan?: PlanApi;

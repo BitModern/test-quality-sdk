@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Coupon } from './Coupon';
+import type { Coupon } from './Coupon';
 
 export interface CouponHistory extends Coupon {
   _id: string;

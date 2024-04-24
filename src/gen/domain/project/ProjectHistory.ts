@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Project } from './Project';
+import type { Project } from './Project';
 
 export interface ProjectHistory extends Project {
   _id: string;

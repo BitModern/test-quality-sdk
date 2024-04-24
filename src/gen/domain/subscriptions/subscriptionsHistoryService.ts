@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { SubscriptionsRoute } from '../../routes/Routes';
-import { Subscriptions } from './Subscriptions';
-import { SubscriptionsHistory } from './SubscriptionsHistory';
+import type { Subscriptions } from './Subscriptions';
+import type { SubscriptionsHistory } from './SubscriptionsHistory';
 
 export const subscriptionsHistoryGet = (
   queryParams?: QueryParams<Subscriptions>,
 ): Promise<SubscriptionsHistory[]> => {
   const config: QueryParams<Subscriptions> = {
     method: 'get',
-    url: `${queryParams?.url || SubscriptionsRoute()}${
+    url: `${queryParams?.url ?? SubscriptionsRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const subscriptionsHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SubscriptionsHistory[]>(config)
     : getResponse<SubscriptionsHistory[], Subscriptions>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

@@ -1,6 +1,6 @@
-import { getResponse, QueryParams } from '../gen/actions';
+import { getResponse, type QueryParams } from '../gen/actions';
 import { _client } from '../ClientSdk';
-import { JiraServerInfo } from './JiraServerInfo';
+import { type JiraServerInfo } from './JiraServerInfo';
 
 export interface RegisterJiraPayload {
   user: string;
@@ -26,7 +26,7 @@ export const registerJira = (
 ): Promise<RegisterJiraResponse> => {
   const config: QueryParams<RegisterJiraPayload> = {
     method: 'post',
-    url: queryParams?.url || '/register_jira',
+    url: queryParams?.url ?? '/register_jira',
     params: queryParams?.params,
     data,
   };
@@ -34,7 +34,7 @@ export const registerJira = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<RegisterJiraResponse>(config)
     : getResponse<RegisterJiraResponse, RegisterJiraPayload>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

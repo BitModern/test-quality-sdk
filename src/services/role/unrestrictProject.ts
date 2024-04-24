@@ -1,14 +1,14 @@
 import { _client } from '../../ClientSdk';
-import { getResponse, QueryParams } from '../../gen/actions';
+import { getResponse, type QueryParams } from '../../gen/actions';
 
-export type UnrestrictProjectParams = {
+export interface UnrestrictProjectParams {
   access_role_id: number;
   project_id: number | number[];
-};
+}
 
-export type UnrestrictProjectReturn = {
+export interface UnrestrictProjectReturn {
   deleted: number;
-};
+}
 
 export const unrestrictProject = (
   data: UnrestrictProjectParams,
@@ -16,7 +16,7 @@ export const unrestrictProject = (
 ): Promise<UnrestrictProjectReturn> => {
   const config: QueryParams<UnrestrictProjectParams> = {
     method: 'delete',
-    url: queryParams?.url || '/access_role/project',
+    url: queryParams?.url ?? '/access_role/project',
     params: queryParams?.params,
     data,
   };
@@ -24,7 +24,7 @@ export const unrestrictProject = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<UnrestrictProjectReturn>(config)
     : getResponse<UnrestrictProjectReturn, UnrestrictProjectParams>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

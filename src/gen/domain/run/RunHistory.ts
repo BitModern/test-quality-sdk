@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Run } from './Run';
+import type { Run } from './Run';
 
 export interface RunHistory extends Run {
   _id: string;

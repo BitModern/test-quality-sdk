@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Comment } from './Comment';
+import type { Comment } from './Comment';
 
 export interface CommentHistory extends Comment {
   _id: string;

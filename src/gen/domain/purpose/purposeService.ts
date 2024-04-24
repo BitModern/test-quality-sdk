@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { PurposeRoute } from '../../routes/Routes';
-import { Purpose } from './Purpose';
-import { PurposeApi } from './PurposeApi';
+import type { Purpose } from './Purpose';
+import type { PurposeApi } from './PurposeApi';
 
 export const purposeGetMany = (
   queryParams?: QueryParams<Purpose>,
 ): Promise<ResourceList<PurposeApi>> => {
   const config: QueryParams<Purpose> = {
     method: 'get',
-    url: queryParams?.url || PurposeRoute(),
+    url: queryParams?.url ?? PurposeRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const purposeGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PurposeApi>>(config)
     : getResponse<ResourceList<PurposeApi>, Purpose>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const purposeGetOne = (
 ): Promise<PurposeApi> => {
   const config: QueryParams<Purpose> = {
     method: 'get',
-    url: `${queryParams?.url || PurposeRoute()}/${id}`,
+    url: `${queryParams?.url ?? PurposeRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const purposeGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PurposeApi>(config)
     : getResponse<PurposeApi, Purpose>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const purposeDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Purpose> = {
     method: 'delete',
-    url: `${queryParams?.url || PurposeRoute()}/${id}`,
+    url: `${queryParams?.url ?? PurposeRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const purposeDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Purpose>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const purposeUpdateOne = (
 ): Promise<Purpose> => {
   const config: QueryParams<Purpose> = {
     method: 'put',
-    url: `${queryParams?.url || PurposeRoute()}/${id}`,
+    url: `${queryParams?.url ?? PurposeRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const purposeUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Purpose>(config)
-    : getResponse<Purpose>(queryParams?.api || _client?.api, config);
+    : getResponse<Purpose>(queryParams?.api ?? _client?.api, config);
 };
 
 export const purposeCreateOne = (
@@ -93,7 +96,7 @@ export const purposeCreateOne = (
 ): Promise<Purpose> => {
   const config: QueryParams<Purpose> = {
     method: 'post',
-    url: queryParams?.url || PurposeRoute(),
+    url: queryParams?.url ?? PurposeRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const purposeCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Purpose>(config)
-    : getResponse<Purpose>(queryParams?.api || _client?.api, config);
+    : getResponse<Purpose>(queryParams?.api ?? _client?.api, config);
 };
 
 export const purposeCreateMany = (
@@ -110,7 +113,7 @@ export const purposeCreateMany = (
 ): Promise<Purpose[]> => {
   const config: QueryParamsWithList<Purpose> = {
     method: 'post',
-    url: queryParams?.url || PurposeRoute(),
+    url: queryParams?.url ?? PurposeRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -118,5 +121,5 @@ export const purposeCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Purpose[]>(config)
-    : getResponse<Purpose[], Purpose>(queryParams?.api || _client?.api, config);
+    : getResponse<Purpose[], Purpose>(queryParams?.api ?? _client?.api, config);
 };

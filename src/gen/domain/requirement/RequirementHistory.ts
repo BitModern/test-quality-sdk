@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Requirement } from './Requirement';
+import type { Requirement } from './Requirement';
 
 export interface RequirementHistory extends Requirement {
   _id: string;

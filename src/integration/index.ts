@@ -5,4 +5,4 @@
  */
 
 export * from './registerJira';
-export { JiraServerInfo } from './JiraServerInfo';
+export type { JiraServerInfo } from './JiraServerInfo';

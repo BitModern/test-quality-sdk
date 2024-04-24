@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { PlatVersion } from './PlatVersion';
+import type { PlatVersion } from './PlatVersion';
 
 export interface PlatVersionHistory extends PlatVersion {
   _id: string;

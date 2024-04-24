@@ -4,12 +4,12 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { AppInstallProject } from './AppInstallProject';
-import { AppInstallApi } from '../app_install/AppInstallApi';
-import { PullRequestApi } from '../pull_request/PullRequestApi';
-import { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
-import { CheckSuiteApi } from '../check_suite/CheckSuiteApi';
-import { CheckRunApi } from '../check_run/CheckRunApi';
+import type { AppInstallProject } from './AppInstallProject';
+import type { AppInstallApi } from '../app_install/AppInstallApi';
+import type { PullRequestApi } from '../pull_request/PullRequestApi';
+import type { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
+import type { CheckSuiteApi } from '../check_suite/CheckSuiteApi';
+import type { CheckRunApi } from '../check_run/CheckRunApi';
 
 export interface AppInstallProjectApi extends AppInstallProject {
   app_install?: AppInstallApi;

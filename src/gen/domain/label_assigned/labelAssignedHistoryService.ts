@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { LabelAssignedRoute } from '../../routes/Routes';
-import { LabelAssigned } from './LabelAssigned';
-import { LabelAssignedHistory } from './LabelAssignedHistory';
+import type { LabelAssigned } from './LabelAssigned';
+import type { LabelAssignedHistory } from './LabelAssignedHistory';
 
 export const labelAssignedHistoryGet = (
   queryParams?: QueryParams<LabelAssigned>,
 ): Promise<LabelAssignedHistory[]> => {
   const config: QueryParams<LabelAssigned> = {
     method: 'get',
-    url: `${queryParams?.url || LabelAssignedRoute()}${
+    url: `${queryParams?.url ?? LabelAssignedRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const labelAssignedHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<LabelAssignedHistory[]>(config)
     : getResponse<LabelAssignedHistory[], LabelAssigned>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

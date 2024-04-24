@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { TestQualityTypeRoute } from '../../routes/Routes';
-import { TestQualityType } from './TestQualityType';
-import { TestQualityTypeApi } from './TestQualityTypeApi';
+import type { TestQualityType } from './TestQualityType';
+import type { TestQualityTypeApi } from './TestQualityTypeApi';
 
 export const testQualityTypeGetMany = (
   queryParams?: QueryParams<TestQualityType>,
 ): Promise<ResourceList<TestQualityTypeApi>> => {
   const config: QueryParams<TestQualityType> = {
     method: 'get',
-    url: queryParams?.url || TestQualityTypeRoute(),
+    url: queryParams?.url ?? TestQualityTypeRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const testQualityTypeGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<TestQualityTypeApi>>(config)
     : getResponse<ResourceList<TestQualityTypeApi>, TestQualityType>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const testQualityTypeGetOne = (
 ): Promise<TestQualityTypeApi> => {
   const config: QueryParams<TestQualityType> = {
     method: 'get',
-    url: `${queryParams?.url || TestQualityTypeRoute()}/${id}`,
+    url: `${queryParams?.url ?? TestQualityTypeRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const testQualityTypeGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQualityTypeApi>(config)
     : getResponse<TestQualityTypeApi, TestQualityType>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const testQualityTypeDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<TestQualityType> = {
     method: 'delete',
-    url: `${queryParams?.url || TestQualityTypeRoute()}/${id}`,
+    url: `${queryParams?.url ?? TestQualityTypeRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const testQualityTypeDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, TestQualityType>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const testQualityTypeUpdateOne = (
 ): Promise<TestQualityType> => {
   const config: QueryParams<TestQualityType> = {
     method: 'put',
-    url: `${queryParams?.url || TestQualityTypeRoute()}/${id}`,
+    url: `${queryParams?.url ?? TestQualityTypeRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const testQualityTypeUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQualityType>(config)
-    : getResponse<TestQualityType>(queryParams?.api || _client?.api, config);
+    : getResponse<TestQualityType>(queryParams?.api ?? _client?.api, config);
 };
 
 export const testQualityTypeCreateOne = (
@@ -93,7 +96,7 @@ export const testQualityTypeCreateOne = (
 ): Promise<TestQualityType> => {
   const config: QueryParams<TestQualityType> = {
     method: 'post',
-    url: queryParams?.url || TestQualityTypeRoute(),
+    url: queryParams?.url ?? TestQualityTypeRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const testQualityTypeCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQualityType>(config)
-    : getResponse<TestQualityType>(queryParams?.api || _client?.api, config);
+    : getResponse<TestQualityType>(queryParams?.api ?? _client?.api, config);
 };
 
 export const testQualityTypeCreateMany = (
@@ -110,7 +113,7 @@ export const testQualityTypeCreateMany = (
 ): Promise<TestQualityType[]> => {
   const config: QueryParamsWithList<TestQualityType> = {
     method: 'post',
-    url: queryParams?.url || TestQualityTypeRoute(),
+    url: queryParams?.url ?? TestQualityTypeRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const testQualityTypeCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQualityType[]>(config)
     : getResponse<TestQualityType[], TestQualityType>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

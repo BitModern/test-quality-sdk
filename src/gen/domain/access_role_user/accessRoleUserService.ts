@@ -4,11 +4,14 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
-import { AccessRoleUser } from './AccessRoleUser';
-import { AccessRoleUserApi } from './AccessRoleUserApi';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
+import type { AccessRoleUser } from './AccessRoleUser';
+import type { AccessRoleUserApi } from './AccessRoleUserApi';
 
 export const accessRoleUserDetach = (
   data: Partial<AccessRoleUser>,
@@ -26,7 +29,7 @@ export const accessRoleUserDetach = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AccessRoleUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -45,7 +48,7 @@ export const accessRoleUserUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRoleUser>(config)
-    : getResponse<AccessRoleUser>(queryParams?.api || _client?.api, config);
+    : getResponse<AccessRoleUser>(queryParams?.api ?? _client?.api, config);
 };
 
 export const accessRoleUserCreateOne = (
@@ -54,14 +57,14 @@ export const accessRoleUserCreateOne = (
 ): Promise<AccessRoleUser> => {
   const config: QueryParams<AccessRoleUser> = {
     method: 'post',
-    url: queryParams?.url || `/access_role_user`,
+    url: queryParams?.url ?? `/access_role_user`,
     params: queryParams?.params,
     data,
   };
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRoleUser>(config)
-    : getResponse<AccessRoleUser>(queryParams?.api || _client?.api, config);
+    : getResponse<AccessRoleUser>(queryParams?.api ?? _client?.api, config);
 };
 
 export const accessRoleUserCreateMany = (
@@ -70,7 +73,7 @@ export const accessRoleUserCreateMany = (
 ): Promise<AccessRoleUser[]> => {
   const config: QueryParamsWithList<AccessRoleUser> = {
     method: 'post',
-    url: queryParams?.url || `/access_role_user`,
+    url: queryParams?.url ?? `/access_role_user`,
     params: queryParams?.params,
     list: data,
   };
@@ -78,7 +81,7 @@ export const accessRoleUserCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRoleUser[]>(config)
     : getResponse<AccessRoleUser[], AccessRoleUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -88,7 +91,7 @@ export const accessRoleUserGetMany = (
 ): Promise<ResourceList<AccessRoleUserApi>> => {
   const config: QueryParams<AccessRoleUser> = {
     method: 'get',
-    url: queryParams?.url || `/access_role_user`,
+    url: queryParams?.url ?? `/access_role_user`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -96,7 +99,7 @@ export const accessRoleUserGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<AccessRoleUserApi>>(config)
     : getResponse<ResourceList<AccessRoleUserApi>, AccessRoleUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -107,7 +110,7 @@ export const accessRoleUserGetOne = (
 ): Promise<AccessRoleUserApi> => {
   const config: QueryParams<AccessRoleUser> = {
     method: 'get',
-    url: `${queryParams?.url || `/access_role_user/${id}`}`,
+    url: `${queryParams?.url ?? `/access_role_user/${id}`}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -115,7 +118,7 @@ export const accessRoleUserGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRoleUserApi>(config)
     : getResponse<AccessRoleUserApi, AccessRoleUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

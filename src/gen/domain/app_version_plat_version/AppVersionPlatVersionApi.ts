@@ -4,13 +4,13 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { AppVersionPlatVersion } from './AppVersionPlatVersion';
-import { PlatVersionApi } from '../plat_version/PlatVersionApi';
-import { AppVersionApi } from '../app_version/AppVersionApi';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { AppVersionPlatVersionPlanApi } from '../app_version_plat_version_plan/AppVersionPlatVersionPlanApi';
-import { PlanApi } from '../plan/PlanApi';
-import { RunResultApi } from '../run_result/RunResultApi';
+import type { AppVersionPlatVersion } from './AppVersionPlatVersion';
+import type { PlatVersionApi } from '../plat_version/PlatVersionApi';
+import type { AppVersionApi } from '../app_version/AppVersionApi';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { AppVersionPlatVersionPlanApi } from '../app_version_plat_version_plan/AppVersionPlatVersionPlanApi';
+import type { PlanApi } from '../plan/PlanApi';
+import type { RunResultApi } from '../run_result/RunResultApi';
 
 export interface AppVersionPlatVersionApi extends AppVersionPlatVersion {
   plat_version?: PlatVersionApi;

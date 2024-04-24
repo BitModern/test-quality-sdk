@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { DefectResRoute } from '../../routes/Routes';
-import { DefectRes } from './DefectRes';
-import { DefectResHistory } from './DefectResHistory';
+import type { DefectRes } from './DefectRes';
+import type { DefectResHistory } from './DefectResHistory';
 
 export const defectResHistoryGet = (
   queryParams?: QueryParams<DefectRes>,
 ): Promise<DefectResHistory[]> => {
   const config: QueryParams<DefectRes> = {
     method: 'get',
-    url: `${queryParams?.url || DefectResRoute()}${
+    url: `${queryParams?.url ?? DefectResRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const defectResHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectResHistory[]>(config)
     : getResponse<DefectResHistory[], DefectRes>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

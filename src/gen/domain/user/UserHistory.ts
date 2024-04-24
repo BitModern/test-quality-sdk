@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { User } from './User';
+import type { User } from './User';
 
 export interface UserHistory extends User {
   _id: string;

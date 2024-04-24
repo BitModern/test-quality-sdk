@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { NativeDefectStatusRoute } from '../../routes/Routes';
-import { NativeDefectStatus } from './NativeDefectStatus';
-import { NativeDefectStatusHistory } from './NativeDefectStatusHistory';
+import type { NativeDefectStatus } from './NativeDefectStatus';
+import type { NativeDefectStatusHistory } from './NativeDefectStatusHistory';
 
 export const nativeDefectStatusHistoryGet = (
   queryParams?: QueryParams<NativeDefectStatus>,
 ): Promise<NativeDefectStatusHistory[]> => {
   const config: QueryParams<NativeDefectStatus> = {
     method: 'get',
-    url: `${queryParams?.url || NativeDefectStatusRoute()}${
+    url: `${queryParams?.url ?? NativeDefectStatusRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const nativeDefectStatusHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<NativeDefectStatusHistory[]>(config)
     : getResponse<NativeDefectStatusHistory[], NativeDefectStatus>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

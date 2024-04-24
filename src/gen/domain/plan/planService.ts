@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { PlanRoute } from '../../routes/Routes';
-import { Plan } from './Plan';
-import { PlanApi } from './PlanApi';
+import type { Plan } from './Plan';
+import type { PlanApi } from './PlanApi';
 
 export const planGetMany = (
   queryParams?: QueryParams<Plan>,
 ): Promise<ResourceList<PlanApi>> => {
   const config: QueryParams<Plan> = {
     method: 'get',
-    url: queryParams?.url || PlanRoute(),
+    url: queryParams?.url ?? PlanRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const planGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PlanApi>>(config)
     : getResponse<ResourceList<PlanApi>, Plan>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const planGetOne = (
 ): Promise<PlanApi> => {
   const config: QueryParams<Plan> = {
     method: 'get',
-    url: `${queryParams?.url || PlanRoute()}/${id}`,
+    url: `${queryParams?.url ?? PlanRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -44,7 +47,7 @@ export const planGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanApi>(config)
-    : getResponse<PlanApi, Plan>(queryParams?.api || _client?.api, config);
+    : getResponse<PlanApi, Plan>(queryParams?.api ?? _client?.api, config);
 };
 
 export const planDeleteOne = (
@@ -53,7 +56,7 @@ export const planDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Plan> = {
     method: 'delete',
-    url: `${queryParams?.url || PlanRoute()}/${id}`,
+    url: `${queryParams?.url ?? PlanRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -61,7 +64,7 @@ export const planDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Plan>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -73,7 +76,7 @@ export const planUpdateOne = (
 ): Promise<Plan> => {
   const config: QueryParams<Plan> = {
     method: 'put',
-    url: `${queryParams?.url || PlanRoute()}/${id}`,
+    url: `${queryParams?.url ?? PlanRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -81,7 +84,7 @@ export const planUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plan>(config)
-    : getResponse<Plan>(queryParams?.api || _client?.api, config);
+    : getResponse<Plan>(queryParams?.api ?? _client?.api, config);
 };
 
 export const planCreateOne = (
@@ -90,7 +93,7 @@ export const planCreateOne = (
 ): Promise<Plan> => {
   const config: QueryParams<Plan> = {
     method: 'post',
-    url: queryParams?.url || PlanRoute(),
+    url: queryParams?.url ?? PlanRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -98,7 +101,7 @@ export const planCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plan>(config)
-    : getResponse<Plan>(queryParams?.api || _client?.api, config);
+    : getResponse<Plan>(queryParams?.api ?? _client?.api, config);
 };
 
 export const planCreateMany = (
@@ -107,7 +110,7 @@ export const planCreateMany = (
 ): Promise<Plan[]> => {
   const config: QueryParamsWithList<Plan> = {
     method: 'post',
-    url: queryParams?.url || PlanRoute(),
+    url: queryParams?.url ?? PlanRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -115,5 +118,5 @@ export const planCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plan[]>(config)
-    : getResponse<Plan[], Plan>(queryParams?.api || _client?.api, config);
+    : getResponse<Plan[], Plan>(queryParams?.api ?? _client?.api, config);
 };

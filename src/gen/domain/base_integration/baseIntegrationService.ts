@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { BaseIntegrationRoute } from '../../routes/Routes';
-import { BaseIntegration } from './BaseIntegration';
-import { BaseIntegrationApi } from './BaseIntegrationApi';
+import type { BaseIntegration } from './BaseIntegration';
+import type { BaseIntegrationApi } from './BaseIntegrationApi';
 
 export const baseIntegrationGetMany = (
   queryParams?: QueryParams<BaseIntegration>,
 ): Promise<ResourceList<BaseIntegrationApi>> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'get',
-    url: queryParams?.url || BaseIntegrationRoute(),
+    url: queryParams?.url ?? BaseIntegrationRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const baseIntegrationGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<BaseIntegrationApi>>(config)
     : getResponse<ResourceList<BaseIntegrationApi>, BaseIntegration>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const baseIntegrationGetOne = (
 ): Promise<BaseIntegrationApi> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'get',
-    url: `${queryParams?.url || BaseIntegrationRoute()}/${id}`,
+    url: `${queryParams?.url ?? BaseIntegrationRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const baseIntegrationGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseIntegrationApi>(config)
     : getResponse<BaseIntegrationApi, BaseIntegration>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const baseIntegrationDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'delete',
-    url: `${queryParams?.url || BaseIntegrationRoute()}/${id}`,
+    url: `${queryParams?.url ?? BaseIntegrationRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const baseIntegrationDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, BaseIntegration>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const baseIntegrationUpdateOne = (
 ): Promise<BaseIntegration> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'put',
-    url: `${queryParams?.url || BaseIntegrationRoute()}/${id}`,
+    url: `${queryParams?.url ?? BaseIntegrationRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const baseIntegrationUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseIntegration>(config)
-    : getResponse<BaseIntegration>(queryParams?.api || _client?.api, config);
+    : getResponse<BaseIntegration>(queryParams?.api ?? _client?.api, config);
 };
 
 export const baseIntegrationCreateOne = (
@@ -93,7 +96,7 @@ export const baseIntegrationCreateOne = (
 ): Promise<BaseIntegration> => {
   const config: QueryParams<BaseIntegration> = {
     method: 'post',
-    url: queryParams?.url || BaseIntegrationRoute(),
+    url: queryParams?.url ?? BaseIntegrationRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const baseIntegrationCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseIntegration>(config)
-    : getResponse<BaseIntegration>(queryParams?.api || _client?.api, config);
+    : getResponse<BaseIntegration>(queryParams?.api ?? _client?.api, config);
 };
 
 export const baseIntegrationCreateMany = (
@@ -110,7 +113,7 @@ export const baseIntegrationCreateMany = (
 ): Promise<BaseIntegration[]> => {
   const config: QueryParamsWithList<BaseIntegration> = {
     method: 'post',
-    url: queryParams?.url || BaseIntegrationRoute(),
+    url: queryParams?.url ?? BaseIntegrationRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const baseIntegrationCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseIntegration[]>(config)
     : getResponse<BaseIntegration[], BaseIntegration>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

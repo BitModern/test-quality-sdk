@@ -4,6 +4,6 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { IntegrationTemplate } from './IntegrationTemplate';
+import type { IntegrationTemplate } from './IntegrationTemplate';
 
 export interface IntegrationTemplateApi extends IntegrationTemplate {}

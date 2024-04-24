@@ -4,14 +4,14 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { RunResultStep } from './RunResultStep';
-import { RunResultApi } from '../run_result/RunResultApi';
-import { StepApi } from '../step/StepApi';
-import { StatusApi } from '../status/StatusApi';
-import { ProjectApi } from '../project/ProjectApi';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { AttachmentApi } from '../attachment/AttachmentApi';
-import { CommentApi } from '../comment/CommentApi';
+import type { RunResultStep } from './RunResultStep';
+import type { RunResultApi } from '../run_result/RunResultApi';
+import type { StepApi } from '../step/StepApi';
+import type { StatusApi } from '../status/StatusApi';
+import type { ProjectApi } from '../project/ProjectApi';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { AttachmentApi } from '../attachment/AttachmentApi';
+import type { CommentApi } from '../comment/CommentApi';
 
 export interface RunResultStepApi extends RunResultStep {
   run_result?: RunResultApi;

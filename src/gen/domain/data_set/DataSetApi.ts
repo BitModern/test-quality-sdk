@@ -4,9 +4,9 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { DataSet } from './DataSet';
-import { ProjectApi } from '../project/ProjectApi';
-import { TestApi } from '../test/TestApi';
+import type { DataSet } from './DataSet';
+import type { ProjectApi } from '../project/ProjectApi';
+import type { TestApi } from '../test/TestApi';
 
 export interface DataSetApi extends DataSet {
   project?: ProjectApi;

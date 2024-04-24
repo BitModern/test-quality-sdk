@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { AppConfig } from './AppConfig';
+import type { AppConfig } from './AppConfig';
 
 export interface AppConfigHistory extends AppConfig {
   _id: string;

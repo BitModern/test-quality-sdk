@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { App } from './App';
+import type { App } from './App';
 
 export interface AppHistory extends App {
   _id: string;

@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { DefectStatus } from './DefectStatus';
+import type { DefectStatus } from './DefectStatus';
 
 export interface DefectStatusHistory extends DefectStatus {
   _id: string;

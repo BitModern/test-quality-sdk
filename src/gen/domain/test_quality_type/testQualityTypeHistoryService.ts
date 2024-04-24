@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { TestQualityTypeRoute } from '../../routes/Routes';
-import { TestQualityType } from './TestQualityType';
-import { TestQualityTypeHistory } from './TestQualityTypeHistory';
+import type { TestQualityType } from './TestQualityType';
+import type { TestQualityTypeHistory } from './TestQualityTypeHistory';
 
 export const testQualityTypeHistoryGet = (
   queryParams?: QueryParams<TestQualityType>,
 ): Promise<TestQualityTypeHistory[]> => {
   const config: QueryParams<TestQualityType> = {
     method: 'get',
-    url: `${queryParams?.url || TestQualityTypeRoute()}${
+    url: `${queryParams?.url ?? TestQualityTypeRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const testQualityTypeHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQualityTypeHistory[]>(config)
     : getResponse<TestQualityTypeHistory[], TestQualityType>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

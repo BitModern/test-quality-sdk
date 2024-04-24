@@ -4,8 +4,8 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { SharedPrecondition } from './SharedPrecondition';
-import { TestApi } from '../test/TestApi';
+import type { SharedPrecondition } from './SharedPrecondition';
+import type { TestApi } from '../test/TestApi';
 
 export interface SharedPreconditionApi extends SharedPrecondition {
   test?: TestApi[];

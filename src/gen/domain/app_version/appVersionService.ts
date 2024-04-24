@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { AppVersionRoute } from '../../routes/Routes';
-import { AppVersion } from './AppVersion';
-import { AppVersionApi } from './AppVersionApi';
+import type { AppVersion } from './AppVersion';
+import type { AppVersionApi } from './AppVersionApi';
 
 export const appVersionGetMany = (
   queryParams?: QueryParams<AppVersion>,
 ): Promise<ResourceList<AppVersionApi>> => {
   const config: QueryParams<AppVersion> = {
     method: 'get',
-    url: queryParams?.url || AppVersionRoute(),
+    url: queryParams?.url ?? AppVersionRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const appVersionGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<AppVersionApi>>(config)
     : getResponse<ResourceList<AppVersionApi>, AppVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const appVersionGetOne = (
 ): Promise<AppVersionApi> => {
   const config: QueryParams<AppVersion> = {
     method: 'get',
-    url: `${queryParams?.url || AppVersionRoute()}/${id}`,
+    url: `${queryParams?.url ?? AppVersionRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const appVersionGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersionApi>(config)
     : getResponse<AppVersionApi, AppVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const appVersionDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<AppVersion> = {
     method: 'delete',
-    url: `${queryParams?.url || AppVersionRoute()}/${id}`,
+    url: `${queryParams?.url ?? AppVersionRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const appVersionDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const appVersionUpdateOne = (
 ): Promise<AppVersion> => {
   const config: QueryParams<AppVersion> = {
     method: 'put',
-    url: `${queryParams?.url || AppVersionRoute()}/${id}`,
+    url: `${queryParams?.url ?? AppVersionRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const appVersionUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersion>(config)
-    : getResponse<AppVersion>(queryParams?.api || _client?.api, config);
+    : getResponse<AppVersion>(queryParams?.api ?? _client?.api, config);
 };
 
 export const appVersionCreateOne = (
@@ -93,7 +96,7 @@ export const appVersionCreateOne = (
 ): Promise<AppVersion> => {
   const config: QueryParams<AppVersion> = {
     method: 'post',
-    url: queryParams?.url || AppVersionRoute(),
+    url: queryParams?.url ?? AppVersionRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const appVersionCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersion>(config)
-    : getResponse<AppVersion>(queryParams?.api || _client?.api, config);
+    : getResponse<AppVersion>(queryParams?.api ?? _client?.api, config);
 };
 
 export const appVersionCreateMany = (
@@ -110,7 +113,7 @@ export const appVersionCreateMany = (
 ): Promise<AppVersion[]> => {
   const config: QueryParamsWithList<AppVersion> = {
     method: 'post',
-    url: queryParams?.url || AppVersionRoute(),
+    url: queryParams?.url ?? AppVersionRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const appVersionCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersion[]>(config)
     : getResponse<AppVersion[], AppVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

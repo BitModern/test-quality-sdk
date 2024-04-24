@@ -4,8 +4,8 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Filter } from './Filter';
-import { ProjectApi } from '../project/ProjectApi';
+import type { Filter } from './Filter';
+import type { ProjectApi } from '../project/ProjectApi';
 
 export interface FilterApi extends Filter {
   project?: ProjectApi;

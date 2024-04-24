@@ -4,11 +4,14 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
-import { AppVersionPlatVersionPlan } from './AppVersionPlatVersionPlan';
-import { AppVersionPlatVersionPlanApi } from './AppVersionPlatVersionPlanApi';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
+import type { AppVersionPlatVersionPlan } from './AppVersionPlatVersionPlan';
+import type { AppVersionPlatVersionPlanApi } from './AppVersionPlatVersionPlanApi';
 
 export const appVersionPlatVersionPlanDetach = (
   data: Partial<AppVersionPlatVersionPlan>,
@@ -26,7 +29,7 @@ export const appVersionPlatVersionPlanDetach = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppVersionPlatVersionPlan>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -46,7 +49,7 @@ export const appVersionPlatVersionPlanUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersionPlatVersionPlan>(config)
     : getResponse<AppVersionPlatVersionPlan>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -57,7 +60,7 @@ export const appVersionPlatVersionPlanCreateOne = (
 ): Promise<AppVersionPlatVersionPlan> => {
   const config: QueryParams<AppVersionPlatVersionPlan> = {
     method: 'post',
-    url: queryParams?.url || `/app_version_plat_version_plan`,
+    url: queryParams?.url ?? `/app_version_plat_version_plan`,
     params: queryParams?.params,
     data,
   };
@@ -65,7 +68,7 @@ export const appVersionPlatVersionPlanCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersionPlatVersionPlan>(config)
     : getResponse<AppVersionPlatVersionPlan>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const appVersionPlatVersionPlanCreateMany = (
 ): Promise<AppVersionPlatVersionPlan[]> => {
   const config: QueryParamsWithList<AppVersionPlatVersionPlan> = {
     method: 'post',
-    url: queryParams?.url || `/app_version_plat_version_plan`,
+    url: queryParams?.url ?? `/app_version_plat_version_plan`,
     params: queryParams?.params,
     list: data,
   };
@@ -84,7 +87,7 @@ export const appVersionPlatVersionPlanCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersionPlatVersionPlan[]>(config)
     : getResponse<AppVersionPlatVersionPlan[], AppVersionPlatVersionPlan>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -94,7 +97,7 @@ export const appVersionPlatVersionPlanGetMany = (
 ): Promise<ResourceList<AppVersionPlatVersionPlanApi>> => {
   const config: QueryParams<AppVersionPlatVersionPlan> = {
     method: 'get',
-    url: queryParams?.url || `/app_version_plat_version_plan`,
+    url: queryParams?.url ?? `/app_version_plat_version_plan`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -106,7 +109,7 @@ export const appVersionPlatVersionPlanGetMany = (
     : getResponse<
         ResourceList<AppVersionPlatVersionPlanApi>,
         AppVersionPlatVersionPlan
-      >(queryParams?.api || _client?.api, config);
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const appVersionPlatVersionPlanGetOne = (
@@ -115,7 +118,7 @@ export const appVersionPlatVersionPlanGetOne = (
 ): Promise<AppVersionPlatVersionPlanApi> => {
   const config: QueryParams<AppVersionPlatVersionPlan> = {
     method: 'get',
-    url: `${queryParams?.url || `/app_version_plat_version_plan/${id}`}`,
+    url: `${queryParams?.url ?? `/app_version_plat_version_plan/${id}`}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -123,7 +126,7 @@ export const appVersionPlatVersionPlanGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersionPlatVersionPlanApi>(config)
     : getResponse<AppVersionPlatVersionPlanApi, AppVersionPlatVersionPlan>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

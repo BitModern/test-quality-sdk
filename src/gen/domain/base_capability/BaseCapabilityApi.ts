@@ -4,10 +4,10 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { BaseCapability } from './BaseCapability';
-import { CapabilityApi } from '../capability/CapabilityApi';
-import { BaseCapabilityBaseIntegrationApi } from '../base_capability_base_integration/BaseCapabilityBaseIntegrationApi';
-import { BaseIntegrationApi } from '../base_integration/BaseIntegrationApi';
+import type { BaseCapability } from './BaseCapability';
+import type { CapabilityApi } from '../capability/CapabilityApi';
+import type { BaseCapabilityBaseIntegrationApi } from '../base_capability_base_integration/BaseCapabilityBaseIntegrationApi';
+import type { BaseIntegrationApi } from '../base_integration/BaseIntegrationApi';
 
 export interface BaseCapabilityApi extends BaseCapability {
   capability?: CapabilityApi[];

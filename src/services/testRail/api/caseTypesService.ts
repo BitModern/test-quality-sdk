@@ -1,6 +1,6 @@
 import { _client } from '../../../ClientSdk';
-import { getResponse, QueryParams } from '../../../gen/actions';
-import { TestRailCaseType } from '../interfaces/TestRailCaseType';
+import { getResponse, type QueryParams } from '../../../gen/actions';
+import { type TestRailCaseType } from '../interfaces/TestRailCaseType';
 
 export const getCaseTypes = (
   queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
@@ -14,7 +14,7 @@ export const getCaseTypes = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestRailCaseType[]>(config)
     : getResponse<TestRailCaseType[], void>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

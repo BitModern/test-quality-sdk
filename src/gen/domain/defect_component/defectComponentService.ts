@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { LookupIntegrationParams } from '../../actions/LookupIntegrationParams';
-import { QueryParams } from '../../actions/QueryParams';
-import { DefectComponentRoute } from '../../routes/Routes';
-import { DefectComponent } from './DefectComponent';
+import type { LookupIntegrationParams } from '../../actions/LookupIntegrationParams';
+import type { QueryParams } from '../../actions/QueryParams';
+import type { DefectComponentRoute } from '../../routes/Routes';
+import type { DefectComponent } from './DefectComponent';
 
 export const defectComponentGetMany = (
   queryParams?: QueryParams<LookupIntegrationParams>,
 ): Promise<DefectComponent[]> => {
   const config: QueryParams<LookupIntegrationParams> = {
     method: 'get',
-    url: queryParams?.url || DefectComponentRoute(),
+    url: queryParams?.url ?? DefectComponentRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -22,7 +22,7 @@ export const defectComponentGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectComponent[]>(config)
     : getResponse<DefectComponent[], LookupIntegrationParams>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

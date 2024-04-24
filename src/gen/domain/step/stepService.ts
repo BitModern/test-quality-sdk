@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { StepRoute } from '../../routes/Routes';
-import { Step } from './Step';
-import { StepApi } from './StepApi';
+import type { Step } from './Step';
+import type { StepApi } from './StepApi';
 
 export const stepGetMany = (
   queryParams?: QueryParams<Step>,
 ): Promise<ResourceList<StepApi>> => {
   const config: QueryParams<Step> = {
     method: 'get',
-    url: queryParams?.url || StepRoute(),
+    url: queryParams?.url ?? StepRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const stepGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<StepApi>>(config)
     : getResponse<ResourceList<StepApi>, Step>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const stepGetOne = (
 ): Promise<StepApi> => {
   const config: QueryParams<Step> = {
     method: 'get',
-    url: `${queryParams?.url || StepRoute()}/${id}`,
+    url: `${queryParams?.url ?? StepRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -44,7 +47,7 @@ export const stepGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StepApi>(config)
-    : getResponse<StepApi, Step>(queryParams?.api || _client?.api, config);
+    : getResponse<StepApi, Step>(queryParams?.api ?? _client?.api, config);
 };
 
 export const stepDeleteOne = (
@@ -53,7 +56,7 @@ export const stepDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Step> = {
     method: 'delete',
-    url: `${queryParams?.url || StepRoute()}/${id}`,
+    url: `${queryParams?.url ?? StepRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -61,7 +64,7 @@ export const stepDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Step>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -73,7 +76,7 @@ export const stepUpdateOne = (
 ): Promise<Step> => {
   const config: QueryParams<Step> = {
     method: 'put',
-    url: `${queryParams?.url || StepRoute()}/${id}`,
+    url: `${queryParams?.url ?? StepRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -81,7 +84,7 @@ export const stepUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Step>(config)
-    : getResponse<Step>(queryParams?.api || _client?.api, config);
+    : getResponse<Step>(queryParams?.api ?? _client?.api, config);
 };
 
 export const stepCreateOne = (
@@ -90,7 +93,7 @@ export const stepCreateOne = (
 ): Promise<Step> => {
   const config: QueryParams<Step> = {
     method: 'post',
-    url: queryParams?.url || StepRoute(),
+    url: queryParams?.url ?? StepRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -98,7 +101,7 @@ export const stepCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Step>(config)
-    : getResponse<Step>(queryParams?.api || _client?.api, config);
+    : getResponse<Step>(queryParams?.api ?? _client?.api, config);
 };
 
 export const stepCreateMany = (
@@ -107,7 +110,7 @@ export const stepCreateMany = (
 ): Promise<Step[]> => {
   const config: QueryParamsWithList<Step> = {
     method: 'post',
-    url: queryParams?.url || StepRoute(),
+    url: queryParams?.url ?? StepRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -115,5 +118,5 @@ export const stepCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Step[]>(config)
-    : getResponse<Step[], Step>(queryParams?.api || _client?.api, config);
+    : getResponse<Step[], Step>(queryParams?.api ?? _client?.api, config);
 };

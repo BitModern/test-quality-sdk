@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { AppInstallProjectRoute } from '../../routes/Routes';
-import { AppInstallProject } from './AppInstallProject';
-import { AppInstallProjectApi } from './AppInstallProjectApi';
+import type { AppInstallProject } from './AppInstallProject';
+import type { AppInstallProjectApi } from './AppInstallProjectApi';
 
 export const appInstallProjectGetMany = (
   queryParams?: QueryParams<AppInstallProject>,
 ): Promise<ResourceList<AppInstallProjectApi>> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'get',
-    url: queryParams?.url || AppInstallProjectRoute(),
+    url: queryParams?.url ?? AppInstallProjectRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const appInstallProjectGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<AppInstallProjectApi>>(config)
     : getResponse<ResourceList<AppInstallProjectApi>, AppInstallProject>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const appInstallProjectGetOne = (
 ): Promise<AppInstallProjectApi> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'get',
-    url: `${queryParams?.url || AppInstallProjectRoute()}/${id}`,
+    url: `${queryParams?.url ?? AppInstallProjectRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const appInstallProjectGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppInstallProjectApi>(config)
     : getResponse<AppInstallProjectApi, AppInstallProject>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const appInstallProjectDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'delete',
-    url: `${queryParams?.url || AppInstallProjectRoute()}/${id}`,
+    url: `${queryParams?.url ?? AppInstallProjectRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const appInstallProjectDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AppInstallProject>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const appInstallProjectUpdateOne = (
 ): Promise<AppInstallProject> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'put',
-    url: `${queryParams?.url || AppInstallProjectRoute()}/${id}`,
+    url: `${queryParams?.url ?? AppInstallProjectRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const appInstallProjectUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppInstallProject>(config)
-    : getResponse<AppInstallProject>(queryParams?.api || _client?.api, config);
+    : getResponse<AppInstallProject>(queryParams?.api ?? _client?.api, config);
 };
 
 export const appInstallProjectCreateOne = (
@@ -93,7 +96,7 @@ export const appInstallProjectCreateOne = (
 ): Promise<AppInstallProject> => {
   const config: QueryParams<AppInstallProject> = {
     method: 'post',
-    url: queryParams?.url || AppInstallProjectRoute(),
+    url: queryParams?.url ?? AppInstallProjectRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const appInstallProjectCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppInstallProject>(config)
-    : getResponse<AppInstallProject>(queryParams?.api || _client?.api, config);
+    : getResponse<AppInstallProject>(queryParams?.api ?? _client?.api, config);
 };
 
 export const appInstallProjectCreateMany = (
@@ -110,7 +113,7 @@ export const appInstallProjectCreateMany = (
 ): Promise<AppInstallProject[]> => {
   const config: QueryParamsWithList<AppInstallProject> = {
     method: 'post',
-    url: queryParams?.url || AppInstallProjectRoute(),
+    url: queryParams?.url ?? AppInstallProjectRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const appInstallProjectCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppInstallProject[]>(config)
     : getResponse<AppInstallProject[], AppInstallProject>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

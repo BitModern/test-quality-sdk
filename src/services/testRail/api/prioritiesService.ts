@@ -1,6 +1,6 @@
 import { _client } from '../../../ClientSdk';
-import { getResponse, QueryParams } from '../../../gen/actions';
-import { TestRailPriority } from '../interfaces/TestRailPriority';
+import { getResponse, type QueryParams } from '../../../gen/actions';
+import { type TestRailPriority } from '../interfaces/TestRailPriority';
 
 export const getPriorities = (
   queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
@@ -14,7 +14,7 @@ export const getPriorities = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestRailPriority[]>(config)
     : getResponse<TestRailPriority[], void>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

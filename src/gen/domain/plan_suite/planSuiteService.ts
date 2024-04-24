@@ -4,11 +4,14 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
-import { PlanSuite } from './PlanSuite';
-import { PlanSuiteApi } from './PlanSuiteApi';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
+import type { PlanSuite } from './PlanSuite';
+import type { PlanSuiteApi } from './PlanSuiteApi';
 
 export const planSuiteDetach = (
   data: Partial<PlanSuite>,
@@ -26,7 +29,7 @@ export const planSuiteDetach = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PlanSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -45,7 +48,7 @@ export const planSuiteUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanSuite>(config)
-    : getResponse<PlanSuite>(queryParams?.api || _client?.api, config);
+    : getResponse<PlanSuite>(queryParams?.api ?? _client?.api, config);
 };
 
 export const planSuiteCreateOne = (
@@ -54,14 +57,14 @@ export const planSuiteCreateOne = (
 ): Promise<PlanSuite> => {
   const config: QueryParams<PlanSuite> = {
     method: 'post',
-    url: queryParams?.url || `/plan_suite`,
+    url: queryParams?.url ?? `/plan_suite`,
     params: queryParams?.params,
     data,
   };
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanSuite>(config)
-    : getResponse<PlanSuite>(queryParams?.api || _client?.api, config);
+    : getResponse<PlanSuite>(queryParams?.api ?? _client?.api, config);
 };
 
 export const planSuiteCreateMany = (
@@ -70,7 +73,7 @@ export const planSuiteCreateMany = (
 ): Promise<PlanSuite[]> => {
   const config: QueryParamsWithList<PlanSuite> = {
     method: 'post',
-    url: queryParams?.url || `/plan_suite`,
+    url: queryParams?.url ?? `/plan_suite`,
     params: queryParams?.params,
     list: data,
   };
@@ -78,7 +81,7 @@ export const planSuiteCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanSuite[]>(config)
     : getResponse<PlanSuite[], PlanSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -88,7 +91,7 @@ export const planSuiteGetMany = (
 ): Promise<ResourceList<PlanSuiteApi>> => {
   const config: QueryParams<PlanSuite> = {
     method: 'get',
-    url: queryParams?.url || `/plan_suite`,
+    url: queryParams?.url ?? `/plan_suite`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -96,7 +99,7 @@ export const planSuiteGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PlanSuiteApi>>(config)
     : getResponse<ResourceList<PlanSuiteApi>, PlanSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -107,7 +110,7 @@ export const planSuiteGetOne = (
 ): Promise<PlanSuiteApi> => {
   const config: QueryParams<PlanSuite> = {
     method: 'get',
-    url: `${queryParams?.url || `/plan_suite/${id}`}`,
+    url: `${queryParams?.url ?? `/plan_suite/${id}`}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -115,7 +118,7 @@ export const planSuiteGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanSuiteApi>(config)
     : getResponse<PlanSuiteApi, PlanSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

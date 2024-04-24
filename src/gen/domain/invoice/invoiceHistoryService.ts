@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { InvoiceRoute } from '../../routes/Routes';
-import { Invoice } from './Invoice';
-import { InvoiceHistory } from './InvoiceHistory';
+import type { Invoice } from './Invoice';
+import type { InvoiceHistory } from './InvoiceHistory';
 
 export const invoiceHistoryGet = (
   queryParams?: QueryParams<Invoice>,
 ): Promise<InvoiceHistory[]> => {
   const config: QueryParams<Invoice> = {
     method: 'get',
-    url: `${queryParams?.url || InvoiceRoute()}${
+    url: `${queryParams?.url ?? InvoiceRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const invoiceHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<InvoiceHistory[]>(config)
     : getResponse<InvoiceHistory[], Invoice>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

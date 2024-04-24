@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { AttachmentRoute } from '../../routes/Routes';
-import { Attachment } from './Attachment';
-import { AttachmentHistory } from './AttachmentHistory';
+import type { Attachment } from './Attachment';
+import type { AttachmentHistory } from './AttachmentHistory';
 
 export const attachmentHistoryGet = (
   queryParams?: QueryParams<Attachment>,
 ): Promise<AttachmentHistory[]> => {
   const config: QueryParams<Attachment> = {
     method: 'get',
-    url: `${queryParams?.url || AttachmentRoute()}${
+    url: `${queryParams?.url ?? AttachmentRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const attachmentHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AttachmentHistory[]>(config)
     : getResponse<AttachmentHistory[], Attachment>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

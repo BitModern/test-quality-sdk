@@ -4,11 +4,14 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
-import { IntegrationUser } from './IntegrationUser';
-import { IntegrationUserApi } from './IntegrationUserApi';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
+import type { IntegrationUser } from './IntegrationUser';
+import type { IntegrationUserApi } from './IntegrationUserApi';
 
 export const integrationUserDetach = (
   data: Partial<IntegrationUser>,
@@ -26,7 +29,7 @@ export const integrationUserDetach = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, IntegrationUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -45,7 +48,7 @@ export const integrationUserUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationUser>(config)
-    : getResponse<IntegrationUser>(queryParams?.api || _client?.api, config);
+    : getResponse<IntegrationUser>(queryParams?.api ?? _client?.api, config);
 };
 
 export const integrationUserCreateOne = (
@@ -54,14 +57,14 @@ export const integrationUserCreateOne = (
 ): Promise<IntegrationUser> => {
   const config: QueryParams<IntegrationUser> = {
     method: 'post',
-    url: queryParams?.url || `/integration_user`,
+    url: queryParams?.url ?? `/integration_user`,
     params: queryParams?.params,
     data,
   };
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationUser>(config)
-    : getResponse<IntegrationUser>(queryParams?.api || _client?.api, config);
+    : getResponse<IntegrationUser>(queryParams?.api ?? _client?.api, config);
 };
 
 export const integrationUserCreateMany = (
@@ -70,7 +73,7 @@ export const integrationUserCreateMany = (
 ): Promise<IntegrationUser[]> => {
   const config: QueryParamsWithList<IntegrationUser> = {
     method: 'post',
-    url: queryParams?.url || `/integration_user`,
+    url: queryParams?.url ?? `/integration_user`,
     params: queryParams?.params,
     list: data,
   };
@@ -78,7 +81,7 @@ export const integrationUserCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationUser[]>(config)
     : getResponse<IntegrationUser[], IntegrationUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -88,7 +91,7 @@ export const integrationUserGetMany = (
 ): Promise<ResourceList<IntegrationUserApi>> => {
   const config: QueryParams<IntegrationUser> = {
     method: 'get',
-    url: queryParams?.url || `/integration_user`,
+    url: queryParams?.url ?? `/integration_user`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -96,7 +99,7 @@ export const integrationUserGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<IntegrationUserApi>>(config)
     : getResponse<ResourceList<IntegrationUserApi>, IntegrationUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -107,7 +110,7 @@ export const integrationUserGetOne = (
 ): Promise<IntegrationUserApi> => {
   const config: QueryParams<IntegrationUser> = {
     method: 'get',
-    url: `${queryParams?.url || `/integration_user/${id}`}`,
+    url: `${queryParams?.url ?? `/integration_user/${id}`}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -115,7 +118,7 @@ export const integrationUserGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationUserApi>(config)
     : getResponse<IntegrationUserApi, IntegrationUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

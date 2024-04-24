@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { SharedPreconditionRoute } from '../../routes/Routes';
-import { SharedPrecondition } from './SharedPrecondition';
-import { SharedPreconditionHistory } from './SharedPreconditionHistory';
+import type { SharedPrecondition } from './SharedPrecondition';
+import type { SharedPreconditionHistory } from './SharedPreconditionHistory';
 
 export const sharedPreconditionHistoryGet = (
   queryParams?: QueryParams<SharedPrecondition>,
 ): Promise<SharedPreconditionHistory[]> => {
   const config: QueryParams<SharedPrecondition> = {
     method: 'get',
-    url: `${queryParams?.url || SharedPreconditionRoute()}${
+    url: `${queryParams?.url ?? SharedPreconditionRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const sharedPreconditionHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SharedPreconditionHistory[]>(config)
     : getResponse<SharedPreconditionHistory[], SharedPrecondition>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

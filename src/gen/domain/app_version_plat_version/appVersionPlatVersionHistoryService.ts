@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { AppVersionPlatVersionRoute } from '../../routes/Routes';
-import { AppVersionPlatVersion } from './AppVersionPlatVersion';
-import { AppVersionPlatVersionHistory } from './AppVersionPlatVersionHistory';
+import type { AppVersionPlatVersion } from './AppVersionPlatVersion';
+import type { AppVersionPlatVersionHistory } from './AppVersionPlatVersionHistory';
 
 export const appVersionPlatVersionHistoryGet = (
   queryParams?: QueryParams<AppVersionPlatVersion>,
 ): Promise<AppVersionPlatVersionHistory[]> => {
   const config: QueryParams<AppVersionPlatVersion> = {
     method: 'get',
-    url: `${queryParams?.url || AppVersionPlatVersionRoute()}${
+    url: `${queryParams?.url ?? AppVersionPlatVersionRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const appVersionPlatVersionHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppVersionPlatVersionHistory[]>(config)
     : getResponse<AppVersionPlatVersionHistory[], AppVersionPlatVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

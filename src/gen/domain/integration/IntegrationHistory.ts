@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Integration } from './Integration';
+import type { Integration } from './Integration';
 
 export interface IntegrationHistory extends Integration {
   _id: string;

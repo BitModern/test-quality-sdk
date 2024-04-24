@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Test } from './Test';
+import type { Test } from './Test';
 
 export interface TestHistory extends Test {
   _id: string;

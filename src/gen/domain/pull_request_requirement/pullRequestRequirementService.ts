@@ -4,11 +4,14 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
-import { PullRequestRequirement } from './PullRequestRequirement';
-import { PullRequestRequirementApi } from './PullRequestRequirementApi';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
+import type { PullRequestRequirement } from './PullRequestRequirement';
+import type { PullRequestRequirementApi } from './PullRequestRequirementApi';
 
 export const pullRequestRequirementDetach = (
   data: Partial<PullRequestRequirement>,
@@ -26,7 +29,7 @@ export const pullRequestRequirementDetach = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PullRequestRequirement>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -46,7 +49,7 @@ export const pullRequestRequirementUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRequirement>(config)
     : getResponse<PullRequestRequirement>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -57,7 +60,7 @@ export const pullRequestRequirementCreateOne = (
 ): Promise<PullRequestRequirement> => {
   const config: QueryParams<PullRequestRequirement> = {
     method: 'post',
-    url: queryParams?.url || `/pull_request_requirement`,
+    url: queryParams?.url ?? `/pull_request_requirement`,
     params: queryParams?.params,
     data,
   };
@@ -65,7 +68,7 @@ export const pullRequestRequirementCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRequirement>(config)
     : getResponse<PullRequestRequirement>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const pullRequestRequirementCreateMany = (
 ): Promise<PullRequestRequirement[]> => {
   const config: QueryParamsWithList<PullRequestRequirement> = {
     method: 'post',
-    url: queryParams?.url || `/pull_request_requirement`,
+    url: queryParams?.url ?? `/pull_request_requirement`,
     params: queryParams?.params,
     list: data,
   };
@@ -84,7 +87,7 @@ export const pullRequestRequirementCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRequirement[]>(config)
     : getResponse<PullRequestRequirement[], PullRequestRequirement>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -94,7 +97,7 @@ export const pullRequestRequirementGetMany = (
 ): Promise<ResourceList<PullRequestRequirementApi>> => {
   const config: QueryParams<PullRequestRequirement> = {
     method: 'get',
-    url: queryParams?.url || `/pull_request_requirement`,
+    url: queryParams?.url ?? `/pull_request_requirement`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -106,7 +109,7 @@ export const pullRequestRequirementGetMany = (
     : getResponse<
         ResourceList<PullRequestRequirementApi>,
         PullRequestRequirement
-      >(queryParams?.api || _client?.api, config);
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const pullRequestRequirementGetOne = (
@@ -115,7 +118,7 @@ export const pullRequestRequirementGetOne = (
 ): Promise<PullRequestRequirementApi> => {
   const config: QueryParams<PullRequestRequirement> = {
     method: 'get',
-    url: `${queryParams?.url || `/pull_request_requirement/${id}`}`,
+    url: `${queryParams?.url ?? `/pull_request_requirement/${id}`}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -123,7 +126,7 @@ export const pullRequestRequirementGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRequirementApi>(config)
     : getResponse<PullRequestRequirementApi, PullRequestRequirement>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

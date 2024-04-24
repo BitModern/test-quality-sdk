@@ -4,18 +4,18 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Suite } from './Suite';
-import { ProjectApi } from '../project/ProjectApi';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
-import { RequirementTestApi } from '../requirement_test/RequirementTestApi';
-import { SuiteTestApi } from '../suite_test/SuiteTestApi';
-import { TestApi } from '../test/TestApi';
-import { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
-import { PlanApi } from '../plan/PlanApi';
-import { RunResultApi } from '../run_result/RunResultApi';
-import { CommentApi } from '../comment/CommentApi';
-import { WatchApi } from '../watch/WatchApi';
+import type { Suite } from './Suite';
+import type { ProjectApi } from '../project/ProjectApi';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
+import type { RequirementTestApi } from '../requirement_test/RequirementTestApi';
+import type { SuiteTestApi } from '../suite_test/SuiteTestApi';
+import type { TestApi } from '../test/TestApi';
+import type { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
+import type { PlanApi } from '../plan/PlanApi';
+import type { RunResultApi } from '../run_result/RunResultApi';
+import type { CommentApi } from '../comment/CommentApi';
+import type { WatchApi } from '../watch/WatchApi';
 
 export interface SuiteApi extends Suite {
   project?: ProjectApi;

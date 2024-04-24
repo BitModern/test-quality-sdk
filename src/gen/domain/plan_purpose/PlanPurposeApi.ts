@@ -4,9 +4,9 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { PlanPurpose } from './PlanPurpose';
-import { PurposeApi } from '../purpose/PurposeApi';
-import { PlanApi } from '../plan/PlanApi';
+import type { PlanPurpose } from './PlanPurpose';
+import type { PurposeApi } from '../purpose/PurposeApi';
+import type { PlanApi } from '../plan/PlanApi';
 
 export interface PlanPurposeApi extends PlanPurpose {
   purpose?: PurposeApi;

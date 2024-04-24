@@ -1,4 +1,4 @@
-import { LoggerInterface } from './LoggerInterface';
+import { type LoggerInterface } from './LoggerInterface';
 
 /**
  * core.Log
@@ -26,7 +26,7 @@ export abstract class LoggerBase implements LoggerInterface {
   protected scope?: string;
 
   constructor(scope?: string) {
-    this.scope = LoggerBase.parsePathToScope(scope || LoggerBase.DEFAULT_SCOPE);
+    this.scope = LoggerBase.parsePathToScope(scope ?? LoggerBase.DEFAULT_SCOPE);
   }
 
   public debug(message: string, ...args: any[]): void {

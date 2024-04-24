@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { CouponRoute } from '../../routes/Routes';
-import { Coupon } from './Coupon';
-import { CouponApi } from './CouponApi';
+import type { Coupon } from './Coupon';
+import type { CouponApi } from './CouponApi';
 
 export const couponGetMany = (
   queryParams?: QueryParams<Coupon>,
 ): Promise<ResourceList<CouponApi>> => {
   const config: QueryParams<Coupon> = {
     method: 'get',
-    url: queryParams?.url || CouponRoute(),
+    url: queryParams?.url ?? CouponRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const couponGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<CouponApi>>(config)
     : getResponse<ResourceList<CouponApi>, Coupon>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const couponGetOne = (
 ): Promise<CouponApi> => {
   const config: QueryParams<Coupon> = {
     method: 'get',
-    url: `${queryParams?.url || CouponRoute()}/${id}`,
+    url: `${queryParams?.url ?? CouponRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -44,7 +47,7 @@ export const couponGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CouponApi>(config)
-    : getResponse<CouponApi, Coupon>(queryParams?.api || _client?.api, config);
+    : getResponse<CouponApi, Coupon>(queryParams?.api ?? _client?.api, config);
 };
 
 export const couponDeleteOne = (
@@ -53,7 +56,7 @@ export const couponDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Coupon> = {
     method: 'delete',
-    url: `${queryParams?.url || CouponRoute()}/${id}`,
+    url: `${queryParams?.url ?? CouponRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -61,7 +64,7 @@ export const couponDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Coupon>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -73,7 +76,7 @@ export const couponUpdateOne = (
 ): Promise<Coupon> => {
   const config: QueryParams<Coupon> = {
     method: 'put',
-    url: `${queryParams?.url || CouponRoute()}/${id}`,
+    url: `${queryParams?.url ?? CouponRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -81,7 +84,7 @@ export const couponUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Coupon>(config)
-    : getResponse<Coupon>(queryParams?.api || _client?.api, config);
+    : getResponse<Coupon>(queryParams?.api ?? _client?.api, config);
 };
 
 export const couponCreateOne = (
@@ -90,7 +93,7 @@ export const couponCreateOne = (
 ): Promise<Coupon> => {
   const config: QueryParams<Coupon> = {
     method: 'post',
-    url: queryParams?.url || CouponRoute(),
+    url: queryParams?.url ?? CouponRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -98,7 +101,7 @@ export const couponCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Coupon>(config)
-    : getResponse<Coupon>(queryParams?.api || _client?.api, config);
+    : getResponse<Coupon>(queryParams?.api ?? _client?.api, config);
 };
 
 export const couponCreateMany = (
@@ -107,7 +110,7 @@ export const couponCreateMany = (
 ): Promise<Coupon[]> => {
   const config: QueryParamsWithList<Coupon> = {
     method: 'post',
-    url: queryParams?.url || CouponRoute(),
+    url: queryParams?.url ?? CouponRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -115,5 +118,5 @@ export const couponCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Coupon[]>(config)
-    : getResponse<Coupon[], Coupon>(queryParams?.api || _client?.api, config);
+    : getResponse<Coupon[], Coupon>(queryParams?.api ?? _client?.api, config);
 };

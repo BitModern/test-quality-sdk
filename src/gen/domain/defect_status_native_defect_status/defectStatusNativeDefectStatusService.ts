@@ -4,11 +4,14 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
-import { DefectStatusNativeDefectStatus } from './DefectStatusNativeDefectStatus';
-import { DefectStatusNativeDefectStatusApi } from './DefectStatusNativeDefectStatusApi';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
+import type { DefectStatusNativeDefectStatus } from './DefectStatusNativeDefectStatus';
+import type { DefectStatusNativeDefectStatusApi } from './DefectStatusNativeDefectStatusApi';
 
 export const defectStatusNativeDefectStatusDetach = (
   data: Partial<DefectStatusNativeDefectStatus>,
@@ -26,7 +29,7 @@ export const defectStatusNativeDefectStatusDetach = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, DefectStatusNativeDefectStatus>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -46,7 +49,7 @@ export const defectStatusNativeDefectStatusUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectStatusNativeDefectStatus>(config)
     : getResponse<DefectStatusNativeDefectStatus>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -57,7 +60,7 @@ export const defectStatusNativeDefectStatusCreateOne = (
 ): Promise<DefectStatusNativeDefectStatus> => {
   const config: QueryParams<DefectStatusNativeDefectStatus> = {
     method: 'post',
-    url: queryParams?.url || `/defect_status_native_defect_status`,
+    url: queryParams?.url ?? `/defect_status_native_defect_status`,
     params: queryParams?.params,
     data,
   };
@@ -65,7 +68,7 @@ export const defectStatusNativeDefectStatusCreateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectStatusNativeDefectStatus>(config)
     : getResponse<DefectStatusNativeDefectStatus>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const defectStatusNativeDefectStatusCreateMany = (
 ): Promise<DefectStatusNativeDefectStatus[]> => {
   const config: QueryParamsWithList<DefectStatusNativeDefectStatus> = {
     method: 'post',
-    url: queryParams?.url || `/defect_status_native_defect_status`,
+    url: queryParams?.url ?? `/defect_status_native_defect_status`,
     params: queryParams?.params,
     list: data,
   };
@@ -86,7 +89,7 @@ export const defectStatusNativeDefectStatusCreateMany = (
     : getResponse<
         DefectStatusNativeDefectStatus[],
         DefectStatusNativeDefectStatus
-      >(queryParams?.api || _client?.api, config);
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const defectStatusNativeDefectStatusGetMany = (
@@ -94,7 +97,7 @@ export const defectStatusNativeDefectStatusGetMany = (
 ): Promise<ResourceList<DefectStatusNativeDefectStatusApi>> => {
   const config: QueryParams<DefectStatusNativeDefectStatus> = {
     method: 'get',
-    url: queryParams?.url || `/defect_status_native_defect_status`,
+    url: queryParams?.url ?? `/defect_status_native_defect_status`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -106,7 +109,7 @@ export const defectStatusNativeDefectStatusGetMany = (
     : getResponse<
         ResourceList<DefectStatusNativeDefectStatusApi>,
         DefectStatusNativeDefectStatus
-      >(queryParams?.api || _client?.api, config);
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const defectStatusNativeDefectStatusGetOne = (
@@ -115,7 +118,7 @@ export const defectStatusNativeDefectStatusGetOne = (
 ): Promise<DefectStatusNativeDefectStatusApi> => {
   const config: QueryParams<DefectStatusNativeDefectStatus> = {
     method: 'get',
-    url: `${queryParams?.url || `/defect_status_native_defect_status/${id}`}`,
+    url: `${queryParams?.url ?? `/defect_status_native_defect_status/${id}`}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -125,5 +128,5 @@ export const defectStatusNativeDefectStatusGetOne = (
     : getResponse<
         DefectStatusNativeDefectStatusApi,
         DefectStatusNativeDefectStatus
-      >(queryParams?.api || _client?.api, config);
+      >(queryParams?.api ?? _client?.api, config);
 };

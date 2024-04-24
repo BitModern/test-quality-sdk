@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { ProductRoute } from '../../routes/Routes';
-import { Product } from './Product';
-import { ProductHistory } from './ProductHistory';
+import type { Product } from './Product';
+import type { ProductHistory } from './ProductHistory';
 
 export const productHistoryGet = (
   queryParams?: QueryParams<Product>,
 ): Promise<ProductHistory[]> => {
   const config: QueryParams<Product> = {
     method: 'get',
-    url: `${queryParams?.url || ProductRoute()}${
+    url: `${queryParams?.url ?? ProductRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const productHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ProductHistory[]>(config)
     : getResponse<ProductHistory[], Product>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

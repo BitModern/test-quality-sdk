@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { DefectRes } from './DefectRes';
+import type { DefectRes } from './DefectRes';
 
 export interface DefectResHistory extends DefectRes {
   _id: string;

@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Milestone } from './Milestone';
+import type { Milestone } from './Milestone';
 
 export interface MilestoneHistory extends Milestone {
   _id: string;

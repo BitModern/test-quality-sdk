@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { DefectRoute } from '../../routes/Routes';
-import { Defect } from './Defect';
-import { DefectApi } from './DefectApi';
+import type { Defect } from './Defect';
+import type { DefectApi } from './DefectApi';
 
 export const defectGetMany = (
   queryParams?: QueryParams<Defect>,
 ): Promise<ResourceList<DefectApi>> => {
   const config: QueryParams<Defect> = {
     method: 'get',
-    url: queryParams?.url || DefectRoute(),
+    url: queryParams?.url ?? DefectRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const defectGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<DefectApi>>(config)
     : getResponse<ResourceList<DefectApi>, Defect>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const defectGetOne = (
 ): Promise<DefectApi> => {
   const config: QueryParams<Defect> = {
     method: 'get',
-    url: `${queryParams?.url || DefectRoute()}/${id}`,
+    url: `${queryParams?.url ?? DefectRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -44,7 +47,7 @@ export const defectGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectApi>(config)
-    : getResponse<DefectApi, Defect>(queryParams?.api || _client?.api, config);
+    : getResponse<DefectApi, Defect>(queryParams?.api ?? _client?.api, config);
 };
 
 export const defectDeleteOne = (
@@ -53,7 +56,7 @@ export const defectDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Defect> = {
     method: 'delete',
-    url: `${queryParams?.url || DefectRoute()}/${id}`,
+    url: `${queryParams?.url ?? DefectRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -61,7 +64,7 @@ export const defectDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Defect>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -73,7 +76,7 @@ export const defectUpdateOne = (
 ): Promise<Defect> => {
   const config: QueryParams<Defect> = {
     method: 'put',
-    url: `${queryParams?.url || DefectRoute()}/${id}`,
+    url: `${queryParams?.url ?? DefectRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -81,7 +84,7 @@ export const defectUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Defect>(config)
-    : getResponse<Defect>(queryParams?.api || _client?.api, config);
+    : getResponse<Defect>(queryParams?.api ?? _client?.api, config);
 };
 
 export const defectCreateOne = (
@@ -90,7 +93,7 @@ export const defectCreateOne = (
 ): Promise<Defect> => {
   const config: QueryParams<Defect> = {
     method: 'post',
-    url: queryParams?.url || DefectRoute(),
+    url: queryParams?.url ?? DefectRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -98,7 +101,7 @@ export const defectCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Defect>(config)
-    : getResponse<Defect>(queryParams?.api || _client?.api, config);
+    : getResponse<Defect>(queryParams?.api ?? _client?.api, config);
 };
 
 export const defectCreateMany = (
@@ -107,7 +110,7 @@ export const defectCreateMany = (
 ): Promise<Defect[]> => {
   const config: QueryParamsWithList<Defect> = {
     method: 'post',
-    url: queryParams?.url || DefectRoute(),
+    url: queryParams?.url ?? DefectRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -115,5 +118,5 @@ export const defectCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Defect[]>(config)
-    : getResponse<Defect[], Defect>(queryParams?.api || _client?.api, config);
+    : getResponse<Defect[], Defect>(queryParams?.api ?? _client?.api, config);
 };

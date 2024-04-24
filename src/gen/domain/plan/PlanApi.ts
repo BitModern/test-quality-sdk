@@ -4,21 +4,21 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Plan } from './Plan';
-import { ProjectApi } from '../project/ProjectApi';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { AttachmentApi } from '../attachment/AttachmentApi';
-import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
-import { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
-import { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
-import { SuiteApi } from '../suite/SuiteApi';
-import { AppVersionPlatVersionPlanApi } from '../app_version_plat_version_plan/AppVersionPlatVersionPlanApi';
-import { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
-import { RunApi } from '../run/RunApi';
-import { PlanPurposeApi } from '../plan_purpose/PlanPurposeApi';
-import { PurposeApi } from '../purpose/PurposeApi';
-import { CommentApi } from '../comment/CommentApi';
-import { WatchApi } from '../watch/WatchApi';
+import type { Plan } from './Plan';
+import type { ProjectApi } from '../project/ProjectApi';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { AttachmentApi } from '../attachment/AttachmentApi';
+import type { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
+import type { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
+import type { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
+import type { SuiteApi } from '../suite/SuiteApi';
+import type { AppVersionPlatVersionPlanApi } from '../app_version_plat_version_plan/AppVersionPlatVersionPlanApi';
+import type { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
+import type { RunApi } from '../run/RunApi';
+import type { PlanPurposeApi } from '../plan_purpose/PlanPurposeApi';
+import type { PurposeApi } from '../purpose/PurposeApi';
+import type { CommentApi } from '../comment/CommentApi';
+import type { WatchApi } from '../watch/WatchApi';
 
 export interface PlanApi extends Plan {
   project?: ProjectApi;

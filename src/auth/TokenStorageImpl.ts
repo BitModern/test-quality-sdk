@@ -1,12 +1,12 @@
-import { TokenStorage } from '../TokenStorage';
-import { PersistentStorage } from '../PersistentStorage';
-import { ReturnToken } from './ReturnToken';
+import { type TokenStorage } from '../TokenStorage';
+import { type PersistentStorage } from '../PersistentStorage';
+import { type ReturnToken } from './ReturnToken';
 
 export class TokenStorageImpl implements TokenStorage {
   private token?: ReturnToken;
   private remember?: boolean;
 
-  constructor(private persistentStorage?: PersistentStorage) {}
+  constructor(private readonly persistentStorage?: PersistentStorage) {}
 
   public async getRemember(): Promise<boolean | undefined> {
     if (this.remember === undefined && this.persistentStorage) {
@@ -27,8 +27,7 @@ export class TokenStorageImpl implements TokenStorage {
     remember?: boolean,
   ): Promise<ReturnToken | undefined> {
     this.token = token;
-    this.remember =
-      remember !== undefined ? remember : await this.getRemember();
+    this.remember = remember ?? (await this.getRemember());
     if (this.persistentStorage) {
       if (this.remember) {
         await this.persistentStorage.set('token', token);

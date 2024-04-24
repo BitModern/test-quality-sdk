@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Filter } from './Filter';
+import type { Filter } from './Filter';
 
 export interface FilterHistory extends Filter {
   _id: string;

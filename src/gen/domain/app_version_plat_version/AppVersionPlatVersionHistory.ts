@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { AppVersionPlatVersion } from './AppVersionPlatVersion';
+import type { AppVersionPlatVersion } from './AppVersionPlatVersion';
 
 export interface AppVersionPlatVersionHistory extends AppVersionPlatVersion {
   _id: string;

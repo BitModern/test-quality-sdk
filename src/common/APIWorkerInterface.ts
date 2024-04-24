@@ -1,6 +1,6 @@
-import { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { AuthCallback, ReturnToken } from '../auth';
-import { BatchRequest, BatchResponses } from '../services/http';
+import { type AxiosResponse, type AxiosRequestConfig } from 'axios';
+import { type AuthCallback, type ReturnToken } from '../auth';
+import { type BatchRequest, type BatchResponses } from '../services/http';
 
 export interface APIWorkerInterface {
   postBatch: (

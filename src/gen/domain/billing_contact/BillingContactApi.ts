@@ -4,9 +4,9 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { BillingContact } from './BillingContact';
-import { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
-import { UserApi } from '../user/UserApi';
+import type { BillingContact } from './BillingContact';
+import type { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
+import type { UserApi } from '../user/UserApi';
 
 export interface BillingContactApi extends BillingContact {
   subscriptions?: SubscriptionsApi;

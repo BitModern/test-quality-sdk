@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { CommentRoute } from '../../routes/Routes';
-import { Comment } from './Comment';
-import { CommentApi } from './CommentApi';
+import type { Comment } from './Comment';
+import type { CommentApi } from './CommentApi';
 
 export const commentGetMany = (
   queryParams?: QueryParams<Comment>,
 ): Promise<ResourceList<CommentApi>> => {
   const config: QueryParams<Comment> = {
     method: 'get',
-    url: queryParams?.url || CommentRoute(),
+    url: queryParams?.url ?? CommentRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const commentGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<CommentApi>>(config)
     : getResponse<ResourceList<CommentApi>, Comment>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const commentGetOne = (
 ): Promise<CommentApi> => {
   const config: QueryParams<Comment> = {
     method: 'get',
-    url: `${queryParams?.url || CommentRoute()}/${id}`,
+    url: `${queryParams?.url ?? CommentRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const commentGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CommentApi>(config)
     : getResponse<CommentApi, Comment>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const commentDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Comment> = {
     method: 'delete',
-    url: `${queryParams?.url || CommentRoute()}/${id}`,
+    url: `${queryParams?.url ?? CommentRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const commentDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Comment>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const commentUpdateOne = (
 ): Promise<Comment> => {
   const config: QueryParams<Comment> = {
     method: 'put',
-    url: `${queryParams?.url || CommentRoute()}/${id}`,
+    url: `${queryParams?.url ?? CommentRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const commentUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Comment>(config)
-    : getResponse<Comment>(queryParams?.api || _client?.api, config);
+    : getResponse<Comment>(queryParams?.api ?? _client?.api, config);
 };
 
 export const commentCreateOne = (
@@ -93,7 +96,7 @@ export const commentCreateOne = (
 ): Promise<Comment> => {
   const config: QueryParams<Comment> = {
     method: 'post',
-    url: queryParams?.url || CommentRoute(),
+    url: queryParams?.url ?? CommentRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const commentCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Comment>(config)
-    : getResponse<Comment>(queryParams?.api || _client?.api, config);
+    : getResponse<Comment>(queryParams?.api ?? _client?.api, config);
 };
 
 export const commentCreateMany = (
@@ -110,7 +113,7 @@ export const commentCreateMany = (
 ): Promise<Comment[]> => {
   const config: QueryParamsWithList<Comment> = {
     method: 'post',
-    url: queryParams?.url || CommentRoute(),
+    url: queryParams?.url ?? CommentRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -118,5 +121,5 @@ export const commentCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Comment[]>(config)
-    : getResponse<Comment[], Comment>(queryParams?.api || _client?.api, config);
+    : getResponse<Comment[], Comment>(queryParams?.api ?? _client?.api, config);
 };

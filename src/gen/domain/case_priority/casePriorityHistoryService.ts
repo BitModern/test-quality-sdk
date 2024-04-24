@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { CasePriorityRoute } from '../../routes/Routes';
-import { CasePriority } from './CasePriority';
-import { CasePriorityHistory } from './CasePriorityHistory';
+import type { CasePriority } from './CasePriority';
+import type { CasePriorityHistory } from './CasePriorityHistory';
 
 export const casePriorityHistoryGet = (
   queryParams?: QueryParams<CasePriority>,
 ): Promise<CasePriorityHistory[]> => {
   const config: QueryParams<CasePriority> = {
     method: 'get',
-    url: `${queryParams?.url || CasePriorityRoute()}${
+    url: `${queryParams?.url ?? CasePriorityRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const casePriorityHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CasePriorityHistory[]>(config)
     : getResponse<CasePriorityHistory[], CasePriority>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

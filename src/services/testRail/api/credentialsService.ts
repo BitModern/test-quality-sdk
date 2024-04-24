@@ -1,6 +1,6 @@
 import { _client } from '../../../ClientSdk';
-import { getResponse, QueryParams } from '../../../gen/actions';
-import { TestRailCredentials } from '../interfaces/TestRailCredentials';
+import { getResponse, type QueryParams } from '../../../gen/actions';
+import { type TestRailCredentials } from '../interfaces/TestRailCredentials';
 
 export const clearCredentials = (
   queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
@@ -13,7 +13,7 @@ export const clearCredentials = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<any>(config)
-    : getResponse<any, void>(queryParams?.api || _client?.api, config);
+    : getResponse<any, void>(queryParams?.api ?? _client?.api, config);
 };
 
 export const getCredentials = (
@@ -28,7 +28,7 @@ export const getCredentials = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestRailCredentials | null>(config)
     : getResponse<TestRailCredentials | null, void>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -47,7 +47,7 @@ export const postCredentials = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestRailCredentials>(config)
     : getResponse<any, TestRailCredentials>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

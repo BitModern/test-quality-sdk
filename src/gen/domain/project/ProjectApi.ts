@@ -4,28 +4,28 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Project } from './Project';
-import { AccessRoleApi } from '../access_role/AccessRoleApi';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { RequirementApi } from '../requirement/RequirementApi';
-import { AttachmentApi } from '../attachment/AttachmentApi';
-import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
-import { FilterApi } from '../filter/FilterApi';
-import { DataSetApi } from '../data_set/DataSetApi';
-import { RunSuiteApi } from '../run_suite/RunSuiteApi';
-import { PlanApi } from '../plan/PlanApi';
-import { SuiteApi } from '../suite/SuiteApi';
-import { TestApi } from '../test/TestApi';
-import { MilestoneApi } from '../milestone/MilestoneApi';
-import { StepApi } from '../step/StepApi';
-import { RunResultApi } from '../run_result/RunResultApi';
-import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
-import { RunApi } from '../run/RunApi';
-import { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
-import { IntegrationApi } from '../integration/IntegrationApi';
-import { CommentApi } from '../comment/CommentApi';
-import { WatchApi } from '../watch/WatchApi';
-import { DefectApi } from '../defect/DefectApi';
+import type { Project } from './Project';
+import type { AccessRoleApi } from '../access_role/AccessRoleApi';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { RequirementApi } from '../requirement/RequirementApi';
+import type { AttachmentApi } from '../attachment/AttachmentApi';
+import type { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
+import type { FilterApi } from '../filter/FilterApi';
+import type { DataSetApi } from '../data_set/DataSetApi';
+import type { RunSuiteApi } from '../run_suite/RunSuiteApi';
+import type { PlanApi } from '../plan/PlanApi';
+import type { SuiteApi } from '../suite/SuiteApi';
+import type { TestApi } from '../test/TestApi';
+import type { MilestoneApi } from '../milestone/MilestoneApi';
+import type { StepApi } from '../step/StepApi';
+import type { RunResultApi } from '../run_result/RunResultApi';
+import type { RunResultStepApi } from '../run_result_step/RunResultStepApi';
+import type { RunApi } from '../run/RunApi';
+import type { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
+import type { IntegrationApi } from '../integration/IntegrationApi';
+import type { CommentApi } from '../comment/CommentApi';
+import type { WatchApi } from '../watch/WatchApi';
+import type { DefectApi } from '../defect/DefectApi';
 
 export interface ProjectApi extends Project {
   access_role?: AccessRoleApi;

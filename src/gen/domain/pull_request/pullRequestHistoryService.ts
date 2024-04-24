@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { PullRequestRoute } from '../../routes/Routes';
-import { PullRequest } from './PullRequest';
-import { PullRequestHistory } from './PullRequestHistory';
+import type { PullRequest } from './PullRequest';
+import type { PullRequestHistory } from './PullRequestHistory';
 
 export const pullRequestHistoryGet = (
   queryParams?: QueryParams<PullRequest>,
 ): Promise<PullRequestHistory[]> => {
   const config: QueryParams<PullRequest> = {
     method: 'get',
-    url: `${queryParams?.url || PullRequestRoute()}${
+    url: `${queryParams?.url ?? PullRequestRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const pullRequestHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestHistory[]>(config)
     : getResponse<PullRequestHistory[], PullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

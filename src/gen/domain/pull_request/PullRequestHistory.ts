@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { PullRequest } from './PullRequest';
+import type { PullRequest } from './PullRequest';
 
 export interface PullRequestHistory extends PullRequest {
   _id: string;

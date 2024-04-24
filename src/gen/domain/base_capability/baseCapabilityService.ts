@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { BaseCapabilityRoute } from '../../routes/Routes';
-import { BaseCapability } from './BaseCapability';
-import { BaseCapabilityApi } from './BaseCapabilityApi';
+import type { BaseCapability } from './BaseCapability';
+import type { BaseCapabilityApi } from './BaseCapabilityApi';
 
 export const baseCapabilityGetMany = (
   queryParams?: QueryParams<BaseCapability>,
 ): Promise<ResourceList<BaseCapabilityApi>> => {
   const config: QueryParams<BaseCapability> = {
     method: 'get',
-    url: queryParams?.url || BaseCapabilityRoute(),
+    url: queryParams?.url ?? BaseCapabilityRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const baseCapabilityGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<BaseCapabilityApi>>(config)
     : getResponse<ResourceList<BaseCapabilityApi>, BaseCapability>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const baseCapabilityGetOne = (
 ): Promise<BaseCapabilityApi> => {
   const config: QueryParams<BaseCapability> = {
     method: 'get',
-    url: `${queryParams?.url || BaseCapabilityRoute()}/${id}`,
+    url: `${queryParams?.url ?? BaseCapabilityRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const baseCapabilityGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseCapabilityApi>(config)
     : getResponse<BaseCapabilityApi, BaseCapability>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const baseCapabilityDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<BaseCapability> = {
     method: 'delete',
-    url: `${queryParams?.url || BaseCapabilityRoute()}/${id}`,
+    url: `${queryParams?.url ?? BaseCapabilityRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const baseCapabilityDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, BaseCapability>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const baseCapabilityUpdateOne = (
 ): Promise<BaseCapability> => {
   const config: QueryParams<BaseCapability> = {
     method: 'put',
-    url: `${queryParams?.url || BaseCapabilityRoute()}/${id}`,
+    url: `${queryParams?.url ?? BaseCapabilityRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const baseCapabilityUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseCapability>(config)
-    : getResponse<BaseCapability>(queryParams?.api || _client?.api, config);
+    : getResponse<BaseCapability>(queryParams?.api ?? _client?.api, config);
 };
 
 export const baseCapabilityCreateOne = (
@@ -93,7 +96,7 @@ export const baseCapabilityCreateOne = (
 ): Promise<BaseCapability> => {
   const config: QueryParams<BaseCapability> = {
     method: 'post',
-    url: queryParams?.url || BaseCapabilityRoute(),
+    url: queryParams?.url ?? BaseCapabilityRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const baseCapabilityCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseCapability>(config)
-    : getResponse<BaseCapability>(queryParams?.api || _client?.api, config);
+    : getResponse<BaseCapability>(queryParams?.api ?? _client?.api, config);
 };
 
 export const baseCapabilityCreateMany = (
@@ -110,7 +113,7 @@ export const baseCapabilityCreateMany = (
 ): Promise<BaseCapability[]> => {
   const config: QueryParamsWithList<BaseCapability> = {
     method: 'post',
-    url: queryParams?.url || BaseCapabilityRoute(),
+    url: queryParams?.url ?? BaseCapabilityRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const baseCapabilityCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseCapability[]>(config)
     : getResponse<BaseCapability[], BaseCapability>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

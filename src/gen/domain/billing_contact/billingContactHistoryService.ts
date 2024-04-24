@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { BillingContactRoute } from '../../routes/Routes';
-import { BillingContact } from './BillingContact';
-import { BillingContactHistory } from './BillingContactHistory';
+import type { BillingContact } from './BillingContact';
+import type { BillingContactHistory } from './BillingContactHistory';
 
 export const billingContactHistoryGet = (
   queryParams?: QueryParams<BillingContact>,
 ): Promise<BillingContactHistory[]> => {
   const config: QueryParams<BillingContact> = {
     method: 'get',
-    url: `${queryParams?.url || BillingContactRoute()}${
+    url: `${queryParams?.url ?? BillingContactRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const billingContactHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BillingContactHistory[]>(config)
     : getResponse<BillingContactHistory[], BillingContact>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

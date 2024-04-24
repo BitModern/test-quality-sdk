@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { CommentRoute } from '../../routes/Routes';
-import { Comment } from './Comment';
-import { CommentHistory } from './CommentHistory';
+import type { Comment } from './Comment';
+import type { CommentHistory } from './CommentHistory';
 
 export const commentHistoryGet = (
   queryParams?: QueryParams<Comment>,
 ): Promise<CommentHistory[]> => {
   const config: QueryParams<Comment> = {
     method: 'get',
-    url: `${queryParams?.url || CommentRoute()}${
+    url: `${queryParams?.url ?? CommentRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const commentHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CommentHistory[]>(config)
     : getResponse<CommentHistory[], Comment>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

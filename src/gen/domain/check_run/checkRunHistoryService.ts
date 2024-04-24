@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { CheckRunRoute } from '../../routes/Routes';
-import { CheckRun } from './CheckRun';
-import { CheckRunHistory } from './CheckRunHistory';
+import type { CheckRun } from './CheckRun';
+import type { CheckRunHistory } from './CheckRunHistory';
 
 export const checkRunHistoryGet = (
   queryParams?: QueryParams<CheckRun>,
 ): Promise<CheckRunHistory[]> => {
   const config: QueryParams<CheckRun> = {
     method: 'get',
-    url: `${queryParams?.url || CheckRunRoute()}${
+    url: `${queryParams?.url ?? CheckRunRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const checkRunHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckRunHistory[]>(config)
     : getResponse<CheckRunHistory[], CheckRun>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

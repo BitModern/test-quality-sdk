@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Virtual } from './Virtual';
+import type { Virtual } from './Virtual';
 
 export interface VirtualHistory extends Virtual {
   _id: string;

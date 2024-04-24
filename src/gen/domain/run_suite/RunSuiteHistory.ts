@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { RunSuite } from './RunSuite';
+import type { RunSuite } from './RunSuite';
 
 export interface RunSuiteHistory extends RunSuite {
   _id: string;

@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { WebinarRoute } from '../../routes/Routes';
-import { Webinar } from './Webinar';
-import { WebinarApi } from './WebinarApi';
+import type { Webinar } from './Webinar';
+import type { WebinarApi } from './WebinarApi';
 
 export const webinarGetMany = (
   queryParams?: QueryParams<Webinar>,
 ): Promise<ResourceList<WebinarApi>> => {
   const config: QueryParams<Webinar> = {
     method: 'get',
-    url: queryParams?.url || WebinarRoute(),
+    url: queryParams?.url ?? WebinarRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const webinarGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<WebinarApi>>(config)
     : getResponse<ResourceList<WebinarApi>, Webinar>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const webinarGetOne = (
 ): Promise<WebinarApi> => {
   const config: QueryParams<Webinar> = {
     method: 'get',
-    url: `${queryParams?.url || WebinarRoute()}/${id}`,
+    url: `${queryParams?.url ?? WebinarRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const webinarGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<WebinarApi>(config)
     : getResponse<WebinarApi, Webinar>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const webinarDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Webinar> = {
     method: 'delete',
-    url: `${queryParams?.url || WebinarRoute()}/${id}`,
+    url: `${queryParams?.url ?? WebinarRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const webinarDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Webinar>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const webinarUpdateOne = (
 ): Promise<Webinar> => {
   const config: QueryParams<Webinar> = {
     method: 'put',
-    url: `${queryParams?.url || WebinarRoute()}/${id}`,
+    url: `${queryParams?.url ?? WebinarRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const webinarUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Webinar>(config)
-    : getResponse<Webinar>(queryParams?.api || _client?.api, config);
+    : getResponse<Webinar>(queryParams?.api ?? _client?.api, config);
 };
 
 export const webinarCreateOne = (
@@ -93,7 +96,7 @@ export const webinarCreateOne = (
 ): Promise<Webinar> => {
   const config: QueryParams<Webinar> = {
     method: 'post',
-    url: queryParams?.url || WebinarRoute(),
+    url: queryParams?.url ?? WebinarRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const webinarCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Webinar>(config)
-    : getResponse<Webinar>(queryParams?.api || _client?.api, config);
+    : getResponse<Webinar>(queryParams?.api ?? _client?.api, config);
 };
 
 export const webinarCreateMany = (
@@ -110,7 +113,7 @@ export const webinarCreateMany = (
 ): Promise<Webinar[]> => {
   const config: QueryParamsWithList<Webinar> = {
     method: 'post',
-    url: queryParams?.url || WebinarRoute(),
+    url: queryParams?.url ?? WebinarRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -118,5 +121,5 @@ export const webinarCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Webinar[]>(config)
-    : getResponse<Webinar[], Webinar>(queryParams?.api || _client?.api, config);
+    : getResponse<Webinar[], Webinar>(queryParams?.api ?? _client?.api, config);
 };

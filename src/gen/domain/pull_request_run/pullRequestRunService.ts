@@ -4,11 +4,14 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
-import { PullRequestRun } from './PullRequestRun';
-import { PullRequestRunApi } from './PullRequestRunApi';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
+import type { PullRequestRun } from './PullRequestRun';
+import type { PullRequestRunApi } from './PullRequestRunApi';
 
 export const pullRequestRunDetach = (
   data: Partial<PullRequestRun>,
@@ -26,7 +29,7 @@ export const pullRequestRunDetach = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PullRequestRun>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -45,7 +48,7 @@ export const pullRequestRunUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRun>(config)
-    : getResponse<PullRequestRun>(queryParams?.api || _client?.api, config);
+    : getResponse<PullRequestRun>(queryParams?.api ?? _client?.api, config);
 };
 
 export const pullRequestRunCreateOne = (
@@ -54,14 +57,14 @@ export const pullRequestRunCreateOne = (
 ): Promise<PullRequestRun> => {
   const config: QueryParams<PullRequestRun> = {
     method: 'post',
-    url: queryParams?.url || `/pull_request_run`,
+    url: queryParams?.url ?? `/pull_request_run`,
     params: queryParams?.params,
     data,
   };
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRun>(config)
-    : getResponse<PullRequestRun>(queryParams?.api || _client?.api, config);
+    : getResponse<PullRequestRun>(queryParams?.api ?? _client?.api, config);
 };
 
 export const pullRequestRunCreateMany = (
@@ -70,7 +73,7 @@ export const pullRequestRunCreateMany = (
 ): Promise<PullRequestRun[]> => {
   const config: QueryParamsWithList<PullRequestRun> = {
     method: 'post',
-    url: queryParams?.url || `/pull_request_run`,
+    url: queryParams?.url ?? `/pull_request_run`,
     params: queryParams?.params,
     list: data,
   };
@@ -78,7 +81,7 @@ export const pullRequestRunCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRun[]>(config)
     : getResponse<PullRequestRun[], PullRequestRun>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -88,7 +91,7 @@ export const pullRequestRunGetMany = (
 ): Promise<ResourceList<PullRequestRunApi>> => {
   const config: QueryParams<PullRequestRun> = {
     method: 'get',
-    url: queryParams?.url || `/pull_request_run`,
+    url: queryParams?.url ?? `/pull_request_run`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -96,7 +99,7 @@ export const pullRequestRunGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PullRequestRunApi>>(config)
     : getResponse<ResourceList<PullRequestRunApi>, PullRequestRun>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -107,7 +110,7 @@ export const pullRequestRunGetOne = (
 ): Promise<PullRequestRunApi> => {
   const config: QueryParams<PullRequestRun> = {
     method: 'get',
-    url: `${queryParams?.url || `/pull_request_run/${id}`}`,
+    url: `${queryParams?.url ?? `/pull_request_run/${id}`}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
   };
@@ -115,7 +118,7 @@ export const pullRequestRunGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRunApi>(config)
     : getResponse<PullRequestRunApi, PullRequestRun>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

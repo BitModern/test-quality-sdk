@@ -302,8 +302,9 @@ export const PullRequestRoute = (): string => `/pull_request`;
 export const PullRequestCheckSuitePullRequestRoute = (
   pull_request_id: number,
 ): string => `/pull_request/${pull_request_id}/check_suite_pull_request`;
-export const PullRequestRequirementRoute = (pull_request_id: number): string =>
-  `/pull_request/${pull_request_id}/requirement`;
+export const PullRequestPullRequestRequirementRoute = (
+  pull_request_id: number,
+): string => `/pull_request/${pull_request_id}/pull_request_requirement`;
 export const PullRequestRunRoute = (pull_request_id: number): string =>
   `/pull_request/${pull_request_id}/run`;
 export const PurposeRoute = (): string => `/purpose`;
@@ -314,8 +315,9 @@ export const PurposePlanRoute = (purpose_id: number): string =>
 export const RequirementRoute = (): string => `/requirement`;
 export const RequirementAttachmentRoute = (requirement_id: number): string =>
   `/requirement/${requirement_id}/attachment`;
-export const RequirementPullRequestRoute = (requirement_id: number): string =>
-  `/requirement/${requirement_id}/pull_request`;
+export const RequirementPullRequestRequirementRoute = (
+  requirement_id: number,
+): string => `/requirement/${requirement_id}/pull_request_requirement`;
 export const RequirementRequirementTestRoute = (
   requirement_id: number,
 ): string => `/requirement/${requirement_id}/requirement_test`;

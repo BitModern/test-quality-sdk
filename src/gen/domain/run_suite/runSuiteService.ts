@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { RunSuiteRoute } from '../../routes/Routes';
-import { RunSuite } from './RunSuite';
-import { RunSuiteApi } from './RunSuiteApi';
+import type { RunSuite } from './RunSuite';
+import type { RunSuiteApi } from './RunSuiteApi';
 
 export const runSuiteGetMany = (
   queryParams?: QueryParams<RunSuite>,
 ): Promise<ResourceList<RunSuiteApi>> => {
   const config: QueryParams<RunSuite> = {
     method: 'get',
-    url: queryParams?.url || RunSuiteRoute(),
+    url: queryParams?.url ?? RunSuiteRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const runSuiteGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<RunSuiteApi>>(config)
     : getResponse<ResourceList<RunSuiteApi>, RunSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const runSuiteGetOne = (
 ): Promise<RunSuiteApi> => {
   const config: QueryParams<RunSuite> = {
     method: 'get',
-    url: `${queryParams?.url || RunSuiteRoute()}/${id}`,
+    url: `${queryParams?.url ?? RunSuiteRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const runSuiteGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunSuiteApi>(config)
     : getResponse<RunSuiteApi, RunSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const runSuiteDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<RunSuite> = {
     method: 'delete',
-    url: `${queryParams?.url || RunSuiteRoute()}/${id}`,
+    url: `${queryParams?.url ?? RunSuiteRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const runSuiteDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, RunSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const runSuiteUpdateOne = (
 ): Promise<RunSuite> => {
   const config: QueryParams<RunSuite> = {
     method: 'put',
-    url: `${queryParams?.url || RunSuiteRoute()}/${id}`,
+    url: `${queryParams?.url ?? RunSuiteRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const runSuiteUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunSuite>(config)
-    : getResponse<RunSuite>(queryParams?.api || _client?.api, config);
+    : getResponse<RunSuite>(queryParams?.api ?? _client?.api, config);
 };
 
 export const runSuiteCreateOne = (
@@ -93,7 +96,7 @@ export const runSuiteCreateOne = (
 ): Promise<RunSuite> => {
   const config: QueryParams<RunSuite> = {
     method: 'post',
-    url: queryParams?.url || RunSuiteRoute(),
+    url: queryParams?.url ?? RunSuiteRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const runSuiteCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunSuite>(config)
-    : getResponse<RunSuite>(queryParams?.api || _client?.api, config);
+    : getResponse<RunSuite>(queryParams?.api ?? _client?.api, config);
 };
 
 export const runSuiteCreateMany = (
@@ -110,7 +113,7 @@ export const runSuiteCreateMany = (
 ): Promise<RunSuite[]> => {
   const config: QueryParamsWithList<RunSuite> = {
     method: 'post',
-    url: queryParams?.url || RunSuiteRoute(),
+    url: queryParams?.url ?? RunSuiteRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const runSuiteCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunSuite[]>(config)
     : getResponse<RunSuite[], RunSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

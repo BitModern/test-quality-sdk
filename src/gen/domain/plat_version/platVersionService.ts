@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { PlatVersionRoute } from '../../routes/Routes';
-import { PlatVersion } from './PlatVersion';
-import { PlatVersionApi } from './PlatVersionApi';
+import type { PlatVersion } from './PlatVersion';
+import type { PlatVersionApi } from './PlatVersionApi';
 
 export const platVersionGetMany = (
   queryParams?: QueryParams<PlatVersion>,
 ): Promise<ResourceList<PlatVersionApi>> => {
   const config: QueryParams<PlatVersion> = {
     method: 'get',
-    url: queryParams?.url || PlatVersionRoute(),
+    url: queryParams?.url ?? PlatVersionRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const platVersionGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PlatVersionApi>>(config)
     : getResponse<ResourceList<PlatVersionApi>, PlatVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const platVersionGetOne = (
 ): Promise<PlatVersionApi> => {
   const config: QueryParams<PlatVersion> = {
     method: 'get',
-    url: `${queryParams?.url || PlatVersionRoute()}/${id}`,
+    url: `${queryParams?.url ?? PlatVersionRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const platVersionGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlatVersionApi>(config)
     : getResponse<PlatVersionApi, PlatVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const platVersionDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<PlatVersion> = {
     method: 'delete',
-    url: `${queryParams?.url || PlatVersionRoute()}/${id}`,
+    url: `${queryParams?.url ?? PlatVersionRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const platVersionDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PlatVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const platVersionUpdateOne = (
 ): Promise<PlatVersion> => {
   const config: QueryParams<PlatVersion> = {
     method: 'put',
-    url: `${queryParams?.url || PlatVersionRoute()}/${id}`,
+    url: `${queryParams?.url ?? PlatVersionRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const platVersionUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlatVersion>(config)
-    : getResponse<PlatVersion>(queryParams?.api || _client?.api, config);
+    : getResponse<PlatVersion>(queryParams?.api ?? _client?.api, config);
 };
 
 export const platVersionCreateOne = (
@@ -93,7 +96,7 @@ export const platVersionCreateOne = (
 ): Promise<PlatVersion> => {
   const config: QueryParams<PlatVersion> = {
     method: 'post',
-    url: queryParams?.url || PlatVersionRoute(),
+    url: queryParams?.url ?? PlatVersionRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const platVersionCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlatVersion>(config)
-    : getResponse<PlatVersion>(queryParams?.api || _client?.api, config);
+    : getResponse<PlatVersion>(queryParams?.api ?? _client?.api, config);
 };
 
 export const platVersionCreateMany = (
@@ -110,7 +113,7 @@ export const platVersionCreateMany = (
 ): Promise<PlatVersion[]> => {
   const config: QueryParamsWithList<PlatVersion> = {
     method: 'post',
-    url: queryParams?.url || PlatVersionRoute(),
+    url: queryParams?.url ?? PlatVersionRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const platVersionCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlatVersion[]>(config)
     : getResponse<PlatVersion[], PlatVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

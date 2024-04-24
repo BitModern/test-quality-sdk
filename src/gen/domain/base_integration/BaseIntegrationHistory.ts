@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { BaseIntegration } from './BaseIntegration';
+import type { BaseIntegration } from './BaseIntegration';
 
 export interface BaseIntegrationHistory extends BaseIntegration {
   _id: string;

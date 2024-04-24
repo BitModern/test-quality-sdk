@@ -1,8 +1,8 @@
 import { _client } from '../../../ClientSdk';
-import { getResponse, QueryParams } from '../../../gen/actions';
-import { Project } from '../../../gen/domain';
-import { TestRailProject } from '../interfaces/TestRailProject';
-import { Mapping } from '../interfaces/Mapping';
+import { getResponse, type QueryParams } from '../../../gen/actions';
+import { type Project } from '../../../gen/domain';
+import { type TestRailProject } from '../interfaces/TestRailProject';
+import { type Mapping } from '../interfaces/Mapping';
 
 export const getProjects = (
   queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
@@ -16,7 +16,7 @@ export const getProjects = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestRailProject[]>(config)
     : getResponse<TestRailProject[], void>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -44,5 +44,5 @@ export const postImportProject = (
           projectId: number | string;
           entitiesMapping: Mapping;
         }
-      >(queryParams?.api || _client?.api, config);
+      >(queryParams?.api ?? _client?.api, config);
 };

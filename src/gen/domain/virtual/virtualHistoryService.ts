@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { VirtualRoute } from '../../routes/Routes';
-import { Virtual } from './Virtual';
-import { VirtualHistory } from './VirtualHistory';
+import type { Virtual } from './Virtual';
+import type { VirtualHistory } from './VirtualHistory';
 
 export const virtualHistoryGet = (
   queryParams?: QueryParams<Virtual>,
 ): Promise<VirtualHistory[]> => {
   const config: QueryParams<Virtual> = {
     method: 'get',
-    url: `${queryParams?.url || VirtualRoute()}${
+    url: `${queryParams?.url ?? VirtualRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const virtualHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<VirtualHistory[]>(config)
     : getResponse<VirtualHistory[], Virtual>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

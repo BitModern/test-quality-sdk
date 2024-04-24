@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { CouponRoute } from '../../routes/Routes';
-import { Coupon } from './Coupon';
-import { CouponHistory } from './CouponHistory';
+import type { Coupon } from './Coupon';
+import type { CouponHistory } from './CouponHistory';
 
 export const couponHistoryGet = (
   queryParams?: QueryParams<Coupon>,
 ): Promise<CouponHistory[]> => {
   const config: QueryParams<Coupon> = {
     method: 'get',
-    url: `${queryParams?.url || CouponRoute()}${
+    url: `${queryParams?.url ?? CouponRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const couponHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CouponHistory[]>(config)
     : getResponse<CouponHistory[], Coupon>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

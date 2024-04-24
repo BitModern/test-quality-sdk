@@ -1,6 +1,6 @@
 import { _client } from '../../../ClientSdk';
-import { getResponse, QueryParams } from '../../../gen/actions';
-import { TestRailCaseField } from '../interfaces/TestRailCaseField';
+import { getResponse, type QueryParams } from '../../../gen/actions';
+import { type TestRailCaseField } from '../interfaces/TestRailCaseField';
 
 export const getCaseFields = (
   queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
@@ -14,7 +14,7 @@ export const getCaseFields = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestRailCaseField[]>(config)
     : getResponse<TestRailCaseField[], void>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

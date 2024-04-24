@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { PlatVersionRoute } from '../../routes/Routes';
-import { PlatVersion } from './PlatVersion';
-import { PlatVersionHistory } from './PlatVersionHistory';
+import type { PlatVersion } from './PlatVersion';
+import type { PlatVersionHistory } from './PlatVersionHistory';
 
 export const platVersionHistoryGet = (
   queryParams?: QueryParams<PlatVersion>,
 ): Promise<PlatVersionHistory[]> => {
   const config: QueryParams<PlatVersion> = {
     method: 'get',
-    url: `${queryParams?.url || PlatVersionRoute()}${
+    url: `${queryParams?.url ?? PlatVersionRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const platVersionHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlatVersionHistory[]>(config)
     : getResponse<PlatVersionHistory[], PlatVersion>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

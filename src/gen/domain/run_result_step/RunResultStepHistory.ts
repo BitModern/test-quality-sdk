@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { RunResultStep } from './RunResultStep';
+import type { RunResultStep } from './RunResultStep';
 
 export interface RunResultStepHistory extends RunResultStep {
   _id: string;

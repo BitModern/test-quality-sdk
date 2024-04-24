@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { type AxiosResponse } from 'axios';
 import { HttpError } from './HttpError';
 import { _client } from '../ClientSdk';
 
@@ -90,17 +90,13 @@ function getMessage(error: any): string {
     // duplicate
     error.data.title = 'Duplicate';
     message = 'Name already exists, try a different name.';
-  } else if (
-    error.data &&
-    error.data.validation_errors &&
-    error.data.validation_errors.email
-  ) {
+  } else if (error.data?.validation_errors?.email) {
     if (Array.isArray(error.data.validation_errors.email)) {
       message = error.data.validation_errors.email.join(', \n');
     } else {
       message = error.data.validation_errors.email;
     }
-  } else if (error.data && error.data.message) {
+  } else if (error.data?.message) {
     if (typeof error.data.message === 'string') {
       message = error.data.message;
     } else if (typeof error.data.message === 'object') {
@@ -117,13 +113,14 @@ function getMessage(error: any): string {
       message = JSON.stringify(error.data.message);
     }
     if (error.data.errors) {
-      message += Object.entries(error.data.errors).map(
-        ([, value]) => `\n${value}`,
-      );
+      message += Object.entries(error.data.errors)
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        .map(([, value]) => `\n${value}`)
+        .join('');
     }
-  } else if (error.data && error.data.error) {
+  } else if (error.data?.error) {
     message = error.data.error;
-  } else if (error.data && error.data.detail) {
+  } else if (error.data?.detail) {
     message = error.data.detail;
   } else if (error.statusText) {
     message = error.statusText;

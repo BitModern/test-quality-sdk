@@ -4,6 +4,6 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Webinar } from './Webinar';
+import type { Webinar } from './Webinar';
 
 export interface WebinarApi extends Webinar {}

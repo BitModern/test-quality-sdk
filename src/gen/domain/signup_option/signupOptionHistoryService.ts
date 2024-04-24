@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { SignupOptionRoute } from '../../routes/Routes';
-import { SignupOption } from './SignupOption';
-import { SignupOptionHistory } from './SignupOptionHistory';
+import type { SignupOption } from './SignupOption';
+import type { SignupOptionHistory } from './SignupOptionHistory';
 
 export const signupOptionHistoryGet = (
   queryParams?: QueryParams<SignupOption>,
 ): Promise<SignupOptionHistory[]> => {
   const config: QueryParams<SignupOption> = {
     method: 'get',
-    url: `${queryParams?.url || SignupOptionRoute()}${
+    url: `${queryParams?.url ?? SignupOptionRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const signupOptionHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SignupOptionHistory[]>(config)
     : getResponse<SignupOptionHistory[], SignupOption>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

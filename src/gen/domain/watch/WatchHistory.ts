@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Watch } from './Watch';
+import type { Watch } from './Watch';
 
 export interface WatchHistory extends Watch {
   _id: string;

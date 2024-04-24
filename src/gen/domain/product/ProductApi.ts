@@ -4,8 +4,8 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Product } from './Product';
-import { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
+import type { Product } from './Product';
+import type { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
 
 export interface ProductApi extends Product {
   subscriptions?: SubscriptionsApi[];

@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { SuiteRoute } from '../../routes/Routes';
-import { Suite } from './Suite';
-import { SuiteHistory } from './SuiteHistory';
+import type { Suite } from './Suite';
+import type { SuiteHistory } from './SuiteHistory';
 
 export const suiteHistoryGet = (
   queryParams?: QueryParams<Suite>,
 ): Promise<SuiteHistory[]> => {
   const config: QueryParams<Suite> = {
     method: 'get',
-    url: `${queryParams?.url || SuiteRoute()}${
+    url: `${queryParams?.url ?? SuiteRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const suiteHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SuiteHistory[]>(config)
     : getResponse<SuiteHistory[], Suite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

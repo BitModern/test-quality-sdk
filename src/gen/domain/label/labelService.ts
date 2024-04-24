@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { LabelRoute } from '../../routes/Routes';
-import { Label } from './Label';
-import { LabelApi } from './LabelApi';
+import type { Label } from './Label';
+import type { LabelApi } from './LabelApi';
 
 export const labelGetMany = (
   queryParams?: QueryParams<Label>,
 ): Promise<ResourceList<LabelApi>> => {
   const config: QueryParams<Label> = {
     method: 'get',
-    url: queryParams?.url || LabelRoute(),
+    url: queryParams?.url ?? LabelRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const labelGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<LabelApi>>(config)
     : getResponse<ResourceList<LabelApi>, Label>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const labelGetOne = (
 ): Promise<LabelApi> => {
   const config: QueryParams<Label> = {
     method: 'get',
-    url: `${queryParams?.url || LabelRoute()}/${id}`,
+    url: `${queryParams?.url ?? LabelRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -44,7 +47,7 @@ export const labelGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<LabelApi>(config)
-    : getResponse<LabelApi, Label>(queryParams?.api || _client?.api, config);
+    : getResponse<LabelApi, Label>(queryParams?.api ?? _client?.api, config);
 };
 
 export const labelDeleteOne = (
@@ -53,7 +56,7 @@ export const labelDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Label> = {
     method: 'delete',
-    url: `${queryParams?.url || LabelRoute()}/${id}`,
+    url: `${queryParams?.url ?? LabelRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -61,7 +64,7 @@ export const labelDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Label>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -73,7 +76,7 @@ export const labelUpdateOne = (
 ): Promise<Label> => {
   const config: QueryParams<Label> = {
     method: 'put',
-    url: `${queryParams?.url || LabelRoute()}/${id}`,
+    url: `${queryParams?.url ?? LabelRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -81,7 +84,7 @@ export const labelUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Label>(config)
-    : getResponse<Label>(queryParams?.api || _client?.api, config);
+    : getResponse<Label>(queryParams?.api ?? _client?.api, config);
 };
 
 export const labelCreateOne = (
@@ -90,7 +93,7 @@ export const labelCreateOne = (
 ): Promise<Label> => {
   const config: QueryParams<Label> = {
     method: 'post',
-    url: queryParams?.url || LabelRoute(),
+    url: queryParams?.url ?? LabelRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -98,7 +101,7 @@ export const labelCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Label>(config)
-    : getResponse<Label>(queryParams?.api || _client?.api, config);
+    : getResponse<Label>(queryParams?.api ?? _client?.api, config);
 };
 
 export const labelCreateMany = (
@@ -107,7 +110,7 @@ export const labelCreateMany = (
 ): Promise<Label[]> => {
   const config: QueryParamsWithList<Label> = {
     method: 'post',
-    url: queryParams?.url || LabelRoute(),
+    url: queryParams?.url ?? LabelRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -115,5 +118,5 @@ export const labelCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Label[]>(config)
-    : getResponse<Label[], Label>(queryParams?.api || _client?.api, config);
+    : getResponse<Label[], Label>(queryParams?.api ?? _client?.api, config);
 };

@@ -4,9 +4,9 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { AppVersionPlatVersionPlan } from './AppVersionPlatVersionPlan';
-import { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
-import { PlanApi } from '../plan/PlanApi';
+import type { AppVersionPlatVersionPlan } from './AppVersionPlatVersionPlan';
+import type { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
+import type { PlanApi } from '../plan/PlanApi';
 
 export interface AppVersionPlatVersionPlanApi
   extends AppVersionPlatVersionPlan {

@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Invoice } from './Invoice';
+import type { Invoice } from './Invoice';
 
 export interface InvoiceHistory extends Invoice {
   _id: string;

@@ -4,15 +4,15 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { User } from './User';
-import { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
-import { SubscriptionUserApi } from '../subscription_user/SubscriptionUserApi';
-import { NotificationsApi } from '../notifications/NotificationsApi';
-import { BillingContactApi } from '../billing_contact/BillingContactApi';
-import { AccessRoleUserApi } from '../access_role_user/AccessRoleUserApi';
-import { AccessRoleApi } from '../access_role/AccessRoleApi';
-import { IntegrationUserApi } from '../integration_user/IntegrationUserApi';
-import { IntegrationApi } from '../integration/IntegrationApi';
+import type { User } from './User';
+import type { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
+import type { SubscriptionUserApi } from '../subscription_user/SubscriptionUserApi';
+import type { NotificationsApi } from '../notifications/NotificationsApi';
+import type { BillingContactApi } from '../billing_contact/BillingContactApi';
+import type { AccessRoleUserApi } from '../access_role_user/AccessRoleUserApi';
+import type { AccessRoleApi } from '../access_role/AccessRoleApi';
+import type { IntegrationUserApi } from '../integration_user/IntegrationUserApi';
+import type { IntegrationApi } from '../integration/IntegrationApi';
 
 export interface UserApi extends User {
   subscriptions?: SubscriptionsApi[];

@@ -4,32 +4,32 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { LabelAssigned } from './LabelAssigned';
-import { LabelApi } from '../label/LabelApi';
-import { PlatVersionApi } from '../plat_version/PlatVersionApi';
-import { AppVersionApi } from '../app_version/AppVersionApi';
-import { SuiteApi } from '../suite/SuiteApi';
-import { TestApi } from '../test/TestApi';
-import { ProjectApi } from '../project/ProjectApi';
-import { CaseTypeApi } from '../case_type/CaseTypeApi';
-import { CasePriorityApi } from '../case_priority/CasePriorityApi';
-import { PlanApi } from '../plan/PlanApi';
-import { PurposeApi } from '../purpose/PurposeApi';
-import { RunResultApi } from '../run_result/RunResultApi';
-import { AppApi } from '../app/AppApi';
-import { StepApi } from '../step/StepApi';
-import { RunResultStepApi } from '../run_result_step/RunResultStepApi';
-import { StatusApi } from '../status/StatusApi';
-import { StatusTypeApi } from '../status_type/StatusTypeApi';
-import { TestQualityApi } from '../test_quality/TestQualityApi';
-import { TestQualityTypeApi } from '../test_quality_type/TestQualityTypeApi';
-import { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
-import { PlatApi } from '../plat/PlatApi';
-import { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
-import { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
-import { MilestoneApi } from '../milestone/MilestoneApi';
-import { RunApi } from '../run/RunApi';
-import { SharedStepApi } from '../shared_step/SharedStepApi';
+import type { LabelAssigned } from './LabelAssigned';
+import type { LabelApi } from '../label/LabelApi';
+import type { PlatVersionApi } from '../plat_version/PlatVersionApi';
+import type { AppVersionApi } from '../app_version/AppVersionApi';
+import type { SuiteApi } from '../suite/SuiteApi';
+import type { TestApi } from '../test/TestApi';
+import type { ProjectApi } from '../project/ProjectApi';
+import type { CaseTypeApi } from '../case_type/CaseTypeApi';
+import type { CasePriorityApi } from '../case_priority/CasePriorityApi';
+import type { PlanApi } from '../plan/PlanApi';
+import type { PurposeApi } from '../purpose/PurposeApi';
+import type { RunResultApi } from '../run_result/RunResultApi';
+import type { AppApi } from '../app/AppApi';
+import type { StepApi } from '../step/StepApi';
+import type { RunResultStepApi } from '../run_result_step/RunResultStepApi';
+import type { StatusApi } from '../status/StatusApi';
+import type { StatusTypeApi } from '../status_type/StatusTypeApi';
+import type { TestQualityApi } from '../test_quality/TestQualityApi';
+import type { TestQualityTypeApi } from '../test_quality_type/TestQualityTypeApi';
+import type { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
+import type { PlatApi } from '../plat/PlatApi';
+import type { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
+import type { NativeDefectStatusApi } from '../native_defect_status/NativeDefectStatusApi';
+import type { MilestoneApi } from '../milestone/MilestoneApi';
+import type { RunApi } from '../run/RunApi';
+import type { SharedStepApi } from '../shared_step/SharedStepApi';
 
 export interface LabelAssignedApi extends LabelAssigned {
   label?: LabelApi;

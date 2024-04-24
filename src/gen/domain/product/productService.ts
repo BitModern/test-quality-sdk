@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { ProductRoute } from '../../routes/Routes';
-import { Product } from './Product';
-import { ProductApi } from './ProductApi';
+import type { Product } from './Product';
+import type { ProductApi } from './ProductApi';
 
 export const productGetMany = (
   queryParams?: QueryParams<Product>,
 ): Promise<ResourceList<ProductApi>> => {
   const config: QueryParams<Product> = {
     method: 'get',
-    url: queryParams?.url || ProductRoute(),
+    url: queryParams?.url ?? ProductRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const productGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<ProductApi>>(config)
     : getResponse<ResourceList<ProductApi>, Product>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const productGetOne = (
 ): Promise<ProductApi> => {
   const config: QueryParams<Product> = {
     method: 'get',
-    url: `${queryParams?.url || ProductRoute()}/${id}`,
+    url: `${queryParams?.url ?? ProductRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const productGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ProductApi>(config)
     : getResponse<ProductApi, Product>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const productDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Product> = {
     method: 'delete',
-    url: `${queryParams?.url || ProductRoute()}/${id}`,
+    url: `${queryParams?.url ?? ProductRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const productDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Product>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const productUpdateOne = (
 ): Promise<Product> => {
   const config: QueryParams<Product> = {
     method: 'put',
-    url: `${queryParams?.url || ProductRoute()}/${id}`,
+    url: `${queryParams?.url ?? ProductRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const productUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Product>(config)
-    : getResponse<Product>(queryParams?.api || _client?.api, config);
+    : getResponse<Product>(queryParams?.api ?? _client?.api, config);
 };
 
 export const productCreateOne = (
@@ -93,7 +96,7 @@ export const productCreateOne = (
 ): Promise<Product> => {
   const config: QueryParams<Product> = {
     method: 'post',
-    url: queryParams?.url || ProductRoute(),
+    url: queryParams?.url ?? ProductRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const productCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Product>(config)
-    : getResponse<Product>(queryParams?.api || _client?.api, config);
+    : getResponse<Product>(queryParams?.api ?? _client?.api, config);
 };
 
 export const productCreateMany = (
@@ -110,7 +113,7 @@ export const productCreateMany = (
 ): Promise<Product[]> => {
   const config: QueryParamsWithList<Product> = {
     method: 'post',
-    url: queryParams?.url || ProductRoute(),
+    url: queryParams?.url ?? ProductRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -118,5 +121,5 @@ export const productCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Product[]>(config)
-    : getResponse<Product[], Product>(queryParams?.api || _client?.api, config);
+    : getResponse<Product[], Product>(queryParams?.api ?? _client?.api, config);
 };

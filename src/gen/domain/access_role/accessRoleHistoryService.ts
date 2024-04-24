@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { AccessRoleRoute } from '../../routes/Routes';
-import { AccessRole } from './AccessRole';
-import { AccessRoleHistory } from './AccessRoleHistory';
+import type { AccessRole } from './AccessRole';
+import type { AccessRoleHistory } from './AccessRoleHistory';
 
 export const accessRoleHistoryGet = (
   queryParams?: QueryParams<AccessRole>,
 ): Promise<AccessRoleHistory[]> => {
   const config: QueryParams<AccessRole> = {
     method: 'get',
-    url: `${queryParams?.url || AccessRoleRoute()}${
+    url: `${queryParams?.url ?? AccessRoleRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const accessRoleHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRoleHistory[]>(config)
     : getResponse<AccessRoleHistory[], AccessRole>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

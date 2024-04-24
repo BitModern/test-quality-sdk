@@ -4,9 +4,9 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { CaseType } from './CaseType';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { TestApi } from '../test/TestApi';
+import type { CaseType } from './CaseType';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { TestApi } from '../test/TestApi';
 
 export interface CaseTypeApi extends CaseType {
   label_assigned?: LabelAssignedApi;

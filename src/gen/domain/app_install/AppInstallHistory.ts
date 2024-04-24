@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { AppInstall } from './AppInstall';
+import type { AppInstall } from './AppInstall';
 
 export interface AppInstallHistory extends AppInstall {
   _id: string;

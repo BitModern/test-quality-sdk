@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { CaseType } from './CaseType';
+import type { CaseType } from './CaseType';
 
 export interface CaseTypeHistory extends CaseType {
   _id: string;

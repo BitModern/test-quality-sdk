@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { AppUserRoute } from '../../routes/Routes';
-import { AppUser } from './AppUser';
-import { AppUserHistory } from './AppUserHistory';
+import type { AppUser } from './AppUser';
+import type { AppUserHistory } from './AppUserHistory';
 
 export const appUserHistoryGet = (
   queryParams?: QueryParams<AppUser>,
 ): Promise<AppUserHistory[]> => {
   const config: QueryParams<AppUser> = {
     method: 'get',
-    url: `${queryParams?.url || AppUserRoute()}${
+    url: `${queryParams?.url ?? AppUserRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const appUserHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUserHistory[]>(config)
     : getResponse<AppUserHistory[], AppUser>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

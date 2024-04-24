@@ -1,6 +1,6 @@
 import { _client } from '../../../ClientSdk';
-import { getResponse, QueryParams } from '../../../gen/actions';
-import { TestRailStatus } from '../interfaces/TestRailStatus';
+import { getResponse, type QueryParams } from '../../../gen/actions';
+import { type TestRailStatus } from '../interfaces/TestRailStatus';
 
 export const getStatuses = (
   queryParams?: Omit<QueryParams<void>, 'url' | 'params'>,
@@ -14,7 +14,7 @@ export const getStatuses = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestRailStatus[]>(config)
     : getResponse<TestRailStatus[], void>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

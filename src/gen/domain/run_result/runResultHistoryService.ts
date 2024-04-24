@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { RunResultRoute } from '../../routes/Routes';
-import { RunResult } from './RunResult';
-import { RunResultHistory } from './RunResultHistory';
+import type { RunResult } from './RunResult';
+import type { RunResultHistory } from './RunResultHistory';
 
 export const runResultHistoryGet = (
   queryParams?: QueryParams<RunResult>,
 ): Promise<RunResultHistory[]> => {
   const config: QueryParams<RunResult> = {
     method: 'get',
-    url: `${queryParams?.url || RunResultRoute()}${
+    url: `${queryParams?.url ?? RunResultRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const runResultHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunResultHistory[]>(config)
     : getResponse<RunResultHistory[], RunResult>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

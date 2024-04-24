@@ -4,11 +4,11 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Milestone } from './Milestone';
-import { ProjectApi } from '../project/ProjectApi';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { RunApi } from '../run/RunApi';
-import { CommentApi } from '../comment/CommentApi';
+import type { Milestone } from './Milestone';
+import type { ProjectApi } from '../project/ProjectApi';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { RunApi } from '../run/RunApi';
+import type { CommentApi } from '../comment/CommentApi';
 
 export interface MilestoneApi extends Milestone {
   project?: ProjectApi;

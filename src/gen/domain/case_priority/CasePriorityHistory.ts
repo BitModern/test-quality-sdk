@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { CasePriority } from './CasePriority';
+import type { CasePriority } from './CasePriority';
 
 export interface CasePriorityHistory extends CasePriority {
   _id: string;

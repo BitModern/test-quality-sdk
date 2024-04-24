@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { BaseCapabilityRoute } from '../../routes/Routes';
-import { BaseCapability } from './BaseCapability';
-import { BaseCapabilityHistory } from './BaseCapabilityHistory';
+import type { BaseCapability } from './BaseCapability';
+import type { BaseCapabilityHistory } from './BaseCapabilityHistory';
 
 export const baseCapabilityHistoryGet = (
   queryParams?: QueryParams<BaseCapability>,
 ): Promise<BaseCapabilityHistory[]> => {
   const config: QueryParams<BaseCapability> = {
     method: 'get',
-    url: `${queryParams?.url || BaseCapabilityRoute()}${
+    url: `${queryParams?.url ?? BaseCapabilityRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const baseCapabilityHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseCapabilityHistory[]>(config)
     : getResponse<BaseCapabilityHistory[], BaseCapability>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

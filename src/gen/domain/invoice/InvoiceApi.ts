@@ -4,8 +4,8 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Invoice } from './Invoice';
-import { AttachmentApi } from '../attachment/AttachmentApi';
+import type { Invoice } from './Invoice';
+import type { AttachmentApi } from '../attachment/AttachmentApi';
 
 export interface InvoiceApi extends Invoice {
   attachment?: AttachmentApi;

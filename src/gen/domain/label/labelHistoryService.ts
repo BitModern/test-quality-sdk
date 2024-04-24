@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { LabelRoute } from '../../routes/Routes';
-import { Label } from './Label';
-import { LabelHistory } from './LabelHistory';
+import type { Label } from './Label';
+import type { LabelHistory } from './LabelHistory';
 
 export const labelHistoryGet = (
   queryParams?: QueryParams<Label>,
 ): Promise<LabelHistory[]> => {
   const config: QueryParams<Label> = {
     method: 'get',
-    url: `${queryParams?.url || LabelRoute()}${
+    url: `${queryParams?.url ?? LabelRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const labelHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<LabelHistory[]>(config)
     : getResponse<LabelHistory[], Label>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

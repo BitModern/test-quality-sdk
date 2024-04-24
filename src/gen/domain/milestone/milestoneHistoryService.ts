@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { MilestoneRoute } from '../../routes/Routes';
-import { Milestone } from './Milestone';
-import { MilestoneHistory } from './MilestoneHistory';
+import type { Milestone } from './Milestone';
+import type { MilestoneHistory } from './MilestoneHistory';
 
 export const milestoneHistoryGet = (
   queryParams?: QueryParams<Milestone>,
 ): Promise<MilestoneHistory[]> => {
   const config: QueryParams<Milestone> = {
     method: 'get',
-    url: `${queryParams?.url || MilestoneRoute()}${
+    url: `${queryParams?.url ?? MilestoneRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const milestoneHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MilestoneHistory[]>(config)
     : getResponse<MilestoneHistory[], Milestone>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

@@ -4,9 +4,9 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { SharedStep } from './SharedStep';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { StepApi } from '../step/StepApi';
+import type { SharedStep } from './SharedStep';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { StepApi } from '../step/StepApi';
 
 export interface SharedStepApi extends SharedStep {
   label_assigned?: LabelAssignedApi;

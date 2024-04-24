@@ -1,8 +1,11 @@
-import { Run } from '../../gen/domain';
+import { type Run } from '../../gen/domain';
 import { _client } from '../../ClientSdk';
-import { getResponse, QueryParams } from '../../gen/actions';
+import { getResponse, type QueryParams } from '../../gen/actions';
 
-export type RequirementRunAnalysis = { runs: Run[]; run_results_ids: number[] };
+export interface RequirementRunAnalysis {
+  runs: Run[];
+  run_results_ids: number[];
+}
 
 export const getRequirementRunsAnalysis = (
   id: number,
@@ -18,7 +21,7 @@ export const getRequirementRunsAnalysis = (
   return queryParams?.batch
     ? queryParams.batch.addBatch(config)
     : getResponse<RequirementRunAnalysis>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

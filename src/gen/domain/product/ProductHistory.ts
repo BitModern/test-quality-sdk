@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { Product } from './Product';
+import type { Product } from './Product';
 
 export interface ProductHistory extends Product {
   _id: string;

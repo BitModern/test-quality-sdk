@@ -2,7 +2,7 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
-import { CustomAttributes } from '../../models/CustomAttributes';
+import type { CustomAttributes } from '../../models/CustomAttributes';
 
 export interface Notifications extends CustomAttributes {
   created_by: number;

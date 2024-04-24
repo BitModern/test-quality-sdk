@@ -1,10 +1,17 @@
-import { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import { type InternalAxiosRequestConfig, type AxiosResponse } from 'axios';
 import Debug from 'debug';
-import { ReturnToken } from './ReturnToken';
-import { AUTH, GeneralError, TOKEN, VERIFICATION } from '../exceptions';
-import { ClientSdk } from '../ClientSdk';
-import { getHttpResponse, HttpError, NO_REFRESH_TOKEN } from '../exceptions';
-import { TokenStorage } from '../TokenStorage';
+import { type ReturnToken } from './ReturnToken';
+import {
+  AUTH,
+  GeneralError,
+  TOKEN,
+  VERIFICATION,
+  getHttpResponse,
+  HttpError,
+  NO_REFRESH_TOKEN,
+} from '../exceptions';
+import { type ClientSdk } from '../ClientSdk';
+import { type TokenStorage } from '../TokenStorage';
 
 const debug = Debug('tq:sdk:Auth');
 
@@ -80,8 +87,8 @@ export class Auth {
   private remember = true;
 
   constructor(
-    private tokenStorage: TokenStorage,
-    private client: ClientSdk,
+    private readonly tokenStorage: TokenStorage,
+    private readonly client: ClientSdk,
     private authCallback?: AuthCallback,
   ) {
     this.setAuthCallback(authCallback);
@@ -95,10 +102,10 @@ export class Auth {
         async (action: AuthCallbackActions, token?: ReturnToken) => {
           if (action === AuthCallbackActions.TokenUpdated) {
             debug('token updated in apiWorker');
-            this.tokenStorage.setToken(token);
+            await this.tokenStorage.setToken(token);
           }
           if (this.authCallback) {
-            this.authCallback(action, token);
+            await this.authCallback(action, token);
           }
         },
       );
@@ -253,10 +260,10 @@ export class Auth {
   public async refresh(
     refreshToken?: string,
   ): Promise<ReturnToken | undefined> {
-    const token = refreshToken || (await this.getToken())?.refresh_token;
+    const token = refreshToken ?? (await this.getToken())?.refresh_token;
     debug('refresh', { token });
     if (!token) {
-      return Promise.reject(
+      return await Promise.reject(
         new HttpError(
           'No refresh token found.',
           NO_REFRESH_TOKEN,
@@ -278,7 +285,7 @@ export class Auth {
           refresh_token: token,
         },
       });
-      return this.refreshRequest
+      return await this.refreshRequest
         .then(async (response) => {
           const data = response.data;
           await this.setToken(data);
@@ -294,7 +301,7 @@ export class Auth {
         });
     }
 
-    return this.refreshRequest.then(async ({ data }) => {
+    return await this.refreshRequest.then(async ({ data }) => {
       debug('refreshRequest: then resolved');
       return data;
     });
@@ -323,11 +330,11 @@ export class Auth {
   }
 
   public async getRemember(): Promise<boolean | undefined> {
-    return this.tokenStorage.getRemember();
+    return await this.tokenStorage.getRemember();
   }
 
   public async getToken(): Promise<ReturnToken | undefined> {
-    return this.tokenStorage.getToken();
+    return await this.tokenStorage.getToken();
   }
 
   public async setToken(
@@ -338,9 +345,9 @@ export class Auth {
     if (token) {
       Auth.validateTokenPayload(token);
     }
-    if (token && token.expires_in) {
+    if (token?.expires_in) {
       const now = new Date();
-      now.setSeconds(now.getSeconds() + (token.expires_in - 15)); //subtract 15 seconds to guard against latency
+      now.setSeconds(now.getSeconds() + (token.expires_in - 15)); // subtract 15 seconds to guard against latency
       token.expires_at = JSON.parse(JSON.stringify(now));
     }
     if (this.authCallback) {
@@ -349,16 +356,16 @@ export class Auth {
     if (this.client.apiWorker) {
       await this.client.apiWorker.setToken(token);
     }
-    return this.tokenStorage.setToken(token, remember);
+    return await this.tokenStorage.setToken(token, remember);
   }
 
-  public setPat(pat: string): this {
-    this.setToken({ access_token: pat } as any);
+  public async setPat(pat: string): Promise<this> {
+    await this.setToken({ access_token: pat } as any);
     return this;
   }
 
   public isExpired(token?: ReturnToken): boolean {
-    return token !== undefined && token.is_expired === true;
+    return token?.is_expired ?? false;
   }
 
   public isSubscriptionExpired(token?: ReturnToken): boolean {
@@ -393,7 +400,7 @@ export class Auth {
     if (!this.authCallback) {
       return;
     }
-    if (token === undefined || !token.is_expired) {
+    if (!token?.is_expired) {
       return;
     }
 
@@ -441,7 +448,7 @@ export class Auth {
           }
         }
         if (this.client.debug) {
-          newConfig.params = config.params || {};
+          newConfig.params = config.params ?? {};
           newConfig.params.XDEBUG_SESSION_START = 'PHPSTORM';
         }
         return newConfig;
@@ -486,7 +493,7 @@ export class Auth {
           status !== 401 ||
           !Auth.urlRequiresAuth(error.config.url)
         ) {
-          return Promise.reject(getHttpResponse(error.response));
+          return await Promise.reject(getHttpResponse(error.response));
         }
         const accessToken = await this.getToken();
         if (!accessToken) {
@@ -497,7 +504,7 @@ export class Auth {
               this,
             );
           }
-          return Promise.reject(getHttpResponse(error.response));
+          return await Promise.reject(getHttpResponse(error.response));
         }
 
         // When response code is HTTP 401 Unauthorized, try to refresh the token.
@@ -508,10 +515,10 @@ export class Auth {
         try {
           // use refresh token to generate new access token so request can be retried
           const token = await this.refresh();
-          if (token && token.access_token) {
+          if (token?.access_token) {
             error.response.config.headers.Authorization = `Bearer ${token.access_token}`;
             error.response.config._retry = true;
-            return this.client.api(error.response.config);
+            return await this.client.api(error.response.config);
           }
           if (this.authCallback) {
             await this.authCallback(
@@ -520,7 +527,7 @@ export class Auth {
               this,
             );
           }
-          return Promise.reject(getHttpResponse(error.response));
+          return await Promise.reject(getHttpResponse(error.response));
         } catch (e) {
           if (this.authCallback) {
             await this.authCallback(
@@ -529,7 +536,7 @@ export class Auth {
               this,
             );
           }
-          return Promise.reject(e);
+          return await Promise.reject(e);
         } finally {
           this.disableHandler = false;
         }

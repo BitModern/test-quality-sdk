@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { AccessRoleRoute } from '../../routes/Routes';
-import { AccessRole } from './AccessRole';
-import { AccessRoleApi } from './AccessRoleApi';
+import type { AccessRole } from './AccessRole';
+import type { AccessRoleApi } from './AccessRoleApi';
 
 export const accessRoleGetMany = (
   queryParams?: QueryParams<AccessRole>,
 ): Promise<ResourceList<AccessRoleApi>> => {
   const config: QueryParams<AccessRole> = {
     method: 'get',
-    url: queryParams?.url || AccessRoleRoute(),
+    url: queryParams?.url ?? AccessRoleRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const accessRoleGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<AccessRoleApi>>(config)
     : getResponse<ResourceList<AccessRoleApi>, AccessRole>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const accessRoleGetOne = (
 ): Promise<AccessRoleApi> => {
   const config: QueryParams<AccessRole> = {
     method: 'get',
-    url: `${queryParams?.url || AccessRoleRoute()}/${id}`,
+    url: `${queryParams?.url ?? AccessRoleRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const accessRoleGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRoleApi>(config)
     : getResponse<AccessRoleApi, AccessRole>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const accessRoleDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<AccessRole> = {
     method: 'delete',
-    url: `${queryParams?.url || AccessRoleRoute()}/${id}`,
+    url: `${queryParams?.url ?? AccessRoleRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const accessRoleDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, AccessRole>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const accessRoleUpdateOne = (
 ): Promise<AccessRole> => {
   const config: QueryParams<AccessRole> = {
     method: 'put',
-    url: `${queryParams?.url || AccessRoleRoute()}/${id}`,
+    url: `${queryParams?.url ?? AccessRoleRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const accessRoleUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRole>(config)
-    : getResponse<AccessRole>(queryParams?.api || _client?.api, config);
+    : getResponse<AccessRole>(queryParams?.api ?? _client?.api, config);
 };
 
 export const accessRoleCreateOne = (
@@ -93,7 +96,7 @@ export const accessRoleCreateOne = (
 ): Promise<AccessRole> => {
   const config: QueryParams<AccessRole> = {
     method: 'post',
-    url: queryParams?.url || AccessRoleRoute(),
+    url: queryParams?.url ?? AccessRoleRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const accessRoleCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRole>(config)
-    : getResponse<AccessRole>(queryParams?.api || _client?.api, config);
+    : getResponse<AccessRole>(queryParams?.api ?? _client?.api, config);
 };
 
 export const accessRoleCreateMany = (
@@ -110,7 +113,7 @@ export const accessRoleCreateMany = (
 ): Promise<AccessRole[]> => {
   const config: QueryParamsWithList<AccessRole> = {
     method: 'post',
-    url: queryParams?.url || AccessRoleRoute(),
+    url: queryParams?.url ?? AccessRoleRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const accessRoleCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRole[]>(config)
     : getResponse<AccessRole[], AccessRole>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

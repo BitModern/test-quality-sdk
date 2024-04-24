@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { LabelAssigned } from './LabelAssigned';
+import type { LabelAssigned } from './LabelAssigned';
 
 export interface LabelAssignedHistory extends LabelAssigned {
   _id: string;

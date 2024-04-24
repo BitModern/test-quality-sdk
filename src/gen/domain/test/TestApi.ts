@@ -4,23 +4,23 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Test } from './Test';
-import { TestQualityApi } from '../test_quality/TestQualityApi';
-import { DataSetApi } from '../data_set/DataSetApi';
-import { SharedPreconditionApi } from '../shared_precondition/SharedPreconditionApi';
-import { CaseTypeApi } from '../case_type/CaseTypeApi';
-import { CasePriorityApi } from '../case_priority/CasePriorityApi';
-import { ProjectApi } from '../project/ProjectApi';
-import { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
-import { RequirementTestApi } from '../requirement_test/RequirementTestApi';
-import { SuiteTestApi } from '../suite_test/SuiteTestApi';
-import { SuiteApi } from '../suite/SuiteApi';
-import { RunResultApi } from '../run_result/RunResultApi';
-import { StepApi } from '../step/StepApi';
-import { AttachmentApi } from '../attachment/AttachmentApi';
-import { CommentApi } from '../comment/CommentApi';
-import { WatchApi } from '../watch/WatchApi';
+import type { Test } from './Test';
+import type { TestQualityApi } from '../test_quality/TestQualityApi';
+import type { DataSetApi } from '../data_set/DataSetApi';
+import type { SharedPreconditionApi } from '../shared_precondition/SharedPreconditionApi';
+import type { CaseTypeApi } from '../case_type/CaseTypeApi';
+import type { CasePriorityApi } from '../case_priority/CasePriorityApi';
+import type { ProjectApi } from '../project/ProjectApi';
+import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
+import type { RequirementTestApi } from '../requirement_test/RequirementTestApi';
+import type { SuiteTestApi } from '../suite_test/SuiteTestApi';
+import type { SuiteApi } from '../suite/SuiteApi';
+import type { RunResultApi } from '../run_result/RunResultApi';
+import type { StepApi } from '../step/StepApi';
+import type { AttachmentApi } from '../attachment/AttachmentApi';
+import type { CommentApi } from '../comment/CommentApi';
+import type { WatchApi } from '../watch/WatchApi';
 
 export interface TestApi extends Test {
   test_quality?: TestQualityApi;

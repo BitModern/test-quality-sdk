@@ -4,9 +4,9 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { AppConfig } from './AppConfig';
-import { BaseIntegrationApi } from '../base_integration/BaseIntegrationApi';
-import { AppInstallApi } from '../app_install/AppInstallApi';
+import type { AppConfig } from './AppConfig';
+import type { BaseIntegrationApi } from '../base_integration/BaseIntegrationApi';
+import type { AppInstallApi } from '../app_install/AppInstallApi';
 
 export interface AppConfigApi extends AppConfig {
   base_integration?: BaseIntegrationApi;

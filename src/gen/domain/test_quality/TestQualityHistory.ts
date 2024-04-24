@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { TestQuality } from './TestQuality';
+import type { TestQuality } from './TestQuality';
 
 export interface TestQualityHistory extends TestQuality {
   _id: string;

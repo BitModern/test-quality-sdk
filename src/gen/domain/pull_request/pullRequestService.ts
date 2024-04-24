@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { PullRequestRoute } from '../../routes/Routes';
-import { PullRequest } from './PullRequest';
-import { PullRequestApi } from './PullRequestApi';
+import type { PullRequest } from './PullRequest';
+import type { PullRequestApi } from './PullRequestApi';
 
 export const pullRequestGetMany = (
   queryParams?: QueryParams<PullRequest>,
 ): Promise<ResourceList<PullRequestApi>> => {
   const config: QueryParams<PullRequest> = {
     method: 'get',
-    url: queryParams?.url || PullRequestRoute(),
+    url: queryParams?.url ?? PullRequestRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const pullRequestGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PullRequestApi>>(config)
     : getResponse<ResourceList<PullRequestApi>, PullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const pullRequestGetOne = (
 ): Promise<PullRequestApi> => {
   const config: QueryParams<PullRequest> = {
     method: 'get',
-    url: `${queryParams?.url || PullRequestRoute()}/${id}`,
+    url: `${queryParams?.url ?? PullRequestRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const pullRequestGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestApi>(config)
     : getResponse<PullRequestApi, PullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const pullRequestDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<PullRequest> = {
     method: 'delete',
-    url: `${queryParams?.url || PullRequestRoute()}/${id}`,
+    url: `${queryParams?.url ?? PullRequestRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const pullRequestDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, PullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const pullRequestUpdateOne = (
 ): Promise<PullRequest> => {
   const config: QueryParams<PullRequest> = {
     method: 'put',
-    url: `${queryParams?.url || PullRequestRoute()}/${id}`,
+    url: `${queryParams?.url ?? PullRequestRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const pullRequestUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequest>(config)
-    : getResponse<PullRequest>(queryParams?.api || _client?.api, config);
+    : getResponse<PullRequest>(queryParams?.api ?? _client?.api, config);
 };
 
 export const pullRequestCreateOne = (
@@ -93,7 +96,7 @@ export const pullRequestCreateOne = (
 ): Promise<PullRequest> => {
   const config: QueryParams<PullRequest> = {
     method: 'post',
-    url: queryParams?.url || PullRequestRoute(),
+    url: queryParams?.url ?? PullRequestRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const pullRequestCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequest>(config)
-    : getResponse<PullRequest>(queryParams?.api || _client?.api, config);
+    : getResponse<PullRequest>(queryParams?.api ?? _client?.api, config);
 };
 
 export const pullRequestCreateMany = (
@@ -110,7 +113,7 @@ export const pullRequestCreateMany = (
 ): Promise<PullRequest[]> => {
   const config: QueryParamsWithList<PullRequest> = {
     method: 'post',
-    url: queryParams?.url || PullRequestRoute(),
+    url: queryParams?.url ?? PullRequestRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const pullRequestCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequest[]>(config)
     : getResponse<PullRequest[], PullRequest>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

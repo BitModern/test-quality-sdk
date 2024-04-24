@@ -2,10 +2,10 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
-import { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
 import {
-  QueryParams,
-  QueryParamsWithList,
+  type QueryParams,
+  type QueryParamsWithList,
   hasListProperty,
 } from './QueryParams';
 
@@ -17,18 +17,15 @@ export async function getResponse<T, Q = T>(
     throw new Error('No clientSkd.api provided');
   }
 
-  return api
-    .request<T>({
-      method: queryParams.method || 'get',
-      url: queryParams.url,
-      params: queryParams.params,
-      data: hasListProperty(queryParams) ? queryParams.list : queryParams.data,
-      headers: queryParams.headers,
-    })
-    .then((resp) => {
-      if (resp && resp.data) {
-        return resp.data;
-      }
-      throw new Error('No response was provided');
-    });
+  const resp = await api.request<T>({
+    method: queryParams.method ?? 'get',
+    url: queryParams.url,
+    params: queryParams.params,
+    data: hasListProperty(queryParams) ? queryParams.list : queryParams.data,
+    headers: queryParams.headers,
+  });
+  if (resp && resp.data) {
+    return resp.data;
+  }
+  throw new Error('No response was provided');
 }

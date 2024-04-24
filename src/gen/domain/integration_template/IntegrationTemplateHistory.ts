@@ -3,7 +3,7 @@
  */
 /* eslint-disable import/no-cycle */
 
-import { IntegrationTemplate } from './IntegrationTemplate';
+import type { IntegrationTemplate } from './IntegrationTemplate';
 
 export interface IntegrationTemplateHistory extends IntegrationTemplate {
   _id: string;

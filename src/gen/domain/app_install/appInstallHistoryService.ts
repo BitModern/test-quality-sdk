@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { AppInstallRoute } from '../../routes/Routes';
-import { AppInstall } from './AppInstall';
-import { AppInstallHistory } from './AppInstallHistory';
+import type { AppInstall } from './AppInstall';
+import type { AppInstallHistory } from './AppInstallHistory';
 
 export const appInstallHistoryGet = (
   queryParams?: QueryParams<AppInstall>,
 ): Promise<AppInstallHistory[]> => {
   const config: QueryParams<AppInstall> = {
     method: 'get',
-    url: `${queryParams?.url || AppInstallRoute()}${
+    url: `${queryParams?.url ?? AppInstallRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const appInstallHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppInstallHistory[]>(config)
     : getResponse<AppInstallHistory[], AppInstall>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

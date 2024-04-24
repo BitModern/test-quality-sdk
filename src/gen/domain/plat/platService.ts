@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { PlatRoute } from '../../routes/Routes';
-import { Plat } from './Plat';
-import { PlatApi } from './PlatApi';
+import type { Plat } from './Plat';
+import type { PlatApi } from './PlatApi';
 
 export const platGetMany = (
   queryParams?: QueryParams<Plat>,
 ): Promise<ResourceList<PlatApi>> => {
   const config: QueryParams<Plat> = {
     method: 'get',
-    url: queryParams?.url || PlatRoute(),
+    url: queryParams?.url ?? PlatRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const platGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PlatApi>>(config)
     : getResponse<ResourceList<PlatApi>, Plat>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const platGetOne = (
 ): Promise<PlatApi> => {
   const config: QueryParams<Plat> = {
     method: 'get',
-    url: `${queryParams?.url || PlatRoute()}/${id}`,
+    url: `${queryParams?.url ?? PlatRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -44,7 +47,7 @@ export const platGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlatApi>(config)
-    : getResponse<PlatApi, Plat>(queryParams?.api || _client?.api, config);
+    : getResponse<PlatApi, Plat>(queryParams?.api ?? _client?.api, config);
 };
 
 export const platDeleteOne = (
@@ -53,7 +56,7 @@ export const platDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<Plat> = {
     method: 'delete',
-    url: `${queryParams?.url || PlatRoute()}/${id}`,
+    url: `${queryParams?.url ?? PlatRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -61,7 +64,7 @@ export const platDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, Plat>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -73,7 +76,7 @@ export const platUpdateOne = (
 ): Promise<Plat> => {
   const config: QueryParams<Plat> = {
     method: 'put',
-    url: `${queryParams?.url || PlatRoute()}/${id}`,
+    url: `${queryParams?.url ?? PlatRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -81,7 +84,7 @@ export const platUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plat>(config)
-    : getResponse<Plat>(queryParams?.api || _client?.api, config);
+    : getResponse<Plat>(queryParams?.api ?? _client?.api, config);
 };
 
 export const platCreateOne = (
@@ -90,7 +93,7 @@ export const platCreateOne = (
 ): Promise<Plat> => {
   const config: QueryParams<Plat> = {
     method: 'post',
-    url: queryParams?.url || PlatRoute(),
+    url: queryParams?.url ?? PlatRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -98,7 +101,7 @@ export const platCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plat>(config)
-    : getResponse<Plat>(queryParams?.api || _client?.api, config);
+    : getResponse<Plat>(queryParams?.api ?? _client?.api, config);
 };
 
 export const platCreateMany = (
@@ -107,7 +110,7 @@ export const platCreateMany = (
 ): Promise<Plat[]> => {
   const config: QueryParamsWithList<Plat> = {
     method: 'post',
-    url: queryParams?.url || PlatRoute(),
+    url: queryParams?.url ?? PlatRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -115,5 +118,5 @@ export const platCreateMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plat[]>(config)
-    : getResponse<Plat[], Plat>(queryParams?.api || _client?.api, config);
+    : getResponse<Plat[], Plat>(queryParams?.api ?? _client?.api, config);
 };

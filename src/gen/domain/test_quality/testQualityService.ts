@@ -4,19 +4,22 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams, QueryParamsWithList } from '../../actions/QueryParams';
-import { MessageResponse } from '../../actions/MessageResponse';
-import { ResourceList } from '../../models/ResourceList';
+import type {
+  QueryParams,
+  QueryParamsWithList,
+} from '../../actions/QueryParams';
+import type { MessageResponse } from '../../actions/MessageResponse';
+import type { ResourceList } from '../../models/ResourceList';
 import { TestQualityRoute } from '../../routes/Routes';
-import { TestQuality } from './TestQuality';
-import { TestQualityApi } from './TestQualityApi';
+import type { TestQuality } from './TestQuality';
+import type { TestQualityApi } from './TestQualityApi';
 
 export const testQualityGetMany = (
   queryParams?: QueryParams<TestQuality>,
 ): Promise<ResourceList<TestQualityApi>> => {
   const config: QueryParams<TestQuality> = {
     method: 'get',
-    url: queryParams?.url || TestQualityRoute(),
+    url: queryParams?.url ?? TestQualityRoute(),
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -25,7 +28,7 @@ export const testQualityGetMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<TestQualityApi>>(config)
     : getResponse<ResourceList<TestQualityApi>, TestQuality>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -36,7 +39,7 @@ export const testQualityGetOne = (
 ): Promise<TestQualityApi> => {
   const config: QueryParams<TestQuality> = {
     method: 'get',
-    url: `${queryParams?.url || TestQualityRoute()}/${id}`,
+    url: `${queryParams?.url ?? TestQualityRoute()}/${id}`,
     params: queryParams?.params,
     cancelToken: queryParams?.cancelToken,
     headers: queryParams?.headers,
@@ -45,7 +48,7 @@ export const testQualityGetOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQualityApi>(config)
     : getResponse<TestQualityApi, TestQuality>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -56,7 +59,7 @@ export const testQualityDeleteOne = (
 ): Promise<MessageResponse> => {
   const config: QueryParams<TestQuality> = {
     method: 'delete',
-    url: `${queryParams?.url || TestQualityRoute()}/${id}`,
+    url: `${queryParams?.url ?? TestQualityRoute()}/${id}`,
     params: queryParams?.params,
     headers: queryParams?.headers,
   };
@@ -64,7 +67,7 @@ export const testQualityDeleteOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
     : getResponse<MessageResponse, TestQuality>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
@@ -76,7 +79,7 @@ export const testQualityUpdateOne = (
 ): Promise<TestQuality> => {
   const config: QueryParams<TestQuality> = {
     method: 'put',
-    url: `${queryParams?.url || TestQualityRoute()}/${id}`,
+    url: `${queryParams?.url ?? TestQualityRoute()}/${id}`,
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -84,7 +87,7 @@ export const testQualityUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQuality>(config)
-    : getResponse<TestQuality>(queryParams?.api || _client?.api, config);
+    : getResponse<TestQuality>(queryParams?.api ?? _client?.api, config);
 };
 
 export const testQualityCreateOne = (
@@ -93,7 +96,7 @@ export const testQualityCreateOne = (
 ): Promise<TestQuality> => {
   const config: QueryParams<TestQuality> = {
     method: 'post',
-    url: queryParams?.url || TestQualityRoute(),
+    url: queryParams?.url ?? TestQualityRoute(),
     params: queryParams?.params,
     data,
     headers: queryParams?.headers,
@@ -101,7 +104,7 @@ export const testQualityCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQuality>(config)
-    : getResponse<TestQuality>(queryParams?.api || _client?.api, config);
+    : getResponse<TestQuality>(queryParams?.api ?? _client?.api, config);
 };
 
 export const testQualityCreateMany = (
@@ -110,7 +113,7 @@ export const testQualityCreateMany = (
 ): Promise<TestQuality[]> => {
   const config: QueryParamsWithList<TestQuality> = {
     method: 'post',
-    url: queryParams?.url || TestQualityRoute(),
+    url: queryParams?.url ?? TestQualityRoute(),
     params: queryParams?.params,
     list: data,
     headers: queryParams?.headers,
@@ -119,7 +122,7 @@ export const testQualityCreateMany = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQuality[]>(config)
     : getResponse<TestQuality[], TestQuality>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

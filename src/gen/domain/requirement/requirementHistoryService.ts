@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { RequirementRoute } from '../../routes/Routes';
-import { Requirement } from './Requirement';
-import { RequirementHistory } from './RequirementHistory';
+import type { Requirement } from './Requirement';
+import type { RequirementHistory } from './RequirementHistory';
 
 export const requirementHistoryGet = (
   queryParams?: QueryParams<Requirement>,
 ): Promise<RequirementHistory[]> => {
   const config: QueryParams<Requirement> = {
     method: 'get',
-    url: `${queryParams?.url || RequirementRoute()}${
+    url: `${queryParams?.url ?? RequirementRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const requirementHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<RequirementHistory[]>(config)
     : getResponse<RequirementHistory[], Requirement>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };

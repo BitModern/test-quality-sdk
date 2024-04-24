@@ -4,17 +4,17 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
-import { QueryParams } from '../../actions/QueryParams';
+import type { QueryParams } from '../../actions/QueryParams';
 import { CheckSuiteRoute } from '../../routes/Routes';
-import { CheckSuite } from './CheckSuite';
-import { CheckSuiteHistory } from './CheckSuiteHistory';
+import type { CheckSuite } from './CheckSuite';
+import type { CheckSuiteHistory } from './CheckSuiteHistory';
 
 export const checkSuiteHistoryGet = (
   queryParams?: QueryParams<CheckSuite>,
 ): Promise<CheckSuiteHistory[]> => {
   const config: QueryParams<CheckSuite> = {
     method: 'get',
-    url: `${queryParams?.url || CheckSuiteRoute()}${
+    url: `${queryParams?.url ?? CheckSuiteRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
     }`,
     params: { revision_log: true, ...queryParams?.params },
@@ -24,7 +24,7 @@ export const checkSuiteHistoryGet = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuiteHistory[]>(config)
     : getResponse<CheckSuiteHistory[], CheckSuite>(
-        queryParams?.api || _client?.api,
+        queryParams?.api ?? _client?.api,
         config,
       );
 };
