@@ -302,9 +302,8 @@ export const PullRequestRoute = (): string => `/pull_request`;
 export const PullRequestCheckSuitePullRequestRoute = (
   pull_request_id: number,
 ): string => `/pull_request/${pull_request_id}/check_suite_pull_request`;
-export const PullRequestPullRequestRequirementRoute = (
-  pull_request_id: number,
-): string => `/pull_request/${pull_request_id}/pull_request_requirement`;
+export const PullRequestRequirementRoute = (pull_request_id: number): string =>
+  `/pull_request/${pull_request_id}/requirement`;
 export const PullRequestRunRoute = (pull_request_id: number): string =>
   `/pull_request/${pull_request_id}/run`;
 export const PurposeRoute = (): string => `/purpose`;
@@ -470,3 +469,4 @@ export const UserUserLogRoute = (user_id: number): string =>
   `/user/${user_id}/user_log`;
 export const VirtualRoute = (): string => `/virtual`;
 export const WatchRoute = (): string => `/watch`;
+export const WebinarRoute = (): string => `/webinar`;

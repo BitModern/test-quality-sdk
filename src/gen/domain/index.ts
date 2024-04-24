@@ -381,3 +381,6 @@ export { WatchApi } from './watch/WatchApi';
 export { WatchHistory } from './watch/WatchHistory';
 export * from './watch/watchHistoryService';
 export * from './watch/watchService';
+export { Webinar } from './webinar/Webinar';
+export { WebinarApi } from './webinar/WebinarApi';
+export * from './webinar/webinarService';

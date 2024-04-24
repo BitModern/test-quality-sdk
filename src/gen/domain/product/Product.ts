@@ -38,4 +38,6 @@ export interface Product extends DefaultAttributes {
   display_name: string;
   user_limit: number;
   product_master_id: number;
+  can_increment: boolean;
+  upgrade_product_id?: number;
 }

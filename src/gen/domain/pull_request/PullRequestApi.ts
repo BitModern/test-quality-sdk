@@ -10,6 +10,7 @@ import { AppUserApi } from '../app_user/AppUserApi';
 import { PullRequestRunApi } from '../pull_request_run/PullRequestRunApi';
 import { RunApi } from '../run/RunApi';
 import { PullRequestRequirementApi } from '../pull_request_requirement/PullRequestRequirementApi';
+import { RequirementApi } from '../requirement/RequirementApi';
 import { CheckSuitePullRequestApi } from '../check_suite_pull_request/CheckSuitePullRequestApi';
 
 export interface PullRequestApi extends PullRequest {
@@ -17,8 +18,10 @@ export interface PullRequestApi extends PullRequest {
   app_user?: AppUserApi;
   run?: RunApi[];
   run_id?: number; // This field is required during create
-  pull_request_requirement?: PullRequestRequirementApi[];
+  requirement?: RequirementApi[];
+  requirement_id?: number; // This field is required during create
   check_suite_pull_request?: CheckSuitePullRequestApi[];
-  pivot?: PullRequestRunApi;
+  pivot?: PullRequestRunApi | PullRequestRequirementApi;
   pull_request_run?: Partial<PullRequestRunApi>;
+  pull_request_requirement?: Partial<PullRequestRequirementApi>;
 }
