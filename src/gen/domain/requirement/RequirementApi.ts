@@ -11,6 +11,7 @@ import { DefectResApi } from '../defect_res/DefectResApi';
 import { RequirementTestApi } from '../requirement_test/RequirementTestApi';
 import { AttachmentApi } from '../attachment/AttachmentApi';
 import { PullRequestRequirementApi } from '../pull_request_requirement/PullRequestRequirementApi';
+import { PullRequestApi } from '../pull_request/PullRequestApi';
 
 export interface RequirementApi extends Requirement {
   project?: ProjectApi;
@@ -18,5 +19,7 @@ export interface RequirementApi extends Requirement {
   defect_res?: DefectResApi;
   requirement_test?: RequirementTestApi[];
   attachment?: AttachmentApi;
-  pull_request_requirement?: PullRequestRequirementApi[];
+  pull_request?: PullRequestApi[];
+  pivot?: PullRequestRequirementApi;
+  pull_request_requirement?: Partial<PullRequestRequirementApi>;
 }

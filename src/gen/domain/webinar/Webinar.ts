@@ -12,7 +12,7 @@ export interface Webinar extends DefaultAttributes {
   updated_by: number;
   epoch: number;
   name: string;
-  register_rul: string;
+  register_url: string;
   live_url?: string;
   is_active: boolean;
   start_time: string;

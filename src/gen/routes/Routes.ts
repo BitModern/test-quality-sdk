@@ -314,9 +314,8 @@ export const PurposePlanRoute = (purpose_id: number): string =>
 export const RequirementRoute = (): string => `/requirement`;
 export const RequirementAttachmentRoute = (requirement_id: number): string =>
   `/requirement/${requirement_id}/attachment`;
-export const RequirementPullRequestRequirementRoute = (
-  requirement_id: number,
-): string => `/requirement/${requirement_id}/pull_request_requirement`;
+export const RequirementPullRequestRoute = (requirement_id: number): string =>
+  `/requirement/${requirement_id}/pull_request`;
 export const RequirementRequirementTestRoute = (
   requirement_id: number,
 ): string => `/requirement/${requirement_id}/requirement_test`;
