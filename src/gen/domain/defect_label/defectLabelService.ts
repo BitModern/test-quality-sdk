@@ -6,7 +6,7 @@ import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
 import type { LookupIntegrationParams } from '../../actions/LookupIntegrationParams';
 import type { QueryParams } from '../../actions/QueryParams';
-import type { DefectLabelRoute } from '../../routes/Routes';
+import { DefectLabelRoute } from '../../routes/Routes';
 import type { DefectLabel } from './DefectLabel';
 
 export const defectLabelGetMany = (

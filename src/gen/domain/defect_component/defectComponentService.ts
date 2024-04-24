@@ -6,7 +6,7 @@ import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
 import type { LookupIntegrationParams } from '../../actions/LookupIntegrationParams';
 import type { QueryParams } from '../../actions/QueryParams';
-import type { DefectComponentRoute } from '../../routes/Routes';
+import { DefectComponentRoute } from '../../routes/Routes';
 import type { DefectComponent } from './DefectComponent';
 
 export const defectComponentGetMany = (
