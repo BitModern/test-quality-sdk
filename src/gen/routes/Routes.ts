@@ -305,8 +305,9 @@ export const PullRequestCheckSuitePullRequestRoute = (
 export const PullRequestPullRequestRequirementRoute = (
   pull_request_id: number,
 ): string => `/pull_request/${pull_request_id}/pull_request_requirement`;
-export const PullRequestRunRoute = (pull_request_id: number): string =>
-  `/pull_request/${pull_request_id}/run`;
+export const PullRequestPullRequestRunRoute = (
+  pull_request_id: number,
+): string => `/pull_request/${pull_request_id}/pull_request_run`;
 export const PurposeRoute = (): string => `/purpose`;
 export const PurposeLabelAssignedRoute = (purpose_id: number): string =>
   `/purpose/${purpose_id}/label_assigned`;
@@ -326,8 +327,8 @@ export const RunCommentRoute = (run_id: number): string =>
   `/run/${run_id}/comment`;
 export const RunLabelAssignedRoute = (run_id: number): string =>
   `/run/${run_id}/label_assigned`;
-export const RunPullRequestRoute = (run_id: number): string =>
-  `/run/${run_id}/pull_request`;
+export const RunPullRequestRunRoute = (run_id: number): string =>
+  `/run/${run_id}/pull_request_run`;
 export const RunResultRoute = (): string => `/run_result`;
 export const RunResultAttachmentRoute = (run_result_id: number): string =>
   `/run_result/${run_result_id}/attachment`;

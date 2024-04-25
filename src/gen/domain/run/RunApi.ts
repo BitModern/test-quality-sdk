@@ -12,7 +12,6 @@ import type { PlanApi } from '../plan/PlanApi';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import type { RunSuiteApi } from '../run_suite/RunSuiteApi';
 import type { PullRequestRunApi } from '../pull_request_run/PullRequestRunApi';
-import type { PullRequestApi } from '../pull_request/PullRequestApi';
 import type { RunResultApi } from '../run_result/RunResultApi';
 import type { CommentApi } from '../comment/CommentApi';
 
@@ -23,10 +22,7 @@ export interface RunApi extends Run {
   plan?: PlanApi;
   label_assigned?: LabelAssignedApi;
   run_suite?: RunSuiteApi[];
-  pull_request?: PullRequestApi[];
-  pull_request_id?: number; // This field is required during create
+  pull_request_run?: PullRequestRunApi[];
   run_result?: RunResultApi[];
   comment?: CommentApi;
-  pivot?: PullRequestRunApi;
-  pull_request_run?: Partial<PullRequestRunApi>;
 }

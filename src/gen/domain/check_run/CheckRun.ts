@@ -23,4 +23,5 @@ export interface CheckRun extends KeyedModel {
   client_id: number;
   check_suite_id?: number;
   app_install_project_id: number;
+  latest_run_id?: number;
 }
