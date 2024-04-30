@@ -36,4 +36,5 @@ export interface User extends KeyedModel {
   old_password?: string;
   is_expired: boolean;
   signup_type?: number;
+  slack_webhook_url?: string;
 }
