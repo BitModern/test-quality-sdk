@@ -48,4 +48,6 @@ export interface Integration extends KeyedModel {
   refresh_token_request?: string;
   scope?: string;
   enable_pull_request_testing: boolean;
+  include_initial_check: boolean;
+  include_link_comment: boolean;
 }
