@@ -5,7 +5,11 @@
 
 import * as querystring from 'querystring';
 import { type AxiosError, type AxiosResponse, type Method } from 'axios';
-import { type QueryParams } from '../../gen/actions/QueryParams';
+import {
+  type QueryParams,
+  type QueryParamsWithList,
+  hasListProperty,
+} from '../../gen/actions/QueryParams';
 import { getHttpResponse } from '../../exceptions/handleHttpError';
 import { _client } from '../../ClientSdk';
 
@@ -38,7 +42,7 @@ interface BatchRequestContainer {
 export class BatchService {
   private readonly batchContainers: BatchRequestContainer[] = [];
 
-  public addBatch<T>(request: QueryParams) {
+  public addBatch<T>(request: QueryParams | QueryParamsWithList) {
     return new Promise<T>((resolve, reject) => {
       const paramsString = request.params
         ? `?${querystring.stringify(request.params)}`
@@ -49,7 +53,7 @@ export class BatchService {
             ? (request.method.toUpperCase() as Method)
             : 'GET',
           endpoint: `/api${request.url}${paramsString}` ?? '/',
-          body: request.data,
+          body: hasListProperty(request) ? request.list : request.data,
         },
         resolve,
         reject,
