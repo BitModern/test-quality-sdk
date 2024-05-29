@@ -6,6 +6,9 @@ import type { KeyedModel } from '../../models/KeyedModel';
 import type { RunAnalysisApi } from '../../models/RunAnalysisApi';
 
 export interface Run extends KeyedModel {
+  id: number;
+  created_by: number;
+  created_at: string;
   updated_by: number;
   updated_at: string;
   epoch: number;
@@ -44,9 +47,6 @@ export interface Run extends KeyedModel {
   run_result_rows: number;
   run_result_step_rows: number;
   is_permanent?: boolean;
-  id: number;
-  created_by: number;
-  created_at: string;
   check_run_id?: number;
   analysis?: RunAnalysisApi;
 }

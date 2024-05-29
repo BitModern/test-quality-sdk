@@ -5,10 +5,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import type { DefectResNativeDefectRes } from './DefectResNativeDefectRes';
-import type { DefectResApi } from '../defect_res/DefectResApi';
 import type { NativeDefectResApi } from '../native_defect_res/NativeDefectResApi';
+import type { DefectResApi } from '../defect_res/DefectResApi';
 
 export interface DefectResNativeDefectResApi extends DefectResNativeDefectRes {
-  defect_res?: DefectResApi;
   native_defect_res?: NativeDefectResApi;
+  defect_res?: DefectResApi;
 }

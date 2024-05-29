@@ -56,6 +56,10 @@ export const AppVersionLabelAssignedRoute = (app_version_id: number): string =>
   `/app_version/${app_version_id}/label_assigned`;
 export const AppVersionPlatVersionRoute = (): string =>
   `/app_version_plat_version`;
+export const AppVersionPlatVersionExplorationRoute = (
+  app_version_plat_version_id: number,
+): string =>
+  `/app_version_plat_version/${app_version_plat_version_id}/exploration`;
 export const AppVersionPlatVersionLabelAssignedRoute = (
   app_version_plat_version_id: number,
 ): string =>
@@ -103,6 +107,13 @@ export const CaseTypeLabelAssignedRoute = (case_type_id: number): string =>
   `/case_type/${case_type_id}/label_assigned`;
 export const CaseTypeTestRoute = (case_type_id: number): string =>
   `/case_type/${case_type_id}/test`;
+export const CheckListRoute = (): string => `/check_list`;
+export const CheckListCheckListItemRoute = (check_list_id: number): string =>
+  `/check_list/${check_list_id}/check_list_item`;
+export const CheckListItemRoute = (): string => `/check_list_item`;
+export const CheckListItemCheckListItemUserRoute = (
+  check_list_item_id: number,
+): string => `/check_list_item/${check_list_item_id}/check_list_item_user`;
 export const CheckRunRoute = (): string => `/check_run`;
 export const CheckRunRunRoute = (check_run_id: number): string =>
   `/check_run/${check_run_id}/run`;
@@ -120,6 +131,15 @@ export const ClientSignupOptionRoute = (client_id: number): string =>
 export const ClientVirtualRoute = (client_id: number): string =>
   `/client/${client_id}/virtual`;
 export const CommentRoute = (): string => `/comment`;
+export const ComponentRoute = (): string => `/component`;
+export const ComponentComponentDocRoute = (component_id: number): string =>
+  `/component/${component_id}/component_doc`;
+export const ComponentComponentDocTemplateRoute = (
+  component_id: number,
+): string => `/component/${component_id}/component_doc_template`;
+export const ComponentDocRoute = (): string => `/component_doc`;
+export const ComponentDocTemplateRoute = (): string =>
+  `/component_doc_template`;
 export const CouponRoute = (): string => `/coupon`;
 export const CouponSubscriptionsRoute = (coupon_id: number): string =>
   `/coupon/${coupon_id}/subscriptions`;
@@ -130,6 +150,8 @@ export const DefectRoute = (): string => `/defect`;
 export const DefectAttachmentRoute = (defect_id: number): string =>
   `/defect/${defect_id}/attachment`;
 export const DefectComponentRoute = (): string => `/defect_component`;
+export const DefectDefectExplorationItemRoute = (defect_id: number): string =>
+  `/defect/${defect_id}/defect_exploration_item`;
 export const DefectLabelRoute = (): string => `/defect_label`;
 export const DefectPriorityRoute = (): string => `/defect_priority`;
 export const DefectResRoute = (): string => `/defect_res`;
@@ -152,6 +174,33 @@ export const DefectStatusRequirementRoute = (
 ): string => `/defect_status/${defect_status_id}/requirement`;
 export const DefectTypeRoute = (): string => `/defect_type`;
 export const DefectUserRoute = (): string => `/defect_user`;
+export const DocRoute = (): string => `/doc`;
+export const DocComponentDocRoute = (doc_id: number): string =>
+  `/doc/${doc_id}/component_doc`;
+export const DocTemplateRoute = (): string => `/doc_template`;
+export const DocTemplateComponentDocTemplateRoute = (
+  doc_template_id: number,
+): string => `/doc_template/${doc_template_id}/component_doc_template`;
+export const DocTemplateDocRoute = (doc_template_id: number): string =>
+  `/doc_template/${doc_template_id}/doc`;
+export const DocTestPlanRoute = (doc_id: number): string =>
+  `/doc/${doc_id}/test_plan`;
+export const DocTypeRoute = (): string => `/doc_type`;
+export const DocTypeDocTemplateRoute = (doc_type_id: number): string =>
+  `/doc_type/${doc_type_id}/doc_template`;
+export const ExplorationRoute = (): string => `/exploration`;
+export const ExplorationExplorationItemRoute = (
+  exploration_id: number,
+): string => `/exploration/${exploration_id}/exploration_item`;
+export const ExplorationItemRoute = (): string => `/exploration_item`;
+export const ExplorationItemDefectExplorationItemRoute = (
+  exploration_item_id: number,
+): string => `/exploration_item/${exploration_item_id}/defect_exploration_item`;
+export const ExplorationItemLabelAssignedRoute = (
+  exploration_item_id: number,
+): string => `/exploration_item/${exploration_item_id}/label_assigned`;
+export const ExplorationLabelAssignedRoute = (exploration_id: number): string =>
+  `/exploration/${exploration_id}/label_assigned`;
 export const FilterRoute = (): string => `/filter`;
 export const IntegrationRoute = (): string => `/integration`;
 export const IntegrationAppInstallIntegrationRoute = (
@@ -184,6 +233,8 @@ export const LabelLabelAssignedRoute = (label_id: number): string =>
 export const MilestoneRoute = (): string => `/milestone`;
 export const MilestoneCommentRoute = (milestone_id: number): string =>
   `/milestone/${milestone_id}/comment`;
+export const MilestoneExplorationRoute = (milestone_id: number): string =>
+  `/milestone/${milestone_id}/exploration`;
 export const MilestoneLabelAssignedRoute = (milestone_id: number): string =>
   `/milestone/${milestone_id}/label_assigned`;
 export const MilestoneRunRoute = (milestone_id: number): string =>
@@ -261,6 +312,10 @@ export const ProjectDataSetRoute = (project_id: number): string =>
   `/project/${project_id}/data_set`;
 export const ProjectDefectRoute = (project_id: number): string =>
   `/project/${project_id}/defect`;
+export const ProjectExplorationRoute = (project_id: number): string =>
+  `/project/${project_id}/exploration`;
+export const ProjectExplorationItemRoute = (project_id: number): string =>
+  `/project/${project_id}/exploration_item`;
 export const ProjectFilterRoute = (project_id: number): string =>
   `/project/${project_id}/filter`;
 export const ProjectIntegrationRoute = (project_id: number): string =>
@@ -296,6 +351,8 @@ export const ProjectTaskRoute = (project_id: number): string =>
   `/project/${project_id}/task`;
 export const ProjectTestRoute = (project_id: number): string =>
   `/project/${project_id}/test`;
+export const ProjectTestPlanRoute = (project_id: number): string =>
+  `/project/${project_id}/test_plan`;
 export const ProjectWatchRoute = (project_id: number): string =>
   `/project/${project_id}/watch`;
 export const PullRequestRoute = (): string => `/pull_request`;
@@ -365,6 +422,10 @@ export const SharedStepStepRoute = (shared_step_id: number): string =>
   `/shared_step/${shared_step_id}/step`;
 export const SignupOptionRoute = (): string => `/signup_option`;
 export const StatusRoute = (): string => `/status`;
+export const StatusExplorationRoute = (status_id: number): string =>
+  `/status/${status_id}/exploration`;
+export const StatusExplorationItemRoute = (status_id: number): string =>
+  `/status/${status_id}/exploration_item`;
 export const StatusLabelAssignedRoute = (status_id: number): string =>
   `/status/${status_id}/label_assigned`;
 export const StatusRunResultRoute = (status_id: number): string =>
@@ -417,6 +478,7 @@ export const TestCommentRoute = (test_id: number): string =>
   `/test/${test_id}/comment`;
 export const TestLabelAssignedRoute = (test_id: number): string =>
   `/test/${test_id}/label_assigned`;
+export const TestPlanRoute = (): string => `/test_plan`;
 export const TestPlanSuiteTestIncludeRoute = (test_id: number): string =>
   `/test/${test_id}/plan_suite_test_include`;
 export const TestQualityRoute = (): string => `/test_quality`;
@@ -447,6 +509,8 @@ export const UserAccessRoleRoute = (user_id: number): string =>
   `/user/${user_id}/access_role`;
 export const UserBillingContactRoute = (user_id: number): string =>
   `/user/${user_id}/billing_contact`;
+export const UserCheckListItemUserRoute = (user_id: number): string =>
+  `/user/${user_id}/check_list_item_user`;
 export const UserExportRoute = (user_id: number): string =>
   `/user/${user_id}/export`;
 export const UserFeatureUserRoute = (user_id: number): string =>
