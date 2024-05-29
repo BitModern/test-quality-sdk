@@ -1,6 +1,6 @@
 {
   "name": "@testquality/sdk",
-  "version": "1.12.31",
+  "version": "1.12.32",
   "description": "SDK for accessing TestQuality API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
