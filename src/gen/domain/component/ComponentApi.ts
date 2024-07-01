@@ -7,8 +7,10 @@
 import type { Component } from './Component';
 import type { ComponentDocTemplateApi } from '../component_doc_template/ComponentDocTemplateApi';
 import type { ComponentDocApi } from '../component_doc/ComponentDocApi';
+import type { ComponentDocTypeApi } from '../component_doc_type/ComponentDocTypeApi';
 
 export interface ComponentApi extends Component {
   component_doc_template?: ComponentDocTemplateApi[];
   component_doc?: ComponentDocApi[];
+  component_doc_type?: ComponentDocTypeApi[];
 }

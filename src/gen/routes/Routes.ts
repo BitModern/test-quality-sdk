@@ -142,6 +142,7 @@ export const ComponentComponentDocTypeRoute = (component_id: number): string =>
 export const ComponentDocRoute = (): string => `/component_doc`;
 export const ComponentDocTemplateRoute = (): string =>
   `/component_doc_template`;
+export const ComponentDocTypeRoute = (): string => `/component_doc_type`;
 export const CouponRoute = (): string => `/coupon`;
 export const CouponSubscriptionsRoute = (coupon_id: number): string =>
   `/coupon/${coupon_id}/subscriptions`;
