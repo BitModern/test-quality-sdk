@@ -12,8 +12,7 @@
     "lint": "eslint src --ext .ts",
     "format:fix": "prettier --write '(src|test)/**/*.ts'",
     "prepublish": "yarn prepare && yarn build",
-    "prepare": "ts-patch install -s",
-    "release": "npm version patch && git push && git push --tags && npm publish"
+    "prepare": "ts-patch install -s"
   },
   "repository": {
     "type": "git",
