@@ -7,7 +7,6 @@
 import type { Project } from './Project';
 import type { AccessRoleApi } from '../access_role/AccessRoleApi';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import type { AttachmentApi } from '../attachment/AttachmentApi';
 import type { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import type { FilterApi } from '../filter/FilterApi';
 import type { DataSetApi } from '../data_set/DataSetApi';
@@ -29,11 +28,11 @@ import type { CommentApi } from '../comment/CommentApi';
 import type { WatchApi } from '../watch/WatchApi';
 import type { DefectApi } from '../defect/DefectApi';
 import type { RequirementApi } from '../requirement/RequirementApi';
+import type { AttachmentApi } from '../attachment/AttachmentApi';
 
 export interface ProjectApi extends Project {
   access_role?: AccessRoleApi;
   label_assigned?: LabelAssignedApi;
-  attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   filter?: FilterApi[];
   data_set?: DataSetApi[];
@@ -55,6 +54,7 @@ export interface ProjectApi extends Project {
   watch?: WatchApi;
   defect?: DefectApi[];
   requirement?: RequirementApi[];
+  attachment?: AttachmentApi;
   pivot?: IntegrationProjectApi;
   integration_project?: Partial<IntegrationProjectApi>;
 }

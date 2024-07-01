@@ -21,5 +21,6 @@ export interface Doc extends KeyedModel {
   content: any;
   client_id: number;
   key: number;
-  doc_template_id: number;
+  doc_template_id?: number;
+  doc_type_id: number;
 }

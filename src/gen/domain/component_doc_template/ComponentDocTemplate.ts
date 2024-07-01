@@ -12,7 +12,6 @@ export interface ComponentDocTemplate extends DefaultAttributes {
   updated_at: string;
   epoch: number;
   is_default: boolean;
-  is_recommended: boolean;
   sequence: number;
   doc_template_id: number;
   component_id: number;

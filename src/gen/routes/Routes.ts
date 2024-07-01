@@ -137,6 +137,8 @@ export const ComponentComponentDocRoute = (component_id: number): string =>
 export const ComponentComponentDocTemplateRoute = (
   component_id: number,
 ): string => `/component/${component_id}/component_doc_template`;
+export const ComponentComponentDocTypeRoute = (component_id: number): string =>
+  `/component/${component_id}/component_doc_type`;
 export const ComponentDocRoute = (): string => `/component_doc`;
 export const ComponentDocTemplateRoute = (): string =>
   `/component_doc_template`;
@@ -175,6 +177,8 @@ export const DefectStatusRequirementRoute = (
 export const DefectTypeRoute = (): string => `/defect_type`;
 export const DefectUserRoute = (): string => `/defect_user`;
 export const DocRoute = (): string => `/doc`;
+export const DocAttachmentRoute = (doc_id: number): string =>
+  `/doc/${doc_id}/attachment`;
 export const DocComponentDocRoute = (doc_id: number): string =>
   `/doc/${doc_id}/component_doc`;
 export const DocTemplateRoute = (): string => `/doc_template`;
@@ -186,6 +190,10 @@ export const DocTemplateDocRoute = (doc_template_id: number): string =>
 export const DocTestPlanRoute = (doc_id: number): string =>
   `/doc/${doc_id}/test_plan`;
 export const DocTypeRoute = (): string => `/doc_type`;
+export const DocTypeComponentDocTypeRoute = (doc_type_id: number): string =>
+  `/doc_type/${doc_type_id}/component_doc_type`;
+export const DocTypeDocRoute = (doc_type_id: number): string =>
+  `/doc_type/${doc_type_id}/doc`;
 export const DocTypeDocTemplateRoute = (doc_type_id: number): string =>
   `/doc_type/${doc_type_id}/doc_template`;
 export const ExplorationRoute = (): string => `/exploration`;

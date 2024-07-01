@@ -5,9 +5,6 @@
 import type { DefaultAttributes } from '../../models/DefaultAttributes';
 
 export interface Client extends DefaultAttributes {
-  id: number;
-  created_by: number;
-  created_at: string;
   updated_by: number;
   updated_at: string;
   epoch: number;
@@ -40,4 +37,7 @@ export interface Client extends DefaultAttributes {
   space_free: number;
   openid_url?: string;
   openid_client_id?: string;
+  id: number;
+  created_by: number;
+  created_at: string;
 }
