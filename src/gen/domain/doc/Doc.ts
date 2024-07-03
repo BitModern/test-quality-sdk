@@ -23,4 +23,5 @@ export interface Doc extends KeyedModel {
   key: number;
   doc_template_id?: number;
   doc_type_id: number;
+  cover_id?: number;
 }
