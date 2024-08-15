@@ -1,4 +1,8 @@
-import { type InternalAxiosRequestConfig, type AxiosResponse } from 'axios';
+import {
+  type InternalAxiosRequestConfig,
+  type AxiosResponse,
+  type AxiosRequestConfig,
+} from 'axios';
 import Debug from 'debug';
 import { type ReturnToken } from './ReturnToken';
 import {
@@ -51,6 +55,12 @@ export type AuthCallback = (
   token?: ReturnToken,
   me?: Auth,
 ) => Promise<void>;
+
+export interface SignUpWithEmailData {
+  email: string;
+  password: string;
+  recaptcha: string;
+}
 
 export class Auth {
   public static validateTokenPayload(token: any) {
@@ -244,16 +254,11 @@ export class Auth {
   }
 
   public signUpWithEmail(
-    email: string,
-    password: string,
-    recaptcha: string,
+    data: SignUpWithEmailData,
+    config?: AxiosRequestConfig<SignUpWithEmailData>,
   ): Promise<ReturnToken> {
     return this.client.api
-      .post('/system/sign_up_with_email', {
-        email,
-        password,
-        g_recaptcha_response: recaptcha,
-      })
+      .post('/system/sign_up_with_email', data, config)
       .then((res) => this.performLogin(res.data));
   }
 
