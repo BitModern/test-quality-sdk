@@ -18,7 +18,7 @@ export interface Doc extends KeyedModel {
   /**
    * The description of the capability.
    */
-  content: any;
+  content?: any;
   client_id: number;
   key: number;
   doc_template_id?: number;

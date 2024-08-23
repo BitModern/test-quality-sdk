@@ -8,11 +8,9 @@ import type { Watch } from './Watch';
 import type { ProjectApi } from '../project/ProjectApi';
 import type { PlanApi } from '../plan/PlanApi';
 import type { SuiteApi } from '../suite/SuiteApi';
-import type { TestApi } from '../test/TestApi';
 
 export interface WatchApi extends Watch {
   project?: ProjectApi;
   plan?: PlanApi;
   suite?: SuiteApi;
-  test?: TestApi;
 }

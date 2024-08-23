@@ -48,5 +48,6 @@ export interface Run extends KeyedModel {
   run_result_step_rows: number;
   is_permanent?: boolean;
   check_run_id?: number;
+  is_automated: boolean;
   analysis?: RunAnalysisApi;
 }

@@ -34,5 +34,6 @@ export interface Plan extends KeyedModel {
    * Whether to create run during Pull Request checks.
    */
   include_in_checks?: boolean;
+  is_automated: boolean;
   analysis?: PlanAnalysisApi;
 }

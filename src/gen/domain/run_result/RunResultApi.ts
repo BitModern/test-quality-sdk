@@ -10,6 +10,7 @@ import type { SuiteApi } from '../suite/SuiteApi';
 import type { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
 import type { ProjectApi } from '../project/ProjectApi';
 import type { RunApi } from '../run/RunApi';
+import type { EnvironmentApi } from '../environment/EnvironmentApi';
 import type { StatusApi } from '../status/StatusApi';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import type { DefectRunResultApi } from '../defect_run_result/DefectRunResultApi';
@@ -24,6 +25,7 @@ export interface RunResultApi extends RunResult {
   app_version_plat_version?: AppVersionPlatVersionApi;
   project?: ProjectApi;
   run?: RunApi;
+  environment?: EnvironmentApi;
   status?: StatusApi;
   label_assigned?: LabelAssignedApi;
   defect?: DefectApi[];

@@ -30,4 +30,5 @@ export interface ExplorationItem extends KeyedModel {
   project_id: number;
   exploration_id: number;
   status_id?: number;
+  environment_id?: number;
 }

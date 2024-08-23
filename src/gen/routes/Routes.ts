@@ -56,10 +56,6 @@ export const AppVersionLabelAssignedRoute = (app_version_id: number): string =>
   `/app_version/${app_version_id}/label_assigned`;
 export const AppVersionPlatVersionRoute = (): string =>
   `/app_version_plat_version`;
-export const AppVersionPlatVersionExplorationRoute = (
-  app_version_plat_version_id: number,
-): string =>
-  `/app_version_plat_version/${app_version_plat_version_id}/exploration`;
 export const AppVersionPlatVersionLabelAssignedRoute = (
   app_version_plat_version_id: number,
 ): string =>
@@ -197,7 +193,25 @@ export const DocTypeDocRoute = (doc_type_id: number): string =>
   `/doc_type/${doc_type_id}/doc`;
 export const DocTypeDocTemplateRoute = (doc_type_id: number): string =>
   `/doc_type/${doc_type_id}/doc_template`;
+export const EnvironmentRoute = (): string => `/environment`;
+export const EnvironmentEnvironmentExplorationRoute = (
+  environment_id: number,
+): string => `/environment/${environment_id}/environment_exploration`;
+export const EnvironmentEnvironmentPlanRoute = (
+  environment_id: number,
+): string => `/environment/${environment_id}/environment_plan`;
+export const EnvironmentEnvironmentResourceRoute = (
+  environment_id: number,
+): string => `/environment/${environment_id}/environment_resource`;
+export const EnvironmentExplorationItemRoute = (
+  environment_id: number,
+): string => `/environment/${environment_id}/exploration_item`;
+export const EnvironmentRunResultRoute = (environment_id: number): string =>
+  `/environment/${environment_id}/run_result`;
 export const ExplorationRoute = (): string => `/exploration`;
+export const ExplorationEnvironmentExplorationRoute = (
+  exploration_id: number,
+): string => `/exploration/${exploration_id}/environment_exploration`;
 export const ExplorationExplorationItemRoute = (
   exploration_id: number,
 ): string => `/exploration/${exploration_id}/exploration_item`;
@@ -272,6 +286,8 @@ export const PlanAttachmentRoute = (plan_id: number): string =>
   `/plan/${plan_id}/attachment`;
 export const PlanCommentRoute = (plan_id: number): string =>
   `/plan/${plan_id}/comment`;
+export const PlanEnvironmentPlanRoute = (plan_id: number): string =>
+  `/plan/${plan_id}/environment_plan`;
 export const PlanIntegrationProjectRoute = (plan_id: number): string =>
   `/plan/${plan_id}/integration_project`;
 export const PlanLabelAssignedRoute = (plan_id: number): string =>
@@ -388,6 +404,34 @@ export const RequirementPullRequestRequirementRoute = (
 export const RequirementRequirementTestRoute = (
   requirement_id: number,
 ): string => `/requirement/${requirement_id}/requirement_test`;
+export const ResourceRoute = (): string => `/resource`;
+export const ResourceEnvironmentResourceRoute = (resource_id: number): string =>
+  `/resource/${resource_id}/environment_resource`;
+export const ResourcePropertyRoute = (): string => `/resource_property`;
+export const ResourcePropertyEnvironmentResourceRoute = (
+  resource_property_id: number,
+): string => `/resource_property/${resource_property_id}/environment_resource`;
+export const ResourcePropertyResourcePropertyValueRoute = (
+  resource_property_id: number,
+): string =>
+  `/resource_property/${resource_property_id}/resource_property_value`;
+export const ResourcePropertyValueRoute = (): string =>
+  `/resource_property_value`;
+export const ResourcePropertyValueEnvironmentResourceRoute = (
+  resource_property_value_id: number,
+): string =>
+  `/resource_property_value/${resource_property_value_id}/environment_resource`;
+export const ResourceResourcePropertyRoute = (resource_id: number): string =>
+  `/resource/${resource_id}/resource_property`;
+export const ResourceResourceValueRoute = (resource_id: number): string =>
+  `/resource/${resource_id}/resource_value`;
+export const ResourceValueRoute = (): string => `/resource_value`;
+export const ResourceValueEnvironmentResourceRoute = (
+  resource_value_id: number,
+): string => `/resource_value/${resource_value_id}/environment_resource`;
+export const ResourceValueResourcePropertyValueRoute = (
+  resource_value_id: number,
+): string => `/resource_value/${resource_value_id}/resource_property_value`;
 export const RunRoute = (): string => `/run`;
 export const RunCommentRoute = (run_id: number): string =>
   `/run/${run_id}/comment`;
@@ -511,8 +555,6 @@ export const TestStepRoute = (test_id: number): string =>
   `/test/${test_id}/step`;
 export const TestSuiteRoute = (test_id: number): string =>
   `/test/${test_id}/suite`;
-export const TestWatchRoute = (test_id: number): string =>
-  `/test/${test_id}/watch`;
 export const UserRoute = (): string => `/user`;
 export const UserAccessRoleRoute = (user_id: number): string =>
   `/user/${user_id}/access_role`;

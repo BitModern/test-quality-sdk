@@ -5,6 +5,16 @@
 import type { KeyedModel } from '../../models/KeyedModel';
 
 export interface Requirement extends KeyedModel {
+  payload?: any;
+  project_id: number;
+  key: number;
+  id: number;
+  defect_status_id?: number;
+  defect_res_id?: number;
+  /**
+   * Whether to create run during Pull Request checks.
+   */
+  include_in_checks?: boolean;
   /**
    * Contains the ID of the linked requirement in the external system.
    */
@@ -18,14 +28,4 @@ export interface Requirement extends KeyedModel {
   updated_by: number;
   epoch: number;
   client_id: number;
-  payload?: any;
-  project_id: number;
-  key: number;
-  id: number;
-  defect_status_id?: number;
-  defect_res_id?: number;
-  /**
-   * Whether to create run during Pull Request checks.
-   */
-  include_in_checks?: boolean;
 }

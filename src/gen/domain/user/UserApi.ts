@@ -5,9 +5,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import type { User } from './User';
-import type { CheckListItemUserApi } from '../check_list_item_user/CheckListItemUserApi';
 import type { AccessRoleUserApi } from '../access_role_user/AccessRoleUserApi';
 import type { AccessRoleApi } from '../access_role/AccessRoleApi';
+import type { CheckListItemUserApi } from '../check_list_item_user/CheckListItemUserApi';
 import type { IntegrationUserApi } from '../integration_user/IntegrationUserApi';
 import type { IntegrationApi } from '../integration/IntegrationApi';
 import type { SubscriptionsApi } from '../subscriptions/SubscriptionsApi';
@@ -16,9 +16,9 @@ import type { NotificationsApi } from '../notifications/NotificationsApi';
 import type { BillingContactApi } from '../billing_contact/BillingContactApi';
 
 export interface UserApi extends User {
-  check_list_item_user?: CheckListItemUserApi[];
   access_role?: AccessRoleApi[];
   access_role_id?: number; // This field is required during create
+  check_list_item_user?: CheckListItemUserApi[];
   integration?: IntegrationApi[];
   subscriptions?: SubscriptionsApi[];
   subscription_user?: SubscriptionUserApi[];

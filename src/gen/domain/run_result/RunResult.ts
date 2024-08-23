@@ -37,4 +37,5 @@ export interface RunResult extends KeyedModel {
   flakiness?: number;
   data_set_row?: number;
   test_epoch?: number;
+  environment_id?: number;
 }
