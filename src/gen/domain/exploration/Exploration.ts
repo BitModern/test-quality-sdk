@@ -5,6 +5,10 @@
 import type { KeyedModel } from '../../models/KeyedModel';
 
 export interface Exploration extends KeyedModel {
+  id: number;
+  created_by: number;
+  created_at: string;
+  updated_by: number;
   updated_at: string;
   epoch: number;
   client_id: number;
@@ -32,8 +36,4 @@ export interface Exploration extends KeyedModel {
   milestone_id?: number;
   assigned_to_tester?: number;
   status_id?: number;
-  id: number;
-  created_by: number;
-  created_at: string;
-  updated_by: number;
 }

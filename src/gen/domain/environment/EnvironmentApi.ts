@@ -10,6 +10,7 @@ import type { EnvironmentPlanApi } from '../environment_plan/EnvironmentPlanApi'
 import type { RunResultApi } from '../run_result/RunResultApi';
 import type { EnvironmentExplorationApi } from '../environment_exploration/EnvironmentExplorationApi';
 import type { ExplorationItemApi } from '../exploration_item/ExplorationItemApi';
+import type { EnvironmentProjectApi } from '../environment_project/EnvironmentProjectApi';
 
 export interface EnvironmentApi extends Environment {
   environment_resource?: EnvironmentResourceApi[];
@@ -17,4 +18,5 @@ export interface EnvironmentApi extends Environment {
   run_result?: RunResultApi[];
   environment_exploration?: EnvironmentExplorationApi[];
   exploration_item?: ExplorationItemApi[];
+  environment_project?: EnvironmentProjectApi[];
 }

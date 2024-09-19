@@ -7,6 +7,8 @@ export const AccessRolePolicyRoute = (access_role_id: number): string =>
   `/access_role/${access_role_id}/policy`;
 export const AccessRoleProjectRoute = (access_role_id: number): string =>
   `/access_role/${access_role_id}/project`;
+export const AccessRoleShareRoute = (access_role_id: number): string =>
+  `/access_role/${access_role_id}/share`;
 export const AccessRoleUserRoute = (access_role_id: number): string =>
   `/access_role/${access_role_id}/user`;
 export const AppRoute = (): string => `/app`;
@@ -93,12 +95,17 @@ export const CapabilityProjectCapabilityDefaultRoute = (
   capability_id: number,
 ): string => `/capability/${capability_id}/project_capability_default`;
 export const CasePriorityRoute = (): string => `/case_priority`;
+export const CasePriorityCasePriorityProjectRoute = (
+  case_priority_id: number,
+): string => `/case_priority/${case_priority_id}/case_priority_project`;
 export const CasePriorityLabelAssignedRoute = (
   case_priority_id: number,
 ): string => `/case_priority/${case_priority_id}/label_assigned`;
 export const CasePriorityTestRoute = (case_priority_id: number): string =>
   `/case_priority/${case_priority_id}/test`;
 export const CaseTypeRoute = (): string => `/case_type`;
+export const CaseTypeCaseTypeProjectRoute = (case_type_id: number): string =>
+  `/case_type/${case_type_id}/case_type_project`;
 export const CaseTypeLabelAssignedRoute = (case_type_id: number): string =>
   `/case_type/${case_type_id}/label_assigned`;
 export const CaseTypeTestRoute = (case_type_id: number): string =>
@@ -200,6 +207,9 @@ export const EnvironmentEnvironmentExplorationRoute = (
 export const EnvironmentEnvironmentPlanRoute = (
   environment_id: number,
 ): string => `/environment/${environment_id}/environment_plan`;
+export const EnvironmentEnvironmentProjectRoute = (
+  environment_id: number,
+): string => `/environment/${environment_id}/environment_project`;
 export const EnvironmentEnvironmentResourceRoute = (
   environment_id: number,
 ): string => `/environment/${environment_id}/environment_resource`;
@@ -319,16 +329,27 @@ export const PolicyRoute = (): string => `/policy`;
 export const PolicyPolicyRowsRoute = (policy_id: number): string =>
   `/policy/${policy_id}/policy_rows`;
 export const PolicyRowsRoute = (): string => `/policy_rows`;
+export const PriceRoute = (): string => `/price`;
+export const PriceMarketplaceProductRoute = (price_id: number): string =>
+  `/price/${price_id}/marketplace_product`;
+export const PriceProductRoute = (price_id: number): string =>
+  `/price/${price_id}/product`;
+export const PriceQuoteItemRoute = (price_id: number): string =>
+  `/price/${price_id}/quote_item`;
+export const PriceSubscriptionsRoute = (price_id: number): string =>
+  `/price/${price_id}/subscriptions`;
 export const ProductRoute = (): string => `/product`;
 export const ProductMarketplaceRoute = (product_id: number): string =>
   `/product/${product_id}/marketplace`;
-export const ProductQuoteItemRoute = (product_id: number): string =>
-  `/product/${product_id}/quote_item`;
 export const ProductSubscriptionsRoute = (product_id: number): string =>
   `/product/${product_id}/subscriptions`;
 export const ProjectRoute = (): string => `/project`;
 export const ProjectAttachmentRoute = (project_id: number): string =>
   `/project/${project_id}/attachment`;
+export const ProjectCasePriorityProjectRoute = (project_id: number): string =>
+  `/project/${project_id}/case_priority_project`;
+export const ProjectCaseTypeProjectRoute = (project_id: number): string =>
+  `/project/${project_id}/case_type_project`;
 export const ProjectCodeRoute = (project_id: number): string =>
   `/project/${project_id}/code`;
 export const ProjectCommentRoute = (project_id: number): string =>
@@ -337,6 +358,8 @@ export const ProjectDataSetRoute = (project_id: number): string =>
   `/project/${project_id}/data_set`;
 export const ProjectDefectRoute = (project_id: number): string =>
   `/project/${project_id}/defect`;
+export const ProjectEnvironmentProjectRoute = (project_id: number): string =>
+  `/project/${project_id}/environment_project`;
 export const ProjectExplorationRoute = (project_id: number): string =>
   `/project/${project_id}/exploration`;
 export const ProjectExplorationItemRoute = (project_id: number): string =>
@@ -356,6 +379,10 @@ export const ProjectPlanSuiteTestIncludeRoute = (project_id: number): string =>
 export const ProjectProjectCapabilityDefaultRoute = (
   project_id: number,
 ): string => `/project/${project_id}/project_capability_default`;
+export const ProjectProjectPurposeRoute = (project_id: number): string =>
+  `/project/${project_id}/project_purpose`;
+export const ProjectProjectStatusRoute = (project_id: number): string =>
+  `/project/${project_id}/project_status`;
 export const ProjectRequirementRoute = (project_id: number): string =>
   `/project/${project_id}/requirement`;
 export const ProjectRunRoute = (project_id: number): string =>
@@ -395,6 +422,8 @@ export const PurposeLabelAssignedRoute = (purpose_id: number): string =>
   `/purpose/${purpose_id}/label_assigned`;
 export const PurposePlanRoute = (purpose_id: number): string =>
   `/purpose/${purpose_id}/plan`;
+export const PurposeProjectPurposeRoute = (purpose_id: number): string =>
+  `/purpose/${purpose_id}/project_purpose`;
 export const RequirementRoute = (): string => `/requirement`;
 export const RequirementAttachmentRoute = (requirement_id: number): string =>
   `/requirement/${requirement_id}/attachment`;
@@ -407,31 +436,12 @@ export const RequirementRequirementTestRoute = (
 export const ResourceRoute = (): string => `/resource`;
 export const ResourceEnvironmentResourceRoute = (resource_id: number): string =>
   `/resource/${resource_id}/environment_resource`;
-export const ResourcePropertyRoute = (): string => `/resource_property`;
-export const ResourcePropertyEnvironmentResourceRoute = (
-  resource_property_id: number,
-): string => `/resource_property/${resource_property_id}/environment_resource`;
-export const ResourcePropertyResourcePropertyValueRoute = (
-  resource_property_id: number,
-): string =>
-  `/resource_property/${resource_property_id}/resource_property_value`;
-export const ResourcePropertyValueRoute = (): string =>
-  `/resource_property_value`;
-export const ResourcePropertyValueEnvironmentResourceRoute = (
-  resource_property_value_id: number,
-): string =>
-  `/resource_property_value/${resource_property_value_id}/environment_resource`;
-export const ResourceResourcePropertyRoute = (resource_id: number): string =>
-  `/resource/${resource_id}/resource_property`;
 export const ResourceResourceValueRoute = (resource_id: number): string =>
   `/resource/${resource_id}/resource_value`;
 export const ResourceValueRoute = (): string => `/resource_value`;
 export const ResourceValueEnvironmentResourceRoute = (
   resource_value_id: number,
 ): string => `/resource_value/${resource_value_id}/environment_resource`;
-export const ResourceValueResourcePropertyValueRoute = (
-  resource_value_id: number,
-): string => `/resource_value/${resource_value_id}/resource_property_value`;
 export const RunRoute = (): string => `/run`;
 export const RunCommentRoute = (run_id: number): string =>
   `/run/${run_id}/comment`;
@@ -464,6 +474,9 @@ export const RunRunResultRoute = (run_id: number): string =>
 export const RunRunSuiteRoute = (run_id: number): string =>
   `/run/${run_id}/run_suite`;
 export const RunSuiteRoute = (): string => `/run_suite`;
+export const ShareRoute = (): string => `/share`;
+export const ShareShareUserRoute = (share_id: number): string =>
+  `/share/${share_id}/share_user`;
 export const SharedPreconditionRoute = (): string => `/shared_precondition`;
 export const SharedPreconditionTestRoute = (
   shared_precondition_id: number,
@@ -481,6 +494,8 @@ export const StatusExplorationItemRoute = (status_id: number): string =>
   `/status/${status_id}/exploration_item`;
 export const StatusLabelAssignedRoute = (status_id: number): string =>
   `/status/${status_id}/label_assigned`;
+export const StatusProjectStatusRoute = (status_id: number): string =>
+  `/status/${status_id}/project_status`;
 export const StatusRunResultRoute = (status_id: number): string =>
   `/status/${status_id}/run_result`;
 export const StatusRunResultStepRoute = (status_id: number): string =>
@@ -497,6 +512,11 @@ export const StepLabelAssignedRoute = (step_id: number): string =>
   `/step/${step_id}/label_assigned`;
 export const StepRunResultStepRoute = (step_id: number): string =>
   `/step/${step_id}/run_result_step`;
+export const StripeProductRoute = (): string => `/stripe_product`;
+export const StripeProductPriceRoute = (stripe_product_id: number): string =>
+  `/stripe_product/${stripe_product_id}/price`;
+export const StripeProductProductRoute = (stripe_product_id: number): string =>
+  `/stripe_product/${stripe_product_id}/product`;
 export const SubscriptionUserRoute = (): string => `/subscription_user`;
 export const SubscriptionsRoute = (): string => `/subscriptions`;
 export const SubscriptionsBillingContactRoute = (
@@ -555,6 +575,8 @@ export const TestStepRoute = (test_id: number): string =>
   `/test/${test_id}/step`;
 export const TestSuiteRoute = (test_id: number): string =>
   `/test/${test_id}/suite`;
+export const TestWatchRoute = (test_id: number): string =>
+  `/test/${test_id}/watch`;
 export const UserRoute = (): string => `/user`;
 export const UserAccessRoleRoute = (user_id: number): string =>
   `/user/${user_id}/access_role`;
@@ -574,6 +596,8 @@ export const UserQuoteRoute = (user_id: number): string =>
   `/user/${user_id}/quote`;
 export const UserReportRoute = (user_id: number): string =>
   `/user/${user_id}/report`;
+export const UserShareUserRoute = (user_id: number): string =>
+  `/user/${user_id}/share_user`;
 export const UserSubscriptionUserRoute = (user_id: number): string =>
   `/user/${user_id}/subscription_user`;
 export const UserSubscriptionsRoute = (user_id: number): string =>

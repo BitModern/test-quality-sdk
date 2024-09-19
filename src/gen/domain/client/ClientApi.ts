@@ -5,10 +5,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import type { Client } from './Client';
-import type { SignupOptionApi } from '../signup_option/SignupOptionApi';
 import type { VirtualApi } from '../virtual/VirtualApi';
+import type { SignupOptionApi } from '../signup_option/SignupOptionApi';
 
 export interface ClientApi extends Client {
-  signup_option?: SignupOptionApi[];
   virtual?: VirtualApi[];
+  signup_option?: SignupOptionApi[];
 }

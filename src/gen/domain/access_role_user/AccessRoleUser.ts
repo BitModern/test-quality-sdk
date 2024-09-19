@@ -5,7 +5,6 @@
 import type { TenantScopedModel } from '../../models/TenantScopedModel';
 
 export interface AccessRoleUser extends TenantScopedModel {
-  epoch: number;
   id: number;
   access_role_id: number;
   user_id: number;
@@ -14,4 +13,5 @@ export interface AccessRoleUser extends TenantScopedModel {
   client_id: number;
   created_by: number;
   updated_by: number;
+  epoch: number;
 }

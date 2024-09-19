@@ -40,4 +40,6 @@ export interface Product extends DefaultAttributes {
   product_master_id: number;
   can_increment: boolean;
   upgrade_product_id?: number;
+  stripe_product_id?: number;
+  price_id?: number;
 }

@@ -15,6 +15,4 @@ export interface EnvironmentResource extends TenantScopedModel {
   environment_id: number;
   resource_id: number;
   resource_value_id: number;
-  resource_property_id?: number;
-  resource_property_value_id?: number;
 }

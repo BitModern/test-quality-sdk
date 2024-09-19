@@ -34,4 +34,6 @@ export interface Subscriptions extends KeyedModel {
   is_auto_upgrade: boolean;
   coupon_id?: number;
   marketplace_id?: number;
+  stripe_status?: string;
+  price_id?: number;
 }

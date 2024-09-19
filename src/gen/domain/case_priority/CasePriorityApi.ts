@@ -6,9 +6,11 @@
 
 import type { CasePriority } from './CasePriority';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { CasePriorityProjectApi } from '../case_priority_project/CasePriorityProjectApi';
 import type { TestApi } from '../test/TestApi';
 
 export interface CasePriorityApi extends CasePriority {
   label_assigned?: LabelAssignedApi;
+  case_priority_project?: CasePriorityProjectApi[];
   test?: TestApi[];
 }

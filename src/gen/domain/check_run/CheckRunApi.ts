@@ -5,12 +5,12 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import type { CheckRun } from './CheckRun';
-import type { CheckSuiteApi } from '../check_suite/CheckSuiteApi';
 import type { AppInstallProjectApi } from '../app_install_project/AppInstallProjectApi';
+import type { CheckSuiteApi } from '../check_suite/CheckSuiteApi';
 import type { RunApi } from '../run/RunApi';
 
 export interface CheckRunApi extends CheckRun {
-  check_suite?: CheckSuiteApi;
   app_install_project?: AppInstallProjectApi;
+  check_suite?: CheckSuiteApi;
   run?: RunApi[];
 }
