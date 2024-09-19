@@ -60,6 +60,7 @@ export interface SignUpWithEmailData {
   email: string;
   password: string;
   recaptcha: string;
+  type?: number;
 }
 
 export class Auth {
@@ -178,12 +179,14 @@ export class Auth {
     callbackUrl: string,
     verificationToken?: string,
     appVersion?: number,
+    type?: number,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/github`, {
         callbackUrl,
         verificationToken,
         appVersion,
+        type,
       })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
@@ -191,20 +194,23 @@ export class Auth {
   public loginGoogle(
     callbackUrl: string,
     verificationToken?: string,
+    type?: number,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/google`, {
         callbackUrl,
         verificationToken,
+        type,
       })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
   public loginAtlassian(
     callbackUrl: string,
+    type?: number,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
-      .post(`${ssoPath}/atlassian`, { callbackUrl })
+      .post(`${ssoPath}/atlassian`, { callbackUrl, type })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 
@@ -238,12 +244,14 @@ export class Auth {
     password: string,
     site: string,
     recaptcha: string,
+    type?: number,
   ) {
     return this.client.api.post('/system/create_client', {
       name: site,
       development: false,
       g_recaptcha_response: recaptcha,
       is_web: true,
+      type,
       user: {
         email,
         password,
