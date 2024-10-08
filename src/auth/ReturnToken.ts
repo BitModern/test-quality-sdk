@@ -25,10 +25,10 @@ export interface ReturnToken {
   token_type: string;
   trial_ended_at: string;
   trial_ends_at: string;
+  url?: string;
   user_id: number;
   verification_ended_at: string;
   verification_ends_at: string;
-  url?: string;
 }
 
 export enum ClientTypeEnum {
