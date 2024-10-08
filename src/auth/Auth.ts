@@ -39,6 +39,8 @@ const doesNotRequireAuth: string[] = [
   'system/github/authorize',
   'system/sign_up_with_email',
   'system/validate_site_name',
+  'system/auth/complete_share_invite',
+  'system/auth/complete_magic_share_invite',
 ];
 
 export enum AuthCallbackActions {
@@ -146,6 +148,7 @@ export class Auth {
     username: string,
     password: string,
     remember = false,
+    share?: string,
     properties?: any,
   ): Promise<ReturnToken> {
     this.remember = remember;
@@ -156,6 +159,7 @@ export class Auth {
         client_secret: this.client.clientSecret,
         username,
         password,
+        share,
         ...properties,
       })
       .then((res) => this.performLogin(res.data));
@@ -164,6 +168,7 @@ export class Auth {
   public loginSSO(
     username: string,
     callbackUrl: string,
+    share?: string,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/openid`, {
@@ -171,6 +176,7 @@ export class Auth {
         client_secret: this.client.clientSecret,
         username,
         callbackUrl,
+        share,
       })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
@@ -180,6 +186,7 @@ export class Auth {
     verificationToken?: string,
     appVersion?: number,
     type?: number,
+    share?: string,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/github`, {
@@ -187,6 +194,7 @@ export class Auth {
         verificationToken,
         appVersion,
         type,
+        share,
       })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
@@ -195,12 +203,14 @@ export class Auth {
     callbackUrl: string,
     verificationToken?: string,
     type?: number,
+    share?: string,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
       .post(`${ssoPath}/google`, {
         callbackUrl,
         verificationToken,
         type,
+        share,
       })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
@@ -208,9 +218,10 @@ export class Auth {
   public loginAtlassian(
     callbackUrl: string,
     type?: number,
+    share?: string,
   ): Promise<{ redirect_url: string }> {
     return this.client.api
-      .post(`${ssoPath}/atlassian`, { callbackUrl, type })
+      .post(`${ssoPath}/atlassian`, { callbackUrl, type, share })
       .then((res) => ({ redirect_url: res.data.redirect_url }));
   }
 

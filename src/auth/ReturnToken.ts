@@ -27,4 +27,5 @@ export interface ReturnToken {
   is_expired: boolean;
   github_open_source_subscription_invalid: boolean;
   failures: ReturnTokenFailure[];
+  url?: string;
 }
