@@ -10,22 +10,30 @@ export interface ReturnTokenFailure {
 
 export interface ReturnToken {
   access_token: string;
-  token_type: string;
-  expires_in: number;
-  refresh_token?: string;
-  expires_at: string;
-  client_name: string;
-  user_id: number;
   client_id: number;
-  verification_ended_at: string;
-  verification_ends_at: string;
+  client_name: string;
+  client_type: number;
+  expires_at: string;
+  expires_in: number;
+  failures: ReturnTokenFailure[];
+  github_open_source_subscription_invalid: boolean;
+  is_expired: boolean;
   message: string;
+  refresh_token?: string;
+  subscription_ended_at: string;
+  subscription_ends_at: string;
+  token_type: string;
   trial_ended_at: string;
   trial_ends_at: string;
-  subscription_ends_at: string;
-  subscription_ended_at: string;
-  is_expired: boolean;
-  github_open_source_subscription_invalid: boolean;
-  failures: ReturnTokenFailure[];
+  user_id: number;
+  verification_ended_at: string;
+  verification_ends_at: string;
   url?: string;
+}
+
+export enum ClientTypeEnum {
+  TestManagement = 1,
+  Internal = 2,
+  TestPlan = 3,
+  Trial = 4,
 }
