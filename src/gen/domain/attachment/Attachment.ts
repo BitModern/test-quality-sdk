@@ -23,4 +23,10 @@ export interface Attachment extends KeyedModel {
   key: number;
   original_file_name: string;
   size?: bigint;
+  mime_type?: string;
+  storage_path?: string;
+  private_url?: string;
+  is_public: boolean;
+  public_path?: string;
+  old_url?: string;
 }

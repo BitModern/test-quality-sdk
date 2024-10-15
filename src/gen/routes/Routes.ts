@@ -580,6 +580,8 @@ export const TestWatchRoute = (test_id: number): string =>
 export const UserRoute = (): string => `/user`;
 export const UserAccessRoleRoute = (user_id: number): string =>
   `/user/${user_id}/access_role`;
+export const UserAttachmentRoute = (user_id: number): string =>
+  `/user/${user_id}/attachment`;
 export const UserBillingContactRoute = (user_id: number): string =>
   `/user/${user_id}/billing_contact`;
 export const UserCheckListItemUserRoute = (user_id: number): string =>

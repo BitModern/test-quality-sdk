@@ -13,11 +13,11 @@ export interface Share extends KeyedModel {
   epoch: number;
   client_id: number;
   token: string;
-  expires_at?: string;
-  is_all_client_users: boolean;
   is_anyone: boolean;
   related_type: string;
   related_id: number;
   url?: string;
   access_role_id: number;
+  link?: string;
+  magic_link?: string;
 }
