@@ -14,4 +14,5 @@ export interface TestPlan extends KeyedModel {
   client_id: number;
   project_id: number;
   doc_id: number;
+  is_default: boolean;
 }

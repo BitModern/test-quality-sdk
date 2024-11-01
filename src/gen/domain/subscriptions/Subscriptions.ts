@@ -36,4 +36,5 @@ export interface Subscriptions extends KeyedModel {
   marketplace_id?: number;
   stripe_status?: string;
   price_id?: number;
+  is_extended: boolean;
 }

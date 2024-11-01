@@ -6,6 +6,7 @@
 
 import type { Attachment } from './Attachment';
 import type { DocApi } from '../doc/DocApi';
+import type { UserApi } from '../user/UserApi';
 import type { TestApi } from '../test/TestApi';
 import type { RunResultApi } from '../run_result/RunResultApi';
 import type { RunResultStepApi } from '../run_result_step/RunResultStepApi';
@@ -14,10 +15,10 @@ import type { InvoiceApi } from '../invoice/InvoiceApi';
 import type { ProjectApi } from '../project/ProjectApi';
 import type { RequirementApi } from '../requirement/RequirementApi';
 import type { DefectApi } from '../defect/DefectApi';
-import type { UserApi } from '../user/UserApi';
 
 export interface AttachmentApi extends Attachment {
   doc?: DocApi;
+  user?: UserApi;
   test?: TestApi;
   run_result?: RunResultApi;
   run_result_step?: RunResultStepApi;
@@ -26,5 +27,4 @@ export interface AttachmentApi extends Attachment {
   project?: ProjectApi;
   requirement?: RequirementApi;
   defect?: DefectApi;
-  user?: UserApi;
 }

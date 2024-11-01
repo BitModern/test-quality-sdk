@@ -490,6 +490,10 @@ export class Auth {
     this.client.api.interceptors.response.use(
       (response) => response,
       async (error: any) => {
+        // if error.message something is wrong with back end
+        if (error.message) {
+          return await Promise.reject(error);
+        }
         // if error response is not HTTP 401, we do a reject to not process this error
         const status = error?.response?.status
           ? typeof error.response.status === 'string'
@@ -506,8 +510,8 @@ export class Auth {
           isDisabled: this.disableHandler,
           isRetry,
           status,
-          url: error.config.url,
-          urlRequiresAuth: Auth.urlRequiresAuth(error.config.url),
+          url: error.config?.url,
+          urlRequiresAuth: Auth.urlRequiresAuth(error.config?.url),
         });
 
         // if not an authentication issue just let error flow through
@@ -515,7 +519,7 @@ export class Auth {
           this.disableHandler ||
           isRetry ||
           status !== 401 ||
-          !Auth.urlRequiresAuth(error.config.url)
+          !Auth.urlRequiresAuth(error.config?.url)
         ) {
           return await Promise.reject(getHttpResponse(error.response));
         }
