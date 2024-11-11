@@ -20,6 +20,7 @@
     "outDir": "dist",
     "rootDirs": ["src"],
     "sourceMap": true,
+    "inlineSources": true,  
     "strict": true,
     "strictNullChecks": true,
     "target": "es6",

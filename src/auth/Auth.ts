@@ -492,6 +492,9 @@ export class Auth {
       async (error: any) => {
         // if error.message something is wrong with back end
         if (error.message) {
+          if (error.response?.data) {
+            return await Promise.reject(getHttpResponse(error.response));
+          }
           return await Promise.reject(error);
         }
         // if error response is not HTTP 401, we do a reject to not process this error
