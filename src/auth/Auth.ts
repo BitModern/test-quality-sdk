@@ -490,13 +490,6 @@ export class Auth {
     this.client.api.interceptors.response.use(
       (response) => response,
       async (error: any) => {
-        // if error.message something is wrong with back end
-        if (error.message) {
-          if (error.response?.data) {
-            return await Promise.reject(getHttpResponse(error.response));
-          }
-          return await Promise.reject(error);
-        }
         // if error response is not HTTP 401, we do a reject to not process this error
         const status = error?.response?.status
           ? typeof error.response.status === 'string'
@@ -504,7 +497,7 @@ export class Auth {
             : error.response.status
           : undefined;
 
-        const isRetry = Boolean(error.response?.config._retry);
+        const isRetry = Boolean(error.response?.config?._retry);
 
         debug('addUnauthorizedInterceptor', {
           error,
@@ -524,8 +517,12 @@ export class Auth {
           status !== 401 ||
           !Auth.urlRequiresAuth(error.config?.url)
         ) {
-          return await Promise.reject(getHttpResponse(error.response));
+          if (error.response?.data) {
+            return await Promise.reject(getHttpResponse(error.response));
+          }
+          return await Promise.reject(error);
         }
+
         const accessToken = await this.getToken();
         if (!accessToken) {
           if (this.authCallback) {
