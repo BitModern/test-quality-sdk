@@ -14,4 +14,5 @@ export interface ComponentDoc extends KeyedModel {
   client_id: number;
   doc_id: number;
   component_id: number;
+  project_id?: number;
 }

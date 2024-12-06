@@ -18,7 +18,6 @@ export interface RunResult extends KeyedModel {
   virtual?: any;
   client_id: number;
   suite_id: number;
-  app_version_plat_version_id?: number;
   project_id: number;
   run_id: number;
   /**

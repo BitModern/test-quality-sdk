@@ -11,9 +11,6 @@ export const AccessRoleShareRoute = (access_role_id: number): string =>
   `/access_role/${access_role_id}/share`;
 export const AccessRoleUserRoute = (access_role_id: number): string =>
   `/access_role/${access_role_id}/user`;
-export const AppRoute = (): string => `/app`;
-export const AppAppVersionRoute = (app_id: number): string =>
-  `/app/${app_id}/app_version`;
 export const AppConfigRoute = (): string => `/app_config`;
 export const AppConfigAppInstallRoute = (app_config_id: number): string =>
   `/app_config/${app_config_id}/app_install`;
@@ -41,8 +38,6 @@ export const AppInstallProjectIntegrationProjectRoute = (
 export const AppInstallProjectPullRequestRoute = (
   app_install_project_id: number,
 ): string => `/app_install_project/${app_install_project_id}/pull_request`;
-export const AppLabelAssignedRoute = (app_id: number): string =>
-  `/app/${app_id}/label_assigned`;
 export const AppUserRoute = (): string => `/app_user`;
 export const AppUserAppInstallRoute = (app_user_id: number): string =>
   `/app_user/${app_user_id}/app_install`;
@@ -50,25 +45,6 @@ export const AppUserBranchRoute = (app_user_id: number): string =>
   `/app_user/${app_user_id}/branch`;
 export const AppUserPullRequestRoute = (app_user_id: number): string =>
   `/app_user/${app_user_id}/pull_request`;
-export const AppVersionRoute = (): string => `/app_version`;
-export const AppVersionAppVersionPlatVersionRoute = (
-  app_version_id: number,
-): string => `/app_version/${app_version_id}/app_version_plat_version`;
-export const AppVersionLabelAssignedRoute = (app_version_id: number): string =>
-  `/app_version/${app_version_id}/label_assigned`;
-export const AppVersionPlatVersionRoute = (): string =>
-  `/app_version_plat_version`;
-export const AppVersionPlatVersionLabelAssignedRoute = (
-  app_version_plat_version_id: number,
-): string =>
-  `/app_version_plat_version/${app_version_plat_version_id}/label_assigned`;
-export const AppVersionPlatVersionPlanRoute = (
-  app_version_plat_version_id: number,
-): string => `/app_version_plat_version/${app_version_plat_version_id}/plan`;
-export const AppVersionPlatVersionRunResultRoute = (
-  app_version_plat_version_id: number,
-): string =>
-  `/app_version_plat_version/${app_version_plat_version_id}/run_result`;
 export const AttachmentRoute = (): string => `/attachment`;
 export const BaseCapabilityRoute = (): string => `/base_capability`;
 export const BaseCapabilityBaseIntegrationRoute = (
@@ -263,6 +239,8 @@ export const LabelRoute = (): string => `/label`;
 export const LabelAssignedRoute = (): string => `/label_assigned`;
 export const LabelLabelAssignedRoute = (label_id: number): string =>
   `/label/${label_id}/label_assigned`;
+export const LabelLabelProjectRoute = (label_id: number): string =>
+  `/label/${label_id}/label_project`;
 export const MilestoneRoute = (): string => `/milestone`;
 export const MilestoneCommentRoute = (milestone_id: number): string =>
   `/milestone/${milestone_id}/comment`;
@@ -290,8 +268,6 @@ export const NativeDefectStatusLabelAssignedRoute = (
 ): string => `/native_defect_status/${native_defect_status_id}/label_assigned`;
 export const NotificationsRoute = (): string => `/notifications`;
 export const PlanRoute = (): string => `/plan`;
-export const PlanAppVersionPlatVersionRoute = (plan_id: number): string =>
-  `/plan/${plan_id}/app_version_plat_version`;
 export const PlanAttachmentRoute = (plan_id: number): string =>
   `/plan/${plan_id}/attachment`;
 export const PlanCommentRoute = (plan_id: number): string =>
@@ -313,18 +289,6 @@ export const PlanSuiteTestIncludeRoute = (): string =>
   `/plan_suite_test_include`;
 export const PlanWatchRoute = (plan_id: number): string =>
   `/plan/${plan_id}/watch`;
-export const PlatRoute = (): string => `/plat`;
-export const PlatLabelAssignedRoute = (plat_id: number): string =>
-  `/plat/${plat_id}/label_assigned`;
-export const PlatPlatVersionRoute = (plat_id: number): string =>
-  `/plat/${plat_id}/plat_version`;
-export const PlatVersionRoute = (): string => `/plat_version`;
-export const PlatVersionAppVersionPlatVersionRoute = (
-  plat_version_id: number,
-): string => `/plat_version/${plat_version_id}/app_version_plat_version`;
-export const PlatVersionLabelAssignedRoute = (
-  plat_version_id: number,
-): string => `/plat_version/${plat_version_id}/label_assigned`;
 export const PolicyRoute = (): string => `/policy`;
 export const PolicyPolicyRowsRoute = (policy_id: number): string =>
   `/policy/${policy_id}/policy_rows`;
@@ -354,10 +318,14 @@ export const ProjectCodeRoute = (project_id: number): string =>
   `/project/${project_id}/code`;
 export const ProjectCommentRoute = (project_id: number): string =>
   `/project/${project_id}/comment`;
+export const ProjectComponentDocRoute = (project_id: number): string =>
+  `/project/${project_id}/component_doc`;
 export const ProjectDataSetRoute = (project_id: number): string =>
   `/project/${project_id}/data_set`;
 export const ProjectDefectRoute = (project_id: number): string =>
   `/project/${project_id}/defect`;
+export const ProjectDocRoute = (project_id: number): string =>
+  `/project/${project_id}/doc`;
 export const ProjectEnvironmentProjectRoute = (project_id: number): string =>
   `/project/${project_id}/environment_project`;
 export const ProjectExplorationRoute = (project_id: number): string =>
@@ -370,6 +338,8 @@ export const ProjectIntegrationRoute = (project_id: number): string =>
   `/project/${project_id}/integration`;
 export const ProjectLabelAssignedRoute = (project_id: number): string =>
   `/project/${project_id}/label_assigned`;
+export const ProjectLabelProjectRoute = (project_id: number): string =>
+  `/project/${project_id}/label_project`;
 export const ProjectMilestoneRoute = (project_id: number): string =>
   `/project/${project_id}/milestone`;
 export const ProjectPlanRoute = (project_id: number): string =>
@@ -383,6 +353,8 @@ export const ProjectProjectPurposeRoute = (project_id: number): string =>
   `/project/${project_id}/project_purpose`;
 export const ProjectProjectStatusRoute = (project_id: number): string =>
   `/project/${project_id}/project_status`;
+export const ProjectProjectUserRoute = (project_id: number): string =>
+  `/project/${project_id}/project_user`;
 export const ProjectRequirementRoute = (project_id: number): string =>
   `/project/${project_id}/requirement`;
 export const ProjectRunRoute = (project_id: number): string =>
@@ -594,6 +566,8 @@ export const UserIntegrationRoute = (user_id: number): string =>
   `/user/${user_id}/integration`;
 export const UserNotificationsRoute = (user_id: number): string =>
   `/user/${user_id}/notifications`;
+export const UserProjectUserRoute = (user_id: number): string =>
+  `/user/${user_id}/project_user`;
 export const UserQuoteRoute = (user_id: number): string =>
   `/user/${user_id}/quote`;
 export const UserReportRoute = (user_id: number): string =>

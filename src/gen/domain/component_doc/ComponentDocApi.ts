@@ -7,8 +7,10 @@
 import type { ComponentDoc } from './ComponentDoc';
 import type { DocApi } from '../doc/DocApi';
 import type { ComponentApi } from '../component/ComponentApi';
+import type { ProjectApi } from '../project/ProjectApi';
 
 export interface ComponentDocApi extends ComponentDoc {
   doc?: DocApi;
   component?: ComponentApi;
+  project?: ProjectApi;
 }

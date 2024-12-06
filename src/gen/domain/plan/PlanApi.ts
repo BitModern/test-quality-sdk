@@ -10,8 +10,6 @@ import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import type { EnvironmentPlanApi } from '../environment_plan/EnvironmentPlanApi';
 import type { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
 import type { SuiteApi } from '../suite/SuiteApi';
-import type { AppVersionPlatVersionPlanApi } from '../app_version_plat_version_plan/AppVersionPlatVersionPlanApi';
-import type { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
 import type { RunApi } from '../run/RunApi';
 import type { PlanPurposeApi } from '../plan_purpose/PlanPurposeApi';
 import type { PurposeApi } from '../purpose/PurposeApi';
@@ -26,7 +24,6 @@ export interface PlanApi extends Plan {
   label_assigned?: LabelAssignedApi;
   environment_plan?: EnvironmentPlanApi[];
   suite?: SuiteApi[];
-  app_version_plat_version?: AppVersionPlatVersionApi[];
   run?: RunApi[];
   purpose?: PurposeApi[];
   purpose_id?: number;
@@ -35,8 +32,7 @@ export interface PlanApi extends Plan {
   attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   integration_project?: IntegrationProjectApi[];
-  pivot?: PlanSuiteApi | AppVersionPlatVersionPlanApi | PlanPurposeApi;
+  pivot?: PlanSuiteApi | PlanPurposeApi;
   plan_suite?: Partial<PlanSuiteApi>;
-  app_version_plat_version_plan?: Partial<AppVersionPlatVersionPlanApi>;
   plan_purpose?: Partial<PlanPurposeApi>;
 }

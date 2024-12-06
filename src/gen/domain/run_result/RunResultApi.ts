@@ -8,7 +8,6 @@ import type { RunResult } from './RunResult';
 import type { EnvironmentApi } from '../environment/EnvironmentApi';
 import type { TestApi } from '../test/TestApi';
 import type { SuiteApi } from '../suite/SuiteApi';
-import type { AppVersionPlatVersionApi } from '../app_version_plat_version/AppVersionPlatVersionApi';
 import type { ProjectApi } from '../project/ProjectApi';
 import type { RunApi } from '../run/RunApi';
 import type { StatusApi } from '../status/StatusApi';
@@ -23,7 +22,6 @@ export interface RunResultApi extends RunResult {
   environment?: EnvironmentApi;
   test?: TestApi;
   suite?: SuiteApi;
-  app_version_plat_version?: AppVersionPlatVersionApi;
   project?: ProjectApi;
   run?: RunApi;
   status?: StatusApi;
