@@ -31,4 +31,5 @@ export interface Status extends KeyedModel {
   virtual?: any;
   key: number;
   status_type_id: number;
+  all_projects: boolean;
 }

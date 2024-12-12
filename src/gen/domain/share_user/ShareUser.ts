@@ -5,7 +5,6 @@
 import type { TenantScopedModel } from '../../models/TenantScopedModel';
 
 export interface ShareUser extends TenantScopedModel {
-  id: number;
   created_at: string;
   created_by: number;
   updated_at: string;
@@ -14,4 +13,5 @@ export interface ShareUser extends TenantScopedModel {
   client_id: number;
   share_id: number;
   user_id: number;
+  id: number;
 }

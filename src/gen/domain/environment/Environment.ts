@@ -16,4 +16,5 @@ export interface Environment extends KeyedModel {
   name: string;
   description?: string;
   location?: string;
+  all_projects: boolean;
 }

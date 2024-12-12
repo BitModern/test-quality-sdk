@@ -30,4 +30,5 @@ export interface CasePriority extends KeyedModel {
   is_default: boolean;
   virtual?: any;
   key: number;
+  all_projects: boolean;
 }

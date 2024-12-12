@@ -7,12 +7,16 @@
 import type { Project } from './Project';
 import type { AccessRoleApi } from '../access_role/AccessRoleApi';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { TestPlanApi } from '../test_plan/TestPlanApi';
+import type { ExplorationApi } from '../exploration/ExplorationApi';
 import type { ExplorationItemApi } from '../exploration_item/ExplorationItemApi';
 import type { CaseTypeProjectApi } from '../case_type_project/CaseTypeProjectApi';
 import type { CasePriorityProjectApi } from '../case_priority_project/CasePriorityProjectApi';
 import type { ProjectPurposeApi } from '../project_purpose/ProjectPurposeApi';
 import type { ProjectStatusApi } from '../project_status/ProjectStatusApi';
 import type { EnvironmentProjectApi } from '../environment_project/EnvironmentProjectApi';
+import type { DocApi } from '../doc/DocApi';
+import type { ComponentDocApi } from '../component_doc/ComponentDocApi';
 import type { PlanApi } from '../plan/PlanApi';
 import type { SuiteApi } from '../suite/SuiteApi';
 import type { TestApi } from '../test/TestApi';
@@ -32,20 +36,20 @@ import type { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSui
 import type { FilterApi } from '../filter/FilterApi';
 import type { DataSetApi } from '../data_set/DataSetApi';
 import type { RunSuiteApi } from '../run_suite/RunSuiteApi';
-import type { TestPlanApi } from '../test_plan/TestPlanApi';
-import type { ExplorationApi } from '../exploration/ExplorationApi';
-import type { DocApi } from '../doc/DocApi';
-import type { ComponentDocApi } from '../component_doc/ComponentDocApi';
 
 export interface ProjectApi extends Project {
   access_role?: AccessRoleApi;
   label_assigned?: LabelAssignedApi;
+  test_plan?: TestPlanApi[];
+  exploration?: ExplorationApi[];
   exploration_item?: ExplorationItemApi[];
   case_type_project?: CaseTypeProjectApi[];
   case_priority_project?: CasePriorityProjectApi[];
   project_purpose?: ProjectPurposeApi[];
   project_status?: ProjectStatusApi[];
   environment_project?: EnvironmentProjectApi[];
+  doc?: DocApi[];
+  component_doc?: ComponentDocApi[];
   plan?: PlanApi[];
   suite?: SuiteApi[];
   test?: TestApi[];
@@ -65,10 +69,6 @@ export interface ProjectApi extends Project {
   filter?: FilterApi[];
   data_set?: DataSetApi[];
   run_suite?: RunSuiteApi[];
-  test_plan?: TestPlanApi[];
-  exploration?: ExplorationApi[];
-  doc?: DocApi[];
-  component_doc?: ComponentDocApi[];
   pivot?: IntegrationProjectApi;
   integration_project?: Partial<IntegrationProjectApi>;
 }

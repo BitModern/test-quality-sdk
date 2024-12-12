@@ -31,4 +31,5 @@ export interface Purpose extends KeyedModel {
   virtual?: any;
   key: number;
   weight?: number;
+  all_projects: boolean;
 }
