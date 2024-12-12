@@ -1,5 +1,5 @@
 export interface TestRailCredentials {
-  url: string;
+  default_url: string;
   username: string;
   password: string;
 }
