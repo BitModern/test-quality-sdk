@@ -49,6 +49,5 @@ export interface Policy extends KeyedModel {
    * Is this row a system row? A system row cannot be modified or deleted.
    */
   is_system?: boolean;
-  key: number;
   can_list?: boolean;
 }

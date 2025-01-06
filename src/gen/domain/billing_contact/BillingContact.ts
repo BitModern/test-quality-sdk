@@ -11,7 +11,6 @@ export interface BillingContact extends KeyedModel {
   updated_by: number;
   epoch: number;
   client_id: number;
-  key: number;
   id: number;
   subscriptions_id: number;
   user_id?: number;

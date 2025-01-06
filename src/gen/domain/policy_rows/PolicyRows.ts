@@ -21,5 +21,4 @@ export interface PolicyRows extends KeyedModel {
    * The name of the column to use to match for this policy.
    */
   column_name: string;
-  key: number;
 }

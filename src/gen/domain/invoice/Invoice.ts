@@ -13,7 +13,6 @@ export interface Invoice extends KeyedModel {
   epoch: number;
   client_id: number;
   id: number;
-  key: number;
   quote_id: number;
   purchase_order_id?: number;
   terms_days: number;

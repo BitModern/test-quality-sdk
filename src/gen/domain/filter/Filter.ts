@@ -13,7 +13,6 @@ export interface Filter extends KeyedModel {
   client_id: number;
   epoch: number;
   id: number;
-  key: number;
   payload?: any;
   name: string;
   is_shareable?: boolean;

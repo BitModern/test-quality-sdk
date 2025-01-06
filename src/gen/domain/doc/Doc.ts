@@ -25,4 +25,5 @@ export interface Doc extends KeyedModel {
   doc_type_id: number;
   cover_id?: number;
   project_id?: number;
+  is_default: boolean;
 }

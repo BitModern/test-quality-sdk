@@ -13,5 +13,4 @@ export interface Label extends KeyedModel {
   epoch: number;
   id: number;
   label: string;
-  key: number;
 }

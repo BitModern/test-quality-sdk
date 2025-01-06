@@ -15,5 +15,4 @@ export interface LabelAssigned extends KeyedModel {
   epoch: number;
   id: number;
   label_id: number;
-  key: number;
 }

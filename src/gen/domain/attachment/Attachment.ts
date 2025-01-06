@@ -19,8 +19,6 @@ export interface Attachment extends KeyedModel {
   client_id: number;
   epoch: number;
   id: number;
-  attachment_type_id: number;
-  key: number;
   original_file_name: string;
   size?: bigint;
   mime_type?: string;

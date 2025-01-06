@@ -35,4 +35,5 @@ export interface Test extends KeyedModel {
   data_set_id?: number;
   shared_precondition_id?: number;
   to_automate: boolean;
+  source?: any;
 }
