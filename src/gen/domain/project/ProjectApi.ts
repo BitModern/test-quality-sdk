@@ -7,7 +7,6 @@
 import type { Project } from './Project';
 import type { AccessRoleApi } from '../access_role/AccessRoleApi';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import type { TestPlanApi } from '../test_plan/TestPlanApi';
 import type { ExplorationApi } from '../exploration/ExplorationApi';
 import type { ExplorationItemApi } from '../exploration_item/ExplorationItemApi';
 import type { CaseTypeProjectApi } from '../case_type_project/CaseTypeProjectApi';
@@ -40,7 +39,6 @@ import type { RunSuiteApi } from '../run_suite/RunSuiteApi';
 export interface ProjectApi extends Project {
   access_role?: AccessRoleApi;
   label_assigned?: LabelAssignedApi;
-  test_plan?: TestPlanApi[];
   exploration?: ExplorationApi[];
   exploration_item?: ExplorationItemApi[];
   case_type_project?: CaseTypeProjectApi[];
