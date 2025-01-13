@@ -167,8 +167,6 @@ export const DocTemplateComponentDocTemplateRoute = (
 ): string => `/doc_template/${doc_template_id}/component_doc_template`;
 export const DocTemplateDocRoute = (doc_template_id: number): string =>
   `/doc_template/${doc_template_id}/doc`;
-export const DocTestPlanRoute = (doc_id: number): string =>
-  `/doc/${doc_id}/test_plan`;
 export const DocTypeRoute = (): string => `/doc_type`;
 export const DocTypeComponentDocTypeRoute = (doc_type_id: number): string =>
   `/doc_type/${doc_type_id}/component_doc_type`;
@@ -375,8 +373,6 @@ export const ProjectTaskRoute = (project_id: number): string =>
   `/project/${project_id}/task`;
 export const ProjectTestRoute = (project_id: number): string =>
   `/project/${project_id}/test`;
-export const ProjectTestPlanRoute = (project_id: number): string =>
-  `/project/${project_id}/test_plan`;
 export const ProjectWatchRoute = (project_id: number): string =>
   `/project/${project_id}/watch`;
 export const PullRequestRoute = (): string => `/pull_request`;
@@ -523,7 +519,6 @@ export const TestCommentRoute = (test_id: number): string =>
   `/test/${test_id}/comment`;
 export const TestLabelAssignedRoute = (test_id: number): string =>
   `/test/${test_id}/label_assigned`;
-export const TestPlanRoute = (): string => `/test_plan`;
 export const TestPlanSuiteTestIncludeRoute = (test_id: number): string =>
   `/test/${test_id}/plan_suite_test_include`;
 export const TestQualityRoute = (): string => `/test_quality`;
