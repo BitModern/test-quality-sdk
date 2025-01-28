@@ -32,5 +32,6 @@ export interface Project extends KeyedModel {
   picture?: string;
   virtual?: any;
   key: number;
+  source?: any;
   analysis?: ProjectAnalysisApi;
 }

@@ -27,4 +27,5 @@ export interface Attachment extends KeyedModel {
   is_public: boolean;
   public_path?: string;
   old_url?: string;
+  source?: any;
 }

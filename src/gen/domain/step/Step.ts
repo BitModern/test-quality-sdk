@@ -31,4 +31,5 @@ export interface Step extends KeyedModel {
   step_type_id?: number;
   id: number;
   shared_step_id?: number;
+  source?: any;
 }

@@ -7,6 +7,7 @@
 import type { Project } from './Project';
 import type { AccessRoleApi } from '../access_role/AccessRoleApi';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { AttachmentApi } from '../attachment/AttachmentApi';
 import type { ExplorationApi } from '../exploration/ExplorationApi';
 import type { ExplorationItemApi } from '../exploration_item/ExplorationItemApi';
 import type { CaseTypeProjectApi } from '../case_type_project/CaseTypeProjectApi';
@@ -30,7 +31,6 @@ import type { CommentApi } from '../comment/CommentApi';
 import type { WatchApi } from '../watch/WatchApi';
 import type { DefectApi } from '../defect/DefectApi';
 import type { RequirementApi } from '../requirement/RequirementApi';
-import type { AttachmentApi } from '../attachment/AttachmentApi';
 import type { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
 import type { FilterApi } from '../filter/FilterApi';
 import type { DataSetApi } from '../data_set/DataSetApi';
@@ -39,6 +39,7 @@ import type { RunSuiteApi } from '../run_suite/RunSuiteApi';
 export interface ProjectApi extends Project {
   access_role?: AccessRoleApi;
   label_assigned?: LabelAssignedApi;
+  attachment?: AttachmentApi;
   exploration?: ExplorationApi[];
   exploration_item?: ExplorationItemApi[];
   case_type_project?: CaseTypeProjectApi[];
@@ -62,7 +63,6 @@ export interface ProjectApi extends Project {
   watch?: WatchApi;
   defect?: DefectApi[];
   requirement?: RequirementApi[];
-  attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
   filter?: FilterApi[];
   data_set?: DataSetApi[];

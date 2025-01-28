@@ -38,4 +38,5 @@ export interface RunResultStep extends KeyedModel {
   run_result_id: number;
   id: number;
   step_epoch?: number;
+  source?: any;
 }

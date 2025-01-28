@@ -28,4 +28,5 @@ export interface Suite extends KeyedModel {
   assigned_to_tester?: number;
   key: number;
   is_root?: boolean;
+  source?: any;
 }

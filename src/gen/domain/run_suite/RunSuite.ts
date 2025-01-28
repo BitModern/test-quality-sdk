@@ -21,4 +21,5 @@ export interface RunSuite extends KeyedModel {
   plan_suite_id: number;
   suite_id: number;
   suite_epoch: number;
+  source?: any;
 }

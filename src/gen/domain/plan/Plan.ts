@@ -35,5 +35,6 @@ export interface Plan extends KeyedModel {
    */
   include_in_checks?: boolean;
   is_automated: boolean;
+  source?: any;
   analysis?: PlanAnalysisApi;
 }

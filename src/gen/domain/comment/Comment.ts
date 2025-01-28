@@ -16,4 +16,5 @@ export interface Comment extends KeyedModel {
   body?: string;
   id: number;
   key: number;
+  source?: any;
 }
