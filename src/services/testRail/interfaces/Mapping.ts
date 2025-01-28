@@ -3,9 +3,8 @@ export type TestRailEntity =
   | 'priorities'
   | 'statuses'
   | 'caseFields'
-  | 'roles'
-  | 'resultFields';
+  | 'roles';
 
 export type Mapping = {
-  [key in TestRailEntity]: Record<string, number | string | null>;
+  [key in TestRailEntity]: Record<number, number | string | null>;
 };
