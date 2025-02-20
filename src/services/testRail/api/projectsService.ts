@@ -1,6 +1,5 @@
 import { _client } from '../../../ClientSdk';
 import { getResponse, type QueryParams } from '../../../gen/actions';
-import { type Project } from '../../../gen/domain';
 import { type Mapping } from '../interfaces/Mapping';
 import { type TestRailParams } from '../interfaces/TestRailParams';
 import { type TestRailProjects } from '../interfaces/TestRailProjects';
@@ -28,7 +27,7 @@ export const postImportProject = (
   tqProjectId?: number,
   mapping?: Mapping,
   queryParams?: Omit<QueryParams<void>, 'url' | 'params' | 'data'>,
-) => {
+): Promise<{ job_id: string }> => {
   const config: QueryParams<{
     projectId: number;
     tqProjectId?: number;
@@ -45,9 +44,9 @@ export const postImportProject = (
   };
 
   return queryParams?.batch
-    ? queryParams.batch.addBatch<Project>(config)
+    ? queryParams.batch.addBatch<{ job_id: string }>(config)
     : getResponse<
-        Project,
+        { job_id: string },
         {
           projectId: number | string;
           entitiesMapping: Mapping;

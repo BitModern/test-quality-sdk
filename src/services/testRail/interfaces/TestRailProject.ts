@@ -1,4 +1,4 @@
 export interface TestRailProject {
-  id: string;
+  id: number;
   name: string;
 }

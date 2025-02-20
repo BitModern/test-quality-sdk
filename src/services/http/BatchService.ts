@@ -52,7 +52,7 @@ export class BatchService {
           method: request.method
             ? (request.method.toUpperCase() as Method)
             : 'GET',
-          endpoint: `/api${request.url}${paramsString}` ?? '/',
+          endpoint: `/api${request.url}${paramsString}`,
           body: hasListProperty(request) ? request.list : request.data,
         },
         resolve,
