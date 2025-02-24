@@ -26,4 +26,6 @@ export interface Doc extends KeyedModel {
   cover_id?: number;
   project_id?: number;
   is_default: boolean;
+  variables?: any;
+  variables_data?: any;
 }

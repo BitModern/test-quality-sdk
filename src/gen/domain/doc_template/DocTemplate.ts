@@ -21,4 +21,7 @@ export interface DocTemplate extends DefaultAttributes {
   description?: string;
   doc_type_id: number;
   is_active: boolean;
+  variables?: any;
+  cover_id?: number;
+  content?: any;
 }

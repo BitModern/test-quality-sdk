@@ -25,4 +25,5 @@ export interface AccessRole extends KeyedModel {
   is_default: boolean;
   client_id: number;
   key: number;
+  description?: string;
 }
