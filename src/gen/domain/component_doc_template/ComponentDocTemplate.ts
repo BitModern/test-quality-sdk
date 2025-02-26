@@ -2,9 +2,9 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
-import type { DefaultAttributes } from '../../models/DefaultAttributes';
+import type { KeyedModel } from '../../models/KeyedModel';
 
-export interface ComponentDocTemplate extends DefaultAttributes {
+export interface ComponentDocTemplate extends KeyedModel {
   id: number;
   created_by: number;
   created_at: string;
@@ -16,4 +16,5 @@ export interface ComponentDocTemplate extends DefaultAttributes {
   doc_template_id: number;
   component_id: number;
   sample: any;
+  client_id: number;
 }

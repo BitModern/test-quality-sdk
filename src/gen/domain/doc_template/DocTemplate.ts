@@ -2,9 +2,9 @@
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
 
-import type { DefaultAttributes } from '../../models/DefaultAttributes';
+import type { KeyedModel } from '../../models/KeyedModel';
 
-export interface DocTemplate extends DefaultAttributes {
+export interface DocTemplate extends KeyedModel {
   id: number;
   created_by: number;
   created_at: string;
@@ -24,4 +24,5 @@ export interface DocTemplate extends DefaultAttributes {
   variables?: any;
   cover_id?: number;
   content?: any;
+  client_id: number;
 }
