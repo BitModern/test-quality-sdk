@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const appInstallDeleteOne = (
       );
 };
 
+export const appInstallDeleteMany = (
+  data: Partial<AppInstall>[],
+  queryParams?: QueryParamsWithList<AppInstall>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AppInstall> = {
+        method: 'post',
+        url: queryParams?.url ?? AppInstallRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, AppInstall>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const appInstallUpdateOne = (
   id: number,
   data: Partial<AppInstall>,
@@ -110,19 +136,24 @@ export const appInstallCreateOne = (
 export const appInstallCreateMany = (
   data: Partial<AppInstall>[],
   queryParams?: QueryParamsWithList<AppInstall>,
-): Promise<AppInstall[]> => {
-  const config: QueryParamsWithList<AppInstall> = {
-    method: 'post',
-    url: queryParams?.url ?? AppInstallRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<AppInstall[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AppInstall> = {
+        method: 'post',
+        url: queryParams?.url ?? AppInstallRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<AppInstall[]>(config)
-    : getResponse<AppInstall[], AppInstall>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<AppInstall[]>(config)
+        : getResponse<AppInstall[], AppInstall>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

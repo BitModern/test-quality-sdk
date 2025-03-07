@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const defectStatusDeleteOne = (
       );
 };
 
+export const defectStatusDeleteMany = (
+  data: Partial<DefectStatus>[],
+  queryParams?: QueryParamsWithList<DefectStatus>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DefectStatus> = {
+        method: 'post',
+        url: queryParams?.url ?? DefectStatusRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, DefectStatus>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const defectStatusUpdateOne = (
   id: number,
   data: Partial<DefectStatus>,
@@ -110,19 +136,24 @@ export const defectStatusCreateOne = (
 export const defectStatusCreateMany = (
   data: Partial<DefectStatus>[],
   queryParams?: QueryParamsWithList<DefectStatus>,
-): Promise<DefectStatus[]> => {
-  const config: QueryParamsWithList<DefectStatus> = {
-    method: 'post',
-    url: queryParams?.url ?? DefectStatusRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<DefectStatus[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DefectStatus> = {
+        method: 'post',
+        url: queryParams?.url ?? DefectStatusRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<DefectStatus[]>(config)
-    : getResponse<DefectStatus[], DefectStatus>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DefectStatus[]>(config)
+        : getResponse<DefectStatus[], DefectStatus>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const environmentDeleteOne = (
       );
 };
 
+export const environmentDeleteMany = (
+  data: Partial<Environment>[],
+  queryParams?: QueryParamsWithList<Environment>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Environment> = {
+        method: 'post',
+        url: queryParams?.url ?? EnvironmentRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Environment>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const environmentUpdateOne = (
   id: number,
   data: Partial<Environment>,
@@ -110,19 +136,24 @@ export const environmentCreateOne = (
 export const environmentCreateMany = (
   data: Partial<Environment>[],
   queryParams?: QueryParamsWithList<Environment>,
-): Promise<Environment[]> => {
-  const config: QueryParamsWithList<Environment> = {
-    method: 'post',
-    url: queryParams?.url ?? EnvironmentRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Environment[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Environment> = {
+        method: 'post',
+        url: queryParams?.url ?? EnvironmentRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Environment[]>(config)
-    : getResponse<Environment[], Environment>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Environment[]>(config)
+        : getResponse<Environment[], Environment>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

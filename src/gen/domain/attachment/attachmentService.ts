@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const attachmentDeleteOne = (
       );
 };
 
+export const attachmentDeleteMany = (
+  data: Partial<Attachment>[],
+  queryParams?: QueryParamsWithList<Attachment>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Attachment> = {
+        method: 'post',
+        url: queryParams?.url ?? AttachmentRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Attachment>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const attachmentUpdateOne = (
   id: number,
   data: Partial<Attachment>,
@@ -110,19 +136,24 @@ export const attachmentCreateOne = (
 export const attachmentCreateMany = (
   data: Partial<Attachment>[],
   queryParams?: QueryParamsWithList<Attachment>,
-): Promise<Attachment[]> => {
-  const config: QueryParamsWithList<Attachment> = {
-    method: 'post',
-    url: queryParams?.url ?? AttachmentRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Attachment[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Attachment> = {
+        method: 'post',
+        url: queryParams?.url ?? AttachmentRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Attachment[]>(config)
-    : getResponse<Attachment[], Attachment>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Attachment[]>(config)
+        : getResponse<Attachment[], Attachment>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const checkSuitePullRequestDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const checkSuitePullRequestDeleteMany = (
+  data: Partial<CheckSuitePullRequest>[],
+  queryParams?: QueryParamsWithList<CheckSuitePullRequest>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckSuitePullRequest> = {
+        method: 'post',
+        url: `/check_suite_pull_request/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, CheckSuitePullRequest>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const checkSuitePullRequestUpdateOne = (
@@ -76,20 +102,25 @@ export const checkSuitePullRequestCreateOne = (
 export const checkSuitePullRequestCreateMany = (
   data: Partial<CheckSuitePullRequest>[],
   queryParams?: QueryParamsWithList<CheckSuitePullRequest>,
-): Promise<CheckSuitePullRequest[]> => {
-  const config: QueryParamsWithList<CheckSuitePullRequest> = {
-    method: 'post',
-    url: queryParams?.url ?? `/check_suite_pull_request`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<CheckSuitePullRequest[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckSuitePullRequest> = {
+        method: 'post',
+        url: queryParams?.url ?? `/check_suite_pull_request`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<CheckSuitePullRequest[]>(config)
-    : getResponse<CheckSuitePullRequest[], CheckSuitePullRequest>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CheckSuitePullRequest[]>(config)
+        : getResponse<CheckSuitePullRequest[], CheckSuitePullRequest>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const checkSuitePullRequestGetMany = (

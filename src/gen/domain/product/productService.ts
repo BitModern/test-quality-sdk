@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const productDeleteOne = (
       );
 };
 
+export const productDeleteMany = (
+  data: Partial<Product>[],
+  queryParams?: QueryParamsWithList<Product>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Product> = {
+        method: 'post',
+        url: queryParams?.url ?? ProductRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Product>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const productUpdateOne = (
   id: number,
   data: Partial<Product>,
@@ -110,16 +136,24 @@ export const productCreateOne = (
 export const productCreateMany = (
   data: Partial<Product>[],
   queryParams?: QueryParamsWithList<Product>,
-): Promise<Product[]> => {
-  const config: QueryParamsWithList<Product> = {
-    method: 'post',
-    url: queryParams?.url ?? ProductRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Product[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Product> = {
+        method: 'post',
+        url: queryParams?.url ?? ProductRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Product[]>(config)
-    : getResponse<Product[], Product>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Product[]>(config)
+        : getResponse<Product[], Product>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

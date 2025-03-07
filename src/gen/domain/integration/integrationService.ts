@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const integrationDeleteOne = (
       );
 };
 
+export const integrationDeleteMany = (
+  data: Partial<Integration>[],
+  queryParams?: QueryParamsWithList<Integration>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Integration> = {
+        method: 'post',
+        url: queryParams?.url ?? IntegrationRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Integration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const integrationUpdateOne = (
   id: number,
   data: Partial<Integration>,
@@ -110,19 +136,24 @@ export const integrationCreateOne = (
 export const integrationCreateMany = (
   data: Partial<Integration>[],
   queryParams?: QueryParamsWithList<Integration>,
-): Promise<Integration[]> => {
-  const config: QueryParamsWithList<Integration> = {
-    method: 'post',
-    url: queryParams?.url ?? IntegrationRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Integration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Integration> = {
+        method: 'post',
+        url: queryParams?.url ?? IntegrationRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Integration[]>(config)
-    : getResponse<Integration[], Integration>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Integration[]>(config)
+        : getResponse<Integration[], Integration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

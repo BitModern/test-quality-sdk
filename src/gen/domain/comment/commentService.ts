@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const commentDeleteOne = (
       );
 };
 
+export const commentDeleteMany = (
+  data: Partial<Comment>[],
+  queryParams?: QueryParamsWithList<Comment>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Comment> = {
+        method: 'post',
+        url: queryParams?.url ?? CommentRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Comment>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const commentUpdateOne = (
   id: number,
   data: Partial<Comment>,
@@ -110,16 +136,24 @@ export const commentCreateOne = (
 export const commentCreateMany = (
   data: Partial<Comment>[],
   queryParams?: QueryParamsWithList<Comment>,
-): Promise<Comment[]> => {
-  const config: QueryParamsWithList<Comment> = {
-    method: 'post',
-    url: queryParams?.url ?? CommentRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Comment[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Comment> = {
+        method: 'post',
+        url: queryParams?.url ?? CommentRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Comment[]>(config)
-    : getResponse<Comment[], Comment>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Comment[]>(config)
+        : getResponse<Comment[], Comment>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

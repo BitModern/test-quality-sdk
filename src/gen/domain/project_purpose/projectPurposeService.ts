@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const projectPurposeDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const projectPurposeDeleteMany = (
+  data: Partial<ProjectPurpose>[],
+  queryParams?: QueryParamsWithList<ProjectPurpose>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ProjectPurpose> = {
+        method: 'post',
+        url: `/project_purpose/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, ProjectPurpose>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const projectPurposeUpdateOne = (
@@ -70,20 +96,25 @@ export const projectPurposeCreateOne = (
 export const projectPurposeCreateMany = (
   data: Partial<ProjectPurpose>[],
   queryParams?: QueryParamsWithList<ProjectPurpose>,
-): Promise<ProjectPurpose[]> => {
-  const config: QueryParamsWithList<ProjectPurpose> = {
-    method: 'post',
-    url: queryParams?.url ?? `/project_purpose`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<ProjectPurpose[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ProjectPurpose> = {
+        method: 'post',
+        url: queryParams?.url ?? `/project_purpose`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<ProjectPurpose[]>(config)
-    : getResponse<ProjectPurpose[], ProjectPurpose>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<ProjectPurpose[]>(config)
+        : getResponse<ProjectPurpose[], ProjectPurpose>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const projectPurposeGetMany = (

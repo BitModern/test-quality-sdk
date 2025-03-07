@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const docTypeDeleteOne = (
       );
 };
 
+export const docTypeDeleteMany = (
+  data: Partial<DocType>[],
+  queryParams?: QueryParamsWithList<DocType>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DocType> = {
+        method: 'post',
+        url: queryParams?.url ?? DocTypeRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, DocType>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const docTypeUpdateOne = (
   id: number,
   data: Partial<DocType>,
@@ -110,16 +136,24 @@ export const docTypeCreateOne = (
 export const docTypeCreateMany = (
   data: Partial<DocType>[],
   queryParams?: QueryParamsWithList<DocType>,
-): Promise<DocType[]> => {
-  const config: QueryParamsWithList<DocType> = {
-    method: 'post',
-    url: queryParams?.url ?? DocTypeRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<DocType[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DocType> = {
+        method: 'post',
+        url: queryParams?.url ?? DocTypeRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<DocType[]>(config)
-    : getResponse<DocType[], DocType>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DocType[]>(config)
+        : getResponse<DocType[], DocType>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

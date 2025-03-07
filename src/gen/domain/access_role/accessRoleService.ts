@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const accessRoleDeleteOne = (
       );
 };
 
+export const accessRoleDeleteMany = (
+  data: Partial<AccessRole>[],
+  queryParams?: QueryParamsWithList<AccessRole>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AccessRole> = {
+        method: 'post',
+        url: queryParams?.url ?? AccessRoleRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, AccessRole>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const accessRoleUpdateOne = (
   id: number,
   data: Partial<AccessRole>,
@@ -110,19 +136,24 @@ export const accessRoleCreateOne = (
 export const accessRoleCreateMany = (
   data: Partial<AccessRole>[],
   queryParams?: QueryParamsWithList<AccessRole>,
-): Promise<AccessRole[]> => {
-  const config: QueryParamsWithList<AccessRole> = {
-    method: 'post',
-    url: queryParams?.url ?? AccessRoleRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<AccessRole[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AccessRole> = {
+        method: 'post',
+        url: queryParams?.url ?? AccessRoleRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<AccessRole[]>(config)
-    : getResponse<AccessRole[], AccessRole>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<AccessRole[]>(config)
+        : getResponse<AccessRole[], AccessRole>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

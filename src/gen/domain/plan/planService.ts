@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const planDeleteOne = (
       );
 };
 
+export const planDeleteMany = (
+  data: Partial<Plan>[],
+  queryParams?: QueryParamsWithList<Plan>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Plan> = {
+        method: 'post',
+        url: queryParams?.url ?? PlanRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Plan>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const planUpdateOne = (
   id: number,
   data: Partial<Plan>,
@@ -107,16 +133,21 @@ export const planCreateOne = (
 export const planCreateMany = (
   data: Partial<Plan>[],
   queryParams?: QueryParamsWithList<Plan>,
-): Promise<Plan[]> => {
-  const config: QueryParamsWithList<Plan> = {
-    method: 'post',
-    url: queryParams?.url ?? PlanRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Plan[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Plan> = {
+        method: 'post',
+        url: queryParams?.url ?? PlanRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Plan[]>(config)
-    : getResponse<Plan[], Plan>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Plan[]>(config)
+        : getResponse<Plan[], Plan>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };

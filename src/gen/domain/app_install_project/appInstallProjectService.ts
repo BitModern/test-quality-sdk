@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const appInstallProjectDeleteOne = (
       );
 };
 
+export const appInstallProjectDeleteMany = (
+  data: Partial<AppInstallProject>[],
+  queryParams?: QueryParamsWithList<AppInstallProject>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AppInstallProject> = {
+        method: 'post',
+        url: queryParams?.url ?? AppInstallProjectRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, AppInstallProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const appInstallProjectUpdateOne = (
   id: number,
   data: Partial<AppInstallProject>,
@@ -110,19 +136,24 @@ export const appInstallProjectCreateOne = (
 export const appInstallProjectCreateMany = (
   data: Partial<AppInstallProject>[],
   queryParams?: QueryParamsWithList<AppInstallProject>,
-): Promise<AppInstallProject[]> => {
-  const config: QueryParamsWithList<AppInstallProject> = {
-    method: 'post',
-    url: queryParams?.url ?? AppInstallProjectRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<AppInstallProject[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AppInstallProject> = {
+        method: 'post',
+        url: queryParams?.url ?? AppInstallProjectRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<AppInstallProject[]>(config)
-    : getResponse<AppInstallProject[], AppInstallProject>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<AppInstallProject[]>(config)
+        : getResponse<AppInstallProject[], AppInstallProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

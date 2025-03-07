@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const dataSetDeleteOne = (
       );
 };
 
+export const dataSetDeleteMany = (
+  data: Partial<DataSet>[],
+  queryParams?: QueryParamsWithList<DataSet>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DataSet> = {
+        method: 'post',
+        url: queryParams?.url ?? DataSetRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, DataSet>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const dataSetUpdateOne = (
   id: number,
   data: Partial<DataSet>,
@@ -110,16 +136,24 @@ export const dataSetCreateOne = (
 export const dataSetCreateMany = (
   data: Partial<DataSet>[],
   queryParams?: QueryParamsWithList<DataSet>,
-): Promise<DataSet[]> => {
-  const config: QueryParamsWithList<DataSet> = {
-    method: 'post',
-    url: queryParams?.url ?? DataSetRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<DataSet[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DataSet> = {
+        method: 'post',
+        url: queryParams?.url ?? DataSetRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<DataSet[]>(config)
-    : getResponse<DataSet[], DataSet>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DataSet[]>(config)
+        : getResponse<DataSet[], DataSet>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

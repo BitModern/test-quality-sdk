@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const projectStatusDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const projectStatusDeleteMany = (
+  data: Partial<ProjectStatus>[],
+  queryParams?: QueryParamsWithList<ProjectStatus>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ProjectStatus> = {
+        method: 'post',
+        url: `/project_status/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, ProjectStatus>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const projectStatusUpdateOne = (
@@ -70,20 +96,25 @@ export const projectStatusCreateOne = (
 export const projectStatusCreateMany = (
   data: Partial<ProjectStatus>[],
   queryParams?: QueryParamsWithList<ProjectStatus>,
-): Promise<ProjectStatus[]> => {
-  const config: QueryParamsWithList<ProjectStatus> = {
-    method: 'post',
-    url: queryParams?.url ?? `/project_status`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<ProjectStatus[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ProjectStatus> = {
+        method: 'post',
+        url: queryParams?.url ?? `/project_status`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<ProjectStatus[]>(config)
-    : getResponse<ProjectStatus[], ProjectStatus>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<ProjectStatus[]>(config)
+        : getResponse<ProjectStatus[], ProjectStatus>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const projectStatusGetMany = (

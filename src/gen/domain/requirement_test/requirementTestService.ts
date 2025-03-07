@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const requirementTestDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const requirementTestDeleteMany = (
+  data: Partial<RequirementTest>[],
+  queryParams?: QueryParamsWithList<RequirementTest>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<RequirementTest> = {
+        method: 'post',
+        url: `/requirement_test/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, RequirementTest>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const requirementTestUpdateOne = (
@@ -70,20 +96,25 @@ export const requirementTestCreateOne = (
 export const requirementTestCreateMany = (
   data: Partial<RequirementTest>[],
   queryParams?: QueryParamsWithList<RequirementTest>,
-): Promise<RequirementTest[]> => {
-  const config: QueryParamsWithList<RequirementTest> = {
-    method: 'post',
-    url: queryParams?.url ?? `/requirement_test`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<RequirementTest[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<RequirementTest> = {
+        method: 'post',
+        url: queryParams?.url ?? `/requirement_test`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<RequirementTest[]>(config)
-    : getResponse<RequirementTest[], RequirementTest>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<RequirementTest[]>(config)
+        : getResponse<RequirementTest[], RequirementTest>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const requirementTestGetMany = (

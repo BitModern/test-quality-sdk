@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const pullRequestRequirementDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const pullRequestRequirementDeleteMany = (
+  data: Partial<PullRequestRequirement>[],
+  queryParams?: QueryParamsWithList<PullRequestRequirement>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PullRequestRequirement> = {
+        method: 'post',
+        url: `/pull_request_requirement/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, PullRequestRequirement>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const pullRequestRequirementUpdateOne = (
@@ -76,20 +102,25 @@ export const pullRequestRequirementCreateOne = (
 export const pullRequestRequirementCreateMany = (
   data: Partial<PullRequestRequirement>[],
   queryParams?: QueryParamsWithList<PullRequestRequirement>,
-): Promise<PullRequestRequirement[]> => {
-  const config: QueryParamsWithList<PullRequestRequirement> = {
-    method: 'post',
-    url: queryParams?.url ?? `/pull_request_requirement`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<PullRequestRequirement[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PullRequestRequirement> = {
+        method: 'post',
+        url: queryParams?.url ?? `/pull_request_requirement`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<PullRequestRequirement[]>(config)
-    : getResponse<PullRequestRequirement[], PullRequestRequirement>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PullRequestRequirement[]>(config)
+        : getResponse<PullRequestRequirement[], PullRequestRequirement>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const pullRequestRequirementGetMany = (

@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const subscriptionsDeleteOne = (
       );
 };
 
+export const subscriptionsDeleteMany = (
+  data: Partial<Subscriptions>[],
+  queryParams?: QueryParamsWithList<Subscriptions>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Subscriptions> = {
+        method: 'post',
+        url: queryParams?.url ?? SubscriptionsRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Subscriptions>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const subscriptionsUpdateOne = (
   id: number,
   data: Partial<Subscriptions>,
@@ -110,19 +136,24 @@ export const subscriptionsCreateOne = (
 export const subscriptionsCreateMany = (
   data: Partial<Subscriptions>[],
   queryParams?: QueryParamsWithList<Subscriptions>,
-): Promise<Subscriptions[]> => {
-  const config: QueryParamsWithList<Subscriptions> = {
-    method: 'post',
-    url: queryParams?.url ?? SubscriptionsRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Subscriptions[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Subscriptions> = {
+        method: 'post',
+        url: queryParams?.url ?? SubscriptionsRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Subscriptions[]>(config)
-    : getResponse<Subscriptions[], Subscriptions>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Subscriptions[]>(config)
+        : getResponse<Subscriptions[], Subscriptions>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

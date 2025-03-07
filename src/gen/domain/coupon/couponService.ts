@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const couponDeleteOne = (
       );
 };
 
+export const couponDeleteMany = (
+  data: Partial<Coupon>[],
+  queryParams?: QueryParamsWithList<Coupon>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Coupon> = {
+        method: 'post',
+        url: queryParams?.url ?? CouponRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Coupon>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const couponUpdateOne = (
   id: number,
   data: Partial<Coupon>,
@@ -107,16 +133,24 @@ export const couponCreateOne = (
 export const couponCreateMany = (
   data: Partial<Coupon>[],
   queryParams?: QueryParamsWithList<Coupon>,
-): Promise<Coupon[]> => {
-  const config: QueryParamsWithList<Coupon> = {
-    method: 'post',
-    url: queryParams?.url ?? CouponRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Coupon[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Coupon> = {
+        method: 'post',
+        url: queryParams?.url ?? CouponRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Coupon[]>(config)
-    : getResponse<Coupon[], Coupon>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Coupon[]>(config)
+        : getResponse<Coupon[], Coupon>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

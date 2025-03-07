@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const casePriorityProjectDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const casePriorityProjectDeleteMany = (
+  data: Partial<CasePriorityProject>[],
+  queryParams?: QueryParamsWithList<CasePriorityProject>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CasePriorityProject> = {
+        method: 'post',
+        url: `/case_priority_project/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, CasePriorityProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const casePriorityProjectUpdateOne = (
@@ -76,20 +102,25 @@ export const casePriorityProjectCreateOne = (
 export const casePriorityProjectCreateMany = (
   data: Partial<CasePriorityProject>[],
   queryParams?: QueryParamsWithList<CasePriorityProject>,
-): Promise<CasePriorityProject[]> => {
-  const config: QueryParamsWithList<CasePriorityProject> = {
-    method: 'post',
-    url: queryParams?.url ?? `/case_priority_project`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<CasePriorityProject[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CasePriorityProject> = {
+        method: 'post',
+        url: queryParams?.url ?? `/case_priority_project`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<CasePriorityProject[]>(config)
-    : getResponse<CasePriorityProject[], CasePriorityProject>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CasePriorityProject[]>(config)
+        : getResponse<CasePriorityProject[], CasePriorityProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const casePriorityProjectGetMany = (

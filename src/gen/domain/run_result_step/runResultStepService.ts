@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const runResultStepDeleteOne = (
       );
 };
 
+export const runResultStepDeleteMany = (
+  data: Partial<RunResultStep>[],
+  queryParams?: QueryParamsWithList<RunResultStep>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<RunResultStep> = {
+        method: 'post',
+        url: queryParams?.url ?? RunResultStepRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, RunResultStep>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const runResultStepUpdateOne = (
   id: number,
   data: Partial<RunResultStep>,
@@ -110,19 +136,24 @@ export const runResultStepCreateOne = (
 export const runResultStepCreateMany = (
   data: Partial<RunResultStep>[],
   queryParams?: QueryParamsWithList<RunResultStep>,
-): Promise<RunResultStep[]> => {
-  const config: QueryParamsWithList<RunResultStep> = {
-    method: 'post',
-    url: queryParams?.url ?? RunResultStepRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<RunResultStep[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<RunResultStep> = {
+        method: 'post',
+        url: queryParams?.url ?? RunResultStepRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<RunResultStep[]>(config)
-    : getResponse<RunResultStep[], RunResultStep>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<RunResultStep[]>(config)
+        : getResponse<RunResultStep[], RunResultStep>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

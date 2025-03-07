@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const webinarDeleteOne = (
       );
 };
 
+export const webinarDeleteMany = (
+  data: Partial<Webinar>[],
+  queryParams?: QueryParamsWithList<Webinar>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Webinar> = {
+        method: 'post',
+        url: queryParams?.url ?? WebinarRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Webinar>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const webinarUpdateOne = (
   id: number,
   data: Partial<Webinar>,
@@ -110,16 +136,24 @@ export const webinarCreateOne = (
 export const webinarCreateMany = (
   data: Partial<Webinar>[],
   queryParams?: QueryParamsWithList<Webinar>,
-): Promise<Webinar[]> => {
-  const config: QueryParamsWithList<Webinar> = {
-    method: 'post',
-    url: queryParams?.url ?? WebinarRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Webinar[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Webinar> = {
+        method: 'post',
+        url: queryParams?.url ?? WebinarRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Webinar[]>(config)
-    : getResponse<Webinar[], Webinar>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Webinar[]>(config)
+        : getResponse<Webinar[], Webinar>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

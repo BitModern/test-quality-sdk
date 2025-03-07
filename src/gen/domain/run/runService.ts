@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const runDeleteOne = (
       );
 };
 
+export const runDeleteMany = (
+  data: Partial<Run>[],
+  queryParams?: QueryParamsWithList<Run>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Run> = {
+        method: 'post',
+        url: queryParams?.url ?? RunRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Run>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const runUpdateOne = (
   id: number,
   data: Partial<Run>,
@@ -107,16 +133,21 @@ export const runCreateOne = (
 export const runCreateMany = (
   data: Partial<Run>[],
   queryParams?: QueryParamsWithList<Run>,
-): Promise<Run[]> => {
-  const config: QueryParamsWithList<Run> = {
-    method: 'post',
-    url: queryParams?.url ?? RunRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Run[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Run> = {
+        method: 'post',
+        url: queryParams?.url ?? RunRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Run[]>(config)
-    : getResponse<Run[], Run>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Run[]>(config)
+        : getResponse<Run[], Run>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };

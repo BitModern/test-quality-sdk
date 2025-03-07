@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const invoiceDeleteOne = (
       );
 };
 
+export const invoiceDeleteMany = (
+  data: Partial<Invoice>[],
+  queryParams?: QueryParamsWithList<Invoice>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Invoice> = {
+        method: 'post',
+        url: queryParams?.url ?? InvoiceRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Invoice>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const invoiceUpdateOne = (
   id: number,
   data: Partial<Invoice>,
@@ -110,16 +136,24 @@ export const invoiceCreateOne = (
 export const invoiceCreateMany = (
   data: Partial<Invoice>[],
   queryParams?: QueryParamsWithList<Invoice>,
-): Promise<Invoice[]> => {
-  const config: QueryParamsWithList<Invoice> = {
-    method: 'post',
-    url: queryParams?.url ?? InvoiceRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Invoice[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Invoice> = {
+        method: 'post',
+        url: queryParams?.url ?? InvoiceRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Invoice[]>(config)
-    : getResponse<Invoice[], Invoice>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Invoice[]>(config)
+        : getResponse<Invoice[], Invoice>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

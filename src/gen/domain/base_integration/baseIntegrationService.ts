@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const baseIntegrationDeleteOne = (
       );
 };
 
+export const baseIntegrationDeleteMany = (
+  data: Partial<BaseIntegration>[],
+  queryParams?: QueryParamsWithList<BaseIntegration>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<BaseIntegration> = {
+        method: 'post',
+        url: queryParams?.url ?? BaseIntegrationRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, BaseIntegration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const baseIntegrationUpdateOne = (
   id: number,
   data: Partial<BaseIntegration>,
@@ -110,19 +136,24 @@ export const baseIntegrationCreateOne = (
 export const baseIntegrationCreateMany = (
   data: Partial<BaseIntegration>[],
   queryParams?: QueryParamsWithList<BaseIntegration>,
-): Promise<BaseIntegration[]> => {
-  const config: QueryParamsWithList<BaseIntegration> = {
-    method: 'post',
-    url: queryParams?.url ?? BaseIntegrationRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<BaseIntegration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<BaseIntegration> = {
+        method: 'post',
+        url: queryParams?.url ?? BaseIntegrationRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<BaseIntegration[]>(config)
-    : getResponse<BaseIntegration[], BaseIntegration>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<BaseIntegration[]>(config)
+        : getResponse<BaseIntegration[], BaseIntegration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

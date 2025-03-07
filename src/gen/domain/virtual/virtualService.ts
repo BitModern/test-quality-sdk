@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const virtualDeleteOne = (
       );
 };
 
+export const virtualDeleteMany = (
+  data: Partial<Virtual>[],
+  queryParams?: QueryParamsWithList<Virtual>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Virtual> = {
+        method: 'post',
+        url: queryParams?.url ?? VirtualRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Virtual>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const virtualUpdateOne = (
   id: number,
   data: Partial<Virtual>,
@@ -110,16 +136,24 @@ export const virtualCreateOne = (
 export const virtualCreateMany = (
   data: Partial<Virtual>[],
   queryParams?: QueryParamsWithList<Virtual>,
-): Promise<Virtual[]> => {
-  const config: QueryParamsWithList<Virtual> = {
-    method: 'post',
-    url: queryParams?.url ?? VirtualRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Virtual[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Virtual> = {
+        method: 'post',
+        url: queryParams?.url ?? VirtualRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Virtual[]>(config)
-    : getResponse<Virtual[], Virtual>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Virtual[]>(config)
+        : getResponse<Virtual[], Virtual>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const checkListDeleteOne = (
       );
 };
 
+export const checkListDeleteMany = (
+  data: Partial<CheckList>[],
+  queryParams?: QueryParamsWithList<CheckList>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckList> = {
+        method: 'post',
+        url: queryParams?.url ?? CheckListRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, CheckList>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const checkListUpdateOne = (
   id: number,
   data: Partial<CheckList>,
@@ -110,19 +136,24 @@ export const checkListCreateOne = (
 export const checkListCreateMany = (
   data: Partial<CheckList>[],
   queryParams?: QueryParamsWithList<CheckList>,
-): Promise<CheckList[]> => {
-  const config: QueryParamsWithList<CheckList> = {
-    method: 'post',
-    url: queryParams?.url ?? CheckListRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<CheckList[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckList> = {
+        method: 'post',
+        url: queryParams?.url ?? CheckListRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<CheckList[]>(config)
-    : getResponse<CheckList[], CheckList>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CheckList[]>(config)
+        : getResponse<CheckList[], CheckList>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const filterDeleteOne = (
       );
 };
 
+export const filterDeleteMany = (
+  data: Partial<Filter>[],
+  queryParams?: QueryParamsWithList<Filter>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Filter> = {
+        method: 'post',
+        url: queryParams?.url ?? FilterRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Filter>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const filterUpdateOne = (
   id: number,
   data: Partial<Filter>,
@@ -107,16 +133,24 @@ export const filterCreateOne = (
 export const filterCreateMany = (
   data: Partial<Filter>[],
   queryParams?: QueryParamsWithList<Filter>,
-): Promise<Filter[]> => {
-  const config: QueryParamsWithList<Filter> = {
-    method: 'post',
-    url: queryParams?.url ?? FilterRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Filter[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Filter> = {
+        method: 'post',
+        url: queryParams?.url ?? FilterRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Filter[]>(config)
-    : getResponse<Filter[], Filter>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Filter[]>(config)
+        : getResponse<Filter[], Filter>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

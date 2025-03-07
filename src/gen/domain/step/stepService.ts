@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const stepDeleteOne = (
       );
 };
 
+export const stepDeleteMany = (
+  data: Partial<Step>[],
+  queryParams?: QueryParamsWithList<Step>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Step> = {
+        method: 'post',
+        url: queryParams?.url ?? StepRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Step>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const stepUpdateOne = (
   id: number,
   data: Partial<Step>,
@@ -107,16 +133,21 @@ export const stepCreateOne = (
 export const stepCreateMany = (
   data: Partial<Step>[],
   queryParams?: QueryParamsWithList<Step>,
-): Promise<Step[]> => {
-  const config: QueryParamsWithList<Step> = {
-    method: 'post',
-    url: queryParams?.url ?? StepRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Step[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Step> = {
+        method: 'post',
+        url: queryParams?.url ?? StepRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Step[]>(config)
-    : getResponse<Step[], Step>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Step[]>(config)
+        : getResponse<Step[], Step>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };

@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const suiteDeleteOne = (
       );
 };
 
+export const suiteDeleteMany = (
+  data: Partial<Suite>[],
+  queryParams?: QueryParamsWithList<Suite>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Suite> = {
+        method: 'post',
+        url: queryParams?.url ?? SuiteRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Suite>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const suiteUpdateOne = (
   id: number,
   data: Partial<Suite>,
@@ -107,16 +133,21 @@ export const suiteCreateOne = (
 export const suiteCreateMany = (
   data: Partial<Suite>[],
   queryParams?: QueryParamsWithList<Suite>,
-): Promise<Suite[]> => {
-  const config: QueryParamsWithList<Suite> = {
-    method: 'post',
-    url: queryParams?.url ?? SuiteRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Suite[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Suite> = {
+        method: 'post',
+        url: queryParams?.url ?? SuiteRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Suite[]>(config)
-    : getResponse<Suite[], Suite>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Suite[]>(config)
+        : getResponse<Suite[], Suite>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };

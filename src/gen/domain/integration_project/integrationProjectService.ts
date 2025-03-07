@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const integrationProjectDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const integrationProjectDeleteMany = (
+  data: Partial<IntegrationProject>[],
+  queryParams?: QueryParamsWithList<IntegrationProject>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<IntegrationProject> = {
+        method: 'post',
+        url: `/integration_project/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, IntegrationProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const integrationProjectUpdateOne = (
@@ -70,20 +96,25 @@ export const integrationProjectCreateOne = (
 export const integrationProjectCreateMany = (
   data: Partial<IntegrationProject>[],
   queryParams?: QueryParamsWithList<IntegrationProject>,
-): Promise<IntegrationProject[]> => {
-  const config: QueryParamsWithList<IntegrationProject> = {
-    method: 'post',
-    url: queryParams?.url ?? `/integration_project`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<IntegrationProject[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<IntegrationProject> = {
+        method: 'post',
+        url: queryParams?.url ?? `/integration_project`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<IntegrationProject[]>(config)
-    : getResponse<IntegrationProject[], IntegrationProject>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<IntegrationProject[]>(config)
+        : getResponse<IntegrationProject[], IntegrationProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const integrationProjectGetMany = (

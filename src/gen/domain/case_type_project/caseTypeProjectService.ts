@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const caseTypeProjectDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const caseTypeProjectDeleteMany = (
+  data: Partial<CaseTypeProject>[],
+  queryParams?: QueryParamsWithList<CaseTypeProject>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CaseTypeProject> = {
+        method: 'post',
+        url: `/case_type_project/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, CaseTypeProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const caseTypeProjectUpdateOne = (
@@ -70,20 +96,25 @@ export const caseTypeProjectCreateOne = (
 export const caseTypeProjectCreateMany = (
   data: Partial<CaseTypeProject>[],
   queryParams?: QueryParamsWithList<CaseTypeProject>,
-): Promise<CaseTypeProject[]> => {
-  const config: QueryParamsWithList<CaseTypeProject> = {
-    method: 'post',
-    url: queryParams?.url ?? `/case_type_project`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<CaseTypeProject[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CaseTypeProject> = {
+        method: 'post',
+        url: queryParams?.url ?? `/case_type_project`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<CaseTypeProject[]>(config)
-    : getResponse<CaseTypeProject[], CaseTypeProject>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CaseTypeProject[]>(config)
+        : getResponse<CaseTypeProject[], CaseTypeProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const caseTypeProjectGetMany = (

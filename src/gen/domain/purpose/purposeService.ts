@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const purposeDeleteOne = (
       );
 };
 
+export const purposeDeleteMany = (
+  data: Partial<Purpose>[],
+  queryParams?: QueryParamsWithList<Purpose>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Purpose> = {
+        method: 'post',
+        url: queryParams?.url ?? PurposeRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Purpose>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const purposeUpdateOne = (
   id: number,
   data: Partial<Purpose>,
@@ -110,16 +136,24 @@ export const purposeCreateOne = (
 export const purposeCreateMany = (
   data: Partial<Purpose>[],
   queryParams?: QueryParamsWithList<Purpose>,
-): Promise<Purpose[]> => {
-  const config: QueryParamsWithList<Purpose> = {
-    method: 'post',
-    url: queryParams?.url ?? PurposeRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Purpose[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Purpose> = {
+        method: 'post',
+        url: queryParams?.url ?? PurposeRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Purpose[]>(config)
-    : getResponse<Purpose[], Purpose>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Purpose[]>(config)
+        : getResponse<Purpose[], Purpose>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

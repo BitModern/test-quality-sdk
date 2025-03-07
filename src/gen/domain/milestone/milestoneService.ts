@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const milestoneDeleteOne = (
       );
 };
 
+export const milestoneDeleteMany = (
+  data: Partial<Milestone>[],
+  queryParams?: QueryParamsWithList<Milestone>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Milestone> = {
+        method: 'post',
+        url: queryParams?.url ?? MilestoneRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Milestone>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const milestoneUpdateOne = (
   id: number,
   data: Partial<Milestone>,
@@ -110,19 +136,24 @@ export const milestoneCreateOne = (
 export const milestoneCreateMany = (
   data: Partial<Milestone>[],
   queryParams?: QueryParamsWithList<Milestone>,
-): Promise<Milestone[]> => {
-  const config: QueryParamsWithList<Milestone> = {
-    method: 'post',
-    url: queryParams?.url ?? MilestoneRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Milestone[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Milestone> = {
+        method: 'post',
+        url: queryParams?.url ?? MilestoneRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Milestone[]>(config)
-    : getResponse<Milestone[], Milestone>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Milestone[]>(config)
+        : getResponse<Milestone[], Milestone>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

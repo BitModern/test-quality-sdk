@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const appUserDeleteOne = (
       );
 };
 
+export const appUserDeleteMany = (
+  data: Partial<AppUser>[],
+  queryParams?: QueryParamsWithList<AppUser>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AppUser> = {
+        method: 'post',
+        url: queryParams?.url ?? AppUserRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, AppUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const appUserUpdateOne = (
   id: number,
   data: Partial<AppUser>,
@@ -110,16 +136,24 @@ export const appUserCreateOne = (
 export const appUserCreateMany = (
   data: Partial<AppUser>[],
   queryParams?: QueryParamsWithList<AppUser>,
-): Promise<AppUser[]> => {
-  const config: QueryParamsWithList<AppUser> = {
-    method: 'post',
-    url: queryParams?.url ?? AppUserRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<AppUser[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AppUser> = {
+        method: 'post',
+        url: queryParams?.url ?? AppUserRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<AppUser[]>(config)
-    : getResponse<AppUser[], AppUser>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<AppUser[]>(config)
+        : getResponse<AppUser[], AppUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

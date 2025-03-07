@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const componentDocTemplateDeleteOne = (
       );
 };
 
+export const componentDocTemplateDeleteMany = (
+  data: Partial<ComponentDocTemplate>[],
+  queryParams?: QueryParamsWithList<ComponentDocTemplate>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ComponentDocTemplate> = {
+        method: 'post',
+        url: queryParams?.url ?? ComponentDocTemplateRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, ComponentDocTemplate>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const componentDocTemplateUpdateOne = (
   id: number,
   data: Partial<ComponentDocTemplate>,
@@ -116,19 +142,24 @@ export const componentDocTemplateCreateOne = (
 export const componentDocTemplateCreateMany = (
   data: Partial<ComponentDocTemplate>[],
   queryParams?: QueryParamsWithList<ComponentDocTemplate>,
-): Promise<ComponentDocTemplate[]> => {
-  const config: QueryParamsWithList<ComponentDocTemplate> = {
-    method: 'post',
-    url: queryParams?.url ?? ComponentDocTemplateRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<ComponentDocTemplate[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ComponentDocTemplate> = {
+        method: 'post',
+        url: queryParams?.url ?? ComponentDocTemplateRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<ComponentDocTemplate[]>(config)
-    : getResponse<ComponentDocTemplate[], ComponentDocTemplate>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<ComponentDocTemplate[]>(config)
+        : getResponse<ComponentDocTemplate[], ComponentDocTemplate>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

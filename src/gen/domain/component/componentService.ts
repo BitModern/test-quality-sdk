@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const componentDeleteOne = (
       );
 };
 
+export const componentDeleteMany = (
+  data: Partial<Component>[],
+  queryParams?: QueryParamsWithList<Component>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Component> = {
+        method: 'post',
+        url: queryParams?.url ?? ComponentRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Component>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const componentUpdateOne = (
   id: number,
   data: Partial<Component>,
@@ -110,19 +136,24 @@ export const componentCreateOne = (
 export const componentCreateMany = (
   data: Partial<Component>[],
   queryParams?: QueryParamsWithList<Component>,
-): Promise<Component[]> => {
-  const config: QueryParamsWithList<Component> = {
-    method: 'post',
-    url: queryParams?.url ?? ComponentRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Component[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Component> = {
+        method: 'post',
+        url: queryParams?.url ?? ComponentRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Component[]>(config)
-    : getResponse<Component[], Component>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Component[]>(config)
+        : getResponse<Component[], Component>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

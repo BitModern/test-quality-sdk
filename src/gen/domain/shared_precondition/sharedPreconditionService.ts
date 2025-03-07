@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const sharedPreconditionDeleteOne = (
       );
 };
 
+export const sharedPreconditionDeleteMany = (
+  data: Partial<SharedPrecondition>[],
+  queryParams?: QueryParamsWithList<SharedPrecondition>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SharedPrecondition> = {
+        method: 'post',
+        url: queryParams?.url ?? SharedPreconditionRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, SharedPrecondition>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const sharedPreconditionUpdateOne = (
   id: number,
   data: Partial<SharedPrecondition>,
@@ -110,19 +136,24 @@ export const sharedPreconditionCreateOne = (
 export const sharedPreconditionCreateMany = (
   data: Partial<SharedPrecondition>[],
   queryParams?: QueryParamsWithList<SharedPrecondition>,
-): Promise<SharedPrecondition[]> => {
-  const config: QueryParamsWithList<SharedPrecondition> = {
-    method: 'post',
-    url: queryParams?.url ?? SharedPreconditionRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<SharedPrecondition[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SharedPrecondition> = {
+        method: 'post',
+        url: queryParams?.url ?? SharedPreconditionRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<SharedPrecondition[]>(config)
-    : getResponse<SharedPrecondition[], SharedPrecondition>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<SharedPrecondition[]>(config)
+        : getResponse<SharedPrecondition[], SharedPrecondition>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

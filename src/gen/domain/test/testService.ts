@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const testDeleteOne = (
       );
 };
 
+export const testDeleteMany = (
+  data: Partial<Test>[],
+  queryParams?: QueryParamsWithList<Test>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Test> = {
+        method: 'post',
+        url: queryParams?.url ?? TestRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Test>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const testUpdateOne = (
   id: number,
   data: Partial<Test>,
@@ -107,16 +133,21 @@ export const testCreateOne = (
 export const testCreateMany = (
   data: Partial<Test>[],
   queryParams?: QueryParamsWithList<Test>,
-): Promise<Test[]> => {
-  const config: QueryParamsWithList<Test> = {
-    method: 'post',
-    url: queryParams?.url ?? TestRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Test[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Test> = {
+        method: 'post',
+        url: queryParams?.url ?? TestRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Test[]>(config)
-    : getResponse<Test[], Test>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Test[]>(config)
+        : getResponse<Test[], Test>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };

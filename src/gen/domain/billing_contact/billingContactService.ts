@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const billingContactDeleteOne = (
       );
 };
 
+export const billingContactDeleteMany = (
+  data: Partial<BillingContact>[],
+  queryParams?: QueryParamsWithList<BillingContact>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<BillingContact> = {
+        method: 'post',
+        url: queryParams?.url ?? BillingContactRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, BillingContact>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const billingContactUpdateOne = (
   id: number,
   data: Partial<BillingContact>,
@@ -110,19 +136,24 @@ export const billingContactCreateOne = (
 export const billingContactCreateMany = (
   data: Partial<BillingContact>[],
   queryParams?: QueryParamsWithList<BillingContact>,
-): Promise<BillingContact[]> => {
-  const config: QueryParamsWithList<BillingContact> = {
-    method: 'post',
-    url: queryParams?.url ?? BillingContactRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<BillingContact[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<BillingContact> = {
+        method: 'post',
+        url: queryParams?.url ?? BillingContactRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<BillingContact[]>(config)
-    : getResponse<BillingContact[], BillingContact>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<BillingContact[]>(config)
+        : getResponse<BillingContact[], BillingContact>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

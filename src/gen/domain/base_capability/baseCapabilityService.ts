@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const baseCapabilityDeleteOne = (
       );
 };
 
+export const baseCapabilityDeleteMany = (
+  data: Partial<BaseCapability>[],
+  queryParams?: QueryParamsWithList<BaseCapability>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<BaseCapability> = {
+        method: 'post',
+        url: queryParams?.url ?? BaseCapabilityRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, BaseCapability>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const baseCapabilityUpdateOne = (
   id: number,
   data: Partial<BaseCapability>,
@@ -110,19 +136,24 @@ export const baseCapabilityCreateOne = (
 export const baseCapabilityCreateMany = (
   data: Partial<BaseCapability>[],
   queryParams?: QueryParamsWithList<BaseCapability>,
-): Promise<BaseCapability[]> => {
-  const config: QueryParamsWithList<BaseCapability> = {
-    method: 'post',
-    url: queryParams?.url ?? BaseCapabilityRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<BaseCapability[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<BaseCapability> = {
+        method: 'post',
+        url: queryParams?.url ?? BaseCapabilityRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<BaseCapability[]>(config)
-    : getResponse<BaseCapability[], BaseCapability>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<BaseCapability[]>(config)
+        : getResponse<BaseCapability[], BaseCapability>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

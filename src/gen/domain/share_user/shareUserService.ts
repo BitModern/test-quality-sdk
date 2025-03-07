@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const shareUserDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const shareUserDeleteMany = (
+  data: Partial<ShareUser>[],
+  queryParams?: QueryParamsWithList<ShareUser>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ShareUser> = {
+        method: 'post',
+        url: `/share_user/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, ShareUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const shareUserUpdateOne = (
@@ -70,20 +96,25 @@ export const shareUserCreateOne = (
 export const shareUserCreateMany = (
   data: Partial<ShareUser>[],
   queryParams?: QueryParamsWithList<ShareUser>,
-): Promise<ShareUser[]> => {
-  const config: QueryParamsWithList<ShareUser> = {
-    method: 'post',
-    url: queryParams?.url ?? `/share_user`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<ShareUser[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ShareUser> = {
+        method: 'post',
+        url: queryParams?.url ?? `/share_user`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<ShareUser[]>(config)
-    : getResponse<ShareUser[], ShareUser>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<ShareUser[]>(config)
+        : getResponse<ShareUser[], ShareUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const shareUserGetMany = (

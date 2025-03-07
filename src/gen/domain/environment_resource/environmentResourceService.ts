@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const environmentResourceDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const environmentResourceDeleteMany = (
+  data: Partial<EnvironmentResource>[],
+  queryParams?: QueryParamsWithList<EnvironmentResource>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<EnvironmentResource> = {
+        method: 'post',
+        url: `/environment_resource/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, EnvironmentResource>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const environmentResourceUpdateOne = (
@@ -76,20 +102,25 @@ export const environmentResourceCreateOne = (
 export const environmentResourceCreateMany = (
   data: Partial<EnvironmentResource>[],
   queryParams?: QueryParamsWithList<EnvironmentResource>,
-): Promise<EnvironmentResource[]> => {
-  const config: QueryParamsWithList<EnvironmentResource> = {
-    method: 'post',
-    url: queryParams?.url ?? `/environment_resource`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<EnvironmentResource[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<EnvironmentResource> = {
+        method: 'post',
+        url: queryParams?.url ?? `/environment_resource`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<EnvironmentResource[]>(config)
-    : getResponse<EnvironmentResource[], EnvironmentResource>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<EnvironmentResource[]>(config)
+        : getResponse<EnvironmentResource[], EnvironmentResource>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const environmentResourceGetMany = (

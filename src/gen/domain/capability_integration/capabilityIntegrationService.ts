@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const capabilityIntegrationDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const capabilityIntegrationDeleteMany = (
+  data: Partial<CapabilityIntegration>[],
+  queryParams?: QueryParamsWithList<CapabilityIntegration>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CapabilityIntegration> = {
+        method: 'post',
+        url: `/capability_integration/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, CapabilityIntegration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const capabilityIntegrationUpdateOne = (
@@ -76,20 +102,25 @@ export const capabilityIntegrationCreateOne = (
 export const capabilityIntegrationCreateMany = (
   data: Partial<CapabilityIntegration>[],
   queryParams?: QueryParamsWithList<CapabilityIntegration>,
-): Promise<CapabilityIntegration[]> => {
-  const config: QueryParamsWithList<CapabilityIntegration> = {
-    method: 'post',
-    url: queryParams?.url ?? `/capability_integration`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<CapabilityIntegration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CapabilityIntegration> = {
+        method: 'post',
+        url: queryParams?.url ?? `/capability_integration`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<CapabilityIntegration[]>(config)
-    : getResponse<CapabilityIntegration[], CapabilityIntegration>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CapabilityIntegration[]>(config)
+        : getResponse<CapabilityIntegration[], CapabilityIntegration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const capabilityIntegrationGetMany = (

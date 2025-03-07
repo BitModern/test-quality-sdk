@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const statusDeleteOne = (
       );
 };
 
+export const statusDeleteMany = (
+  data: Partial<Status>[],
+  queryParams?: QueryParamsWithList<Status>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Status> = {
+        method: 'post',
+        url: queryParams?.url ?? StatusRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Status>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const statusUpdateOne = (
   id: number,
   data: Partial<Status>,
@@ -107,16 +133,24 @@ export const statusCreateOne = (
 export const statusCreateMany = (
   data: Partial<Status>[],
   queryParams?: QueryParamsWithList<Status>,
-): Promise<Status[]> => {
-  const config: QueryParamsWithList<Status> = {
-    method: 'post',
-    url: queryParams?.url ?? StatusRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Status[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Status> = {
+        method: 'post',
+        url: queryParams?.url ?? StatusRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Status[]>(config)
-    : getResponse<Status[], Status>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Status[]>(config)
+        : getResponse<Status[], Status>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

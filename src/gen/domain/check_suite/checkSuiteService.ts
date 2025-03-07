@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const checkSuiteDeleteOne = (
       );
 };
 
+export const checkSuiteDeleteMany = (
+  data: Partial<CheckSuite>[],
+  queryParams?: QueryParamsWithList<CheckSuite>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckSuite> = {
+        method: 'post',
+        url: queryParams?.url ?? CheckSuiteRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, CheckSuite>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const checkSuiteUpdateOne = (
   id: number,
   data: Partial<CheckSuite>,
@@ -110,19 +136,24 @@ export const checkSuiteCreateOne = (
 export const checkSuiteCreateMany = (
   data: Partial<CheckSuite>[],
   queryParams?: QueryParamsWithList<CheckSuite>,
-): Promise<CheckSuite[]> => {
-  const config: QueryParamsWithList<CheckSuite> = {
-    method: 'post',
-    url: queryParams?.url ?? CheckSuiteRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<CheckSuite[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckSuite> = {
+        method: 'post',
+        url: queryParams?.url ?? CheckSuiteRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<CheckSuite[]>(config)
-    : getResponse<CheckSuite[], CheckSuite>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CheckSuite[]>(config)
+        : getResponse<CheckSuite[], CheckSuite>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

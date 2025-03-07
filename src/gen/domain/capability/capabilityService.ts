@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const capabilityDeleteOne = (
       );
 };
 
+export const capabilityDeleteMany = (
+  data: Partial<Capability>[],
+  queryParams?: QueryParamsWithList<Capability>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Capability> = {
+        method: 'post',
+        url: queryParams?.url ?? CapabilityRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Capability>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const capabilityUpdateOne = (
   id: number,
   data: Partial<Capability>,
@@ -110,19 +136,24 @@ export const capabilityCreateOne = (
 export const capabilityCreateMany = (
   data: Partial<Capability>[],
   queryParams?: QueryParamsWithList<Capability>,
-): Promise<Capability[]> => {
-  const config: QueryParamsWithList<Capability> = {
-    method: 'post',
-    url: queryParams?.url ?? CapabilityRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Capability[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Capability> = {
+        method: 'post',
+        url: queryParams?.url ?? CapabilityRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Capability[]>(config)
-    : getResponse<Capability[], Capability>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Capability[]>(config)
+        : getResponse<Capability[], Capability>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

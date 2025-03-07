@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const watchDeleteOne = (
       );
 };
 
+export const watchDeleteMany = (
+  data: Partial<Watch>[],
+  queryParams?: QueryParamsWithList<Watch>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Watch> = {
+        method: 'post',
+        url: queryParams?.url ?? WatchRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Watch>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const watchUpdateOne = (
   id: number,
   data: Partial<Watch>,
@@ -107,16 +133,21 @@ export const watchCreateOne = (
 export const watchCreateMany = (
   data: Partial<Watch>[],
   queryParams?: QueryParamsWithList<Watch>,
-): Promise<Watch[]> => {
-  const config: QueryParamsWithList<Watch> = {
-    method: 'post',
-    url: queryParams?.url ?? WatchRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Watch[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Watch> = {
+        method: 'post',
+        url: queryParams?.url ?? WatchRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Watch[]>(config)
-    : getResponse<Watch[], Watch>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Watch[]>(config)
+        : getResponse<Watch[], Watch>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };

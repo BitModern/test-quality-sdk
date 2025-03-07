@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const environmentExplorationDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const environmentExplorationDeleteMany = (
+  data: Partial<EnvironmentExploration>[],
+  queryParams?: QueryParamsWithList<EnvironmentExploration>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<EnvironmentExploration> = {
+        method: 'post',
+        url: `/environment_exploration/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, EnvironmentExploration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const environmentExplorationUpdateOne = (
@@ -76,20 +102,25 @@ export const environmentExplorationCreateOne = (
 export const environmentExplorationCreateMany = (
   data: Partial<EnvironmentExploration>[],
   queryParams?: QueryParamsWithList<EnvironmentExploration>,
-): Promise<EnvironmentExploration[]> => {
-  const config: QueryParamsWithList<EnvironmentExploration> = {
-    method: 'post',
-    url: queryParams?.url ?? `/environment_exploration`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<EnvironmentExploration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<EnvironmentExploration> = {
+        method: 'post',
+        url: queryParams?.url ?? `/environment_exploration`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<EnvironmentExploration[]>(config)
-    : getResponse<EnvironmentExploration[], EnvironmentExploration>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<EnvironmentExploration[]>(config)
+        : getResponse<EnvironmentExploration[], EnvironmentExploration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const environmentExplorationGetMany = (

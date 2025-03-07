@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const resourceValueDeleteOne = (
       );
 };
 
+export const resourceValueDeleteMany = (
+  data: Partial<ResourceValue>[],
+  queryParams?: QueryParamsWithList<ResourceValue>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ResourceValue> = {
+        method: 'post',
+        url: queryParams?.url ?? ResourceValueRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, ResourceValue>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const resourceValueUpdateOne = (
   id: number,
   data: Partial<ResourceValue>,
@@ -110,19 +136,24 @@ export const resourceValueCreateOne = (
 export const resourceValueCreateMany = (
   data: Partial<ResourceValue>[],
   queryParams?: QueryParamsWithList<ResourceValue>,
-): Promise<ResourceValue[]> => {
-  const config: QueryParamsWithList<ResourceValue> = {
-    method: 'post',
-    url: queryParams?.url ?? ResourceValueRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<ResourceValue[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ResourceValue> = {
+        method: 'post',
+        url: queryParams?.url ?? ResourceValueRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<ResourceValue[]>(config)
-    : getResponse<ResourceValue[], ResourceValue>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<ResourceValue[]>(config)
+        : getResponse<ResourceValue[], ResourceValue>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

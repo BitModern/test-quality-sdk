@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const signupOptionDeleteOne = (
       );
 };
 
+export const signupOptionDeleteMany = (
+  data: Partial<SignupOption>[],
+  queryParams?: QueryParamsWithList<SignupOption>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SignupOption> = {
+        method: 'post',
+        url: queryParams?.url ?? SignupOptionRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, SignupOption>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const signupOptionUpdateOne = (
   id: number,
   data: Partial<SignupOption>,
@@ -110,19 +136,24 @@ export const signupOptionCreateOne = (
 export const signupOptionCreateMany = (
   data: Partial<SignupOption>[],
   queryParams?: QueryParamsWithList<SignupOption>,
-): Promise<SignupOption[]> => {
-  const config: QueryParamsWithList<SignupOption> = {
-    method: 'post',
-    url: queryParams?.url ?? SignupOptionRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<SignupOption[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SignupOption> = {
+        method: 'post',
+        url: queryParams?.url ?? SignupOptionRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<SignupOption[]>(config)
-    : getResponse<SignupOption[], SignupOption>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<SignupOption[]>(config)
+        : getResponse<SignupOption[], SignupOption>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

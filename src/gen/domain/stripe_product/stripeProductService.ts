@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const stripeProductDeleteOne = (
       );
 };
 
+export const stripeProductDeleteMany = (
+  data: Partial<StripeProduct>[],
+  queryParams?: QueryParamsWithList<StripeProduct>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<StripeProduct> = {
+        method: 'post',
+        url: queryParams?.url ?? StripeProductRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, StripeProduct>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const stripeProductUpdateOne = (
   id: number,
   data: Partial<StripeProduct>,
@@ -110,19 +136,24 @@ export const stripeProductCreateOne = (
 export const stripeProductCreateMany = (
   data: Partial<StripeProduct>[],
   queryParams?: QueryParamsWithList<StripeProduct>,
-): Promise<StripeProduct[]> => {
-  const config: QueryParamsWithList<StripeProduct> = {
-    method: 'post',
-    url: queryParams?.url ?? StripeProductRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<StripeProduct[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<StripeProduct> = {
+        method: 'post',
+        url: queryParams?.url ?? StripeProductRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<StripeProduct[]>(config)
-    : getResponse<StripeProduct[], StripeProduct>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<StripeProduct[]>(config)
+        : getResponse<StripeProduct[], StripeProduct>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

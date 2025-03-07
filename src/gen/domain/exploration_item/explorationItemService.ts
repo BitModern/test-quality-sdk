@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const explorationItemDeleteOne = (
       );
 };
 
+export const explorationItemDeleteMany = (
+  data: Partial<ExplorationItem>[],
+  queryParams?: QueryParamsWithList<ExplorationItem>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ExplorationItem> = {
+        method: 'post',
+        url: queryParams?.url ?? ExplorationItemRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, ExplorationItem>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const explorationItemUpdateOne = (
   id: number,
   data: Partial<ExplorationItem>,
@@ -110,19 +136,24 @@ export const explorationItemCreateOne = (
 export const explorationItemCreateMany = (
   data: Partial<ExplorationItem>[],
   queryParams?: QueryParamsWithList<ExplorationItem>,
-): Promise<ExplorationItem[]> => {
-  const config: QueryParamsWithList<ExplorationItem> = {
-    method: 'post',
-    url: queryParams?.url ?? ExplorationItemRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<ExplorationItem[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ExplorationItem> = {
+        method: 'post',
+        url: queryParams?.url ?? ExplorationItemRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<ExplorationItem[]>(config)
-    : getResponse<ExplorationItem[], ExplorationItem>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<ExplorationItem[]>(config)
+        : getResponse<ExplorationItem[], ExplorationItem>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const docDeleteOne = (
       );
 };
 
+export const docDeleteMany = (
+  data: Partial<Doc>[],
+  queryParams?: QueryParamsWithList<Doc>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Doc> = {
+        method: 'post',
+        url: queryParams?.url ?? DocRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Doc>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const docUpdateOne = (
   id: number,
   data: Partial<Doc>,
@@ -107,16 +133,21 @@ export const docCreateOne = (
 export const docCreateMany = (
   data: Partial<Doc>[],
   queryParams?: QueryParamsWithList<Doc>,
-): Promise<Doc[]> => {
-  const config: QueryParamsWithList<Doc> = {
-    method: 'post',
-    url: queryParams?.url ?? DocRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Doc[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Doc> = {
+        method: 'post',
+        url: queryParams?.url ?? DocRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Doc[]>(config)
-    : getResponse<Doc[], Doc>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Doc[]>(config)
+        : getResponse<Doc[], Doc>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };

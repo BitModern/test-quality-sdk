@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const pullRequestDeleteOne = (
       );
 };
 
+export const pullRequestDeleteMany = (
+  data: Partial<PullRequest>[],
+  queryParams?: QueryParamsWithList<PullRequest>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PullRequest> = {
+        method: 'post',
+        url: queryParams?.url ?? PullRequestRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, PullRequest>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const pullRequestUpdateOne = (
   id: number,
   data: Partial<PullRequest>,
@@ -110,19 +136,24 @@ export const pullRequestCreateOne = (
 export const pullRequestCreateMany = (
   data: Partial<PullRequest>[],
   queryParams?: QueryParamsWithList<PullRequest>,
-): Promise<PullRequest[]> => {
-  const config: QueryParamsWithList<PullRequest> = {
-    method: 'post',
-    url: queryParams?.url ?? PullRequestRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<PullRequest[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PullRequest> = {
+        method: 'post',
+        url: queryParams?.url ?? PullRequestRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<PullRequest[]>(config)
-    : getResponse<PullRequest[], PullRequest>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PullRequest[]>(config)
+        : getResponse<PullRequest[], PullRequest>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

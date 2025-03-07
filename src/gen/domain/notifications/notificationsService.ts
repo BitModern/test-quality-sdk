@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const notificationsDeleteOne = (
       );
 };
 
+export const notificationsDeleteMany = (
+  data: Partial<Notifications>[],
+  queryParams?: QueryParamsWithList<Notifications>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Notifications> = {
+        method: 'post',
+        url: queryParams?.url ?? NotificationsRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Notifications>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const notificationsUpdateOne = (
   id: string,
   data: Partial<Notifications>,
@@ -110,19 +136,24 @@ export const notificationsCreateOne = (
 export const notificationsCreateMany = (
   data: Partial<Notifications>[],
   queryParams?: QueryParamsWithList<Notifications>,
-): Promise<Notifications[]> => {
-  const config: QueryParamsWithList<Notifications> = {
-    method: 'post',
-    url: queryParams?.url ?? NotificationsRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Notifications[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Notifications> = {
+        method: 'post',
+        url: queryParams?.url ?? NotificationsRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Notifications[]>(config)
-    : getResponse<Notifications[], Notifications>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Notifications[]>(config)
+        : getResponse<Notifications[], Notifications>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

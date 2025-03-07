@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const planSuiteTestIncludeDeleteOne = (
       );
 };
 
+export const planSuiteTestIncludeDeleteMany = (
+  data: Partial<PlanSuiteTestInclude>[],
+  queryParams?: QueryParamsWithList<PlanSuiteTestInclude>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PlanSuiteTestInclude> = {
+        method: 'post',
+        url: queryParams?.url ?? PlanSuiteTestIncludeRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, PlanSuiteTestInclude>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const planSuiteTestIncludeUpdateOne = (
   id: number,
   data: Partial<PlanSuiteTestInclude>,
@@ -116,19 +142,24 @@ export const planSuiteTestIncludeCreateOne = (
 export const planSuiteTestIncludeCreateMany = (
   data: Partial<PlanSuiteTestInclude>[],
   queryParams?: QueryParamsWithList<PlanSuiteTestInclude>,
-): Promise<PlanSuiteTestInclude[]> => {
-  const config: QueryParamsWithList<PlanSuiteTestInclude> = {
-    method: 'post',
-    url: queryParams?.url ?? PlanSuiteTestIncludeRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<PlanSuiteTestInclude[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PlanSuiteTestInclude> = {
+        method: 'post',
+        url: queryParams?.url ?? PlanSuiteTestIncludeRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<PlanSuiteTestInclude[]>(config)
-    : getResponse<PlanSuiteTestInclude[], PlanSuiteTestInclude>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PlanSuiteTestInclude[]>(config)
+        : getResponse<PlanSuiteTestInclude[], PlanSuiteTestInclude>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

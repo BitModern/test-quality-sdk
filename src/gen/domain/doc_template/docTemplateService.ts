@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const docTemplateDeleteOne = (
       );
 };
 
+export const docTemplateDeleteMany = (
+  data: Partial<DocTemplate>[],
+  queryParams?: QueryParamsWithList<DocTemplate>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DocTemplate> = {
+        method: 'post',
+        url: queryParams?.url ?? DocTemplateRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, DocTemplate>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const docTemplateUpdateOne = (
   id: number,
   data: Partial<DocTemplate>,
@@ -110,19 +136,24 @@ export const docTemplateCreateOne = (
 export const docTemplateCreateMany = (
   data: Partial<DocTemplate>[],
   queryParams?: QueryParamsWithList<DocTemplate>,
-): Promise<DocTemplate[]> => {
-  const config: QueryParamsWithList<DocTemplate> = {
-    method: 'post',
-    url: queryParams?.url ?? DocTemplateRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<DocTemplate[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DocTemplate> = {
+        method: 'post',
+        url: queryParams?.url ?? DocTemplateRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<DocTemplate[]>(config)
-    : getResponse<DocTemplate[], DocTemplate>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DocTemplate[]>(config)
+        : getResponse<DocTemplate[], DocTemplate>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

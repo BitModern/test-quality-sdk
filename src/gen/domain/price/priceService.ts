@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -69,6 +70,31 @@ export const priceDeleteOne = (
       );
 };
 
+export const priceDeleteMany = (
+  data: Partial<Price>[],
+  queryParams?: QueryParamsWithList<Price>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Price> = {
+        method: 'post',
+        url: queryParams?.url ?? PriceRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Price>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const priceUpdateOne = (
   id: number,
   data: Partial<Price>,
@@ -107,16 +133,21 @@ export const priceCreateOne = (
 export const priceCreateMany = (
   data: Partial<Price>[],
   queryParams?: QueryParamsWithList<Price>,
-): Promise<Price[]> => {
-  const config: QueryParamsWithList<Price> = {
-    method: 'post',
-    url: queryParams?.url ?? PriceRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Price[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Price> = {
+        method: 'post',
+        url: queryParams?.url ?? PriceRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Price[]>(config)
-    : getResponse<Price[], Price>(queryParams?.api ?? _client?.api, config);
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Price[]>(config)
+        : getResponse<Price[], Price>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };

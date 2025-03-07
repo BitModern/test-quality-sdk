@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const environmentProjectDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const environmentProjectDeleteMany = (
+  data: Partial<EnvironmentProject>[],
+  queryParams?: QueryParamsWithList<EnvironmentProject>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<EnvironmentProject> = {
+        method: 'post',
+        url: `/environment_project/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, EnvironmentProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const environmentProjectUpdateOne = (
@@ -70,20 +96,25 @@ export const environmentProjectCreateOne = (
 export const environmentProjectCreateMany = (
   data: Partial<EnvironmentProject>[],
   queryParams?: QueryParamsWithList<EnvironmentProject>,
-): Promise<EnvironmentProject[]> => {
-  const config: QueryParamsWithList<EnvironmentProject> = {
-    method: 'post',
-    url: queryParams?.url ?? `/environment_project`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<EnvironmentProject[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<EnvironmentProject> = {
+        method: 'post',
+        url: queryParams?.url ?? `/environment_project`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<EnvironmentProject[]>(config)
-    : getResponse<EnvironmentProject[], EnvironmentProject>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<EnvironmentProject[]>(config)
+        : getResponse<EnvironmentProject[], EnvironmentProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const environmentProjectGetMany = (

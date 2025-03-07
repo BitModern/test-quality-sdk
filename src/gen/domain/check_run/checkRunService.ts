@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const checkRunDeleteOne = (
       );
 };
 
+export const checkRunDeleteMany = (
+  data: Partial<CheckRun>[],
+  queryParams?: QueryParamsWithList<CheckRun>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckRun> = {
+        method: 'post',
+        url: queryParams?.url ?? CheckRunRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, CheckRun>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const checkRunUpdateOne = (
   id: number,
   data: Partial<CheckRun>,
@@ -110,19 +136,24 @@ export const checkRunCreateOne = (
 export const checkRunCreateMany = (
   data: Partial<CheckRun>[],
   queryParams?: QueryParamsWithList<CheckRun>,
-): Promise<CheckRun[]> => {
-  const config: QueryParamsWithList<CheckRun> = {
-    method: 'post',
-    url: queryParams?.url ?? CheckRunRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<CheckRun[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckRun> = {
+        method: 'post',
+        url: queryParams?.url ?? CheckRunRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<CheckRun[]>(config)
-    : getResponse<CheckRun[], CheckRun>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CheckRun[]>(config)
+        : getResponse<CheckRun[], CheckRun>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

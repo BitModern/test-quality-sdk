@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const explorationDeleteOne = (
       );
 };
 
+export const explorationDeleteMany = (
+  data: Partial<Exploration>[],
+  queryParams?: QueryParamsWithList<Exploration>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Exploration> = {
+        method: 'post',
+        url: queryParams?.url ?? ExplorationRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Exploration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const explorationUpdateOne = (
   id: number,
   data: Partial<Exploration>,
@@ -110,19 +136,24 @@ export const explorationCreateOne = (
 export const explorationCreateMany = (
   data: Partial<Exploration>[],
   queryParams?: QueryParamsWithList<Exploration>,
-): Promise<Exploration[]> => {
-  const config: QueryParamsWithList<Exploration> = {
-    method: 'post',
-    url: queryParams?.url ?? ExplorationRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Exploration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Exploration> = {
+        method: 'post',
+        url: queryParams?.url ?? ExplorationRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Exploration[]>(config)
-    : getResponse<Exploration[], Exploration>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Exploration[]>(config)
+        : getResponse<Exploration[], Exploration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

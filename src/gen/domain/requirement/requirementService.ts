@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const requirementDeleteOne = (
       );
 };
 
+export const requirementDeleteMany = (
+  data: Partial<Requirement>[],
+  queryParams?: QueryParamsWithList<Requirement>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Requirement> = {
+        method: 'post',
+        url: queryParams?.url ?? RequirementRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, Requirement>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const requirementUpdateOne = (
   id: number,
   data: Partial<Requirement>,
@@ -110,19 +136,24 @@ export const requirementCreateOne = (
 export const requirementCreateMany = (
   data: Partial<Requirement>[],
   queryParams?: QueryParamsWithList<Requirement>,
-): Promise<Requirement[]> => {
-  const config: QueryParamsWithList<Requirement> = {
-    method: 'post',
-    url: queryParams?.url ?? RequirementRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<Requirement[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Requirement> = {
+        method: 'post',
+        url: queryParams?.url ?? RequirementRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<Requirement[]>(config)
-    : getResponse<Requirement[], Requirement>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Requirement[]>(config)
+        : getResponse<Requirement[], Requirement>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

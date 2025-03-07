@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const subscriptionUserDeleteOne = (
       );
 };
 
+export const subscriptionUserDeleteMany = (
+  data: Partial<SubscriptionUser>[],
+  queryParams?: QueryParamsWithList<SubscriptionUser>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SubscriptionUser> = {
+        method: 'post',
+        url: queryParams?.url ?? SubscriptionUserRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, SubscriptionUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const subscriptionUserUpdateOne = (
   id: number,
   data: Partial<SubscriptionUser>,
@@ -110,19 +136,24 @@ export const subscriptionUserCreateOne = (
 export const subscriptionUserCreateMany = (
   data: Partial<SubscriptionUser>[],
   queryParams?: QueryParamsWithList<SubscriptionUser>,
-): Promise<SubscriptionUser[]> => {
-  const config: QueryParamsWithList<SubscriptionUser> = {
-    method: 'post',
-    url: queryParams?.url ?? SubscriptionUserRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<SubscriptionUser[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SubscriptionUser> = {
+        method: 'post',
+        url: queryParams?.url ?? SubscriptionUserRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<SubscriptionUser[]>(config)
-    : getResponse<SubscriptionUser[], SubscriptionUser>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<SubscriptionUser[]>(config)
+        : getResponse<SubscriptionUser[], SubscriptionUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

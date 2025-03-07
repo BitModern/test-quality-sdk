@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const integrationTemplateDeleteOne = (
       );
 };
 
+export const integrationTemplateDeleteMany = (
+  data: Partial<IntegrationTemplate>[],
+  queryParams?: QueryParamsWithList<IntegrationTemplate>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<IntegrationTemplate> = {
+        method: 'post',
+        url: queryParams?.url ?? IntegrationTemplateRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, IntegrationTemplate>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const integrationTemplateUpdateOne = (
   id: number,
   data: Partial<IntegrationTemplate>,
@@ -116,19 +142,24 @@ export const integrationTemplateCreateOne = (
 export const integrationTemplateCreateMany = (
   data: Partial<IntegrationTemplate>[],
   queryParams?: QueryParamsWithList<IntegrationTemplate>,
-): Promise<IntegrationTemplate[]> => {
-  const config: QueryParamsWithList<IntegrationTemplate> = {
-    method: 'post',
-    url: queryParams?.url ?? IntegrationTemplateRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<IntegrationTemplate[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<IntegrationTemplate> = {
+        method: 'post',
+        url: queryParams?.url ?? IntegrationTemplateRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<IntegrationTemplate[]>(config)
-    : getResponse<IntegrationTemplate[], IntegrationTemplate>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<IntegrationTemplate[]>(config)
+        : getResponse<IntegrationTemplate[], IntegrationTemplate>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

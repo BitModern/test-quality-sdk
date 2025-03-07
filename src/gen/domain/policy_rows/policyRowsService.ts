@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const policyRowsDeleteOne = (
       );
 };
 
+export const policyRowsDeleteMany = (
+  data: Partial<PolicyRows>[],
+  queryParams?: QueryParamsWithList<PolicyRows>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PolicyRows> = {
+        method: 'post',
+        url: queryParams?.url ?? PolicyRowsRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, PolicyRows>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const policyRowsUpdateOne = (
   id: number,
   data: Partial<PolicyRows>,
@@ -110,19 +136,24 @@ export const policyRowsCreateOne = (
 export const policyRowsCreateMany = (
   data: Partial<PolicyRows>[],
   queryParams?: QueryParamsWithList<PolicyRows>,
-): Promise<PolicyRows[]> => {
-  const config: QueryParamsWithList<PolicyRows> = {
-    method: 'post',
-    url: queryParams?.url ?? PolicyRowsRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<PolicyRows[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PolicyRows> = {
+        method: 'post',
+        url: queryParams?.url ?? PolicyRowsRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<PolicyRows[]>(config)
-    : getResponse<PolicyRows[], PolicyRows>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PolicyRows[]>(config)
+        : getResponse<PolicyRows[], PolicyRows>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

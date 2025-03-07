@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const casePriorityDeleteOne = (
       );
 };
 
+export const casePriorityDeleteMany = (
+  data: Partial<CasePriority>[],
+  queryParams?: QueryParamsWithList<CasePriority>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CasePriority> = {
+        method: 'post',
+        url: queryParams?.url ?? CasePriorityRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, CasePriority>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const casePriorityUpdateOne = (
   id: number,
   data: Partial<CasePriority>,
@@ -110,19 +136,24 @@ export const casePriorityCreateOne = (
 export const casePriorityCreateMany = (
   data: Partial<CasePriority>[],
   queryParams?: QueryParamsWithList<CasePriority>,
-): Promise<CasePriority[]> => {
-  const config: QueryParamsWithList<CasePriority> = {
-    method: 'post',
-    url: queryParams?.url ?? CasePriorityRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<CasePriority[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CasePriority> = {
+        method: 'post',
+        url: queryParams?.url ?? CasePriorityRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<CasePriority[]>(config)
-    : getResponse<CasePriority[], CasePriority>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CasePriority[]>(config)
+        : getResponse<CasePriority[], CasePriority>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

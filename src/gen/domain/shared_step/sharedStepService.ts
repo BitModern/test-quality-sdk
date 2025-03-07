@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -72,6 +73,31 @@ export const sharedStepDeleteOne = (
       );
 };
 
+export const sharedStepDeleteMany = (
+  data: Partial<SharedStep>[],
+  queryParams?: QueryParamsWithList<SharedStep>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SharedStep> = {
+        method: 'post',
+        url: queryParams?.url ?? SharedStepRoute() + '/delete',
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, SharedStep>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
+};
+
 export const sharedStepUpdateOne = (
   id: number,
   data: Partial<SharedStep>,
@@ -110,19 +136,24 @@ export const sharedStepCreateOne = (
 export const sharedStepCreateMany = (
   data: Partial<SharedStep>[],
   queryParams?: QueryParamsWithList<SharedStep>,
-): Promise<SharedStep[]> => {
-  const config: QueryParamsWithList<SharedStep> = {
-    method: 'post',
-    url: queryParams?.url ?? SharedStepRoute(),
-    params: queryParams?.params,
-    list: data,
-    headers: queryParams?.headers,
-  };
+): Promise<SharedStep[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SharedStep> = {
+        method: 'post',
+        url: queryParams?.url ?? SharedStepRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<SharedStep[]>(config)
-    : getResponse<SharedStep[], SharedStep>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<SharedStep[]>(config)
+        : getResponse<SharedStep[], SharedStep>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };

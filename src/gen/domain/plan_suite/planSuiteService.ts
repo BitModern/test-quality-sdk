@@ -4,6 +4,7 @@
 
 import { _client } from '../../../ClientSdk';
 import { getResponse } from '../../actions/getResponse';
+import { chunkArray } from '../../actions/chunkArray';
 import type {
   QueryParams,
   QueryParamsWithList,
@@ -32,6 +33,31 @@ export const planSuiteDetach = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const planSuiteDeleteMany = (
+  data: Partial<PlanSuite>[],
+  queryParams?: QueryParamsWithList<PlanSuite>,
+): Promise<{ count: number }[]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PlanSuite> = {
+        method: 'post',
+        url: `/plan_suite/delete`,
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<{ count: number }>(config)
+        : getResponse<{ count: number }, PlanSuite>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const planSuiteUpdateOne = (
@@ -70,20 +96,25 @@ export const planSuiteCreateOne = (
 export const planSuiteCreateMany = (
   data: Partial<PlanSuite>[],
   queryParams?: QueryParamsWithList<PlanSuite>,
-): Promise<PlanSuite[]> => {
-  const config: QueryParamsWithList<PlanSuite> = {
-    method: 'post',
-    url: queryParams?.url ?? `/plan_suite`,
-    params: queryParams?.params,
-    list: data,
-  };
+): Promise<PlanSuite[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PlanSuite> = {
+        method: 'post',
+        url: queryParams?.url ?? `/plan_suite`,
+        params: queryParams?.params,
+        list: chunk,
+      };
 
-  return queryParams?.batch
-    ? queryParams.batch.addBatch<PlanSuite[]>(config)
-    : getResponse<PlanSuite[], PlanSuite>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PlanSuite[]>(config)
+        : getResponse<PlanSuite[], PlanSuite>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const planSuiteGetMany = (
