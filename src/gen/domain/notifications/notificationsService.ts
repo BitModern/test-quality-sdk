@@ -74,7 +74,7 @@ export const notificationsDeleteOne = (
 };
 
 export const notificationsDeleteMany = (
-  data: Partial<Notifications>[],
+  data: (Partial<Notifications> & { id: string })[],
   queryParams?: QueryParamsWithList<Notifications>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const notificationsUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Notifications>(config)
     : getResponse<Notifications>(queryParams?.api ?? _client?.api, config);
+};
+
+export const notificationsUpdateMany = (
+  data: (Partial<Notifications> & { id: string })[],
+  queryParams?: QueryParamsWithList<Notifications>,
+): Promise<Notifications[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Notifications> = {
+        method: 'post',
+        url: queryParams?.url ?? NotificationsRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Notifications[]>(config)
+        : getResponse<Notifications[], Notifications>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const notificationsCreateOne = (

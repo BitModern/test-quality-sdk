@@ -71,7 +71,7 @@ export const shareDeleteOne = (
 };
 
 export const shareDeleteMany = (
-  data: Partial<Share>[],
+  data: (Partial<Share> & { id: number })[],
   queryParams?: QueryParamsWithList<Share>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,28 @@ export const shareUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Share>(config)
     : getResponse<Share>(queryParams?.api ?? _client?.api, config);
+};
+
+export const shareUpdateMany = (
+  data: (Partial<Share> & { id: number })[],
+  queryParams?: QueryParamsWithList<Share>,
+): Promise<Share[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Share> = {
+        method: 'post',
+        url: queryParams?.url ?? ShareRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Share[]>(config)
+        : getResponse<Share[], Share>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const shareCreateOne = (

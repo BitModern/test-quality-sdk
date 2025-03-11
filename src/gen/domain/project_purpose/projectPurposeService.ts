@@ -36,7 +36,7 @@ export const projectPurposeDetach = (
 };
 
 export const projectPurposeDeleteMany = (
-  data: Partial<ProjectPurpose>[],
+  data: (Partial<ProjectPurpose> & { id: number })[],
   queryParams?: QueryParamsWithList<ProjectPurpose>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const projectPurposeUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ProjectPurpose>(config)
     : getResponse<ProjectPurpose>(queryParams?.api ?? _client?.api, config);
+};
+
+export const projectPurposeUpdateMany = (
+  data: (Partial<ProjectPurpose> & { id: number })[],
+  queryParams?: QueryParamsWithList<ProjectPurpose>,
+): Promise<ProjectPurpose[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ProjectPurpose> = {
+        method: 'post',
+        url: queryParams?.url ?? `/project_purpose`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<ProjectPurpose[]>(config)
+        : getResponse<ProjectPurpose[], ProjectPurpose>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const projectPurposeCreateOne = (

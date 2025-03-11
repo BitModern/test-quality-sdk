@@ -36,7 +36,7 @@ export const planSuiteDetach = (
 };
 
 export const planSuiteDeleteMany = (
-  data: Partial<PlanSuite>[],
+  data: (Partial<PlanSuite> & { id: number })[],
   queryParams?: QueryParamsWithList<PlanSuite>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const planSuiteUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanSuite>(config)
     : getResponse<PlanSuite>(queryParams?.api ?? _client?.api, config);
+};
+
+export const planSuiteUpdateMany = (
+  data: (Partial<PlanSuite> & { id: number })[],
+  queryParams?: QueryParamsWithList<PlanSuite>,
+): Promise<PlanSuite[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PlanSuite> = {
+        method: 'post',
+        url: queryParams?.url ?? `/plan_suite`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PlanSuite[]>(config)
+        : getResponse<PlanSuite[], PlanSuite>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const planSuiteCreateOne = (

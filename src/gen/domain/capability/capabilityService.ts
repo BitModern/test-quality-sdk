@@ -74,7 +74,7 @@ export const capabilityDeleteOne = (
 };
 
 export const capabilityDeleteMany = (
-  data: Partial<Capability>[],
+  data: (Partial<Capability> & { id: number })[],
   queryParams?: QueryParamsWithList<Capability>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const capabilityUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Capability>(config)
     : getResponse<Capability>(queryParams?.api ?? _client?.api, config);
+};
+
+export const capabilityUpdateMany = (
+  data: (Partial<Capability> & { id: number })[],
+  queryParams?: QueryParamsWithList<Capability>,
+): Promise<Capability[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Capability> = {
+        method: 'post',
+        url: queryParams?.url ?? CapabilityRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Capability[]>(config)
+        : getResponse<Capability[], Capability>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const capabilityCreateOne = (

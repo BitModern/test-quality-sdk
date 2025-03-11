@@ -74,7 +74,7 @@ export const dataSetDeleteOne = (
 };
 
 export const dataSetDeleteMany = (
-  data: Partial<DataSet>[],
+  data: (Partial<DataSet> & { id: number })[],
   queryParams?: QueryParamsWithList<DataSet>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const dataSetUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DataSet>(config)
     : getResponse<DataSet>(queryParams?.api ?? _client?.api, config);
+};
+
+export const dataSetUpdateMany = (
+  data: (Partial<DataSet> & { id: number })[],
+  queryParams?: QueryParamsWithList<DataSet>,
+): Promise<DataSet[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DataSet> = {
+        method: 'post',
+        url: queryParams?.url ?? DataSetRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DataSet[]>(config)
+        : getResponse<DataSet[], DataSet>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const dataSetCreateOne = (

@@ -74,7 +74,7 @@ export const runSuiteDeleteOne = (
 };
 
 export const runSuiteDeleteMany = (
-  data: Partial<RunSuite>[],
+  data: (Partial<RunSuite> & { id: number })[],
   queryParams?: QueryParamsWithList<RunSuite>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const runSuiteUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunSuite>(config)
     : getResponse<RunSuite>(queryParams?.api ?? _client?.api, config);
+};
+
+export const runSuiteUpdateMany = (
+  data: (Partial<RunSuite> & { id: number })[],
+  queryParams?: QueryParamsWithList<RunSuite>,
+): Promise<RunSuite[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<RunSuite> = {
+        method: 'post',
+        url: queryParams?.url ?? RunSuiteRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<RunSuite[]>(config)
+        : getResponse<RunSuite[], RunSuite>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const runSuiteCreateOne = (

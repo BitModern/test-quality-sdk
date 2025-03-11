@@ -74,7 +74,7 @@ export const attachmentDeleteOne = (
 };
 
 export const attachmentDeleteMany = (
-  data: Partial<Attachment>[],
+  data: (Partial<Attachment> & { id: number })[],
   queryParams?: QueryParamsWithList<Attachment>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const attachmentUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Attachment>(config)
     : getResponse<Attachment>(queryParams?.api ?? _client?.api, config);
+};
+
+export const attachmentUpdateMany = (
+  data: (Partial<Attachment> & { id: number })[],
+  queryParams?: QueryParamsWithList<Attachment>,
+): Promise<Attachment[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Attachment> = {
+        method: 'post',
+        url: queryParams?.url ?? AttachmentRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Attachment[]>(config)
+        : getResponse<Attachment[], Attachment>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const attachmentCreateOne = (

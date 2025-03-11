@@ -71,7 +71,7 @@ export const userDeleteOne = (
 };
 
 export const userDeleteMany = (
-  data: Partial<User>[],
+  data: (Partial<User> & { id: number })[],
   queryParams?: QueryParamsWithList<User>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,28 @@ export const userUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<User>(config)
     : getResponse<User>(queryParams?.api ?? _client?.api, config);
+};
+
+export const userUpdateMany = (
+  data: (Partial<User> & { id: number })[],
+  queryParams?: QueryParamsWithList<User>,
+): Promise<User[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<User> = {
+        method: 'post',
+        url: queryParams?.url ?? UserRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<User[]>(config)
+        : getResponse<User[], User>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const userCreateOne = (

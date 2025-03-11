@@ -74,7 +74,7 @@ export const docTemplateDeleteOne = (
 };
 
 export const docTemplateDeleteMany = (
-  data: Partial<DocTemplate>[],
+  data: (Partial<DocTemplate> & { id: number })[],
   queryParams?: QueryParamsWithList<DocTemplate>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const docTemplateUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocTemplate>(config)
     : getResponse<DocTemplate>(queryParams?.api ?? _client?.api, config);
+};
+
+export const docTemplateUpdateMany = (
+  data: (Partial<DocTemplate> & { id: number })[],
+  queryParams?: QueryParamsWithList<DocTemplate>,
+): Promise<DocTemplate[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DocTemplate> = {
+        method: 'post',
+        url: queryParams?.url ?? DocTemplateRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DocTemplate[]>(config)
+        : getResponse<DocTemplate[], DocTemplate>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const docTemplateCreateOne = (

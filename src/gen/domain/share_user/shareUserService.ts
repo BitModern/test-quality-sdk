@@ -36,7 +36,7 @@ export const shareUserDetach = (
 };
 
 export const shareUserDeleteMany = (
-  data: Partial<ShareUser>[],
+  data: (Partial<ShareUser> & { id: number })[],
   queryParams?: QueryParamsWithList<ShareUser>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const shareUserUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ShareUser>(config)
     : getResponse<ShareUser>(queryParams?.api ?? _client?.api, config);
+};
+
+export const shareUserUpdateMany = (
+  data: (Partial<ShareUser> & { id: number })[],
+  queryParams?: QueryParamsWithList<ShareUser>,
+): Promise<ShareUser[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ShareUser> = {
+        method: 'post',
+        url: queryParams?.url ?? `/share_user`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<ShareUser[]>(config)
+        : getResponse<ShareUser[], ShareUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const shareUserCreateOne = (

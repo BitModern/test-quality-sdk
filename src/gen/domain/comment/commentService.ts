@@ -74,7 +74,7 @@ export const commentDeleteOne = (
 };
 
 export const commentDeleteMany = (
-  data: Partial<Comment>[],
+  data: (Partial<Comment> & { id: number })[],
   queryParams?: QueryParamsWithList<Comment>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const commentUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Comment>(config)
     : getResponse<Comment>(queryParams?.api ?? _client?.api, config);
+};
+
+export const commentUpdateMany = (
+  data: (Partial<Comment> & { id: number })[],
+  queryParams?: QueryParamsWithList<Comment>,
+): Promise<Comment[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Comment> = {
+        method: 'post',
+        url: queryParams?.url ?? CommentRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Comment[]>(config)
+        : getResponse<Comment[], Comment>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const commentCreateOne = (

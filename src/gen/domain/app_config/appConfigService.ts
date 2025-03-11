@@ -74,7 +74,7 @@ export const appConfigDeleteOne = (
 };
 
 export const appConfigDeleteMany = (
-  data: Partial<AppConfig>[],
+  data: (Partial<AppConfig> & { id: number })[],
   queryParams?: QueryParamsWithList<AppConfig>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const appConfigUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppConfig>(config)
     : getResponse<AppConfig>(queryParams?.api ?? _client?.api, config);
+};
+
+export const appConfigUpdateMany = (
+  data: (Partial<AppConfig> & { id: number })[],
+  queryParams?: QueryParamsWithList<AppConfig>,
+): Promise<AppConfig[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AppConfig> = {
+        method: 'post',
+        url: queryParams?.url ?? AppConfigRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<AppConfig[]>(config)
+        : getResponse<AppConfig[], AppConfig>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const appConfigCreateOne = (

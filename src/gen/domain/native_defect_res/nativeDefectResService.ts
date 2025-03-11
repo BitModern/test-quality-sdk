@@ -74,7 +74,7 @@ export const nativeDefectResDeleteOne = (
 };
 
 export const nativeDefectResDeleteMany = (
-  data: Partial<NativeDefectRes>[],
+  data: (Partial<NativeDefectRes> & { id: number })[],
   queryParams?: QueryParamsWithList<NativeDefectRes>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const nativeDefectResUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<NativeDefectRes>(config)
     : getResponse<NativeDefectRes>(queryParams?.api ?? _client?.api, config);
+};
+
+export const nativeDefectResUpdateMany = (
+  data: (Partial<NativeDefectRes> & { id: number })[],
+  queryParams?: QueryParamsWithList<NativeDefectRes>,
+): Promise<NativeDefectRes[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<NativeDefectRes> = {
+        method: 'post',
+        url: queryParams?.url ?? NativeDefectResRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<NativeDefectRes[]>(config)
+        : getResponse<NativeDefectRes[], NativeDefectRes>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const nativeDefectResCreateOne = (

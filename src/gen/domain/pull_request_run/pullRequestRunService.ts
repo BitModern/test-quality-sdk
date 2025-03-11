@@ -36,7 +36,7 @@ export const pullRequestRunDetach = (
 };
 
 export const pullRequestRunDeleteMany = (
-  data: Partial<PullRequestRun>[],
+  data: (Partial<PullRequestRun> & { id: number })[],
   queryParams?: QueryParamsWithList<PullRequestRun>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const pullRequestRunUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRun>(config)
     : getResponse<PullRequestRun>(queryParams?.api ?? _client?.api, config);
+};
+
+export const pullRequestRunUpdateMany = (
+  data: (Partial<PullRequestRun> & { id: number })[],
+  queryParams?: QueryParamsWithList<PullRequestRun>,
+): Promise<PullRequestRun[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PullRequestRun> = {
+        method: 'post',
+        url: queryParams?.url ?? `/pull_request_run`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PullRequestRun[]>(config)
+        : getResponse<PullRequestRun[], PullRequestRun>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const pullRequestRunCreateOne = (

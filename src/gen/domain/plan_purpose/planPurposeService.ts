@@ -36,7 +36,7 @@ export const planPurposeDetach = (
 };
 
 export const planPurposeDeleteMany = (
-  data: Partial<PlanPurpose>[],
+  data: (Partial<PlanPurpose> & { id: number })[],
   queryParams?: QueryParamsWithList<PlanPurpose>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const planPurposeUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanPurpose>(config)
     : getResponse<PlanPurpose>(queryParams?.api ?? _client?.api, config);
+};
+
+export const planPurposeUpdateMany = (
+  data: (Partial<PlanPurpose> & { id: number })[],
+  queryParams?: QueryParamsWithList<PlanPurpose>,
+): Promise<PlanPurpose[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PlanPurpose> = {
+        method: 'post',
+        url: queryParams?.url ?? `/plan_purpose`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PlanPurpose[]>(config)
+        : getResponse<PlanPurpose[], PlanPurpose>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const planPurposeCreateOne = (

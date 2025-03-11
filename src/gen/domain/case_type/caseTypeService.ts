@@ -74,7 +74,7 @@ export const caseTypeDeleteOne = (
 };
 
 export const caseTypeDeleteMany = (
-  data: Partial<CaseType>[],
+  data: (Partial<CaseType> & { id: number })[],
   queryParams?: QueryParamsWithList<CaseType>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const caseTypeUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CaseType>(config)
     : getResponse<CaseType>(queryParams?.api ?? _client?.api, config);
+};
+
+export const caseTypeUpdateMany = (
+  data: (Partial<CaseType> & { id: number })[],
+  queryParams?: QueryParamsWithList<CaseType>,
+): Promise<CaseType[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CaseType> = {
+        method: 'post',
+        url: queryParams?.url ?? CaseTypeRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CaseType[]>(config)
+        : getResponse<CaseType[], CaseType>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const caseTypeCreateOne = (

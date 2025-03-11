@@ -74,7 +74,7 @@ export const billingContactDeleteOne = (
 };
 
 export const billingContactDeleteMany = (
-  data: Partial<BillingContact>[],
+  data: (Partial<BillingContact> & { id: number })[],
   queryParams?: QueryParamsWithList<BillingContact>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const billingContactUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BillingContact>(config)
     : getResponse<BillingContact>(queryParams?.api ?? _client?.api, config);
+};
+
+export const billingContactUpdateMany = (
+  data: (Partial<BillingContact> & { id: number })[],
+  queryParams?: QueryParamsWithList<BillingContact>,
+): Promise<BillingContact[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<BillingContact> = {
+        method: 'post',
+        url: queryParams?.url ?? BillingContactRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<BillingContact[]>(config)
+        : getResponse<BillingContact[], BillingContact>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const billingContactCreateOne = (

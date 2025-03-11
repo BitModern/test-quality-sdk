@@ -74,7 +74,7 @@ export const baseIntegrationDeleteOne = (
 };
 
 export const baseIntegrationDeleteMany = (
-  data: Partial<BaseIntegration>[],
+  data: (Partial<BaseIntegration> & { id: number })[],
   queryParams?: QueryParamsWithList<BaseIntegration>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const baseIntegrationUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseIntegration>(config)
     : getResponse<BaseIntegration>(queryParams?.api ?? _client?.api, config);
+};
+
+export const baseIntegrationUpdateMany = (
+  data: (Partial<BaseIntegration> & { id: number })[],
+  queryParams?: QueryParamsWithList<BaseIntegration>,
+): Promise<BaseIntegration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<BaseIntegration> = {
+        method: 'post',
+        url: queryParams?.url ?? BaseIntegrationRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<BaseIntegration[]>(config)
+        : getResponse<BaseIntegration[], BaseIntegration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const baseIntegrationCreateOne = (

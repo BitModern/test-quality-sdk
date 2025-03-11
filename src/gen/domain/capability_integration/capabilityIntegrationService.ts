@@ -36,7 +36,7 @@ export const capabilityIntegrationDetach = (
 };
 
 export const capabilityIntegrationDeleteMany = (
-  data: Partial<CapabilityIntegration>[],
+  data: (Partial<CapabilityIntegration> & { id: number })[],
   queryParams?: QueryParamsWithList<CapabilityIntegration>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -78,6 +78,30 @@ export const capabilityIntegrationUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const capabilityIntegrationUpdateMany = (
+  data: (Partial<CapabilityIntegration> & { id: number })[],
+  queryParams?: QueryParamsWithList<CapabilityIntegration>,
+): Promise<CapabilityIntegration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CapabilityIntegration> = {
+        method: 'post',
+        url: queryParams?.url ?? `/capability_integration`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CapabilityIntegration[]>(config)
+        : getResponse<CapabilityIntegration[], CapabilityIntegration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const capabilityIntegrationCreateOne = (

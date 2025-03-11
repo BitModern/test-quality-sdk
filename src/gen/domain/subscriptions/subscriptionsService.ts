@@ -74,7 +74,7 @@ export const subscriptionsDeleteOne = (
 };
 
 export const subscriptionsDeleteMany = (
-  data: Partial<Subscriptions>[],
+  data: (Partial<Subscriptions> & { id: number })[],
   queryParams?: QueryParamsWithList<Subscriptions>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const subscriptionsUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Subscriptions>(config)
     : getResponse<Subscriptions>(queryParams?.api ?? _client?.api, config);
+};
+
+export const subscriptionsUpdateMany = (
+  data: (Partial<Subscriptions> & { id: number })[],
+  queryParams?: QueryParamsWithList<Subscriptions>,
+): Promise<Subscriptions[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Subscriptions> = {
+        method: 'post',
+        url: queryParams?.url ?? SubscriptionsRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Subscriptions[]>(config)
+        : getResponse<Subscriptions[], Subscriptions>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const subscriptionsCreateOne = (

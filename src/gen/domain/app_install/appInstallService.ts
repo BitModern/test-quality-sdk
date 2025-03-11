@@ -74,7 +74,7 @@ export const appInstallDeleteOne = (
 };
 
 export const appInstallDeleteMany = (
-  data: Partial<AppInstall>[],
+  data: (Partial<AppInstall> & { id: number })[],
   queryParams?: QueryParamsWithList<AppInstall>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const appInstallUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppInstall>(config)
     : getResponse<AppInstall>(queryParams?.api ?? _client?.api, config);
+};
+
+export const appInstallUpdateMany = (
+  data: (Partial<AppInstall> & { id: number })[],
+  queryParams?: QueryParamsWithList<AppInstall>,
+): Promise<AppInstall[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AppInstall> = {
+        method: 'post',
+        url: queryParams?.url ?? AppInstallRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<AppInstall[]>(config)
+        : getResponse<AppInstall[], AppInstall>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const appInstallCreateOne = (

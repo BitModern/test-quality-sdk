@@ -74,7 +74,7 @@ export const testQualityTypeDeleteOne = (
 };
 
 export const testQualityTypeDeleteMany = (
-  data: Partial<TestQualityType>[],
+  data: (Partial<TestQualityType> & { id: number })[],
   queryParams?: QueryParamsWithList<TestQualityType>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const testQualityTypeUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQualityType>(config)
     : getResponse<TestQualityType>(queryParams?.api ?? _client?.api, config);
+};
+
+export const testQualityTypeUpdateMany = (
+  data: (Partial<TestQualityType> & { id: number })[],
+  queryParams?: QueryParamsWithList<TestQualityType>,
+): Promise<TestQualityType[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<TestQualityType> = {
+        method: 'post',
+        url: queryParams?.url ?? TestQualityTypeRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<TestQualityType[]>(config)
+        : getResponse<TestQualityType[], TestQualityType>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const testQualityTypeCreateOne = (

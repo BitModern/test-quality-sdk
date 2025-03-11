@@ -36,7 +36,7 @@ export const suiteTestDetach = (
 };
 
 export const suiteTestDeleteMany = (
-  data: Partial<SuiteTest>[],
+  data: (Partial<SuiteTest> & { id: number })[],
   queryParams?: QueryParamsWithList<SuiteTest>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const suiteTestUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SuiteTest>(config)
     : getResponse<SuiteTest>(queryParams?.api ?? _client?.api, config);
+};
+
+export const suiteTestUpdateMany = (
+  data: (Partial<SuiteTest> & { id: number })[],
+  queryParams?: QueryParamsWithList<SuiteTest>,
+): Promise<SuiteTest[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SuiteTest> = {
+        method: 'post',
+        url: queryParams?.url ?? `/suite_test`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<SuiteTest[]>(config)
+        : getResponse<SuiteTest[], SuiteTest>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const suiteTestCreateOne = (

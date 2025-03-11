@@ -74,7 +74,7 @@ export const explorationDeleteOne = (
 };
 
 export const explorationDeleteMany = (
-  data: Partial<Exploration>[],
+  data: (Partial<Exploration> & { id: number })[],
   queryParams?: QueryParamsWithList<Exploration>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const explorationUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Exploration>(config)
     : getResponse<Exploration>(queryParams?.api ?? _client?.api, config);
+};
+
+export const explorationUpdateMany = (
+  data: (Partial<Exploration> & { id: number })[],
+  queryParams?: QueryParamsWithList<Exploration>,
+): Promise<Exploration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Exploration> = {
+        method: 'post',
+        url: queryParams?.url ?? ExplorationRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Exploration[]>(config)
+        : getResponse<Exploration[], Exploration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const explorationCreateOne = (

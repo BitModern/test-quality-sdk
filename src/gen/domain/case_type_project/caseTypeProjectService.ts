@@ -36,7 +36,7 @@ export const caseTypeProjectDetach = (
 };
 
 export const caseTypeProjectDeleteMany = (
-  data: Partial<CaseTypeProject>[],
+  data: (Partial<CaseTypeProject> & { id: number })[],
   queryParams?: QueryParamsWithList<CaseTypeProject>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const caseTypeProjectUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CaseTypeProject>(config)
     : getResponse<CaseTypeProject>(queryParams?.api ?? _client?.api, config);
+};
+
+export const caseTypeProjectUpdateMany = (
+  data: (Partial<CaseTypeProject> & { id: number })[],
+  queryParams?: QueryParamsWithList<CaseTypeProject>,
+): Promise<CaseTypeProject[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CaseTypeProject> = {
+        method: 'post',
+        url: queryParams?.url ?? `/case_type_project`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CaseTypeProject[]>(config)
+        : getResponse<CaseTypeProject[], CaseTypeProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const caseTypeProjectCreateOne = (

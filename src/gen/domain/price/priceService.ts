@@ -71,7 +71,7 @@ export const priceDeleteOne = (
 };
 
 export const priceDeleteMany = (
-  data: Partial<Price>[],
+  data: (Partial<Price> & { id: number })[],
   queryParams?: QueryParamsWithList<Price>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,28 @@ export const priceUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Price>(config)
     : getResponse<Price>(queryParams?.api ?? _client?.api, config);
+};
+
+export const priceUpdateMany = (
+  data: (Partial<Price> & { id: number })[],
+  queryParams?: QueryParamsWithList<Price>,
+): Promise<Price[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Price> = {
+        method: 'post',
+        url: queryParams?.url ?? PriceRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Price[]>(config)
+        : getResponse<Price[], Price>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const priceCreateOne = (

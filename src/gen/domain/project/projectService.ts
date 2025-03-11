@@ -74,7 +74,7 @@ export const projectDeleteOne = (
 };
 
 export const projectDeleteMany = (
-  data: Partial<Project>[],
+  data: (Partial<Project> & { id: number })[],
   queryParams?: QueryParamsWithList<Project>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const projectUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Project>(config)
     : getResponse<Project>(queryParams?.api ?? _client?.api, config);
+};
+
+export const projectUpdateMany = (
+  data: (Partial<Project> & { id: number })[],
+  queryParams?: QueryParamsWithList<Project>,
+): Promise<Project[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Project> = {
+        method: 'post',
+        url: queryParams?.url ?? ProjectRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Project[]>(config)
+        : getResponse<Project[], Project>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const projectCreateOne = (

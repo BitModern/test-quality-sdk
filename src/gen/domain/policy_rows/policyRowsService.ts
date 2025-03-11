@@ -74,7 +74,7 @@ export const policyRowsDeleteOne = (
 };
 
 export const policyRowsDeleteMany = (
-  data: Partial<PolicyRows>[],
+  data: (Partial<PolicyRows> & { id: number })[],
   queryParams?: QueryParamsWithList<PolicyRows>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const policyRowsUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<PolicyRows>(config)
     : getResponse<PolicyRows>(queryParams?.api ?? _client?.api, config);
+};
+
+export const policyRowsUpdateMany = (
+  data: (Partial<PolicyRows> & { id: number })[],
+  queryParams?: QueryParamsWithList<PolicyRows>,
+): Promise<PolicyRows[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PolicyRows> = {
+        method: 'post',
+        url: queryParams?.url ?? PolicyRowsRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PolicyRows[]>(config)
+        : getResponse<PolicyRows[], PolicyRows>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const policyRowsCreateOne = (

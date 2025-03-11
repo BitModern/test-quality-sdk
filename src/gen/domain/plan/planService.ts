@@ -71,7 +71,7 @@ export const planDeleteOne = (
 };
 
 export const planDeleteMany = (
-  data: Partial<Plan>[],
+  data: (Partial<Plan> & { id: number })[],
   queryParams?: QueryParamsWithList<Plan>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,28 @@ export const planUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plan>(config)
     : getResponse<Plan>(queryParams?.api ?? _client?.api, config);
+};
+
+export const planUpdateMany = (
+  data: (Partial<Plan> & { id: number })[],
+  queryParams?: QueryParamsWithList<Plan>,
+): Promise<Plan[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Plan> = {
+        method: 'post',
+        url: queryParams?.url ?? PlanRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Plan[]>(config)
+        : getResponse<Plan[], Plan>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const planCreateOne = (

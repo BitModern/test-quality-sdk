@@ -74,7 +74,7 @@ export const planSuiteTestIncludeDeleteOne = (
 };
 
 export const planSuiteTestIncludeDeleteMany = (
-  data: Partial<PlanSuiteTestInclude>[],
+  data: (Partial<PlanSuiteTestInclude> & { id: number })[],
   queryParams?: QueryParamsWithList<PlanSuiteTestInclude>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -117,6 +117,31 @@ export const planSuiteTestIncludeUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const planSuiteTestIncludeUpdateMany = (
+  data: (Partial<PlanSuiteTestInclude> & { id: number })[],
+  queryParams?: QueryParamsWithList<PlanSuiteTestInclude>,
+): Promise<PlanSuiteTestInclude[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<PlanSuiteTestInclude> = {
+        method: 'post',
+        url: queryParams?.url ?? PlanSuiteTestIncludeRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<PlanSuiteTestInclude[]>(config)
+        : getResponse<PlanSuiteTestInclude[], PlanSuiteTestInclude>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const planSuiteTestIncludeCreateOne = (

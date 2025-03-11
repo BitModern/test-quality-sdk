@@ -36,7 +36,7 @@ export const environmentResourceDetach = (
 };
 
 export const environmentResourceDeleteMany = (
-  data: Partial<EnvironmentResource>[],
+  data: (Partial<EnvironmentResource> & { id: number })[],
   queryParams?: QueryParamsWithList<EnvironmentResource>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -78,6 +78,30 @@ export const environmentResourceUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const environmentResourceUpdateMany = (
+  data: (Partial<EnvironmentResource> & { id: number })[],
+  queryParams?: QueryParamsWithList<EnvironmentResource>,
+): Promise<EnvironmentResource[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<EnvironmentResource> = {
+        method: 'post',
+        url: queryParams?.url ?? `/environment_resource`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<EnvironmentResource[]>(config)
+        : getResponse<EnvironmentResource[], EnvironmentResource>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const environmentResourceCreateOne = (

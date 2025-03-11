@@ -71,7 +71,7 @@ export const suiteDeleteOne = (
 };
 
 export const suiteDeleteMany = (
-  data: Partial<Suite>[],
+  data: (Partial<Suite> & { id: number })[],
   queryParams?: QueryParamsWithList<Suite>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,28 @@ export const suiteUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Suite>(config)
     : getResponse<Suite>(queryParams?.api ?? _client?.api, config);
+};
+
+export const suiteUpdateMany = (
+  data: (Partial<Suite> & { id: number })[],
+  queryParams?: QueryParamsWithList<Suite>,
+): Promise<Suite[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Suite> = {
+        method: 'post',
+        url: queryParams?.url ?? SuiteRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Suite[]>(config)
+        : getResponse<Suite[], Suite>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const suiteCreateOne = (

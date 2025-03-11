@@ -36,7 +36,7 @@ export const requirementTestDetach = (
 };
 
 export const requirementTestDeleteMany = (
-  data: Partial<RequirementTest>[],
+  data: (Partial<RequirementTest> & { id: number })[],
   queryParams?: QueryParamsWithList<RequirementTest>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const requirementTestUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<RequirementTest>(config)
     : getResponse<RequirementTest>(queryParams?.api ?? _client?.api, config);
+};
+
+export const requirementTestUpdateMany = (
+  data: (Partial<RequirementTest> & { id: number })[],
+  queryParams?: QueryParamsWithList<RequirementTest>,
+): Promise<RequirementTest[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<RequirementTest> = {
+        method: 'post',
+        url: queryParams?.url ?? `/requirement_test`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<RequirementTest[]>(config)
+        : getResponse<RequirementTest[], RequirementTest>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const requirementTestCreateOne = (

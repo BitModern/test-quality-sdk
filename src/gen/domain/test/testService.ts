@@ -71,7 +71,7 @@ export const testDeleteOne = (
 };
 
 export const testDeleteMany = (
-  data: Partial<Test>[],
+  data: (Partial<Test> & { id: number })[],
   queryParams?: QueryParamsWithList<Test>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,28 @@ export const testUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Test>(config)
     : getResponse<Test>(queryParams?.api ?? _client?.api, config);
+};
+
+export const testUpdateMany = (
+  data: (Partial<Test> & { id: number })[],
+  queryParams?: QueryParamsWithList<Test>,
+): Promise<Test[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Test> = {
+        method: 'post',
+        url: queryParams?.url ?? TestRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Test[]>(config)
+        : getResponse<Test[], Test>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const testCreateOne = (

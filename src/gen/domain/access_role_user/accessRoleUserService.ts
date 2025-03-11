@@ -36,7 +36,7 @@ export const accessRoleUserDetach = (
 };
 
 export const accessRoleUserDeleteMany = (
-  data: Partial<AccessRoleUser>[],
+  data: (Partial<AccessRoleUser> & { id: number })[],
   queryParams?: QueryParamsWithList<AccessRoleUser>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const accessRoleUserUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRoleUser>(config)
     : getResponse<AccessRoleUser>(queryParams?.api ?? _client?.api, config);
+};
+
+export const accessRoleUserUpdateMany = (
+  data: (Partial<AccessRoleUser> & { id: number })[],
+  queryParams?: QueryParamsWithList<AccessRoleUser>,
+): Promise<AccessRoleUser[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AccessRoleUser> = {
+        method: 'post',
+        url: queryParams?.url ?? `/access_role_user`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<AccessRoleUser[]>(config)
+        : getResponse<AccessRoleUser[], AccessRoleUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const accessRoleUserCreateOne = (

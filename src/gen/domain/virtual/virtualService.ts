@@ -74,7 +74,7 @@ export const virtualDeleteOne = (
 };
 
 export const virtualDeleteMany = (
-  data: Partial<Virtual>[],
+  data: (Partial<Virtual> & { id: number })[],
   queryParams?: QueryParamsWithList<Virtual>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const virtualUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Virtual>(config)
     : getResponse<Virtual>(queryParams?.api ?? _client?.api, config);
+};
+
+export const virtualUpdateMany = (
+  data: (Partial<Virtual> & { id: number })[],
+  queryParams?: QueryParamsWithList<Virtual>,
+): Promise<Virtual[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Virtual> = {
+        method: 'post',
+        url: queryParams?.url ?? VirtualRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Virtual[]>(config)
+        : getResponse<Virtual[], Virtual>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const virtualCreateOne = (

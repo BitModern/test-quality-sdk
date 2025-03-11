@@ -74,7 +74,7 @@ export const sharedPreconditionDeleteOne = (
 };
 
 export const sharedPreconditionDeleteMany = (
-  data: Partial<SharedPrecondition>[],
+  data: (Partial<SharedPrecondition> & { id: number })[],
   queryParams?: QueryParamsWithList<SharedPrecondition>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const sharedPreconditionUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SharedPrecondition>(config)
     : getResponse<SharedPrecondition>(queryParams?.api ?? _client?.api, config);
+};
+
+export const sharedPreconditionUpdateMany = (
+  data: (Partial<SharedPrecondition> & { id: number })[],
+  queryParams?: QueryParamsWithList<SharedPrecondition>,
+): Promise<SharedPrecondition[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SharedPrecondition> = {
+        method: 'post',
+        url: queryParams?.url ?? SharedPreconditionRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<SharedPrecondition[]>(config)
+        : getResponse<SharedPrecondition[], SharedPrecondition>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const sharedPreconditionCreateOne = (

@@ -74,7 +74,7 @@ export const defectResDeleteOne = (
 };
 
 export const defectResDeleteMany = (
-  data: Partial<DefectRes>[],
+  data: (Partial<DefectRes> & { id: number })[],
   queryParams?: QueryParamsWithList<DefectRes>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const defectResUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectRes>(config)
     : getResponse<DefectRes>(queryParams?.api ?? _client?.api, config);
+};
+
+export const defectResUpdateMany = (
+  data: (Partial<DefectRes> & { id: number })[],
+  queryParams?: QueryParamsWithList<DefectRes>,
+): Promise<DefectRes[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DefectRes> = {
+        method: 'post',
+        url: queryParams?.url ?? DefectResRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DefectRes[]>(config)
+        : getResponse<DefectRes[], DefectRes>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const defectResCreateOne = (

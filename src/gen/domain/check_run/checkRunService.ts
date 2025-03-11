@@ -74,7 +74,7 @@ export const checkRunDeleteOne = (
 };
 
 export const checkRunDeleteMany = (
-  data: Partial<CheckRun>[],
+  data: (Partial<CheckRun> & { id: number })[],
   queryParams?: QueryParamsWithList<CheckRun>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const checkRunUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckRun>(config)
     : getResponse<CheckRun>(queryParams?.api ?? _client?.api, config);
+};
+
+export const checkRunUpdateMany = (
+  data: (Partial<CheckRun> & { id: number })[],
+  queryParams?: QueryParamsWithList<CheckRun>,
+): Promise<CheckRun[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckRun> = {
+        method: 'post',
+        url: queryParams?.url ?? CheckRunRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CheckRun[]>(config)
+        : getResponse<CheckRun[], CheckRun>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const checkRunCreateOne = (

@@ -74,7 +74,7 @@ export const appUserDeleteOne = (
 };
 
 export const appUserDeleteMany = (
-  data: Partial<AppUser>[],
+  data: (Partial<AppUser> & { id: number })[],
   queryParams?: QueryParamsWithList<AppUser>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const appUserUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUser>(config)
     : getResponse<AppUser>(queryParams?.api ?? _client?.api, config);
+};
+
+export const appUserUpdateMany = (
+  data: (Partial<AppUser> & { id: number })[],
+  queryParams?: QueryParamsWithList<AppUser>,
+): Promise<AppUser[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<AppUser> = {
+        method: 'post',
+        url: queryParams?.url ?? AppUserRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<AppUser[]>(config)
+        : getResponse<AppUser[], AppUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const appUserCreateOne = (

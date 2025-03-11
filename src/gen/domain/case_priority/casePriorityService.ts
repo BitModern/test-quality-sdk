@@ -74,7 +74,7 @@ export const casePriorityDeleteOne = (
 };
 
 export const casePriorityDeleteMany = (
-  data: Partial<CasePriority>[],
+  data: (Partial<CasePriority> & { id: number })[],
   queryParams?: QueryParamsWithList<CasePriority>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const casePriorityUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CasePriority>(config)
     : getResponse<CasePriority>(queryParams?.api ?? _client?.api, config);
+};
+
+export const casePriorityUpdateMany = (
+  data: (Partial<CasePriority> & { id: number })[],
+  queryParams?: QueryParamsWithList<CasePriority>,
+): Promise<CasePriority[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CasePriority> = {
+        method: 'post',
+        url: queryParams?.url ?? CasePriorityRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CasePriority[]>(config)
+        : getResponse<CasePriority[], CasePriority>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const casePriorityCreateOne = (

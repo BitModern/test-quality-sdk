@@ -71,7 +71,7 @@ export const labelDeleteOne = (
 };
 
 export const labelDeleteMany = (
-  data: Partial<Label>[],
+  data: (Partial<Label> & { id: number })[],
   queryParams?: QueryParamsWithList<Label>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,28 @@ export const labelUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Label>(config)
     : getResponse<Label>(queryParams?.api ?? _client?.api, config);
+};
+
+export const labelUpdateMany = (
+  data: (Partial<Label> & { id: number })[],
+  queryParams?: QueryParamsWithList<Label>,
+): Promise<Label[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Label> = {
+        method: 'post',
+        url: queryParams?.url ?? LabelRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Label[]>(config)
+        : getResponse<Label[], Label>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const labelCreateOne = (

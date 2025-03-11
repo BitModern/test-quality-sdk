@@ -36,7 +36,7 @@ export const checkListItemUserDetach = (
 };
 
 export const checkListItemUserDeleteMany = (
-  data: Partial<CheckListItemUser>[],
+  data: (Partial<CheckListItemUser> & { id: number })[],
   queryParams?: QueryParamsWithList<CheckListItemUser>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const checkListItemUserUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckListItemUser>(config)
     : getResponse<CheckListItemUser>(queryParams?.api ?? _client?.api, config);
+};
+
+export const checkListItemUserUpdateMany = (
+  data: (Partial<CheckListItemUser> & { id: number })[],
+  queryParams?: QueryParamsWithList<CheckListItemUser>,
+): Promise<CheckListItemUser[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckListItemUser> = {
+        method: 'post',
+        url: queryParams?.url ?? `/check_list_item_user`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CheckListItemUser[]>(config)
+        : getResponse<CheckListItemUser[], CheckListItemUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const checkListItemUserCreateOne = (

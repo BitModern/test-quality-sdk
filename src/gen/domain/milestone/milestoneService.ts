@@ -74,7 +74,7 @@ export const milestoneDeleteOne = (
 };
 
 export const milestoneDeleteMany = (
-  data: Partial<Milestone>[],
+  data: (Partial<Milestone> & { id: number })[],
   queryParams?: QueryParamsWithList<Milestone>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const milestoneUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Milestone>(config)
     : getResponse<Milestone>(queryParams?.api ?? _client?.api, config);
+};
+
+export const milestoneUpdateMany = (
+  data: (Partial<Milestone> & { id: number })[],
+  queryParams?: QueryParamsWithList<Milestone>,
+): Promise<Milestone[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Milestone> = {
+        method: 'post',
+        url: queryParams?.url ?? MilestoneRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Milestone[]>(config)
+        : getResponse<Milestone[], Milestone>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const milestoneCreateOne = (

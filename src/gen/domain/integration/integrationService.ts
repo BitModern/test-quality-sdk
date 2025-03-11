@@ -74,7 +74,7 @@ export const integrationDeleteOne = (
 };
 
 export const integrationDeleteMany = (
-  data: Partial<Integration>[],
+  data: (Partial<Integration> & { id: number })[],
   queryParams?: QueryParamsWithList<Integration>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const integrationUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Integration>(config)
     : getResponse<Integration>(queryParams?.api ?? _client?.api, config);
+};
+
+export const integrationUpdateMany = (
+  data: (Partial<Integration> & { id: number })[],
+  queryParams?: QueryParamsWithList<Integration>,
+): Promise<Integration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Integration> = {
+        method: 'post',
+        url: queryParams?.url ?? IntegrationRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Integration[]>(config)
+        : getResponse<Integration[], Integration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const integrationCreateOne = (

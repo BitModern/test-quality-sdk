@@ -36,7 +36,7 @@ export const integrationUserDetach = (
 };
 
 export const integrationUserDeleteMany = (
-  data: Partial<IntegrationUser>[],
+  data: (Partial<IntegrationUser> & { id: number })[],
   queryParams?: QueryParamsWithList<IntegrationUser>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const integrationUserUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationUser>(config)
     : getResponse<IntegrationUser>(queryParams?.api ?? _client?.api, config);
+};
+
+export const integrationUserUpdateMany = (
+  data: (Partial<IntegrationUser> & { id: number })[],
+  queryParams?: QueryParamsWithList<IntegrationUser>,
+): Promise<IntegrationUser[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<IntegrationUser> = {
+        method: 'post',
+        url: queryParams?.url ?? `/integration_user`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<IntegrationUser[]>(config)
+        : getResponse<IntegrationUser[], IntegrationUser>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const integrationUserCreateOne = (

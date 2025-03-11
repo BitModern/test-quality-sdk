@@ -74,7 +74,7 @@ export const productDeleteOne = (
 };
 
 export const productDeleteMany = (
-  data: Partial<Product>[],
+  data: (Partial<Product> & { id: number })[],
   queryParams?: QueryParamsWithList<Product>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const productUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Product>(config)
     : getResponse<Product>(queryParams?.api ?? _client?.api, config);
+};
+
+export const productUpdateMany = (
+  data: (Partial<Product> & { id: number })[],
+  queryParams?: QueryParamsWithList<Product>,
+): Promise<Product[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Product> = {
+        method: 'post',
+        url: queryParams?.url ?? ProductRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Product[]>(config)
+        : getResponse<Product[], Product>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const productCreateOne = (

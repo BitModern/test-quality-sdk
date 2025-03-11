@@ -74,7 +74,7 @@ export const resourceDeleteOne = (
 };
 
 export const resourceDeleteMany = (
-  data: Partial<Resource>[],
+  data: (Partial<Resource> & { id: number })[],
   queryParams?: QueryParamsWithList<Resource>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const resourceUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Resource>(config)
     : getResponse<Resource>(queryParams?.api ?? _client?.api, config);
+};
+
+export const resourceUpdateMany = (
+  data: (Partial<Resource> & { id: number })[],
+  queryParams?: QueryParamsWithList<Resource>,
+): Promise<Resource[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Resource> = {
+        method: 'post',
+        url: queryParams?.url ?? ResourceRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Resource[]>(config)
+        : getResponse<Resource[], Resource>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const resourceCreateOne = (

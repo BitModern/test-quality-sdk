@@ -74,7 +74,7 @@ export const docTypeDeleteOne = (
 };
 
 export const docTypeDeleteMany = (
-  data: Partial<DocType>[],
+  data: (Partial<DocType> & { id: number })[],
   queryParams?: QueryParamsWithList<DocType>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const docTypeUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocType>(config)
     : getResponse<DocType>(queryParams?.api ?? _client?.api, config);
+};
+
+export const docTypeUpdateMany = (
+  data: (Partial<DocType> & { id: number })[],
+  queryParams?: QueryParamsWithList<DocType>,
+): Promise<DocType[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DocType> = {
+        method: 'post',
+        url: queryParams?.url ?? DocTypeRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DocType[]>(config)
+        : getResponse<DocType[], DocType>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const docTypeCreateOne = (

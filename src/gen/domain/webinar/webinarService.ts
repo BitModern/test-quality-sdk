@@ -74,7 +74,7 @@ export const webinarDeleteOne = (
 };
 
 export const webinarDeleteMany = (
-  data: Partial<Webinar>[],
+  data: (Partial<Webinar> & { id: number })[],
   queryParams?: QueryParamsWithList<Webinar>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const webinarUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Webinar>(config)
     : getResponse<Webinar>(queryParams?.api ?? _client?.api, config);
+};
+
+export const webinarUpdateMany = (
+  data: (Partial<Webinar> & { id: number })[],
+  queryParams?: QueryParamsWithList<Webinar>,
+): Promise<Webinar[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Webinar> = {
+        method: 'post',
+        url: queryParams?.url ?? WebinarRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Webinar[]>(config)
+        : getResponse<Webinar[], Webinar>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const webinarCreateOne = (

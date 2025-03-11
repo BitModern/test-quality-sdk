@@ -74,7 +74,7 @@ export const purposeDeleteOne = (
 };
 
 export const purposeDeleteMany = (
-  data: Partial<Purpose>[],
+  data: (Partial<Purpose> & { id: number })[],
   queryParams?: QueryParamsWithList<Purpose>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const purposeUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Purpose>(config)
     : getResponse<Purpose>(queryParams?.api ?? _client?.api, config);
+};
+
+export const purposeUpdateMany = (
+  data: (Partial<Purpose> & { id: number })[],
+  queryParams?: QueryParamsWithList<Purpose>,
+): Promise<Purpose[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Purpose> = {
+        method: 'post',
+        url: queryParams?.url ?? PurposeRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Purpose[]>(config)
+        : getResponse<Purpose[], Purpose>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const purposeCreateOne = (

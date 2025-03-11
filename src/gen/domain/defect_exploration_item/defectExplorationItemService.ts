@@ -36,7 +36,7 @@ export const defectExplorationItemDetach = (
 };
 
 export const defectExplorationItemDeleteMany = (
-  data: Partial<DefectExplorationItem>[],
+  data: (Partial<DefectExplorationItem> & { id: number })[],
   queryParams?: QueryParamsWithList<DefectExplorationItem>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -78,6 +78,30 @@ export const defectExplorationItemUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const defectExplorationItemUpdateMany = (
+  data: (Partial<DefectExplorationItem> & { id: number })[],
+  queryParams?: QueryParamsWithList<DefectExplorationItem>,
+): Promise<DefectExplorationItem[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DefectExplorationItem> = {
+        method: 'post',
+        url: queryParams?.url ?? `/defect_exploration_item`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DefectExplorationItem[]>(config)
+        : getResponse<DefectExplorationItem[], DefectExplorationItem>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const defectExplorationItemCreateOne = (

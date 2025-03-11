@@ -74,7 +74,7 @@ export const requirementDeleteOne = (
 };
 
 export const requirementDeleteMany = (
-  data: Partial<Requirement>[],
+  data: (Partial<Requirement> & { id: number })[],
   queryParams?: QueryParamsWithList<Requirement>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const requirementUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Requirement>(config)
     : getResponse<Requirement>(queryParams?.api ?? _client?.api, config);
+};
+
+export const requirementUpdateMany = (
+  data: (Partial<Requirement> & { id: number })[],
+  queryParams?: QueryParamsWithList<Requirement>,
+): Promise<Requirement[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Requirement> = {
+        method: 'post',
+        url: queryParams?.url ?? RequirementRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Requirement[]>(config)
+        : getResponse<Requirement[], Requirement>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const requirementCreateOne = (

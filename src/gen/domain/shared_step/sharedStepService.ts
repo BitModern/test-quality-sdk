@@ -74,7 +74,7 @@ export const sharedStepDeleteOne = (
 };
 
 export const sharedStepDeleteMany = (
-  data: Partial<SharedStep>[],
+  data: (Partial<SharedStep> & { id: number })[],
   queryParams?: QueryParamsWithList<SharedStep>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const sharedStepUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SharedStep>(config)
     : getResponse<SharedStep>(queryParams?.api ?? _client?.api, config);
+};
+
+export const sharedStepUpdateMany = (
+  data: (Partial<SharedStep> & { id: number })[],
+  queryParams?: QueryParamsWithList<SharedStep>,
+): Promise<SharedStep[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SharedStep> = {
+        method: 'post',
+        url: queryParams?.url ?? SharedStepRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<SharedStep[]>(config)
+        : getResponse<SharedStep[], SharedStep>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const sharedStepCreateOne = (

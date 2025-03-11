@@ -74,7 +74,7 @@ export const signupOptionDeleteOne = (
 };
 
 export const signupOptionDeleteMany = (
-  data: Partial<SignupOption>[],
+  data: (Partial<SignupOption> & { id: number })[],
   queryParams?: QueryParamsWithList<SignupOption>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const signupOptionUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<SignupOption>(config)
     : getResponse<SignupOption>(queryParams?.api ?? _client?.api, config);
+};
+
+export const signupOptionUpdateMany = (
+  data: (Partial<SignupOption> & { id: number })[],
+  queryParams?: QueryParamsWithList<SignupOption>,
+): Promise<SignupOption[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<SignupOption> = {
+        method: 'post',
+        url: queryParams?.url ?? SignupOptionRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<SignupOption[]>(config)
+        : getResponse<SignupOption[], SignupOption>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const signupOptionCreateOne = (

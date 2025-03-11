@@ -74,7 +74,7 @@ export const runResultDeleteOne = (
 };
 
 export const runResultDeleteMany = (
-  data: Partial<RunResult>[],
+  data: (Partial<RunResult> & { id: number })[],
   queryParams?: QueryParamsWithList<RunResult>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const runResultUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunResult>(config)
     : getResponse<RunResult>(queryParams?.api ?? _client?.api, config);
+};
+
+export const runResultUpdateMany = (
+  data: (Partial<RunResult> & { id: number })[],
+  queryParams?: QueryParamsWithList<RunResult>,
+): Promise<RunResult[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<RunResult> = {
+        method: 'post',
+        url: queryParams?.url ?? RunResultRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<RunResult[]>(config)
+        : getResponse<RunResult[], RunResult>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const runResultCreateOne = (

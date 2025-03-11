@@ -74,7 +74,7 @@ export const baseCapabilityDeleteOne = (
 };
 
 export const baseCapabilityDeleteMany = (
-  data: Partial<BaseCapability>[],
+  data: (Partial<BaseCapability> & { id: number })[],
   queryParams?: QueryParamsWithList<BaseCapability>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const baseCapabilityUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseCapability>(config)
     : getResponse<BaseCapability>(queryParams?.api ?? _client?.api, config);
+};
+
+export const baseCapabilityUpdateMany = (
+  data: (Partial<BaseCapability> & { id: number })[],
+  queryParams?: QueryParamsWithList<BaseCapability>,
+): Promise<BaseCapability[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<BaseCapability> = {
+        method: 'post',
+        url: queryParams?.url ?? BaseCapabilityRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<BaseCapability[]>(config)
+        : getResponse<BaseCapability[], BaseCapability>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const baseCapabilityCreateOne = (

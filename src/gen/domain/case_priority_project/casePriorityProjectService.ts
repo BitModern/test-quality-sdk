@@ -36,7 +36,7 @@ export const casePriorityProjectDetach = (
 };
 
 export const casePriorityProjectDeleteMany = (
-  data: Partial<CasePriorityProject>[],
+  data: (Partial<CasePriorityProject> & { id: number })[],
   queryParams?: QueryParamsWithList<CasePriorityProject>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -78,6 +78,30 @@ export const casePriorityProjectUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const casePriorityProjectUpdateMany = (
+  data: (Partial<CasePriorityProject> & { id: number })[],
+  queryParams?: QueryParamsWithList<CasePriorityProject>,
+): Promise<CasePriorityProject[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CasePriorityProject> = {
+        method: 'post',
+        url: queryParams?.url ?? `/case_priority_project`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CasePriorityProject[]>(config)
+        : getResponse<CasePriorityProject[], CasePriorityProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const casePriorityProjectCreateOne = (

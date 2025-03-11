@@ -36,7 +36,7 @@ export const defectStatusNativeDefectStatusDetach = (
 };
 
 export const defectStatusNativeDefectStatusDeleteMany = (
-  data: Partial<DefectStatusNativeDefectStatus>[],
+  data: (Partial<DefectStatusNativeDefectStatus> & { id: number })[],
   queryParams?: QueryParamsWithList<DefectStatusNativeDefectStatus>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -78,6 +78,30 @@ export const defectStatusNativeDefectStatusUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const defectStatusNativeDefectStatusUpdateMany = (
+  data: (Partial<DefectStatusNativeDefectStatus> & { id: number })[],
+  queryParams?: QueryParamsWithList<DefectStatusNativeDefectStatus>,
+): Promise<DefectStatusNativeDefectStatus[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DefectStatusNativeDefectStatus> = {
+        method: 'post',
+        url: queryParams?.url ?? `/defect_status_native_defect_status`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DefectStatusNativeDefectStatus[]>(config)
+        : getResponse<
+            DefectStatusNativeDefectStatus[],
+            DefectStatusNativeDefectStatus
+          >(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const defectStatusNativeDefectStatusCreateOne = (

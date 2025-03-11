@@ -36,7 +36,7 @@ export const checkSuitePullRequestDetach = (
 };
 
 export const checkSuitePullRequestDeleteMany = (
-  data: Partial<CheckSuitePullRequest>[],
+  data: (Partial<CheckSuitePullRequest> & { id: number })[],
   queryParams?: QueryParamsWithList<CheckSuitePullRequest>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -78,6 +78,30 @@ export const checkSuitePullRequestUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const checkSuitePullRequestUpdateMany = (
+  data: (Partial<CheckSuitePullRequest> & { id: number })[],
+  queryParams?: QueryParamsWithList<CheckSuitePullRequest>,
+): Promise<CheckSuitePullRequest[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<CheckSuitePullRequest> = {
+        method: 'post',
+        url: queryParams?.url ?? `/check_suite_pull_request`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<CheckSuitePullRequest[]>(config)
+        : getResponse<CheckSuitePullRequest[], CheckSuitePullRequest>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const checkSuitePullRequestCreateOne = (

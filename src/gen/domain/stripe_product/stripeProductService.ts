@@ -74,7 +74,7 @@ export const stripeProductDeleteOne = (
 };
 
 export const stripeProductDeleteMany = (
-  data: Partial<StripeProduct>[],
+  data: (Partial<StripeProduct> & { id: number })[],
   queryParams?: QueryParamsWithList<StripeProduct>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const stripeProductUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<StripeProduct>(config)
     : getResponse<StripeProduct>(queryParams?.api ?? _client?.api, config);
+};
+
+export const stripeProductUpdateMany = (
+  data: (Partial<StripeProduct> & { id: number })[],
+  queryParams?: QueryParamsWithList<StripeProduct>,
+): Promise<StripeProduct[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<StripeProduct> = {
+        method: 'post',
+        url: queryParams?.url ?? StripeProductRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<StripeProduct[]>(config)
+        : getResponse<StripeProduct[], StripeProduct>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const stripeProductCreateOne = (

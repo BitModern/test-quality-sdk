@@ -36,7 +36,7 @@ export const defectRunResultDetach = (
 };
 
 export const defectRunResultDeleteMany = (
-  data: Partial<DefectRunResult>[],
+  data: (Partial<DefectRunResult> & { id: number })[],
   queryParams?: QueryParamsWithList<DefectRunResult>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const defectRunResultUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectRunResult>(config)
     : getResponse<DefectRunResult>(queryParams?.api ?? _client?.api, config);
+};
+
+export const defectRunResultUpdateMany = (
+  data: (Partial<DefectRunResult> & { id: number })[],
+  queryParams?: QueryParamsWithList<DefectRunResult>,
+): Promise<DefectRunResult[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<DefectRunResult> = {
+        method: 'post',
+        url: queryParams?.url ?? `/defect_run_result`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<DefectRunResult[]>(config)
+        : getResponse<DefectRunResult[], DefectRunResult>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const defectRunResultCreateOne = (

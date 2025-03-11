@@ -74,7 +74,7 @@ export const integrationStatusTypeDeleteOne = (
 };
 
 export const integrationStatusTypeDeleteMany = (
-  data: Partial<IntegrationStatusType>[],
+  data: (Partial<IntegrationStatusType> & { id: number })[],
   queryParams?: QueryParamsWithList<IntegrationStatusType>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -117,6 +117,31 @@ export const integrationStatusTypeUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const integrationStatusTypeUpdateMany = (
+  data: (Partial<IntegrationStatusType> & { id: number })[],
+  queryParams?: QueryParamsWithList<IntegrationStatusType>,
+): Promise<IntegrationStatusType[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<IntegrationStatusType> = {
+        method: 'post',
+        url: queryParams?.url ?? IntegrationStatusTypeRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<IntegrationStatusType[]>(config)
+        : getResponse<IntegrationStatusType[], IntegrationStatusType>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const integrationStatusTypeCreateOne = (

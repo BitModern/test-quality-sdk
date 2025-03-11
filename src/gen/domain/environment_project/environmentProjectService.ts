@@ -36,7 +36,7 @@ export const environmentProjectDetach = (
 };
 
 export const environmentProjectDeleteMany = (
-  data: Partial<EnvironmentProject>[],
+  data: (Partial<EnvironmentProject> & { id: number })[],
   queryParams?: QueryParamsWithList<EnvironmentProject>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -75,6 +75,30 @@ export const environmentProjectUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<EnvironmentProject>(config)
     : getResponse<EnvironmentProject>(queryParams?.api ?? _client?.api, config);
+};
+
+export const environmentProjectUpdateMany = (
+  data: (Partial<EnvironmentProject> & { id: number })[],
+  queryParams?: QueryParamsWithList<EnvironmentProject>,
+): Promise<EnvironmentProject[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<EnvironmentProject> = {
+        method: 'post',
+        url: queryParams?.url ?? `/environment_project`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<EnvironmentProject[]>(config)
+        : getResponse<EnvironmentProject[], EnvironmentProject>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const environmentProjectCreateOne = (

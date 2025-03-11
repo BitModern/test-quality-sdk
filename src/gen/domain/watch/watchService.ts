@@ -71,7 +71,7 @@ export const watchDeleteOne = (
 };
 
 export const watchDeleteMany = (
-  data: Partial<Watch>[],
+  data: (Partial<Watch> & { id: number })[],
   queryParams?: QueryParamsWithList<Watch>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,28 @@ export const watchUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Watch>(config)
     : getResponse<Watch>(queryParams?.api ?? _client?.api, config);
+};
+
+export const watchUpdateMany = (
+  data: (Partial<Watch> & { id: number })[],
+  queryParams?: QueryParamsWithList<Watch>,
+): Promise<Watch[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Watch> = {
+        method: 'post',
+        url: queryParams?.url ?? WatchRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Watch[]>(config)
+        : getResponse<Watch[], Watch>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const watchCreateOne = (

@@ -71,7 +71,7 @@ export const policyDeleteOne = (
 };
 
 export const policyDeleteMany = (
-  data: Partial<Policy>[],
+  data: (Partial<Policy> & { id: number })[],
   queryParams?: QueryParamsWithList<Policy>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,31 @@ export const policyUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Policy>(config)
     : getResponse<Policy>(queryParams?.api ?? _client?.api, config);
+};
+
+export const policyUpdateMany = (
+  data: (Partial<Policy> & { id: number })[],
+  queryParams?: QueryParamsWithList<Policy>,
+): Promise<Policy[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Policy> = {
+        method: 'post',
+        url: queryParams?.url ?? PolicyRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Policy[]>(config)
+        : getResponse<Policy[], Policy>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const policyCreateOne = (

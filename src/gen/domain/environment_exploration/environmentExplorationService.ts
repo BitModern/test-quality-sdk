@@ -36,7 +36,7 @@ export const environmentExplorationDetach = (
 };
 
 export const environmentExplorationDeleteMany = (
-  data: Partial<EnvironmentExploration>[],
+  data: (Partial<EnvironmentExploration> & { id: number })[],
   queryParams?: QueryParamsWithList<EnvironmentExploration>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -78,6 +78,30 @@ export const environmentExplorationUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const environmentExplorationUpdateMany = (
+  data: (Partial<EnvironmentExploration> & { id: number })[],
+  queryParams?: QueryParamsWithList<EnvironmentExploration>,
+): Promise<EnvironmentExploration[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<EnvironmentExploration> = {
+        method: 'post',
+        url: queryParams?.url ?? `/environment_exploration`,
+        params: queryParams?.params,
+        list: chunk,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<EnvironmentExploration[]>(config)
+        : getResponse<EnvironmentExploration[], EnvironmentExploration>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const environmentExplorationCreateOne = (

@@ -74,7 +74,7 @@ export const componentDocDeleteOne = (
 };
 
 export const componentDocDeleteMany = (
-  data: Partial<ComponentDoc>[],
+  data: (Partial<ComponentDoc> & { id: number })[],
   queryParams?: QueryParamsWithList<ComponentDoc>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -114,6 +114,31 @@ export const componentDocUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<ComponentDoc>(config)
     : getResponse<ComponentDoc>(queryParams?.api ?? _client?.api, config);
+};
+
+export const componentDocUpdateMany = (
+  data: (Partial<ComponentDoc> & { id: number })[],
+  queryParams?: QueryParamsWithList<ComponentDoc>,
+): Promise<ComponentDoc[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<ComponentDoc> = {
+        method: 'post',
+        url: queryParams?.url ?? ComponentDocRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<ComponentDoc[]>(config)
+        : getResponse<ComponentDoc[], ComponentDoc>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const componentDocCreateOne = (

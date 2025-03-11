@@ -71,7 +71,7 @@ export const couponDeleteOne = (
 };
 
 export const couponDeleteMany = (
-  data: Partial<Coupon>[],
+  data: (Partial<Coupon> & { id: number })[],
   queryParams?: QueryParamsWithList<Coupon>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,31 @@ export const couponUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Coupon>(config)
     : getResponse<Coupon>(queryParams?.api ?? _client?.api, config);
+};
+
+export const couponUpdateMany = (
+  data: (Partial<Coupon> & { id: number })[],
+  queryParams?: QueryParamsWithList<Coupon>,
+): Promise<Coupon[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Coupon> = {
+        method: 'post',
+        url: queryParams?.url ?? CouponRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Coupon[]>(config)
+        : getResponse<Coupon[], Coupon>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const couponCreateOne = (

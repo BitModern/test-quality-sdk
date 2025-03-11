@@ -74,7 +74,7 @@ export const integrationTemplateDeleteOne = (
 };
 
 export const integrationTemplateDeleteMany = (
-  data: Partial<IntegrationTemplate>[],
+  data: (Partial<IntegrationTemplate> & { id: number })[],
   queryParams?: QueryParamsWithList<IntegrationTemplate>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -117,6 +117,31 @@ export const integrationTemplateUpdateOne = (
         queryParams?.api ?? _client?.api,
         config,
       );
+};
+
+export const integrationTemplateUpdateMany = (
+  data: (Partial<IntegrationTemplate> & { id: number })[],
+  queryParams?: QueryParamsWithList<IntegrationTemplate>,
+): Promise<IntegrationTemplate[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<IntegrationTemplate> = {
+        method: 'post',
+        url: queryParams?.url ?? IntegrationTemplateRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<IntegrationTemplate[]>(config)
+        : getResponse<IntegrationTemplate[], IntegrationTemplate>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
+    }),
+  );
 };
 
 export const integrationTemplateCreateOne = (

@@ -71,7 +71,7 @@ export const stepDeleteOne = (
 };
 
 export const stepDeleteMany = (
-  data: Partial<Step>[],
+  data: (Partial<Step> & { id: number })[],
   queryParams?: QueryParamsWithList<Step>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
@@ -111,6 +111,28 @@ export const stepUpdateOne = (
   return queryParams?.batch
     ? queryParams.batch.addBatch<Step>(config)
     : getResponse<Step>(queryParams?.api ?? _client?.api, config);
+};
+
+export const stepUpdateMany = (
+  data: (Partial<Step> & { id: number })[],
+  queryParams?: QueryParamsWithList<Step>,
+): Promise<Step[][]> => {
+  const chunks = chunkArray(data, 1000);
+  return Promise.all(
+    chunks.map((chunk) => {
+      const config: QueryParamsWithList<Step> = {
+        method: 'post',
+        url: queryParams?.url ?? StepRoute(),
+        params: queryParams?.params,
+        list: chunk,
+        headers: queryParams?.headers,
+      };
+
+      return queryParams?.batch
+        ? queryParams.batch.addBatch<Step[]>(config)
+        : getResponse<Step[], Step>(queryParams?.api ?? _client?.api, config);
+    }),
+  );
 };
 
 export const stepCreateOne = (
