@@ -22,9 +22,9 @@ export interface RegisterJiraResponse {
 
 export const registerJira = (
   data: Partial<RegisterJiraPayload>,
-  queryParams?: QueryParams<RegisterJiraPayload>,
+  queryParams?: QueryParams<Partial<RegisterJiraPayload>>,
 ): Promise<RegisterJiraResponse> => {
-  const config: QueryParams<RegisterJiraPayload> = {
+  const config: QueryParams<Partial<RegisterJiraPayload>> = {
     method: 'post',
     url: queryParams?.url ?? '/register_jira',
     params: queryParams?.params,
@@ -33,7 +33,7 @@ export const registerJira = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RegisterJiraResponse>(config)
-    : getResponse<RegisterJiraResponse, RegisterJiraPayload>(
+    : getResponse<RegisterJiraResponse, Partial<RegisterJiraPayload>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -12,9 +12,9 @@ export interface RestrictProjectReturn {
 
 export const restrictProject = (
   data: Partial<RestrictProjectParam>,
-  queryParams?: QueryParams<RestrictProjectParam>,
+  queryParams?: QueryParams<Partial<RestrictProjectParam>>,
 ): Promise<RestrictProjectReturn> => {
-  const config: QueryParams<RestrictProjectParam> = {
+  const config: QueryParams<Partial<RestrictProjectParam>> = {
     method: 'post',
     url: queryParams?.url ?? '/access_role/project',
     params: queryParams?.params,
@@ -23,7 +23,7 @@ export const restrictProject = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RestrictProjectReturn>(config)
-    : getResponse<RestrictProjectReturn, RestrictProjectParam>(
+    : getResponse<RestrictProjectReturn, Partial<RestrictProjectParam>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -48,8 +48,9 @@ export const postImportProject = (
     : getResponse<
         { job_id: string },
         {
-          projectId: number | string;
-          entitiesMapping: Mapping;
+          projectId: number;
+          tqProjectId?: number;
+          entitiesMapping?: Mapping;
         }
       >(queryParams?.api ?? _client?.api, config);
 };

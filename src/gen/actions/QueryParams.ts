@@ -18,7 +18,7 @@ type AddInSuffix<T> = {
 
 type ParamsWithInSuffix<T> = Partial<T & AddInSuffix<T>> & TQRequestParameters;
 
-export interface QueryParams<T = any> {
+export interface QueryParams<T = any, P = T> {
   api?: AxiosInstance;
   batch?: BatchService;
   cancelToken?: CancelToken;
@@ -26,7 +26,7 @@ export interface QueryParams<T = any> {
   headers?: any;
   id?: number | string;
   method?: Method;
-  params?: ParamsWithInSuffix<T>;
+  params?: ParamsWithInSuffix<P>;
   url?: string;
 }
 
