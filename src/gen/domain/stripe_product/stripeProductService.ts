@@ -16,9 +16,9 @@ import type { StripeProduct } from './StripeProduct';
 import type { StripeProductApi } from './StripeProductApi';
 
 export const stripeProductGetMany = (
-  queryParams?: QueryParams<StripeProduct>,
+  queryParams?: QueryParams<Partial<StripeProduct>>,
 ): Promise<ResourceList<StripeProductApi>> => {
-  const config: QueryParams<StripeProduct> = {
+  const config: QueryParams<Partial<StripeProduct>> = {
     method: 'get',
     url: queryParams?.url ?? StripeProductRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const stripeProductGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<StripeProductApi>>(config)
-    : getResponse<ResourceList<StripeProductApi>, StripeProduct>(
+    : getResponse<ResourceList<StripeProductApi>, Partial<StripeProduct>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const stripeProductGetMany = (
 
 export const stripeProductGetOne = (
   id: number,
-  queryParams?: QueryParams<StripeProduct>,
+  queryParams?: QueryParams<Partial<StripeProduct>>,
 ): Promise<StripeProductApi> => {
-  const config: QueryParams<StripeProduct> = {
+  const config: QueryParams<Partial<StripeProduct>> = {
     method: 'get',
     url: `${queryParams?.url ?? StripeProductRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const stripeProductGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StripeProductApi>(config)
-    : getResponse<StripeProductApi, StripeProduct>(
+    : getResponse<StripeProductApi, Partial<StripeProduct>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const stripeProductGetOne = (
 
 export const stripeProductDeleteOne = (
   id: number,
-  queryParams?: QueryParams<StripeProduct>,
+  queryParams?: QueryParams<Partial<StripeProduct>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<StripeProduct> = {
+  const config: QueryParams<Partial<StripeProduct>> = {
     method: 'delete',
     url: `${queryParams?.url ?? StripeProductRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const stripeProductDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, StripeProduct>(
+    : getResponse<MessageResponse, Partial<StripeProduct>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const stripeProductDeleteOne = (
 
 export const stripeProductDeleteMany = (
   data: (Partial<StripeProduct> & { id: number })[],
-  queryParams?: QueryParamsWithList<StripeProduct>,
+  queryParams?: QueryParamsWithList<Partial<StripeProduct> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<StripeProduct> = {
+      const config: QueryParamsWithList<
+        Partial<StripeProduct> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? StripeProductRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const stripeProductDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, StripeProduct>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<StripeProduct> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const stripeProductDeleteMany = (
 export const stripeProductUpdateOne = (
   id: number,
   data: Partial<StripeProduct>,
-  queryParams?: QueryParams<StripeProduct>,
+  queryParams?: QueryParams<Partial<StripeProduct>>,
 ): Promise<StripeProduct> => {
-  const config: QueryParams<StripeProduct> = {
+  const config: QueryParams<Partial<StripeProduct>> = {
     method: 'put',
     url: `${queryParams?.url ?? StripeProductRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const stripeProductUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StripeProduct>(config)
-    : getResponse<StripeProduct>(queryParams?.api ?? _client?.api, config);
+    : getResponse<StripeProduct, Partial<StripeProduct>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const stripeProductUpdateMany = (
   data: (Partial<StripeProduct> & { id: number })[],
-  queryParams?: QueryParamsWithList<StripeProduct>,
+  queryParams?: QueryParamsWithList<Partial<StripeProduct> & { id: number }>,
 ): Promise<StripeProduct[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<StripeProduct> = {
+      const config: QueryParamsWithList<
+        Partial<StripeProduct> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? StripeProductRoute(),
         params: queryParams?.params,
@@ -133,7 +140,7 @@ export const stripeProductUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<StripeProduct[]>(config)
-        : getResponse<StripeProduct[], StripeProduct>(
+        : getResponse<StripeProduct[], Partial<StripeProduct> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +150,9 @@ export const stripeProductUpdateMany = (
 
 export const stripeProductCreateOne = (
   data: Partial<StripeProduct>,
-  queryParams?: QueryParams<StripeProduct>,
+  queryParams?: QueryParams<Partial<StripeProduct>>,
 ): Promise<StripeProduct> => {
-  const config: QueryParams<StripeProduct> = {
+  const config: QueryParams<Partial<StripeProduct>> = {
     method: 'post',
     url: queryParams?.url ?? StripeProductRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const stripeProductCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StripeProduct>(config)
-    : getResponse<StripeProduct>(queryParams?.api ?? _client?.api, config);
+    : getResponse<StripeProduct, Partial<StripeProduct>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const stripeProductCreateMany = (
   data: Partial<StripeProduct>[],
-  queryParams?: QueryParamsWithList<StripeProduct>,
+  queryParams?: QueryParamsWithList<Partial<StripeProduct>>,
 ): Promise<StripeProduct[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<StripeProduct> = {
+      const config: QueryParamsWithList<Partial<StripeProduct>> = {
         method: 'post',
         url: queryParams?.url ?? StripeProductRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const stripeProductCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<StripeProduct[]>(config)
-        : getResponse<StripeProduct[], StripeProduct>(
+        : getResponse<StripeProduct[], Partial<StripeProduct>>(
             queryParams?.api ?? _client?.api,
             config,
           );

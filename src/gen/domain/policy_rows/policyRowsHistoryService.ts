@@ -10,9 +10,9 @@ import type { PolicyRows } from './PolicyRows';
 import type { PolicyRowsHistory } from './PolicyRowsHistory';
 
 export const policyRowsHistoryGet = (
-  queryParams?: QueryParams<PolicyRows>,
+  queryParams?: QueryParams<Partial<PolicyRows>>,
 ): Promise<PolicyRowsHistory[]> => {
-  const config: QueryParams<PolicyRows> = {
+  const config: QueryParams<Partial<PolicyRows>> = {
     method: 'get',
     url: `${queryParams?.url ?? PolicyRowsRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const policyRowsHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PolicyRowsHistory[]>(config)
-    : getResponse<PolicyRowsHistory[], PolicyRows>(
+    : getResponse<PolicyRowsHistory[], Partial<PolicyRows>>(
         queryParams?.api ?? _client?.api,
         config,
       );

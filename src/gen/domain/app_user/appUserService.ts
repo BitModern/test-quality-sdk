@@ -16,9 +16,9 @@ import type { AppUser } from './AppUser';
 import type { AppUserApi } from './AppUserApi';
 
 export const appUserGetMany = (
-  queryParams?: QueryParams<AppUser>,
+  queryParams?: QueryParams<Partial<AppUser>>,
 ): Promise<ResourceList<AppUserApi>> => {
-  const config: QueryParams<AppUser> = {
+  const config: QueryParams<Partial<AppUser>> = {
     method: 'get',
     url: queryParams?.url ?? AppUserRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const appUserGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<AppUserApi>>(config)
-    : getResponse<ResourceList<AppUserApi>, AppUser>(
+    : getResponse<ResourceList<AppUserApi>, Partial<AppUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const appUserGetMany = (
 
 export const appUserGetOne = (
   id: number,
-  queryParams?: QueryParams<AppUser>,
+  queryParams?: QueryParams<Partial<AppUser>>,
 ): Promise<AppUserApi> => {
-  const config: QueryParams<AppUser> = {
+  const config: QueryParams<Partial<AppUser>> = {
     method: 'get',
     url: `${queryParams?.url ?? AppUserRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const appUserGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUserApi>(config)
-    : getResponse<AppUserApi, AppUser>(
+    : getResponse<AppUserApi, Partial<AppUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const appUserGetOne = (
 
 export const appUserDeleteOne = (
   id: number,
-  queryParams?: QueryParams<AppUser>,
+  queryParams?: QueryParams<Partial<AppUser>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<AppUser> = {
+  const config: QueryParams<Partial<AppUser>> = {
     method: 'delete',
     url: `${queryParams?.url ?? AppUserRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const appUserDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, AppUser>(
+    : getResponse<MessageResponse, Partial<AppUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const appUserDeleteOne = (
 
 export const appUserDeleteMany = (
   data: (Partial<AppUser> & { id: number })[],
-  queryParams?: QueryParamsWithList<AppUser>,
+  queryParams?: QueryParamsWithList<Partial<AppUser> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<AppUser> = {
+      const config: QueryParamsWithList<Partial<AppUser> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? AppUserRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const appUserDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, AppUser>(
+        : getResponse<{ count: number }, Partial<AppUser> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const appUserDeleteMany = (
 export const appUserUpdateOne = (
   id: number,
   data: Partial<AppUser>,
-  queryParams?: QueryParams<AppUser>,
+  queryParams?: QueryParams<Partial<AppUser>>,
 ): Promise<AppUser> => {
-  const config: QueryParams<AppUser> = {
+  const config: QueryParams<Partial<AppUser>> = {
     method: 'put',
     url: `${queryParams?.url ?? AppUserRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const appUserUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUser>(config)
-    : getResponse<AppUser>(queryParams?.api ?? _client?.api, config);
+    : getResponse<AppUser, Partial<AppUser>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const appUserUpdateMany = (
   data: (Partial<AppUser> & { id: number })[],
-  queryParams?: QueryParamsWithList<AppUser>,
+  queryParams?: QueryParamsWithList<Partial<AppUser> & { id: number }>,
 ): Promise<AppUser[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<AppUser> = {
+      const config: QueryParamsWithList<Partial<AppUser> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? AppUserRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const appUserUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<AppUser[]>(config)
-        : getResponse<AppUser[], AppUser>(
+        : getResponse<AppUser[], Partial<AppUser> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const appUserUpdateMany = (
 
 export const appUserCreateOne = (
   data: Partial<AppUser>,
-  queryParams?: QueryParams<AppUser>,
+  queryParams?: QueryParams<Partial<AppUser>>,
 ): Promise<AppUser> => {
-  const config: QueryParams<AppUser> = {
+  const config: QueryParams<Partial<AppUser>> = {
     method: 'post',
     url: queryParams?.url ?? AppUserRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const appUserCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUser>(config)
-    : getResponse<AppUser>(queryParams?.api ?? _client?.api, config);
+    : getResponse<AppUser, Partial<AppUser>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const appUserCreateMany = (
   data: Partial<AppUser>[],
-  queryParams?: QueryParamsWithList<AppUser>,
+  queryParams?: QueryParamsWithList<Partial<AppUser>>,
 ): Promise<AppUser[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<AppUser> = {
+      const config: QueryParamsWithList<Partial<AppUser>> = {
         method: 'post',
         url: queryParams?.url ?? AppUserRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const appUserCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<AppUser[]>(config)
-        : getResponse<AppUser[], AppUser>(
+        : getResponse<AppUser[], Partial<AppUser>>(
             queryParams?.api ?? _client?.api,
             config,
           );

@@ -16,9 +16,9 @@ import type { RunResultStep } from './RunResultStep';
 import type { RunResultStepApi } from './RunResultStepApi';
 
 export const runResultStepGetMany = (
-  queryParams?: QueryParams<RunResultStep>,
+  queryParams?: QueryParams<Partial<RunResultStep>>,
 ): Promise<ResourceList<RunResultStepApi>> => {
-  const config: QueryParams<RunResultStep> = {
+  const config: QueryParams<Partial<RunResultStep>> = {
     method: 'get',
     url: queryParams?.url ?? RunResultStepRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const runResultStepGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<RunResultStepApi>>(config)
-    : getResponse<ResourceList<RunResultStepApi>, RunResultStep>(
+    : getResponse<ResourceList<RunResultStepApi>, Partial<RunResultStep>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const runResultStepGetMany = (
 
 export const runResultStepGetOne = (
   id: number,
-  queryParams?: QueryParams<RunResultStep>,
+  queryParams?: QueryParams<Partial<RunResultStep>>,
 ): Promise<RunResultStepApi> => {
-  const config: QueryParams<RunResultStep> = {
+  const config: QueryParams<Partial<RunResultStep>> = {
     method: 'get',
     url: `${queryParams?.url ?? RunResultStepRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const runResultStepGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunResultStepApi>(config)
-    : getResponse<RunResultStepApi, RunResultStep>(
+    : getResponse<RunResultStepApi, Partial<RunResultStep>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const runResultStepGetOne = (
 
 export const runResultStepDeleteOne = (
   id: number,
-  queryParams?: QueryParams<RunResultStep>,
+  queryParams?: QueryParams<Partial<RunResultStep>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<RunResultStep> = {
+  const config: QueryParams<Partial<RunResultStep>> = {
     method: 'delete',
     url: `${queryParams?.url ?? RunResultStepRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const runResultStepDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, RunResultStep>(
+    : getResponse<MessageResponse, Partial<RunResultStep>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const runResultStepDeleteOne = (
 
 export const runResultStepDeleteMany = (
   data: (Partial<RunResultStep> & { id: number })[],
-  queryParams?: QueryParamsWithList<RunResultStep>,
+  queryParams?: QueryParamsWithList<Partial<RunResultStep> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<RunResultStep> = {
+      const config: QueryParamsWithList<
+        Partial<RunResultStep> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? RunResultStepRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const runResultStepDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, RunResultStep>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<RunResultStep> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const runResultStepDeleteMany = (
 export const runResultStepUpdateOne = (
   id: number,
   data: Partial<RunResultStep>,
-  queryParams?: QueryParams<RunResultStep>,
+  queryParams?: QueryParams<Partial<RunResultStep>>,
 ): Promise<RunResultStep> => {
-  const config: QueryParams<RunResultStep> = {
+  const config: QueryParams<Partial<RunResultStep>> = {
     method: 'put',
     url: `${queryParams?.url ?? RunResultStepRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const runResultStepUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunResultStep>(config)
-    : getResponse<RunResultStep>(queryParams?.api ?? _client?.api, config);
+    : getResponse<RunResultStep, Partial<RunResultStep>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const runResultStepUpdateMany = (
   data: (Partial<RunResultStep> & { id: number })[],
-  queryParams?: QueryParamsWithList<RunResultStep>,
+  queryParams?: QueryParamsWithList<Partial<RunResultStep> & { id: number }>,
 ): Promise<RunResultStep[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<RunResultStep> = {
+      const config: QueryParamsWithList<
+        Partial<RunResultStep> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? RunResultStepRoute(),
         params: queryParams?.params,
@@ -133,7 +140,7 @@ export const runResultStepUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<RunResultStep[]>(config)
-        : getResponse<RunResultStep[], RunResultStep>(
+        : getResponse<RunResultStep[], Partial<RunResultStep> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +150,9 @@ export const runResultStepUpdateMany = (
 
 export const runResultStepCreateOne = (
   data: Partial<RunResultStep>,
-  queryParams?: QueryParams<RunResultStep>,
+  queryParams?: QueryParams<Partial<RunResultStep>>,
 ): Promise<RunResultStep> => {
-  const config: QueryParams<RunResultStep> = {
+  const config: QueryParams<Partial<RunResultStep>> = {
     method: 'post',
     url: queryParams?.url ?? RunResultStepRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const runResultStepCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunResultStep>(config)
-    : getResponse<RunResultStep>(queryParams?.api ?? _client?.api, config);
+    : getResponse<RunResultStep, Partial<RunResultStep>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const runResultStepCreateMany = (
   data: Partial<RunResultStep>[],
-  queryParams?: QueryParamsWithList<RunResultStep>,
+  queryParams?: QueryParamsWithList<Partial<RunResultStep>>,
 ): Promise<RunResultStep[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<RunResultStep> = {
+      const config: QueryParamsWithList<Partial<RunResultStep>> = {
         method: 'post',
         url: queryParams?.url ?? RunResultStepRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const runResultStepCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<RunResultStep[]>(config)
-        : getResponse<RunResultStep[], RunResultStep>(
+        : getResponse<RunResultStep[], Partial<RunResultStep>>(
             queryParams?.api ?? _client?.api,
             config,
           );

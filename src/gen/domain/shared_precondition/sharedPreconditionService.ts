@@ -16,9 +16,9 @@ import type { SharedPrecondition } from './SharedPrecondition';
 import type { SharedPreconditionApi } from './SharedPreconditionApi';
 
 export const sharedPreconditionGetMany = (
-  queryParams?: QueryParams<SharedPrecondition>,
+  queryParams?: QueryParams<Partial<SharedPrecondition>>,
 ): Promise<ResourceList<SharedPreconditionApi>> => {
-  const config: QueryParams<SharedPrecondition> = {
+  const config: QueryParams<Partial<SharedPrecondition>> = {
     method: 'get',
     url: queryParams?.url ?? SharedPreconditionRoute(),
     params: queryParams?.params,
@@ -28,17 +28,17 @@ export const sharedPreconditionGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<SharedPreconditionApi>>(config)
-    : getResponse<ResourceList<SharedPreconditionApi>, SharedPrecondition>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+    : getResponse<
+        ResourceList<SharedPreconditionApi>,
+        Partial<SharedPrecondition>
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const sharedPreconditionGetOne = (
   id: number,
-  queryParams?: QueryParams<SharedPrecondition>,
+  queryParams?: QueryParams<Partial<SharedPrecondition>>,
 ): Promise<SharedPreconditionApi> => {
-  const config: QueryParams<SharedPrecondition> = {
+  const config: QueryParams<Partial<SharedPrecondition>> = {
     method: 'get',
     url: `${queryParams?.url ?? SharedPreconditionRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const sharedPreconditionGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SharedPreconditionApi>(config)
-    : getResponse<SharedPreconditionApi, SharedPrecondition>(
+    : getResponse<SharedPreconditionApi, Partial<SharedPrecondition>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const sharedPreconditionGetOne = (
 
 export const sharedPreconditionDeleteOne = (
   id: number,
-  queryParams?: QueryParams<SharedPrecondition>,
+  queryParams?: QueryParams<Partial<SharedPrecondition>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<SharedPrecondition> = {
+  const config: QueryParams<Partial<SharedPrecondition>> = {
     method: 'delete',
     url: `${queryParams?.url ?? SharedPreconditionRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const sharedPreconditionDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, SharedPrecondition>(
+    : getResponse<MessageResponse, Partial<SharedPrecondition>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,16 @@ export const sharedPreconditionDeleteOne = (
 
 export const sharedPreconditionDeleteMany = (
   data: (Partial<SharedPrecondition> & { id: number })[],
-  queryParams?: QueryParamsWithList<SharedPrecondition>,
+  queryParams?: QueryParamsWithList<
+    Partial<SharedPrecondition> & { id: number }
+  >,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<SharedPrecondition> = {
+      const config: QueryParamsWithList<
+        Partial<SharedPrecondition> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? SharedPreconditionRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +94,10 @@ export const sharedPreconditionDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, SharedPrecondition>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<SharedPrecondition> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +105,9 @@ export const sharedPreconditionDeleteMany = (
 export const sharedPreconditionUpdateOne = (
   id: number,
   data: Partial<SharedPrecondition>,
-  queryParams?: QueryParams<SharedPrecondition>,
+  queryParams?: QueryParams<Partial<SharedPrecondition>>,
 ): Promise<SharedPrecondition> => {
-  const config: QueryParams<SharedPrecondition> = {
+  const config: QueryParams<Partial<SharedPrecondition>> = {
     method: 'put',
     url: `${queryParams?.url ?? SharedPreconditionRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +117,24 @@ export const sharedPreconditionUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SharedPrecondition>(config)
-    : getResponse<SharedPrecondition>(queryParams?.api ?? _client?.api, config);
+    : getResponse<SharedPrecondition, Partial<SharedPrecondition>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const sharedPreconditionUpdateMany = (
   data: (Partial<SharedPrecondition> & { id: number })[],
-  queryParams?: QueryParamsWithList<SharedPrecondition>,
+  queryParams?: QueryParamsWithList<
+    Partial<SharedPrecondition> & { id: number }
+  >,
 ): Promise<SharedPrecondition[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<SharedPrecondition> = {
+      const config: QueryParamsWithList<
+        Partial<SharedPrecondition> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? SharedPreconditionRoute(),
         params: queryParams?.params,
@@ -133,19 +144,19 @@ export const sharedPreconditionUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<SharedPrecondition[]>(config)
-        : getResponse<SharedPrecondition[], SharedPrecondition>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            SharedPrecondition[],
+            Partial<SharedPrecondition> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const sharedPreconditionCreateOne = (
   data: Partial<SharedPrecondition>,
-  queryParams?: QueryParams<SharedPrecondition>,
+  queryParams?: QueryParams<Partial<SharedPrecondition>>,
 ): Promise<SharedPrecondition> => {
-  const config: QueryParams<SharedPrecondition> = {
+  const config: QueryParams<Partial<SharedPrecondition>> = {
     method: 'post',
     url: queryParams?.url ?? SharedPreconditionRoute(),
     params: queryParams?.params,
@@ -155,17 +166,20 @@ export const sharedPreconditionCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SharedPrecondition>(config)
-    : getResponse<SharedPrecondition>(queryParams?.api ?? _client?.api, config);
+    : getResponse<SharedPrecondition, Partial<SharedPrecondition>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const sharedPreconditionCreateMany = (
   data: Partial<SharedPrecondition>[],
-  queryParams?: QueryParamsWithList<SharedPrecondition>,
+  queryParams?: QueryParamsWithList<Partial<SharedPrecondition>>,
 ): Promise<SharedPrecondition[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<SharedPrecondition> = {
+      const config: QueryParamsWithList<Partial<SharedPrecondition>> = {
         method: 'post',
         url: queryParams?.url ?? SharedPreconditionRoute(),
         params: queryParams?.params,
@@ -175,7 +189,7 @@ export const sharedPreconditionCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<SharedPrecondition[]>(config)
-        : getResponse<SharedPrecondition[], SharedPrecondition>(
+        : getResponse<SharedPrecondition[], Partial<SharedPrecondition>>(
             queryParams?.api ?? _client?.api,
             config,
           );

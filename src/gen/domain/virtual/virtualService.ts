@@ -16,9 +16,9 @@ import type { Virtual } from './Virtual';
 import type { VirtualApi } from './VirtualApi';
 
 export const virtualGetMany = (
-  queryParams?: QueryParams<Virtual>,
+  queryParams?: QueryParams<Partial<Virtual>>,
 ): Promise<ResourceList<VirtualApi>> => {
-  const config: QueryParams<Virtual> = {
+  const config: QueryParams<Partial<Virtual>> = {
     method: 'get',
     url: queryParams?.url ?? VirtualRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const virtualGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<VirtualApi>>(config)
-    : getResponse<ResourceList<VirtualApi>, Virtual>(
+    : getResponse<ResourceList<VirtualApi>, Partial<Virtual>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const virtualGetMany = (
 
 export const virtualGetOne = (
   id: number,
-  queryParams?: QueryParams<Virtual>,
+  queryParams?: QueryParams<Partial<Virtual>>,
 ): Promise<VirtualApi> => {
-  const config: QueryParams<Virtual> = {
+  const config: QueryParams<Partial<Virtual>> = {
     method: 'get',
     url: `${queryParams?.url ?? VirtualRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const virtualGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<VirtualApi>(config)
-    : getResponse<VirtualApi, Virtual>(
+    : getResponse<VirtualApi, Partial<Virtual>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const virtualGetOne = (
 
 export const virtualDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Virtual>,
+  queryParams?: QueryParams<Partial<Virtual>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Virtual> = {
+  const config: QueryParams<Partial<Virtual>> = {
     method: 'delete',
     url: `${queryParams?.url ?? VirtualRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const virtualDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Virtual>(
+    : getResponse<MessageResponse, Partial<Virtual>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const virtualDeleteOne = (
 
 export const virtualDeleteMany = (
   data: (Partial<Virtual> & { id: number })[],
-  queryParams?: QueryParamsWithList<Virtual>,
+  queryParams?: QueryParamsWithList<Partial<Virtual> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Virtual> = {
+      const config: QueryParamsWithList<Partial<Virtual> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? VirtualRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const virtualDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Virtual>(
+        : getResponse<{ count: number }, Partial<Virtual> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const virtualDeleteMany = (
 export const virtualUpdateOne = (
   id: number,
   data: Partial<Virtual>,
-  queryParams?: QueryParams<Virtual>,
+  queryParams?: QueryParams<Partial<Virtual>>,
 ): Promise<Virtual> => {
-  const config: QueryParams<Virtual> = {
+  const config: QueryParams<Partial<Virtual>> = {
     method: 'put',
     url: `${queryParams?.url ?? VirtualRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const virtualUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Virtual>(config)
-    : getResponse<Virtual>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Virtual, Partial<Virtual>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const virtualUpdateMany = (
   data: (Partial<Virtual> & { id: number })[],
-  queryParams?: QueryParamsWithList<Virtual>,
+  queryParams?: QueryParamsWithList<Partial<Virtual> & { id: number }>,
 ): Promise<Virtual[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Virtual> = {
+      const config: QueryParamsWithList<Partial<Virtual> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? VirtualRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const virtualUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Virtual[]>(config)
-        : getResponse<Virtual[], Virtual>(
+        : getResponse<Virtual[], Partial<Virtual> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const virtualUpdateMany = (
 
 export const virtualCreateOne = (
   data: Partial<Virtual>,
-  queryParams?: QueryParams<Virtual>,
+  queryParams?: QueryParams<Partial<Virtual>>,
 ): Promise<Virtual> => {
-  const config: QueryParams<Virtual> = {
+  const config: QueryParams<Partial<Virtual>> = {
     method: 'post',
     url: queryParams?.url ?? VirtualRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const virtualCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Virtual>(config)
-    : getResponse<Virtual>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Virtual, Partial<Virtual>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const virtualCreateMany = (
   data: Partial<Virtual>[],
-  queryParams?: QueryParamsWithList<Virtual>,
+  queryParams?: QueryParamsWithList<Partial<Virtual>>,
 ): Promise<Virtual[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Virtual> = {
+      const config: QueryParamsWithList<Partial<Virtual>> = {
         method: 'post',
         url: queryParams?.url ?? VirtualRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const virtualCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Virtual[]>(config)
-        : getResponse<Virtual[], Virtual>(
+        : getResponse<Virtual[], Partial<Virtual>>(
             queryParams?.api ?? _client?.api,
             config,
           );

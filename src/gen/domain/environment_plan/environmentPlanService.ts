@@ -16,12 +16,12 @@ import type { EnvironmentPlanApi } from './EnvironmentPlanApi';
 
 export const environmentPlanDetach = (
   data: Partial<EnvironmentPlan>,
-  queryParams?: QueryParams<EnvironmentPlan>,
+  queryParams?: QueryParams<Partial<EnvironmentPlan>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<EnvironmentPlan> = {
+  const config: QueryParams<Partial<EnvironmentPlan>> = {
     method: 'delete',
     url: `/environment_plan/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const environmentPlanDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, EnvironmentPlan>(
+    : getResponse<MessageResponse, Partial<EnvironmentPlan>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,14 @@ export const environmentPlanDetach = (
 
 export const environmentPlanDeleteMany = (
   data: (Partial<EnvironmentPlan> & { id: number })[],
-  queryParams?: QueryParamsWithList<EnvironmentPlan>,
+  queryParams?: QueryParamsWithList<Partial<EnvironmentPlan & { id: number }>>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<EnvironmentPlan> = {
+      const config: QueryParamsWithList<
+        Partial<EnvironmentPlan> & { id: number }
+      > = {
         method: 'post',
         url: `/environment_plan/delete`,
         params: queryParams?.params,
@@ -52,10 +54,10 @@ export const environmentPlanDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, EnvironmentPlan>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<EnvironmentPlan> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +65,9 @@ export const environmentPlanDeleteMany = (
 export const environmentPlanUpdateOne = (
   id: number,
   data: Partial<EnvironmentPlan>,
-  queryParams?: QueryParams<EnvironmentPlan>,
+  queryParams?: QueryParams<Partial<EnvironmentPlan>>,
 ): Promise<EnvironmentPlan> => {
-  const config: QueryParams<EnvironmentPlan> = {
+  const config: QueryParams<Partial<EnvironmentPlan>> = {
     method: 'put',
     url: `/environment_plan/${id}`,
     params: queryParams?.params,
@@ -74,17 +76,22 @@ export const environmentPlanUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<EnvironmentPlan>(config)
-    : getResponse<EnvironmentPlan>(queryParams?.api ?? _client?.api, config);
+    : getResponse<EnvironmentPlan, Partial<EnvironmentPlan>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const environmentPlanUpdateMany = (
   data: (Partial<EnvironmentPlan> & { id: number })[],
-  queryParams?: QueryParamsWithList<EnvironmentPlan>,
+  queryParams?: QueryParamsWithList<Partial<EnvironmentPlan> & { id: number }>,
 ): Promise<EnvironmentPlan[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<EnvironmentPlan> = {
+      const config: QueryParamsWithList<
+        Partial<EnvironmentPlan> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/environment_plan`,
         params: queryParams?.params,
@@ -93,19 +100,19 @@ export const environmentPlanUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<EnvironmentPlan[]>(config)
-        : getResponse<EnvironmentPlan[], EnvironmentPlan>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            EnvironmentPlan[],
+            Partial<EnvironmentPlan> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const environmentPlanCreateOne = (
   data: Partial<EnvironmentPlan>,
-  queryParams?: QueryParams<EnvironmentPlan>,
+  queryParams?: QueryParams<Partial<EnvironmentPlan>>,
 ): Promise<EnvironmentPlan> => {
-  const config: QueryParams<EnvironmentPlan> = {
+  const config: QueryParams<Partial<EnvironmentPlan>> = {
     method: 'post',
     url: queryParams?.url ?? `/environment_plan`,
     params: queryParams?.params,
@@ -114,17 +121,20 @@ export const environmentPlanCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<EnvironmentPlan>(config)
-    : getResponse<EnvironmentPlan>(queryParams?.api ?? _client?.api, config);
+    : getResponse<EnvironmentPlan, Partial<EnvironmentPlan>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const environmentPlanCreateMany = (
   data: Partial<EnvironmentPlan>[],
-  queryParams?: QueryParamsWithList<EnvironmentPlan>,
+  queryParams?: QueryParamsWithList<Partial<EnvironmentPlan>>,
 ): Promise<EnvironmentPlan[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<EnvironmentPlan> = {
+      const config: QueryParamsWithList<Partial<EnvironmentPlan>> = {
         method: 'post',
         url: queryParams?.url ?? `/environment_plan`,
         params: queryParams?.params,
@@ -133,7 +143,7 @@ export const environmentPlanCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<EnvironmentPlan[]>(config)
-        : getResponse<EnvironmentPlan[], EnvironmentPlan>(
+        : getResponse<EnvironmentPlan[], Partial<EnvironmentPlan>>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -142,9 +152,9 @@ export const environmentPlanCreateMany = (
 };
 
 export const environmentPlanGetMany = (
-  queryParams?: QueryParams<EnvironmentPlan>,
+  queryParams?: QueryParams<Partial<EnvironmentPlan>>,
 ): Promise<ResourceList<EnvironmentPlanApi>> => {
-  const config: QueryParams<EnvironmentPlan> = {
+  const config: QueryParams<Partial<EnvironmentPlan>> = {
     method: 'get',
     url: queryParams?.url ?? `/environment_plan`,
     params: queryParams?.params,
@@ -153,7 +163,7 @@ export const environmentPlanGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<EnvironmentPlanApi>>(config)
-    : getResponse<ResourceList<EnvironmentPlanApi>, EnvironmentPlan>(
+    : getResponse<ResourceList<EnvironmentPlanApi>, Partial<EnvironmentPlan>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -161,9 +171,9 @@ export const environmentPlanGetMany = (
 
 export const environmentPlanGetOne = (
   id: number,
-  queryParams?: QueryParams<EnvironmentPlan>,
+  queryParams?: QueryParams<Partial<EnvironmentPlan>>,
 ): Promise<EnvironmentPlanApi> => {
-  const config: QueryParams<EnvironmentPlan> = {
+  const config: QueryParams<Partial<EnvironmentPlan>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/environment_plan/${id}`}`,
     params: queryParams?.params,
@@ -172,7 +182,7 @@ export const environmentPlanGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<EnvironmentPlanApi>(config)
-    : getResponse<EnvironmentPlanApi, EnvironmentPlan>(
+    : getResponse<EnvironmentPlanApi, Partial<EnvironmentPlan>>(
         queryParams?.api ?? _client?.api,
         config,
       );

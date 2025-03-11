@@ -16,9 +16,9 @@ import type { Plan } from './Plan';
 import type { PlanApi } from './PlanApi';
 
 export const planGetMany = (
-  queryParams?: QueryParams<Plan>,
+  queryParams?: QueryParams<Partial<Plan>>,
 ): Promise<ResourceList<PlanApi>> => {
-  const config: QueryParams<Plan> = {
+  const config: QueryParams<Partial<Plan>> = {
     method: 'get',
     url: queryParams?.url ?? PlanRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const planGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PlanApi>>(config)
-    : getResponse<ResourceList<PlanApi>, Plan>(
+    : getResponse<ResourceList<PlanApi>, Partial<Plan>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const planGetMany = (
 
 export const planGetOne = (
   id: number,
-  queryParams?: QueryParams<Plan>,
+  queryParams?: QueryParams<Partial<Plan>>,
 ): Promise<PlanApi> => {
-  const config: QueryParams<Plan> = {
+  const config: QueryParams<Partial<Plan>> = {
     method: 'get',
     url: `${queryParams?.url ?? PlanRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const planGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanApi>(config)
-    : getResponse<PlanApi, Plan>(queryParams?.api ?? _client?.api, config);
+    : getResponse<PlanApi, Partial<Plan>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const planDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Plan>,
+  queryParams?: QueryParams<Partial<Plan>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Plan> = {
+  const config: QueryParams<Partial<Plan>> = {
     method: 'delete',
     url: `${queryParams?.url ?? PlanRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const planDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Plan>(
+    : getResponse<MessageResponse, Partial<Plan>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const planDeleteOne = (
 
 export const planDeleteMany = (
   data: (Partial<Plan> & { id: number })[],
-  queryParams?: QueryParamsWithList<Plan>,
+  queryParams?: QueryParamsWithList<Partial<Plan> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Plan> = {
+      const config: QueryParamsWithList<Partial<Plan> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? PlanRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const planDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Plan>(
+        : getResponse<{ count: number }, Partial<Plan> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const planDeleteMany = (
 export const planUpdateOne = (
   id: number,
   data: Partial<Plan>,
-  queryParams?: QueryParams<Plan>,
+  queryParams?: QueryParams<Partial<Plan>>,
 ): Promise<Plan> => {
-  const config: QueryParams<Plan> = {
+  const config: QueryParams<Partial<Plan>> = {
     method: 'put',
     url: `${queryParams?.url ?? PlanRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,20 @@ export const planUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plan>(config)
-    : getResponse<Plan>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Plan, Partial<Plan>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const planUpdateMany = (
   data: (Partial<Plan> & { id: number })[],
-  queryParams?: QueryParamsWithList<Plan>,
+  queryParams?: QueryParamsWithList<Partial<Plan> & { id: number }>,
 ): Promise<Plan[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Plan> = {
+      const config: QueryParamsWithList<Partial<Plan> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? PlanRoute(),
         params: queryParams?.params,
@@ -130,16 +136,19 @@ export const planUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Plan[]>(config)
-        : getResponse<Plan[], Plan>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Plan[], Partial<Plan> & { id: number }>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };
 
 export const planCreateOne = (
   data: Partial<Plan>,
-  queryParams?: QueryParams<Plan>,
+  queryParams?: QueryParams<Partial<Plan>>,
 ): Promise<Plan> => {
-  const config: QueryParams<Plan> = {
+  const config: QueryParams<Partial<Plan>> = {
     method: 'post',
     url: queryParams?.url ?? PlanRoute(),
     params: queryParams?.params,
@@ -149,17 +158,20 @@ export const planCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Plan>(config)
-    : getResponse<Plan>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Plan, Partial<Plan>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const planCreateMany = (
   data: Partial<Plan>[],
-  queryParams?: QueryParamsWithList<Plan>,
+  queryParams?: QueryParamsWithList<Partial<Plan>>,
 ): Promise<Plan[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Plan> = {
+      const config: QueryParamsWithList<Partial<Plan>> = {
         method: 'post',
         url: queryParams?.url ?? PlanRoute(),
         params: queryParams?.params,
@@ -169,7 +181,10 @@ export const planCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Plan[]>(config)
-        : getResponse<Plan[], Plan>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Plan[], Partial<Plan>>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };

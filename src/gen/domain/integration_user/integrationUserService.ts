@@ -16,12 +16,12 @@ import type { IntegrationUserApi } from './IntegrationUserApi';
 
 export const integrationUserDetach = (
   data: Partial<IntegrationUser>,
-  queryParams?: QueryParams<IntegrationUser>,
+  queryParams?: QueryParams<Partial<IntegrationUser>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<IntegrationUser> = {
+  const config: QueryParams<Partial<IntegrationUser>> = {
     method: 'delete',
     url: `/integration_user/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const integrationUserDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, IntegrationUser>(
+    : getResponse<MessageResponse, Partial<IntegrationUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,14 @@ export const integrationUserDetach = (
 
 export const integrationUserDeleteMany = (
   data: (Partial<IntegrationUser> & { id: number })[],
-  queryParams?: QueryParamsWithList<IntegrationUser>,
+  queryParams?: QueryParamsWithList<Partial<IntegrationUser & { id: number }>>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationUser> = {
+      const config: QueryParamsWithList<
+        Partial<IntegrationUser> & { id: number }
+      > = {
         method: 'post',
         url: `/integration_user/delete`,
         params: queryParams?.params,
@@ -52,10 +54,10 @@ export const integrationUserDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, IntegrationUser>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<IntegrationUser> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +65,9 @@ export const integrationUserDeleteMany = (
 export const integrationUserUpdateOne = (
   id: number,
   data: Partial<IntegrationUser>,
-  queryParams?: QueryParams<IntegrationUser>,
+  queryParams?: QueryParams<Partial<IntegrationUser>>,
 ): Promise<IntegrationUser> => {
-  const config: QueryParams<IntegrationUser> = {
+  const config: QueryParams<Partial<IntegrationUser>> = {
     method: 'put',
     url: `/integration_user/${id}`,
     params: queryParams?.params,
@@ -74,17 +76,22 @@ export const integrationUserUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationUser>(config)
-    : getResponse<IntegrationUser>(queryParams?.api ?? _client?.api, config);
+    : getResponse<IntegrationUser, Partial<IntegrationUser>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const integrationUserUpdateMany = (
   data: (Partial<IntegrationUser> & { id: number })[],
-  queryParams?: QueryParamsWithList<IntegrationUser>,
+  queryParams?: QueryParamsWithList<Partial<IntegrationUser> & { id: number }>,
 ): Promise<IntegrationUser[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationUser> = {
+      const config: QueryParamsWithList<
+        Partial<IntegrationUser> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/integration_user`,
         params: queryParams?.params,
@@ -93,19 +100,19 @@ export const integrationUserUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<IntegrationUser[]>(config)
-        : getResponse<IntegrationUser[], IntegrationUser>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            IntegrationUser[],
+            Partial<IntegrationUser> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const integrationUserCreateOne = (
   data: Partial<IntegrationUser>,
-  queryParams?: QueryParams<IntegrationUser>,
+  queryParams?: QueryParams<Partial<IntegrationUser>>,
 ): Promise<IntegrationUser> => {
-  const config: QueryParams<IntegrationUser> = {
+  const config: QueryParams<Partial<IntegrationUser>> = {
     method: 'post',
     url: queryParams?.url ?? `/integration_user`,
     params: queryParams?.params,
@@ -114,17 +121,20 @@ export const integrationUserCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationUser>(config)
-    : getResponse<IntegrationUser>(queryParams?.api ?? _client?.api, config);
+    : getResponse<IntegrationUser, Partial<IntegrationUser>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const integrationUserCreateMany = (
   data: Partial<IntegrationUser>[],
-  queryParams?: QueryParamsWithList<IntegrationUser>,
+  queryParams?: QueryParamsWithList<Partial<IntegrationUser>>,
 ): Promise<IntegrationUser[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationUser> = {
+      const config: QueryParamsWithList<Partial<IntegrationUser>> = {
         method: 'post',
         url: queryParams?.url ?? `/integration_user`,
         params: queryParams?.params,
@@ -133,7 +143,7 @@ export const integrationUserCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<IntegrationUser[]>(config)
-        : getResponse<IntegrationUser[], IntegrationUser>(
+        : getResponse<IntegrationUser[], Partial<IntegrationUser>>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -142,9 +152,9 @@ export const integrationUserCreateMany = (
 };
 
 export const integrationUserGetMany = (
-  queryParams?: QueryParams<IntegrationUser>,
+  queryParams?: QueryParams<Partial<IntegrationUser>>,
 ): Promise<ResourceList<IntegrationUserApi>> => {
-  const config: QueryParams<IntegrationUser> = {
+  const config: QueryParams<Partial<IntegrationUser>> = {
     method: 'get',
     url: queryParams?.url ?? `/integration_user`,
     params: queryParams?.params,
@@ -153,7 +163,7 @@ export const integrationUserGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<IntegrationUserApi>>(config)
-    : getResponse<ResourceList<IntegrationUserApi>, IntegrationUser>(
+    : getResponse<ResourceList<IntegrationUserApi>, Partial<IntegrationUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -161,9 +171,9 @@ export const integrationUserGetMany = (
 
 export const integrationUserGetOne = (
   id: number,
-  queryParams?: QueryParams<IntegrationUser>,
+  queryParams?: QueryParams<Partial<IntegrationUser>>,
 ): Promise<IntegrationUserApi> => {
-  const config: QueryParams<IntegrationUser> = {
+  const config: QueryParams<Partial<IntegrationUser>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/integration_user/${id}`}`,
     params: queryParams?.params,
@@ -172,7 +182,7 @@ export const integrationUserGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationUserApi>(config)
-    : getResponse<IntegrationUserApi, IntegrationUser>(
+    : getResponse<IntegrationUserApi, Partial<IntegrationUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );

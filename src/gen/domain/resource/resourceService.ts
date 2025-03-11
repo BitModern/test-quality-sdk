@@ -16,9 +16,9 @@ import type { Resource } from './Resource';
 import type { ResourceApi } from './ResourceApi';
 
 export const resourceGetMany = (
-  queryParams?: QueryParams<Resource>,
+  queryParams?: QueryParams<Partial<Resource>>,
 ): Promise<ResourceList<ResourceApi>> => {
-  const config: QueryParams<Resource> = {
+  const config: QueryParams<Partial<Resource>> = {
     method: 'get',
     url: queryParams?.url ?? ResourceRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const resourceGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<ResourceApi>>(config)
-    : getResponse<ResourceList<ResourceApi>, Resource>(
+    : getResponse<ResourceList<ResourceApi>, Partial<Resource>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const resourceGetMany = (
 
 export const resourceGetOne = (
   id: number,
-  queryParams?: QueryParams<Resource>,
+  queryParams?: QueryParams<Partial<Resource>>,
 ): Promise<ResourceApi> => {
-  const config: QueryParams<Resource> = {
+  const config: QueryParams<Partial<Resource>> = {
     method: 'get',
     url: `${queryParams?.url ?? ResourceRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const resourceGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceApi>(config)
-    : getResponse<ResourceApi, Resource>(
+    : getResponse<ResourceApi, Partial<Resource>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const resourceGetOne = (
 
 export const resourceDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Resource>,
+  queryParams?: QueryParams<Partial<Resource>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Resource> = {
+  const config: QueryParams<Partial<Resource>> = {
     method: 'delete',
     url: `${queryParams?.url ?? ResourceRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const resourceDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Resource>(
+    : getResponse<MessageResponse, Partial<Resource>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const resourceDeleteOne = (
 
 export const resourceDeleteMany = (
   data: (Partial<Resource> & { id: number })[],
-  queryParams?: QueryParamsWithList<Resource>,
+  queryParams?: QueryParamsWithList<Partial<Resource> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Resource> = {
+      const config: QueryParamsWithList<Partial<Resource> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? ResourceRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const resourceDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Resource>(
+        : getResponse<{ count: number }, Partial<Resource> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const resourceDeleteMany = (
 export const resourceUpdateOne = (
   id: number,
   data: Partial<Resource>,
-  queryParams?: QueryParams<Resource>,
+  queryParams?: QueryParams<Partial<Resource>>,
 ): Promise<Resource> => {
-  const config: QueryParams<Resource> = {
+  const config: QueryParams<Partial<Resource>> = {
     method: 'put',
     url: `${queryParams?.url ?? ResourceRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const resourceUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Resource>(config)
-    : getResponse<Resource>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Resource, Partial<Resource>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const resourceUpdateMany = (
   data: (Partial<Resource> & { id: number })[],
-  queryParams?: QueryParamsWithList<Resource>,
+  queryParams?: QueryParamsWithList<Partial<Resource> & { id: number }>,
 ): Promise<Resource[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Resource> = {
+      const config: QueryParamsWithList<Partial<Resource> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? ResourceRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const resourceUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Resource[]>(config)
-        : getResponse<Resource[], Resource>(
+        : getResponse<Resource[], Partial<Resource> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const resourceUpdateMany = (
 
 export const resourceCreateOne = (
   data: Partial<Resource>,
-  queryParams?: QueryParams<Resource>,
+  queryParams?: QueryParams<Partial<Resource>>,
 ): Promise<Resource> => {
-  const config: QueryParams<Resource> = {
+  const config: QueryParams<Partial<Resource>> = {
     method: 'post',
     url: queryParams?.url ?? ResourceRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const resourceCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Resource>(config)
-    : getResponse<Resource>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Resource, Partial<Resource>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const resourceCreateMany = (
   data: Partial<Resource>[],
-  queryParams?: QueryParamsWithList<Resource>,
+  queryParams?: QueryParamsWithList<Partial<Resource>>,
 ): Promise<Resource[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Resource> = {
+      const config: QueryParamsWithList<Partial<Resource>> = {
         method: 'post',
         url: queryParams?.url ?? ResourceRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const resourceCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Resource[]>(config)
-        : getResponse<Resource[], Resource>(
+        : getResponse<Resource[], Partial<Resource>>(
             queryParams?.api ?? _client?.api,
             config,
           );

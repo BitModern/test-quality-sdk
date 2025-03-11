@@ -16,12 +16,12 @@ import type { PullRequestRunApi } from './PullRequestRunApi';
 
 export const pullRequestRunDetach = (
   data: Partial<PullRequestRun>,
-  queryParams?: QueryParams<PullRequestRun>,
+  queryParams?: QueryParams<Partial<PullRequestRun>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<PullRequestRun> = {
+  const config: QueryParams<Partial<PullRequestRun>> = {
     method: 'delete',
     url: `/pull_request_run/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const pullRequestRunDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, PullRequestRun>(
+    : getResponse<MessageResponse, Partial<PullRequestRun>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,14 @@ export const pullRequestRunDetach = (
 
 export const pullRequestRunDeleteMany = (
   data: (Partial<PullRequestRun> & { id: number })[],
-  queryParams?: QueryParamsWithList<PullRequestRun>,
+  queryParams?: QueryParamsWithList<Partial<PullRequestRun & { id: number }>>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<PullRequestRun> = {
+      const config: QueryParamsWithList<
+        Partial<PullRequestRun> & { id: number }
+      > = {
         method: 'post',
         url: `/pull_request_run/delete`,
         params: queryParams?.params,
@@ -52,10 +54,10 @@ export const pullRequestRunDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, PullRequestRun>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<PullRequestRun> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +65,9 @@ export const pullRequestRunDeleteMany = (
 export const pullRequestRunUpdateOne = (
   id: number,
   data: Partial<PullRequestRun>,
-  queryParams?: QueryParams<PullRequestRun>,
+  queryParams?: QueryParams<Partial<PullRequestRun>>,
 ): Promise<PullRequestRun> => {
-  const config: QueryParams<PullRequestRun> = {
+  const config: QueryParams<Partial<PullRequestRun>> = {
     method: 'put',
     url: `/pull_request_run/${id}`,
     params: queryParams?.params,
@@ -74,17 +76,22 @@ export const pullRequestRunUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRun>(config)
-    : getResponse<PullRequestRun>(queryParams?.api ?? _client?.api, config);
+    : getResponse<PullRequestRun, Partial<PullRequestRun>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const pullRequestRunUpdateMany = (
   data: (Partial<PullRequestRun> & { id: number })[],
-  queryParams?: QueryParamsWithList<PullRequestRun>,
+  queryParams?: QueryParamsWithList<Partial<PullRequestRun> & { id: number }>,
 ): Promise<PullRequestRun[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<PullRequestRun> = {
+      const config: QueryParamsWithList<
+        Partial<PullRequestRun> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/pull_request_run`,
         params: queryParams?.params,
@@ -93,19 +100,19 @@ export const pullRequestRunUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<PullRequestRun[]>(config)
-        : getResponse<PullRequestRun[], PullRequestRun>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            PullRequestRun[],
+            Partial<PullRequestRun> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const pullRequestRunCreateOne = (
   data: Partial<PullRequestRun>,
-  queryParams?: QueryParams<PullRequestRun>,
+  queryParams?: QueryParams<Partial<PullRequestRun>>,
 ): Promise<PullRequestRun> => {
-  const config: QueryParams<PullRequestRun> = {
+  const config: QueryParams<Partial<PullRequestRun>> = {
     method: 'post',
     url: queryParams?.url ?? `/pull_request_run`,
     params: queryParams?.params,
@@ -114,17 +121,20 @@ export const pullRequestRunCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRun>(config)
-    : getResponse<PullRequestRun>(queryParams?.api ?? _client?.api, config);
+    : getResponse<PullRequestRun, Partial<PullRequestRun>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const pullRequestRunCreateMany = (
   data: Partial<PullRequestRun>[],
-  queryParams?: QueryParamsWithList<PullRequestRun>,
+  queryParams?: QueryParamsWithList<Partial<PullRequestRun>>,
 ): Promise<PullRequestRun[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<PullRequestRun> = {
+      const config: QueryParamsWithList<Partial<PullRequestRun>> = {
         method: 'post',
         url: queryParams?.url ?? `/pull_request_run`,
         params: queryParams?.params,
@@ -133,7 +143,7 @@ export const pullRequestRunCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<PullRequestRun[]>(config)
-        : getResponse<PullRequestRun[], PullRequestRun>(
+        : getResponse<PullRequestRun[], Partial<PullRequestRun>>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -142,9 +152,9 @@ export const pullRequestRunCreateMany = (
 };
 
 export const pullRequestRunGetMany = (
-  queryParams?: QueryParams<PullRequestRun>,
+  queryParams?: QueryParams<Partial<PullRequestRun>>,
 ): Promise<ResourceList<PullRequestRunApi>> => {
-  const config: QueryParams<PullRequestRun> = {
+  const config: QueryParams<Partial<PullRequestRun>> = {
     method: 'get',
     url: queryParams?.url ?? `/pull_request_run`,
     params: queryParams?.params,
@@ -153,7 +163,7 @@ export const pullRequestRunGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PullRequestRunApi>>(config)
-    : getResponse<ResourceList<PullRequestRunApi>, PullRequestRun>(
+    : getResponse<ResourceList<PullRequestRunApi>, Partial<PullRequestRun>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -161,9 +171,9 @@ export const pullRequestRunGetMany = (
 
 export const pullRequestRunGetOne = (
   id: number,
-  queryParams?: QueryParams<PullRequestRun>,
+  queryParams?: QueryParams<Partial<PullRequestRun>>,
 ): Promise<PullRequestRunApi> => {
-  const config: QueryParams<PullRequestRun> = {
+  const config: QueryParams<Partial<PullRequestRun>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/pull_request_run/${id}`}`,
     params: queryParams?.params,
@@ -172,7 +182,7 @@ export const pullRequestRunGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRunApi>(config)
-    : getResponse<PullRequestRunApi, PullRequestRun>(
+    : getResponse<PullRequestRunApi, Partial<PullRequestRun>>(
         queryParams?.api ?? _client?.api,
         config,
       );

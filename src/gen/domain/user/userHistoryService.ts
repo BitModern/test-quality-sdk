@@ -10,9 +10,9 @@ import type { User } from './User';
 import type { UserHistory } from './UserHistory';
 
 export const userHistoryGet = (
-  queryParams?: QueryParams<User>,
+  queryParams?: QueryParams<Partial<User>>,
 ): Promise<UserHistory[]> => {
-  const config: QueryParams<User> = {
+  const config: QueryParams<Partial<User>> = {
     method: 'get',
     url: `${queryParams?.url ?? UserRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const userHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<UserHistory[]>(config)
-    : getResponse<UserHistory[], User>(
+    : getResponse<UserHistory[], Partial<User>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -16,12 +16,12 @@ import type { CaseTypeProjectApi } from './CaseTypeProjectApi';
 
 export const caseTypeProjectDetach = (
   data: Partial<CaseTypeProject>,
-  queryParams?: QueryParams<CaseTypeProject>,
+  queryParams?: QueryParams<Partial<CaseTypeProject>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<CaseTypeProject> = {
+  const config: QueryParams<Partial<CaseTypeProject>> = {
     method: 'delete',
     url: `/case_type_project/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const caseTypeProjectDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, CaseTypeProject>(
+    : getResponse<MessageResponse, Partial<CaseTypeProject>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,14 @@ export const caseTypeProjectDetach = (
 
 export const caseTypeProjectDeleteMany = (
   data: (Partial<CaseTypeProject> & { id: number })[],
-  queryParams?: QueryParamsWithList<CaseTypeProject>,
+  queryParams?: QueryParamsWithList<Partial<CaseTypeProject & { id: number }>>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<CaseTypeProject> = {
+      const config: QueryParamsWithList<
+        Partial<CaseTypeProject> & { id: number }
+      > = {
         method: 'post',
         url: `/case_type_project/delete`,
         params: queryParams?.params,
@@ -52,10 +54,10 @@ export const caseTypeProjectDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, CaseTypeProject>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<CaseTypeProject> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +65,9 @@ export const caseTypeProjectDeleteMany = (
 export const caseTypeProjectUpdateOne = (
   id: number,
   data: Partial<CaseTypeProject>,
-  queryParams?: QueryParams<CaseTypeProject>,
+  queryParams?: QueryParams<Partial<CaseTypeProject>>,
 ): Promise<CaseTypeProject> => {
-  const config: QueryParams<CaseTypeProject> = {
+  const config: QueryParams<Partial<CaseTypeProject>> = {
     method: 'put',
     url: `/case_type_project/${id}`,
     params: queryParams?.params,
@@ -74,17 +76,22 @@ export const caseTypeProjectUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CaseTypeProject>(config)
-    : getResponse<CaseTypeProject>(queryParams?.api ?? _client?.api, config);
+    : getResponse<CaseTypeProject, Partial<CaseTypeProject>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const caseTypeProjectUpdateMany = (
   data: (Partial<CaseTypeProject> & { id: number })[],
-  queryParams?: QueryParamsWithList<CaseTypeProject>,
+  queryParams?: QueryParamsWithList<Partial<CaseTypeProject> & { id: number }>,
 ): Promise<CaseTypeProject[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<CaseTypeProject> = {
+      const config: QueryParamsWithList<
+        Partial<CaseTypeProject> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/case_type_project`,
         params: queryParams?.params,
@@ -93,19 +100,19 @@ export const caseTypeProjectUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<CaseTypeProject[]>(config)
-        : getResponse<CaseTypeProject[], CaseTypeProject>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            CaseTypeProject[],
+            Partial<CaseTypeProject> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const caseTypeProjectCreateOne = (
   data: Partial<CaseTypeProject>,
-  queryParams?: QueryParams<CaseTypeProject>,
+  queryParams?: QueryParams<Partial<CaseTypeProject>>,
 ): Promise<CaseTypeProject> => {
-  const config: QueryParams<CaseTypeProject> = {
+  const config: QueryParams<Partial<CaseTypeProject>> = {
     method: 'post',
     url: queryParams?.url ?? `/case_type_project`,
     params: queryParams?.params,
@@ -114,17 +121,20 @@ export const caseTypeProjectCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CaseTypeProject>(config)
-    : getResponse<CaseTypeProject>(queryParams?.api ?? _client?.api, config);
+    : getResponse<CaseTypeProject, Partial<CaseTypeProject>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const caseTypeProjectCreateMany = (
   data: Partial<CaseTypeProject>[],
-  queryParams?: QueryParamsWithList<CaseTypeProject>,
+  queryParams?: QueryParamsWithList<Partial<CaseTypeProject>>,
 ): Promise<CaseTypeProject[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<CaseTypeProject> = {
+      const config: QueryParamsWithList<Partial<CaseTypeProject>> = {
         method: 'post',
         url: queryParams?.url ?? `/case_type_project`,
         params: queryParams?.params,
@@ -133,7 +143,7 @@ export const caseTypeProjectCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<CaseTypeProject[]>(config)
-        : getResponse<CaseTypeProject[], CaseTypeProject>(
+        : getResponse<CaseTypeProject[], Partial<CaseTypeProject>>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -142,9 +152,9 @@ export const caseTypeProjectCreateMany = (
 };
 
 export const caseTypeProjectGetMany = (
-  queryParams?: QueryParams<CaseTypeProject>,
+  queryParams?: QueryParams<Partial<CaseTypeProject>>,
 ): Promise<ResourceList<CaseTypeProjectApi>> => {
-  const config: QueryParams<CaseTypeProject> = {
+  const config: QueryParams<Partial<CaseTypeProject>> = {
     method: 'get',
     url: queryParams?.url ?? `/case_type_project`,
     params: queryParams?.params,
@@ -153,7 +163,7 @@ export const caseTypeProjectGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<CaseTypeProjectApi>>(config)
-    : getResponse<ResourceList<CaseTypeProjectApi>, CaseTypeProject>(
+    : getResponse<ResourceList<CaseTypeProjectApi>, Partial<CaseTypeProject>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -161,9 +171,9 @@ export const caseTypeProjectGetMany = (
 
 export const caseTypeProjectGetOne = (
   id: number,
-  queryParams?: QueryParams<CaseTypeProject>,
+  queryParams?: QueryParams<Partial<CaseTypeProject>>,
 ): Promise<CaseTypeProjectApi> => {
-  const config: QueryParams<CaseTypeProject> = {
+  const config: QueryParams<Partial<CaseTypeProject>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/case_type_project/${id}`}`,
     params: queryParams?.params,
@@ -172,7 +182,7 @@ export const caseTypeProjectGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CaseTypeProjectApi>(config)
-    : getResponse<CaseTypeProjectApi, CaseTypeProject>(
+    : getResponse<CaseTypeProjectApi, Partial<CaseTypeProject>>(
         queryParams?.api ?? _client?.api,
         config,
       );

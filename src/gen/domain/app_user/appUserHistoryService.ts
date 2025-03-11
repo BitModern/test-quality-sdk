@@ -10,9 +10,9 @@ import type { AppUser } from './AppUser';
 import type { AppUserHistory } from './AppUserHistory';
 
 export const appUserHistoryGet = (
-  queryParams?: QueryParams<AppUser>,
+  queryParams?: QueryParams<Partial<AppUser>>,
 ): Promise<AppUserHistory[]> => {
-  const config: QueryParams<AppUser> = {
+  const config: QueryParams<Partial<AppUser>> = {
     method: 'get',
     url: `${queryParams?.url ?? AppUserRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const appUserHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppUserHistory[]>(config)
-    : getResponse<AppUserHistory[], AppUser>(
+    : getResponse<AppUserHistory[], Partial<AppUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );

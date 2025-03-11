@@ -10,9 +10,9 @@ import type { Invoice } from './Invoice';
 import type { InvoiceHistory } from './InvoiceHistory';
 
 export const invoiceHistoryGet = (
-  queryParams?: QueryParams<Invoice>,
+  queryParams?: QueryParams<Partial<Invoice>>,
 ): Promise<InvoiceHistory[]> => {
-  const config: QueryParams<Invoice> = {
+  const config: QueryParams<Partial<Invoice>> = {
     method: 'get',
     url: `${queryParams?.url ?? InvoiceRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const invoiceHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<InvoiceHistory[]>(config)
-    : getResponse<InvoiceHistory[], Invoice>(
+    : getResponse<InvoiceHistory[], Partial<Invoice>>(
         queryParams?.api ?? _client?.api,
         config,
       );

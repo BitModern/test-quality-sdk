@@ -16,12 +16,12 @@ import type { PullRequestRequirementApi } from './PullRequestRequirementApi';
 
 export const pullRequestRequirementDetach = (
   data: Partial<PullRequestRequirement>,
-  queryParams?: QueryParams<PullRequestRequirement>,
+  queryParams?: QueryParams<Partial<PullRequestRequirement>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<PullRequestRequirement> = {
+  const config: QueryParams<Partial<PullRequestRequirement>> = {
     method: 'delete',
     url: `/pull_request_requirement/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const pullRequestRequirementDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, PullRequestRequirement>(
+    : getResponse<MessageResponse, Partial<PullRequestRequirement>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,16 @@ export const pullRequestRequirementDetach = (
 
 export const pullRequestRequirementDeleteMany = (
   data: (Partial<PullRequestRequirement> & { id: number })[],
-  queryParams?: QueryParamsWithList<PullRequestRequirement>,
+  queryParams?: QueryParamsWithList<
+    Partial<PullRequestRequirement & { id: number }>
+  >,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<PullRequestRequirement> = {
+      const config: QueryParamsWithList<
+        Partial<PullRequestRequirement> & { id: number }
+      > = {
         method: 'post',
         url: `/pull_request_requirement/delete`,
         params: queryParams?.params,
@@ -52,10 +56,10 @@ export const pullRequestRequirementDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, PullRequestRequirement>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<PullRequestRequirement> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +67,9 @@ export const pullRequestRequirementDeleteMany = (
 export const pullRequestRequirementUpdateOne = (
   id: number,
   data: Partial<PullRequestRequirement>,
-  queryParams?: QueryParams<PullRequestRequirement>,
+  queryParams?: QueryParams<Partial<PullRequestRequirement>>,
 ): Promise<PullRequestRequirement> => {
-  const config: QueryParams<PullRequestRequirement> = {
+  const config: QueryParams<Partial<PullRequestRequirement>> = {
     method: 'put',
     url: `/pull_request_requirement/${id}`,
     params: queryParams?.params,
@@ -74,7 +78,7 @@ export const pullRequestRequirementUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRequirement>(config)
-    : getResponse<PullRequestRequirement>(
+    : getResponse<PullRequestRequirement, Partial<PullRequestRequirement>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -82,12 +86,16 @@ export const pullRequestRequirementUpdateOne = (
 
 export const pullRequestRequirementUpdateMany = (
   data: (Partial<PullRequestRequirement> & { id: number })[],
-  queryParams?: QueryParamsWithList<PullRequestRequirement>,
+  queryParams?: QueryParamsWithList<
+    Partial<PullRequestRequirement> & { id: number }
+  >,
 ): Promise<PullRequestRequirement[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<PullRequestRequirement> = {
+      const config: QueryParamsWithList<
+        Partial<PullRequestRequirement> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/pull_request_requirement`,
         params: queryParams?.params,
@@ -96,19 +104,19 @@ export const pullRequestRequirementUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<PullRequestRequirement[]>(config)
-        : getResponse<PullRequestRequirement[], PullRequestRequirement>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            PullRequestRequirement[],
+            Partial<PullRequestRequirement> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const pullRequestRequirementCreateOne = (
   data: Partial<PullRequestRequirement>,
-  queryParams?: QueryParams<PullRequestRequirement>,
+  queryParams?: QueryParams<Partial<PullRequestRequirement>>,
 ): Promise<PullRequestRequirement> => {
-  const config: QueryParams<PullRequestRequirement> = {
+  const config: QueryParams<Partial<PullRequestRequirement>> = {
     method: 'post',
     url: queryParams?.url ?? `/pull_request_requirement`,
     params: queryParams?.params,
@@ -117,7 +125,7 @@ export const pullRequestRequirementCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRequirement>(config)
-    : getResponse<PullRequestRequirement>(
+    : getResponse<PullRequestRequirement, Partial<PullRequestRequirement>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -125,12 +133,12 @@ export const pullRequestRequirementCreateOne = (
 
 export const pullRequestRequirementCreateMany = (
   data: Partial<PullRequestRequirement>[],
-  queryParams?: QueryParamsWithList<PullRequestRequirement>,
+  queryParams?: QueryParamsWithList<Partial<PullRequestRequirement>>,
 ): Promise<PullRequestRequirement[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<PullRequestRequirement> = {
+      const config: QueryParamsWithList<Partial<PullRequestRequirement>> = {
         method: 'post',
         url: queryParams?.url ?? `/pull_request_requirement`,
         params: queryParams?.params,
@@ -139,18 +147,18 @@ export const pullRequestRequirementCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<PullRequestRequirement[]>(config)
-        : getResponse<PullRequestRequirement[], PullRequestRequirement>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            PullRequestRequirement[],
+            Partial<PullRequestRequirement>
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const pullRequestRequirementGetMany = (
-  queryParams?: QueryParams<PullRequestRequirement>,
+  queryParams?: QueryParams<Partial<PullRequestRequirement>>,
 ): Promise<ResourceList<PullRequestRequirementApi>> => {
-  const config: QueryParams<PullRequestRequirement> = {
+  const config: QueryParams<Partial<PullRequestRequirement>> = {
     method: 'get',
     url: queryParams?.url ?? `/pull_request_requirement`,
     params: queryParams?.params,
@@ -163,15 +171,15 @@ export const pullRequestRequirementGetMany = (
       )
     : getResponse<
         ResourceList<PullRequestRequirementApi>,
-        PullRequestRequirement
+        Partial<PullRequestRequirement>
       >(queryParams?.api ?? _client?.api, config);
 };
 
 export const pullRequestRequirementGetOne = (
   id: number,
-  queryParams?: QueryParams<PullRequestRequirement>,
+  queryParams?: QueryParams<Partial<PullRequestRequirement>>,
 ): Promise<PullRequestRequirementApi> => {
-  const config: QueryParams<PullRequestRequirement> = {
+  const config: QueryParams<Partial<PullRequestRequirement>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/pull_request_requirement/${id}`}`,
     params: queryParams?.params,
@@ -180,7 +188,7 @@ export const pullRequestRequirementGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestRequirementApi>(config)
-    : getResponse<PullRequestRequirementApi, PullRequestRequirement>(
+    : getResponse<PullRequestRequirementApi, Partial<PullRequestRequirement>>(
         queryParams?.api ?? _client?.api,
         config,
       );

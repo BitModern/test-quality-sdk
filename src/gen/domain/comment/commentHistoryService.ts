@@ -10,9 +10,9 @@ import type { Comment } from './Comment';
 import type { CommentHistory } from './CommentHistory';
 
 export const commentHistoryGet = (
-  queryParams?: QueryParams<Comment>,
+  queryParams?: QueryParams<Partial<Comment>>,
 ): Promise<CommentHistory[]> => {
-  const config: QueryParams<Comment> = {
+  const config: QueryParams<Partial<Comment>> = {
     method: 'get',
     url: `${queryParams?.url ?? CommentRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const commentHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CommentHistory[]>(config)
-    : getResponse<CommentHistory[], Comment>(
+    : getResponse<CommentHistory[], Partial<Comment>>(
         queryParams?.api ?? _client?.api,
         config,
       );

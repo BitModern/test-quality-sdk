@@ -10,9 +10,9 @@ import type { LabelAssigned } from './LabelAssigned';
 import type { LabelAssignedHistory } from './LabelAssignedHistory';
 
 export const labelAssignedHistoryGet = (
-  queryParams?: QueryParams<LabelAssigned>,
+  queryParams?: QueryParams<Partial<LabelAssigned>>,
 ): Promise<LabelAssignedHistory[]> => {
-  const config: QueryParams<LabelAssigned> = {
+  const config: QueryParams<Partial<LabelAssigned>> = {
     method: 'get',
     url: `${queryParams?.url ?? LabelAssignedRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const labelAssignedHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<LabelAssignedHistory[]>(config)
-    : getResponse<LabelAssignedHistory[], LabelAssigned>(
+    : getResponse<LabelAssignedHistory[], Partial<LabelAssigned>>(
         queryParams?.api ?? _client?.api,
         config,
       );

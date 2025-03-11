@@ -16,9 +16,9 @@ import type { AppConfig } from './AppConfig';
 import type { AppConfigApi } from './AppConfigApi';
 
 export const appConfigGetMany = (
-  queryParams?: QueryParams<AppConfig>,
+  queryParams?: QueryParams<Partial<AppConfig>>,
 ): Promise<ResourceList<AppConfigApi>> => {
-  const config: QueryParams<AppConfig> = {
+  const config: QueryParams<Partial<AppConfig>> = {
     method: 'get',
     url: queryParams?.url ?? AppConfigRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const appConfigGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<AppConfigApi>>(config)
-    : getResponse<ResourceList<AppConfigApi>, AppConfig>(
+    : getResponse<ResourceList<AppConfigApi>, Partial<AppConfig>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const appConfigGetMany = (
 
 export const appConfigGetOne = (
   id: number,
-  queryParams?: QueryParams<AppConfig>,
+  queryParams?: QueryParams<Partial<AppConfig>>,
 ): Promise<AppConfigApi> => {
-  const config: QueryParams<AppConfig> = {
+  const config: QueryParams<Partial<AppConfig>> = {
     method: 'get',
     url: `${queryParams?.url ?? AppConfigRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const appConfigGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppConfigApi>(config)
-    : getResponse<AppConfigApi, AppConfig>(
+    : getResponse<AppConfigApi, Partial<AppConfig>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const appConfigGetOne = (
 
 export const appConfigDeleteOne = (
   id: number,
-  queryParams?: QueryParams<AppConfig>,
+  queryParams?: QueryParams<Partial<AppConfig>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<AppConfig> = {
+  const config: QueryParams<Partial<AppConfig>> = {
     method: 'delete',
     url: `${queryParams?.url ?? AppConfigRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const appConfigDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, AppConfig>(
+    : getResponse<MessageResponse, Partial<AppConfig>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const appConfigDeleteOne = (
 
 export const appConfigDeleteMany = (
   data: (Partial<AppConfig> & { id: number })[],
-  queryParams?: QueryParamsWithList<AppConfig>,
+  queryParams?: QueryParamsWithList<Partial<AppConfig> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<AppConfig> = {
+      const config: QueryParamsWithList<Partial<AppConfig> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? AppConfigRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const appConfigDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, AppConfig>(
+        : getResponse<{ count: number }, Partial<AppConfig> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const appConfigDeleteMany = (
 export const appConfigUpdateOne = (
   id: number,
   data: Partial<AppConfig>,
-  queryParams?: QueryParams<AppConfig>,
+  queryParams?: QueryParams<Partial<AppConfig>>,
 ): Promise<AppConfig> => {
-  const config: QueryParams<AppConfig> = {
+  const config: QueryParams<Partial<AppConfig>> = {
     method: 'put',
     url: `${queryParams?.url ?? AppConfigRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const appConfigUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppConfig>(config)
-    : getResponse<AppConfig>(queryParams?.api ?? _client?.api, config);
+    : getResponse<AppConfig, Partial<AppConfig>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const appConfigUpdateMany = (
   data: (Partial<AppConfig> & { id: number })[],
-  queryParams?: QueryParamsWithList<AppConfig>,
+  queryParams?: QueryParamsWithList<Partial<AppConfig> & { id: number }>,
 ): Promise<AppConfig[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<AppConfig> = {
+      const config: QueryParamsWithList<Partial<AppConfig> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? AppConfigRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const appConfigUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<AppConfig[]>(config)
-        : getResponse<AppConfig[], AppConfig>(
+        : getResponse<AppConfig[], Partial<AppConfig> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const appConfigUpdateMany = (
 
 export const appConfigCreateOne = (
   data: Partial<AppConfig>,
-  queryParams?: QueryParams<AppConfig>,
+  queryParams?: QueryParams<Partial<AppConfig>>,
 ): Promise<AppConfig> => {
-  const config: QueryParams<AppConfig> = {
+  const config: QueryParams<Partial<AppConfig>> = {
     method: 'post',
     url: queryParams?.url ?? AppConfigRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const appConfigCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppConfig>(config)
-    : getResponse<AppConfig>(queryParams?.api ?? _client?.api, config);
+    : getResponse<AppConfig, Partial<AppConfig>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const appConfigCreateMany = (
   data: Partial<AppConfig>[],
-  queryParams?: QueryParamsWithList<AppConfig>,
+  queryParams?: QueryParamsWithList<Partial<AppConfig>>,
 ): Promise<AppConfig[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<AppConfig> = {
+      const config: QueryParamsWithList<Partial<AppConfig>> = {
         method: 'post',
         url: queryParams?.url ?? AppConfigRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const appConfigCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<AppConfig[]>(config)
-        : getResponse<AppConfig[], AppConfig>(
+        : getResponse<AppConfig[], Partial<AppConfig>>(
             queryParams?.api ?? _client?.api,
             config,
           );

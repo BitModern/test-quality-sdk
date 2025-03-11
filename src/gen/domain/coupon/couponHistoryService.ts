@@ -10,9 +10,9 @@ import type { Coupon } from './Coupon';
 import type { CouponHistory } from './CouponHistory';
 
 export const couponHistoryGet = (
-  queryParams?: QueryParams<Coupon>,
+  queryParams?: QueryParams<Partial<Coupon>>,
 ): Promise<CouponHistory[]> => {
-  const config: QueryParams<Coupon> = {
+  const config: QueryParams<Partial<Coupon>> = {
     method: 'get',
     url: `${queryParams?.url ?? CouponRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const couponHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CouponHistory[]>(config)
-    : getResponse<CouponHistory[], Coupon>(
+    : getResponse<CouponHistory[], Partial<Coupon>>(
         queryParams?.api ?? _client?.api,
         config,
       );

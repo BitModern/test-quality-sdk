@@ -10,9 +10,9 @@ import type { ComponentDoc } from './ComponentDoc';
 import type { ComponentDocHistory } from './ComponentDocHistory';
 
 export const componentDocHistoryGet = (
-  queryParams?: QueryParams<ComponentDoc>,
+  queryParams?: QueryParams<Partial<ComponentDoc>>,
 ): Promise<ComponentDocHistory[]> => {
-  const config: QueryParams<ComponentDoc> = {
+  const config: QueryParams<Partial<ComponentDoc>> = {
     method: 'get',
     url: `${queryParams?.url ?? ComponentDocRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const componentDocHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ComponentDocHistory[]>(config)
-    : getResponse<ComponentDocHistory[], ComponentDoc>(
+    : getResponse<ComponentDocHistory[], Partial<ComponentDoc>>(
         queryParams?.api ?? _client?.api,
         config,
       );

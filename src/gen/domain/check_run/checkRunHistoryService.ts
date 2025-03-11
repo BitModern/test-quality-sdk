@@ -10,9 +10,9 @@ import type { CheckRun } from './CheckRun';
 import type { CheckRunHistory } from './CheckRunHistory';
 
 export const checkRunHistoryGet = (
-  queryParams?: QueryParams<CheckRun>,
+  queryParams?: QueryParams<Partial<CheckRun>>,
 ): Promise<CheckRunHistory[]> => {
-  const config: QueryParams<CheckRun> = {
+  const config: QueryParams<Partial<CheckRun>> = {
     method: 'get',
     url: `${queryParams?.url ?? CheckRunRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const checkRunHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckRunHistory[]>(config)
-    : getResponse<CheckRunHistory[], CheckRun>(
+    : getResponse<CheckRunHistory[], Partial<CheckRun>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -16,9 +16,9 @@ import type { RunSuite } from './RunSuite';
 import type { RunSuiteApi } from './RunSuiteApi';
 
 export const runSuiteGetMany = (
-  queryParams?: QueryParams<RunSuite>,
+  queryParams?: QueryParams<Partial<RunSuite>>,
 ): Promise<ResourceList<RunSuiteApi>> => {
-  const config: QueryParams<RunSuite> = {
+  const config: QueryParams<Partial<RunSuite>> = {
     method: 'get',
     url: queryParams?.url ?? RunSuiteRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const runSuiteGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<RunSuiteApi>>(config)
-    : getResponse<ResourceList<RunSuiteApi>, RunSuite>(
+    : getResponse<ResourceList<RunSuiteApi>, Partial<RunSuite>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const runSuiteGetMany = (
 
 export const runSuiteGetOne = (
   id: number,
-  queryParams?: QueryParams<RunSuite>,
+  queryParams?: QueryParams<Partial<RunSuite>>,
 ): Promise<RunSuiteApi> => {
-  const config: QueryParams<RunSuite> = {
+  const config: QueryParams<Partial<RunSuite>> = {
     method: 'get',
     url: `${queryParams?.url ?? RunSuiteRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const runSuiteGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunSuiteApi>(config)
-    : getResponse<RunSuiteApi, RunSuite>(
+    : getResponse<RunSuiteApi, Partial<RunSuite>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const runSuiteGetOne = (
 
 export const runSuiteDeleteOne = (
   id: number,
-  queryParams?: QueryParams<RunSuite>,
+  queryParams?: QueryParams<Partial<RunSuite>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<RunSuite> = {
+  const config: QueryParams<Partial<RunSuite>> = {
     method: 'delete',
     url: `${queryParams?.url ?? RunSuiteRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const runSuiteDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, RunSuite>(
+    : getResponse<MessageResponse, Partial<RunSuite>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const runSuiteDeleteOne = (
 
 export const runSuiteDeleteMany = (
   data: (Partial<RunSuite> & { id: number })[],
-  queryParams?: QueryParamsWithList<RunSuite>,
+  queryParams?: QueryParamsWithList<Partial<RunSuite> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<RunSuite> = {
+      const config: QueryParamsWithList<Partial<RunSuite> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? RunSuiteRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const runSuiteDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, RunSuite>(
+        : getResponse<{ count: number }, Partial<RunSuite> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const runSuiteDeleteMany = (
 export const runSuiteUpdateOne = (
   id: number,
   data: Partial<RunSuite>,
-  queryParams?: QueryParams<RunSuite>,
+  queryParams?: QueryParams<Partial<RunSuite>>,
 ): Promise<RunSuite> => {
-  const config: QueryParams<RunSuite> = {
+  const config: QueryParams<Partial<RunSuite>> = {
     method: 'put',
     url: `${queryParams?.url ?? RunSuiteRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const runSuiteUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunSuite>(config)
-    : getResponse<RunSuite>(queryParams?.api ?? _client?.api, config);
+    : getResponse<RunSuite, Partial<RunSuite>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const runSuiteUpdateMany = (
   data: (Partial<RunSuite> & { id: number })[],
-  queryParams?: QueryParamsWithList<RunSuite>,
+  queryParams?: QueryParamsWithList<Partial<RunSuite> & { id: number }>,
 ): Promise<RunSuite[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<RunSuite> = {
+      const config: QueryParamsWithList<Partial<RunSuite> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? RunSuiteRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const runSuiteUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<RunSuite[]>(config)
-        : getResponse<RunSuite[], RunSuite>(
+        : getResponse<RunSuite[], Partial<RunSuite> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const runSuiteUpdateMany = (
 
 export const runSuiteCreateOne = (
   data: Partial<RunSuite>,
-  queryParams?: QueryParams<RunSuite>,
+  queryParams?: QueryParams<Partial<RunSuite>>,
 ): Promise<RunSuite> => {
-  const config: QueryParams<RunSuite> = {
+  const config: QueryParams<Partial<RunSuite>> = {
     method: 'post',
     url: queryParams?.url ?? RunSuiteRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const runSuiteCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunSuite>(config)
-    : getResponse<RunSuite>(queryParams?.api ?? _client?.api, config);
+    : getResponse<RunSuite, Partial<RunSuite>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const runSuiteCreateMany = (
   data: Partial<RunSuite>[],
-  queryParams?: QueryParamsWithList<RunSuite>,
+  queryParams?: QueryParamsWithList<Partial<RunSuite>>,
 ): Promise<RunSuite[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<RunSuite> = {
+      const config: QueryParamsWithList<Partial<RunSuite>> = {
         method: 'post',
         url: queryParams?.url ?? RunSuiteRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const runSuiteCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<RunSuite[]>(config)
-        : getResponse<RunSuite[], RunSuite>(
+        : getResponse<RunSuite[], Partial<RunSuite>>(
             queryParams?.api ?? _client?.api,
             config,
           );

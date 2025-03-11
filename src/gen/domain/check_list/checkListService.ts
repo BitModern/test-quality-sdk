@@ -16,9 +16,9 @@ import type { CheckList } from './CheckList';
 import type { CheckListApi } from './CheckListApi';
 
 export const checkListGetMany = (
-  queryParams?: QueryParams<CheckList>,
+  queryParams?: QueryParams<Partial<CheckList>>,
 ): Promise<ResourceList<CheckListApi>> => {
-  const config: QueryParams<CheckList> = {
+  const config: QueryParams<Partial<CheckList>> = {
     method: 'get',
     url: queryParams?.url ?? CheckListRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const checkListGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<CheckListApi>>(config)
-    : getResponse<ResourceList<CheckListApi>, CheckList>(
+    : getResponse<ResourceList<CheckListApi>, Partial<CheckList>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const checkListGetMany = (
 
 export const checkListGetOne = (
   id: number,
-  queryParams?: QueryParams<CheckList>,
+  queryParams?: QueryParams<Partial<CheckList>>,
 ): Promise<CheckListApi> => {
-  const config: QueryParams<CheckList> = {
+  const config: QueryParams<Partial<CheckList>> = {
     method: 'get',
     url: `${queryParams?.url ?? CheckListRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const checkListGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckListApi>(config)
-    : getResponse<CheckListApi, CheckList>(
+    : getResponse<CheckListApi, Partial<CheckList>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const checkListGetOne = (
 
 export const checkListDeleteOne = (
   id: number,
-  queryParams?: QueryParams<CheckList>,
+  queryParams?: QueryParams<Partial<CheckList>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<CheckList> = {
+  const config: QueryParams<Partial<CheckList>> = {
     method: 'delete',
     url: `${queryParams?.url ?? CheckListRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const checkListDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, CheckList>(
+    : getResponse<MessageResponse, Partial<CheckList>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const checkListDeleteOne = (
 
 export const checkListDeleteMany = (
   data: (Partial<CheckList> & { id: number })[],
-  queryParams?: QueryParamsWithList<CheckList>,
+  queryParams?: QueryParamsWithList<Partial<CheckList> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<CheckList> = {
+      const config: QueryParamsWithList<Partial<CheckList> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? CheckListRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const checkListDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, CheckList>(
+        : getResponse<{ count: number }, Partial<CheckList> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const checkListDeleteMany = (
 export const checkListUpdateOne = (
   id: number,
   data: Partial<CheckList>,
-  queryParams?: QueryParams<CheckList>,
+  queryParams?: QueryParams<Partial<CheckList>>,
 ): Promise<CheckList> => {
-  const config: QueryParams<CheckList> = {
+  const config: QueryParams<Partial<CheckList>> = {
     method: 'put',
     url: `${queryParams?.url ?? CheckListRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const checkListUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckList>(config)
-    : getResponse<CheckList>(queryParams?.api ?? _client?.api, config);
+    : getResponse<CheckList, Partial<CheckList>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const checkListUpdateMany = (
   data: (Partial<CheckList> & { id: number })[],
-  queryParams?: QueryParamsWithList<CheckList>,
+  queryParams?: QueryParamsWithList<Partial<CheckList> & { id: number }>,
 ): Promise<CheckList[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<CheckList> = {
+      const config: QueryParamsWithList<Partial<CheckList> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? CheckListRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const checkListUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<CheckList[]>(config)
-        : getResponse<CheckList[], CheckList>(
+        : getResponse<CheckList[], Partial<CheckList> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const checkListUpdateMany = (
 
 export const checkListCreateOne = (
   data: Partial<CheckList>,
-  queryParams?: QueryParams<CheckList>,
+  queryParams?: QueryParams<Partial<CheckList>>,
 ): Promise<CheckList> => {
-  const config: QueryParams<CheckList> = {
+  const config: QueryParams<Partial<CheckList>> = {
     method: 'post',
     url: queryParams?.url ?? CheckListRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const checkListCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckList>(config)
-    : getResponse<CheckList>(queryParams?.api ?? _client?.api, config);
+    : getResponse<CheckList, Partial<CheckList>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const checkListCreateMany = (
   data: Partial<CheckList>[],
-  queryParams?: QueryParamsWithList<CheckList>,
+  queryParams?: QueryParamsWithList<Partial<CheckList>>,
 ): Promise<CheckList[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<CheckList> = {
+      const config: QueryParamsWithList<Partial<CheckList>> = {
         method: 'post',
         url: queryParams?.url ?? CheckListRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const checkListCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<CheckList[]>(config)
-        : getResponse<CheckList[], CheckList>(
+        : getResponse<CheckList[], Partial<CheckList>>(
             queryParams?.api ?? _client?.api,
             config,
           );

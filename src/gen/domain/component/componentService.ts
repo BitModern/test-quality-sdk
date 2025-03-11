@@ -16,9 +16,9 @@ import type { Component } from './Component';
 import type { ComponentApi } from './ComponentApi';
 
 export const componentGetMany = (
-  queryParams?: QueryParams<Component>,
+  queryParams?: QueryParams<Partial<Component>>,
 ): Promise<ResourceList<ComponentApi>> => {
-  const config: QueryParams<Component> = {
+  const config: QueryParams<Partial<Component>> = {
     method: 'get',
     url: queryParams?.url ?? ComponentRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const componentGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<ComponentApi>>(config)
-    : getResponse<ResourceList<ComponentApi>, Component>(
+    : getResponse<ResourceList<ComponentApi>, Partial<Component>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const componentGetMany = (
 
 export const componentGetOne = (
   id: number,
-  queryParams?: QueryParams<Component>,
+  queryParams?: QueryParams<Partial<Component>>,
 ): Promise<ComponentApi> => {
-  const config: QueryParams<Component> = {
+  const config: QueryParams<Partial<Component>> = {
     method: 'get',
     url: `${queryParams?.url ?? ComponentRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const componentGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ComponentApi>(config)
-    : getResponse<ComponentApi, Component>(
+    : getResponse<ComponentApi, Partial<Component>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const componentGetOne = (
 
 export const componentDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Component>,
+  queryParams?: QueryParams<Partial<Component>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Component> = {
+  const config: QueryParams<Partial<Component>> = {
     method: 'delete',
     url: `${queryParams?.url ?? ComponentRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const componentDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Component>(
+    : getResponse<MessageResponse, Partial<Component>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const componentDeleteOne = (
 
 export const componentDeleteMany = (
   data: (Partial<Component> & { id: number })[],
-  queryParams?: QueryParamsWithList<Component>,
+  queryParams?: QueryParamsWithList<Partial<Component> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Component> = {
+      const config: QueryParamsWithList<Partial<Component> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? ComponentRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const componentDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Component>(
+        : getResponse<{ count: number }, Partial<Component> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const componentDeleteMany = (
 export const componentUpdateOne = (
   id: number,
   data: Partial<Component>,
-  queryParams?: QueryParams<Component>,
+  queryParams?: QueryParams<Partial<Component>>,
 ): Promise<Component> => {
-  const config: QueryParams<Component> = {
+  const config: QueryParams<Partial<Component>> = {
     method: 'put',
     url: `${queryParams?.url ?? ComponentRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const componentUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Component>(config)
-    : getResponse<Component>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Component, Partial<Component>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const componentUpdateMany = (
   data: (Partial<Component> & { id: number })[],
-  queryParams?: QueryParamsWithList<Component>,
+  queryParams?: QueryParamsWithList<Partial<Component> & { id: number }>,
 ): Promise<Component[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Component> = {
+      const config: QueryParamsWithList<Partial<Component> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? ComponentRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const componentUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Component[]>(config)
-        : getResponse<Component[], Component>(
+        : getResponse<Component[], Partial<Component> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const componentUpdateMany = (
 
 export const componentCreateOne = (
   data: Partial<Component>,
-  queryParams?: QueryParams<Component>,
+  queryParams?: QueryParams<Partial<Component>>,
 ): Promise<Component> => {
-  const config: QueryParams<Component> = {
+  const config: QueryParams<Partial<Component>> = {
     method: 'post',
     url: queryParams?.url ?? ComponentRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const componentCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Component>(config)
-    : getResponse<Component>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Component, Partial<Component>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const componentCreateMany = (
   data: Partial<Component>[],
-  queryParams?: QueryParamsWithList<Component>,
+  queryParams?: QueryParamsWithList<Partial<Component>>,
 ): Promise<Component[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Component> = {
+      const config: QueryParamsWithList<Partial<Component>> = {
         method: 'post',
         url: queryParams?.url ?? ComponentRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const componentCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Component[]>(config)
-        : getResponse<Component[], Component>(
+        : getResponse<Component[], Partial<Component>>(
             queryParams?.api ?? _client?.api,
             config,
           );

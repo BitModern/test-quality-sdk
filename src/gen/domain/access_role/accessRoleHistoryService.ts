@@ -10,9 +10,9 @@ import type { AccessRole } from './AccessRole';
 import type { AccessRoleHistory } from './AccessRoleHistory';
 
 export const accessRoleHistoryGet = (
-  queryParams?: QueryParams<AccessRole>,
+  queryParams?: QueryParams<Partial<AccessRole>>,
 ): Promise<AccessRoleHistory[]> => {
-  const config: QueryParams<AccessRole> = {
+  const config: QueryParams<Partial<AccessRole>> = {
     method: 'get',
     url: `${queryParams?.url ?? AccessRoleRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const accessRoleHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRoleHistory[]>(config)
-    : getResponse<AccessRoleHistory[], AccessRole>(
+    : getResponse<AccessRoleHistory[], Partial<AccessRole>>(
         queryParams?.api ?? _client?.api,
         config,
       );

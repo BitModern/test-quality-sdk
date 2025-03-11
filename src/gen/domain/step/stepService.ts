@@ -16,9 +16,9 @@ import type { Step } from './Step';
 import type { StepApi } from './StepApi';
 
 export const stepGetMany = (
-  queryParams?: QueryParams<Step>,
+  queryParams?: QueryParams<Partial<Step>>,
 ): Promise<ResourceList<StepApi>> => {
-  const config: QueryParams<Step> = {
+  const config: QueryParams<Partial<Step>> = {
     method: 'get',
     url: queryParams?.url ?? StepRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const stepGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<StepApi>>(config)
-    : getResponse<ResourceList<StepApi>, Step>(
+    : getResponse<ResourceList<StepApi>, Partial<Step>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const stepGetMany = (
 
 export const stepGetOne = (
   id: number,
-  queryParams?: QueryParams<Step>,
+  queryParams?: QueryParams<Partial<Step>>,
 ): Promise<StepApi> => {
-  const config: QueryParams<Step> = {
+  const config: QueryParams<Partial<Step>> = {
     method: 'get',
     url: `${queryParams?.url ?? StepRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const stepGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StepApi>(config)
-    : getResponse<StepApi, Step>(queryParams?.api ?? _client?.api, config);
+    : getResponse<StepApi, Partial<Step>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const stepDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Step>,
+  queryParams?: QueryParams<Partial<Step>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Step> = {
+  const config: QueryParams<Partial<Step>> = {
     method: 'delete',
     url: `${queryParams?.url ?? StepRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const stepDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Step>(
+    : getResponse<MessageResponse, Partial<Step>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const stepDeleteOne = (
 
 export const stepDeleteMany = (
   data: (Partial<Step> & { id: number })[],
-  queryParams?: QueryParamsWithList<Step>,
+  queryParams?: QueryParamsWithList<Partial<Step> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Step> = {
+      const config: QueryParamsWithList<Partial<Step> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? StepRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const stepDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Step>(
+        : getResponse<{ count: number }, Partial<Step> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const stepDeleteMany = (
 export const stepUpdateOne = (
   id: number,
   data: Partial<Step>,
-  queryParams?: QueryParams<Step>,
+  queryParams?: QueryParams<Partial<Step>>,
 ): Promise<Step> => {
-  const config: QueryParams<Step> = {
+  const config: QueryParams<Partial<Step>> = {
     method: 'put',
     url: `${queryParams?.url ?? StepRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,20 @@ export const stepUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Step>(config)
-    : getResponse<Step>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Step, Partial<Step>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const stepUpdateMany = (
   data: (Partial<Step> & { id: number })[],
-  queryParams?: QueryParamsWithList<Step>,
+  queryParams?: QueryParamsWithList<Partial<Step> & { id: number }>,
 ): Promise<Step[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Step> = {
+      const config: QueryParamsWithList<Partial<Step> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? StepRoute(),
         params: queryParams?.params,
@@ -130,16 +136,19 @@ export const stepUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Step[]>(config)
-        : getResponse<Step[], Step>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Step[], Partial<Step> & { id: number }>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };
 
 export const stepCreateOne = (
   data: Partial<Step>,
-  queryParams?: QueryParams<Step>,
+  queryParams?: QueryParams<Partial<Step>>,
 ): Promise<Step> => {
-  const config: QueryParams<Step> = {
+  const config: QueryParams<Partial<Step>> = {
     method: 'post',
     url: queryParams?.url ?? StepRoute(),
     params: queryParams?.params,
@@ -149,17 +158,20 @@ export const stepCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Step>(config)
-    : getResponse<Step>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Step, Partial<Step>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const stepCreateMany = (
   data: Partial<Step>[],
-  queryParams?: QueryParamsWithList<Step>,
+  queryParams?: QueryParamsWithList<Partial<Step>>,
 ): Promise<Step[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Step> = {
+      const config: QueryParamsWithList<Partial<Step>> = {
         method: 'post',
         url: queryParams?.url ?? StepRoute(),
         params: queryParams?.params,
@@ -169,7 +181,10 @@ export const stepCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Step[]>(config)
-        : getResponse<Step[], Step>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Step[], Partial<Step>>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };

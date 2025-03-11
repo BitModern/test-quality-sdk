@@ -16,9 +16,9 @@ import type { IntegrationStatusType } from './IntegrationStatusType';
 import type { IntegrationStatusTypeApi } from './IntegrationStatusTypeApi';
 
 export const integrationStatusTypeGetMany = (
-  queryParams?: QueryParams<IntegrationStatusType>,
+  queryParams?: QueryParams<Partial<IntegrationStatusType>>,
 ): Promise<ResourceList<IntegrationStatusTypeApi>> => {
-  const config: QueryParams<IntegrationStatusType> = {
+  const config: QueryParams<Partial<IntegrationStatusType>> = {
     method: 'get',
     url: queryParams?.url ?? IntegrationStatusTypeRoute(),
     params: queryParams?.params,
@@ -30,15 +30,15 @@ export const integrationStatusTypeGetMany = (
     ? queryParams.batch.addBatch<ResourceList<IntegrationStatusTypeApi>>(config)
     : getResponse<
         ResourceList<IntegrationStatusTypeApi>,
-        IntegrationStatusType
+        Partial<IntegrationStatusType>
       >(queryParams?.api ?? _client?.api, config);
 };
 
 export const integrationStatusTypeGetOne = (
   id: number,
-  queryParams?: QueryParams<IntegrationStatusType>,
+  queryParams?: QueryParams<Partial<IntegrationStatusType>>,
 ): Promise<IntegrationStatusTypeApi> => {
-  const config: QueryParams<IntegrationStatusType> = {
+  const config: QueryParams<Partial<IntegrationStatusType>> = {
     method: 'get',
     url: `${queryParams?.url ?? IntegrationStatusTypeRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const integrationStatusTypeGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationStatusTypeApi>(config)
-    : getResponse<IntegrationStatusTypeApi, IntegrationStatusType>(
+    : getResponse<IntegrationStatusTypeApi, Partial<IntegrationStatusType>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const integrationStatusTypeGetOne = (
 
 export const integrationStatusTypeDeleteOne = (
   id: number,
-  queryParams?: QueryParams<IntegrationStatusType>,
+  queryParams?: QueryParams<Partial<IntegrationStatusType>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<IntegrationStatusType> = {
+  const config: QueryParams<Partial<IntegrationStatusType>> = {
     method: 'delete',
     url: `${queryParams?.url ?? IntegrationStatusTypeRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const integrationStatusTypeDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, IntegrationStatusType>(
+    : getResponse<MessageResponse, Partial<IntegrationStatusType>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,16 @@ export const integrationStatusTypeDeleteOne = (
 
 export const integrationStatusTypeDeleteMany = (
   data: (Partial<IntegrationStatusType> & { id: number })[],
-  queryParams?: QueryParamsWithList<IntegrationStatusType>,
+  queryParams?: QueryParamsWithList<
+    Partial<IntegrationStatusType> & { id: number }
+  >,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationStatusType> = {
+      const config: QueryParamsWithList<
+        Partial<IntegrationStatusType> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? IntegrationStatusTypeRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +94,10 @@ export const integrationStatusTypeDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, IntegrationStatusType>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<IntegrationStatusType> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +105,9 @@ export const integrationStatusTypeDeleteMany = (
 export const integrationStatusTypeUpdateOne = (
   id: number,
   data: Partial<IntegrationStatusType>,
-  queryParams?: QueryParams<IntegrationStatusType>,
+  queryParams?: QueryParams<Partial<IntegrationStatusType>>,
 ): Promise<IntegrationStatusType> => {
-  const config: QueryParams<IntegrationStatusType> = {
+  const config: QueryParams<Partial<IntegrationStatusType>> = {
     method: 'put',
     url: `${queryParams?.url ?? IntegrationStatusTypeRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,7 +117,7 @@ export const integrationStatusTypeUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationStatusType>(config)
-    : getResponse<IntegrationStatusType>(
+    : getResponse<IntegrationStatusType, Partial<IntegrationStatusType>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -121,12 +125,16 @@ export const integrationStatusTypeUpdateOne = (
 
 export const integrationStatusTypeUpdateMany = (
   data: (Partial<IntegrationStatusType> & { id: number })[],
-  queryParams?: QueryParamsWithList<IntegrationStatusType>,
+  queryParams?: QueryParamsWithList<
+    Partial<IntegrationStatusType> & { id: number }
+  >,
 ): Promise<IntegrationStatusType[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationStatusType> = {
+      const config: QueryParamsWithList<
+        Partial<IntegrationStatusType> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? IntegrationStatusTypeRoute(),
         params: queryParams?.params,
@@ -136,19 +144,19 @@ export const integrationStatusTypeUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<IntegrationStatusType[]>(config)
-        : getResponse<IntegrationStatusType[], IntegrationStatusType>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            IntegrationStatusType[],
+            Partial<IntegrationStatusType> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const integrationStatusTypeCreateOne = (
   data: Partial<IntegrationStatusType>,
-  queryParams?: QueryParams<IntegrationStatusType>,
+  queryParams?: QueryParams<Partial<IntegrationStatusType>>,
 ): Promise<IntegrationStatusType> => {
-  const config: QueryParams<IntegrationStatusType> = {
+  const config: QueryParams<Partial<IntegrationStatusType>> = {
     method: 'post',
     url: queryParams?.url ?? IntegrationStatusTypeRoute(),
     params: queryParams?.params,
@@ -158,7 +166,7 @@ export const integrationStatusTypeCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationStatusType>(config)
-    : getResponse<IntegrationStatusType>(
+    : getResponse<IntegrationStatusType, Partial<IntegrationStatusType>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -166,12 +174,12 @@ export const integrationStatusTypeCreateOne = (
 
 export const integrationStatusTypeCreateMany = (
   data: Partial<IntegrationStatusType>[],
-  queryParams?: QueryParamsWithList<IntegrationStatusType>,
+  queryParams?: QueryParamsWithList<Partial<IntegrationStatusType>>,
 ): Promise<IntegrationStatusType[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationStatusType> = {
+      const config: QueryParamsWithList<Partial<IntegrationStatusType>> = {
         method: 'post',
         url: queryParams?.url ?? IntegrationStatusTypeRoute(),
         params: queryParams?.params,
@@ -181,7 +189,7 @@ export const integrationStatusTypeCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<IntegrationStatusType[]>(config)
-        : getResponse<IntegrationStatusType[], IntegrationStatusType>(
+        : getResponse<IntegrationStatusType[], Partial<IntegrationStatusType>>(
             queryParams?.api ?? _client?.api,
             config,
           );

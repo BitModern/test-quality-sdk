@@ -10,9 +10,9 @@ import type { AppInstall } from './AppInstall';
 import type { AppInstallHistory } from './AppInstallHistory';
 
 export const appInstallHistoryGet = (
-  queryParams?: QueryParams<AppInstall>,
+  queryParams?: QueryParams<Partial<AppInstall>>,
 ): Promise<AppInstallHistory[]> => {
-  const config: QueryParams<AppInstall> = {
+  const config: QueryParams<Partial<AppInstall>> = {
     method: 'get',
     url: `${queryParams?.url ?? AppInstallRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const appInstallHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppInstallHistory[]>(config)
-    : getResponse<AppInstallHistory[], AppInstall>(
+    : getResponse<AppInstallHistory[], Partial<AppInstall>>(
         queryParams?.api ?? _client?.api,
         config,
       );

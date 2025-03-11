@@ -16,9 +16,9 @@ import type { DocType } from './DocType';
 import type { DocTypeApi } from './DocTypeApi';
 
 export const docTypeGetMany = (
-  queryParams?: QueryParams<DocType>,
+  queryParams?: QueryParams<Partial<DocType>>,
 ): Promise<ResourceList<DocTypeApi>> => {
-  const config: QueryParams<DocType> = {
+  const config: QueryParams<Partial<DocType>> = {
     method: 'get',
     url: queryParams?.url ?? DocTypeRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const docTypeGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<DocTypeApi>>(config)
-    : getResponse<ResourceList<DocTypeApi>, DocType>(
+    : getResponse<ResourceList<DocTypeApi>, Partial<DocType>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const docTypeGetMany = (
 
 export const docTypeGetOne = (
   id: number,
-  queryParams?: QueryParams<DocType>,
+  queryParams?: QueryParams<Partial<DocType>>,
 ): Promise<DocTypeApi> => {
-  const config: QueryParams<DocType> = {
+  const config: QueryParams<Partial<DocType>> = {
     method: 'get',
     url: `${queryParams?.url ?? DocTypeRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const docTypeGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocTypeApi>(config)
-    : getResponse<DocTypeApi, DocType>(
+    : getResponse<DocTypeApi, Partial<DocType>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const docTypeGetOne = (
 
 export const docTypeDeleteOne = (
   id: number,
-  queryParams?: QueryParams<DocType>,
+  queryParams?: QueryParams<Partial<DocType>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<DocType> = {
+  const config: QueryParams<Partial<DocType>> = {
     method: 'delete',
     url: `${queryParams?.url ?? DocTypeRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const docTypeDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, DocType>(
+    : getResponse<MessageResponse, Partial<DocType>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const docTypeDeleteOne = (
 
 export const docTypeDeleteMany = (
   data: (Partial<DocType> & { id: number })[],
-  queryParams?: QueryParamsWithList<DocType>,
+  queryParams?: QueryParamsWithList<Partial<DocType> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DocType> = {
+      const config: QueryParamsWithList<Partial<DocType> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? DocTypeRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const docTypeDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, DocType>(
+        : getResponse<{ count: number }, Partial<DocType> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const docTypeDeleteMany = (
 export const docTypeUpdateOne = (
   id: number,
   data: Partial<DocType>,
-  queryParams?: QueryParams<DocType>,
+  queryParams?: QueryParams<Partial<DocType>>,
 ): Promise<DocType> => {
-  const config: QueryParams<DocType> = {
+  const config: QueryParams<Partial<DocType>> = {
     method: 'put',
     url: `${queryParams?.url ?? DocTypeRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const docTypeUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocType>(config)
-    : getResponse<DocType>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DocType, Partial<DocType>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const docTypeUpdateMany = (
   data: (Partial<DocType> & { id: number })[],
-  queryParams?: QueryParamsWithList<DocType>,
+  queryParams?: QueryParamsWithList<Partial<DocType> & { id: number }>,
 ): Promise<DocType[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DocType> = {
+      const config: QueryParamsWithList<Partial<DocType> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? DocTypeRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const docTypeUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DocType[]>(config)
-        : getResponse<DocType[], DocType>(
+        : getResponse<DocType[], Partial<DocType> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const docTypeUpdateMany = (
 
 export const docTypeCreateOne = (
   data: Partial<DocType>,
-  queryParams?: QueryParams<DocType>,
+  queryParams?: QueryParams<Partial<DocType>>,
 ): Promise<DocType> => {
-  const config: QueryParams<DocType> = {
+  const config: QueryParams<Partial<DocType>> = {
     method: 'post',
     url: queryParams?.url ?? DocTypeRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const docTypeCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocType>(config)
-    : getResponse<DocType>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DocType, Partial<DocType>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const docTypeCreateMany = (
   data: Partial<DocType>[],
-  queryParams?: QueryParamsWithList<DocType>,
+  queryParams?: QueryParamsWithList<Partial<DocType>>,
 ): Promise<DocType[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DocType> = {
+      const config: QueryParamsWithList<Partial<DocType>> = {
         method: 'post',
         url: queryParams?.url ?? DocTypeRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const docTypeCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DocType[]>(config)
-        : getResponse<DocType[], DocType>(
+        : getResponse<DocType[], Partial<DocType>>(
             queryParams?.api ?? _client?.api,
             config,
           );

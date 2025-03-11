@@ -10,9 +10,9 @@ import type { PullRequest } from './PullRequest';
 import type { PullRequestHistory } from './PullRequestHistory';
 
 export const pullRequestHistoryGet = (
-  queryParams?: QueryParams<PullRequest>,
+  queryParams?: QueryParams<Partial<PullRequest>>,
 ): Promise<PullRequestHistory[]> => {
-  const config: QueryParams<PullRequest> = {
+  const config: QueryParams<Partial<PullRequest>> = {
     method: 'get',
     url: `${queryParams?.url ?? PullRequestRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const pullRequestHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PullRequestHistory[]>(config)
-    : getResponse<PullRequestHistory[], PullRequest>(
+    : getResponse<PullRequestHistory[], Partial<PullRequest>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -16,9 +16,9 @@ import type { Share } from './Share';
 import type { ShareApi } from './ShareApi';
 
 export const shareGetMany = (
-  queryParams?: QueryParams<Share>,
+  queryParams?: QueryParams<Partial<Share>>,
 ): Promise<ResourceList<ShareApi>> => {
-  const config: QueryParams<Share> = {
+  const config: QueryParams<Partial<Share>> = {
     method: 'get',
     url: queryParams?.url ?? ShareRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const shareGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<ShareApi>>(config)
-    : getResponse<ResourceList<ShareApi>, Share>(
+    : getResponse<ResourceList<ShareApi>, Partial<Share>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const shareGetMany = (
 
 export const shareGetOne = (
   id: number,
-  queryParams?: QueryParams<Share>,
+  queryParams?: QueryParams<Partial<Share>>,
 ): Promise<ShareApi> => {
-  const config: QueryParams<Share> = {
+  const config: QueryParams<Partial<Share>> = {
     method: 'get',
     url: `${queryParams?.url ?? ShareRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const shareGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ShareApi>(config)
-    : getResponse<ShareApi, Share>(queryParams?.api ?? _client?.api, config);
+    : getResponse<ShareApi, Partial<Share>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const shareDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Share>,
+  queryParams?: QueryParams<Partial<Share>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Share> = {
+  const config: QueryParams<Partial<Share>> = {
     method: 'delete',
     url: `${queryParams?.url ?? ShareRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const shareDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Share>(
+    : getResponse<MessageResponse, Partial<Share>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const shareDeleteOne = (
 
 export const shareDeleteMany = (
   data: (Partial<Share> & { id: number })[],
-  queryParams?: QueryParamsWithList<Share>,
+  queryParams?: QueryParamsWithList<Partial<Share> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Share> = {
+      const config: QueryParamsWithList<Partial<Share> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? ShareRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const shareDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Share>(
+        : getResponse<{ count: number }, Partial<Share> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const shareDeleteMany = (
 export const shareUpdateOne = (
   id: number,
   data: Partial<Share>,
-  queryParams?: QueryParams<Share>,
+  queryParams?: QueryParams<Partial<Share>>,
 ): Promise<Share> => {
-  const config: QueryParams<Share> = {
+  const config: QueryParams<Partial<Share>> = {
     method: 'put',
     url: `${queryParams?.url ?? ShareRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,20 @@ export const shareUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Share>(config)
-    : getResponse<Share>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Share, Partial<Share>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const shareUpdateMany = (
   data: (Partial<Share> & { id: number })[],
-  queryParams?: QueryParamsWithList<Share>,
+  queryParams?: QueryParamsWithList<Partial<Share> & { id: number }>,
 ): Promise<Share[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Share> = {
+      const config: QueryParamsWithList<Partial<Share> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? ShareRoute(),
         params: queryParams?.params,
@@ -130,16 +136,19 @@ export const shareUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Share[]>(config)
-        : getResponse<Share[], Share>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Share[], Partial<Share> & { id: number }>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };
 
 export const shareCreateOne = (
   data: Partial<Share>,
-  queryParams?: QueryParams<Share>,
+  queryParams?: QueryParams<Partial<Share>>,
 ): Promise<Share> => {
-  const config: QueryParams<Share> = {
+  const config: QueryParams<Partial<Share>> = {
     method: 'post',
     url: queryParams?.url ?? ShareRoute(),
     params: queryParams?.params,
@@ -149,17 +158,20 @@ export const shareCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Share>(config)
-    : getResponse<Share>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Share, Partial<Share>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const shareCreateMany = (
   data: Partial<Share>[],
-  queryParams?: QueryParamsWithList<Share>,
+  queryParams?: QueryParamsWithList<Partial<Share>>,
 ): Promise<Share[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Share> = {
+      const config: QueryParamsWithList<Partial<Share>> = {
         method: 'post',
         url: queryParams?.url ?? ShareRoute(),
         params: queryParams?.params,
@@ -169,7 +181,10 @@ export const shareCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Share[]>(config)
-        : getResponse<Share[], Share>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Share[], Partial<Share>>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };

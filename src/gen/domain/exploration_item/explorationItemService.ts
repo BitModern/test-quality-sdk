@@ -16,9 +16,9 @@ import type { ExplorationItem } from './ExplorationItem';
 import type { ExplorationItemApi } from './ExplorationItemApi';
 
 export const explorationItemGetMany = (
-  queryParams?: QueryParams<ExplorationItem>,
+  queryParams?: QueryParams<Partial<ExplorationItem>>,
 ): Promise<ResourceList<ExplorationItemApi>> => {
-  const config: QueryParams<ExplorationItem> = {
+  const config: QueryParams<Partial<ExplorationItem>> = {
     method: 'get',
     url: queryParams?.url ?? ExplorationItemRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const explorationItemGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<ExplorationItemApi>>(config)
-    : getResponse<ResourceList<ExplorationItemApi>, ExplorationItem>(
+    : getResponse<ResourceList<ExplorationItemApi>, Partial<ExplorationItem>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const explorationItemGetMany = (
 
 export const explorationItemGetOne = (
   id: number,
-  queryParams?: QueryParams<ExplorationItem>,
+  queryParams?: QueryParams<Partial<ExplorationItem>>,
 ): Promise<ExplorationItemApi> => {
-  const config: QueryParams<ExplorationItem> = {
+  const config: QueryParams<Partial<ExplorationItem>> = {
     method: 'get',
     url: `${queryParams?.url ?? ExplorationItemRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const explorationItemGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ExplorationItemApi>(config)
-    : getResponse<ExplorationItemApi, ExplorationItem>(
+    : getResponse<ExplorationItemApi, Partial<ExplorationItem>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const explorationItemGetOne = (
 
 export const explorationItemDeleteOne = (
   id: number,
-  queryParams?: QueryParams<ExplorationItem>,
+  queryParams?: QueryParams<Partial<ExplorationItem>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<ExplorationItem> = {
+  const config: QueryParams<Partial<ExplorationItem>> = {
     method: 'delete',
     url: `${queryParams?.url ?? ExplorationItemRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const explorationItemDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, ExplorationItem>(
+    : getResponse<MessageResponse, Partial<ExplorationItem>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const explorationItemDeleteOne = (
 
 export const explorationItemDeleteMany = (
   data: (Partial<ExplorationItem> & { id: number })[],
-  queryParams?: QueryParamsWithList<ExplorationItem>,
+  queryParams?: QueryParamsWithList<Partial<ExplorationItem> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<ExplorationItem> = {
+      const config: QueryParamsWithList<
+        Partial<ExplorationItem> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? ExplorationItemRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const explorationItemDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, ExplorationItem>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<ExplorationItem> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const explorationItemDeleteMany = (
 export const explorationItemUpdateOne = (
   id: number,
   data: Partial<ExplorationItem>,
-  queryParams?: QueryParams<ExplorationItem>,
+  queryParams?: QueryParams<Partial<ExplorationItem>>,
 ): Promise<ExplorationItem> => {
-  const config: QueryParams<ExplorationItem> = {
+  const config: QueryParams<Partial<ExplorationItem>> = {
     method: 'put',
     url: `${queryParams?.url ?? ExplorationItemRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const explorationItemUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ExplorationItem>(config)
-    : getResponse<ExplorationItem>(queryParams?.api ?? _client?.api, config);
+    : getResponse<ExplorationItem, Partial<ExplorationItem>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const explorationItemUpdateMany = (
   data: (Partial<ExplorationItem> & { id: number })[],
-  queryParams?: QueryParamsWithList<ExplorationItem>,
+  queryParams?: QueryParamsWithList<Partial<ExplorationItem> & { id: number }>,
 ): Promise<ExplorationItem[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<ExplorationItem> = {
+      const config: QueryParamsWithList<
+        Partial<ExplorationItem> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? ExplorationItemRoute(),
         params: queryParams?.params,
@@ -133,19 +140,19 @@ export const explorationItemUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<ExplorationItem[]>(config)
-        : getResponse<ExplorationItem[], ExplorationItem>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            ExplorationItem[],
+            Partial<ExplorationItem> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const explorationItemCreateOne = (
   data: Partial<ExplorationItem>,
-  queryParams?: QueryParams<ExplorationItem>,
+  queryParams?: QueryParams<Partial<ExplorationItem>>,
 ): Promise<ExplorationItem> => {
-  const config: QueryParams<ExplorationItem> = {
+  const config: QueryParams<Partial<ExplorationItem>> = {
     method: 'post',
     url: queryParams?.url ?? ExplorationItemRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const explorationItemCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ExplorationItem>(config)
-    : getResponse<ExplorationItem>(queryParams?.api ?? _client?.api, config);
+    : getResponse<ExplorationItem, Partial<ExplorationItem>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const explorationItemCreateMany = (
   data: Partial<ExplorationItem>[],
-  queryParams?: QueryParamsWithList<ExplorationItem>,
+  queryParams?: QueryParamsWithList<Partial<ExplorationItem>>,
 ): Promise<ExplorationItem[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<ExplorationItem> = {
+      const config: QueryParamsWithList<Partial<ExplorationItem>> = {
         method: 'post',
         url: queryParams?.url ?? ExplorationItemRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const explorationItemCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<ExplorationItem[]>(config)
-        : getResponse<ExplorationItem[], ExplorationItem>(
+        : getResponse<ExplorationItem[], Partial<ExplorationItem>>(
             queryParams?.api ?? _client?.api,
             config,
           );

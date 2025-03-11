@@ -16,9 +16,9 @@ import type { Notifications } from './Notifications';
 import type { NotificationsApi } from './NotificationsApi';
 
 export const notificationsGetMany = (
-  queryParams?: QueryParams<Notifications>,
+  queryParams?: QueryParams<Partial<Notifications>>,
 ): Promise<ResourceList<NotificationsApi>> => {
-  const config: QueryParams<Notifications> = {
+  const config: QueryParams<Partial<Notifications>> = {
     method: 'get',
     url: queryParams?.url ?? NotificationsRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const notificationsGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<NotificationsApi>>(config)
-    : getResponse<ResourceList<NotificationsApi>, Notifications>(
+    : getResponse<ResourceList<NotificationsApi>, Partial<Notifications>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const notificationsGetMany = (
 
 export const notificationsGetOne = (
   id: string,
-  queryParams?: QueryParams<Notifications>,
+  queryParams?: QueryParams<Partial<Notifications>>,
 ): Promise<NotificationsApi> => {
-  const config: QueryParams<Notifications> = {
+  const config: QueryParams<Partial<Notifications>> = {
     method: 'get',
     url: `${queryParams?.url ?? NotificationsRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const notificationsGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<NotificationsApi>(config)
-    : getResponse<NotificationsApi, Notifications>(
+    : getResponse<NotificationsApi, Partial<Notifications>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const notificationsGetOne = (
 
 export const notificationsDeleteOne = (
   id: string,
-  queryParams?: QueryParams<Notifications>,
+  queryParams?: QueryParams<Partial<Notifications>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Notifications> = {
+  const config: QueryParams<Partial<Notifications>> = {
     method: 'delete',
     url: `${queryParams?.url ?? NotificationsRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const notificationsDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Notifications>(
+    : getResponse<MessageResponse, Partial<Notifications>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const notificationsDeleteOne = (
 
 export const notificationsDeleteMany = (
   data: (Partial<Notifications> & { id: string })[],
-  queryParams?: QueryParamsWithList<Notifications>,
+  queryParams?: QueryParamsWithList<Partial<Notifications> & { id: string }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Notifications> = {
+      const config: QueryParamsWithList<
+        Partial<Notifications> & { id: string }
+      > = {
         method: 'post',
         url: queryParams?.url ?? NotificationsRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const notificationsDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Notifications>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<Notifications> & { id: string }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const notificationsDeleteMany = (
 export const notificationsUpdateOne = (
   id: string,
   data: Partial<Notifications>,
-  queryParams?: QueryParams<Notifications>,
+  queryParams?: QueryParams<Partial<Notifications>>,
 ): Promise<Notifications> => {
-  const config: QueryParams<Notifications> = {
+  const config: QueryParams<Partial<Notifications>> = {
     method: 'put',
     url: `${queryParams?.url ?? NotificationsRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const notificationsUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Notifications>(config)
-    : getResponse<Notifications>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Notifications, Partial<Notifications>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const notificationsUpdateMany = (
   data: (Partial<Notifications> & { id: string })[],
-  queryParams?: QueryParamsWithList<Notifications>,
+  queryParams?: QueryParamsWithList<Partial<Notifications> & { id: string }>,
 ): Promise<Notifications[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Notifications> = {
+      const config: QueryParamsWithList<
+        Partial<Notifications> & { id: string }
+      > = {
         method: 'post',
         url: queryParams?.url ?? NotificationsRoute(),
         params: queryParams?.params,
@@ -133,7 +140,7 @@ export const notificationsUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Notifications[]>(config)
-        : getResponse<Notifications[], Notifications>(
+        : getResponse<Notifications[], Partial<Notifications> & { id: string }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +150,9 @@ export const notificationsUpdateMany = (
 
 export const notificationsCreateOne = (
   data: Partial<Notifications>,
-  queryParams?: QueryParams<Notifications>,
+  queryParams?: QueryParams<Partial<Notifications>>,
 ): Promise<Notifications> => {
-  const config: QueryParams<Notifications> = {
+  const config: QueryParams<Partial<Notifications>> = {
     method: 'post',
     url: queryParams?.url ?? NotificationsRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const notificationsCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Notifications>(config)
-    : getResponse<Notifications>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Notifications, Partial<Notifications>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const notificationsCreateMany = (
   data: Partial<Notifications>[],
-  queryParams?: QueryParamsWithList<Notifications>,
+  queryParams?: QueryParamsWithList<Partial<Notifications>>,
 ): Promise<Notifications[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Notifications> = {
+      const config: QueryParamsWithList<Partial<Notifications>> = {
         method: 'post',
         url: queryParams?.url ?? NotificationsRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const notificationsCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Notifications[]>(config)
-        : getResponse<Notifications[], Notifications>(
+        : getResponse<Notifications[], Partial<Notifications>>(
             queryParams?.api ?? _client?.api,
             config,
           );

@@ -16,12 +16,12 @@ import type { CheckSuitePullRequestApi } from './CheckSuitePullRequestApi';
 
 export const checkSuitePullRequestDetach = (
   data: Partial<CheckSuitePullRequest>,
-  queryParams?: QueryParams<CheckSuitePullRequest>,
+  queryParams?: QueryParams<Partial<CheckSuitePullRequest>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<CheckSuitePullRequest> = {
+  const config: QueryParams<Partial<CheckSuitePullRequest>> = {
     method: 'delete',
     url: `/check_suite_pull_request/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const checkSuitePullRequestDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, CheckSuitePullRequest>(
+    : getResponse<MessageResponse, Partial<CheckSuitePullRequest>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,16 @@ export const checkSuitePullRequestDetach = (
 
 export const checkSuitePullRequestDeleteMany = (
   data: (Partial<CheckSuitePullRequest> & { id: number })[],
-  queryParams?: QueryParamsWithList<CheckSuitePullRequest>,
+  queryParams?: QueryParamsWithList<
+    Partial<CheckSuitePullRequest & { id: number }>
+  >,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<CheckSuitePullRequest> = {
+      const config: QueryParamsWithList<
+        Partial<CheckSuitePullRequest> & { id: number }
+      > = {
         method: 'post',
         url: `/check_suite_pull_request/delete`,
         params: queryParams?.params,
@@ -52,10 +56,10 @@ export const checkSuitePullRequestDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, CheckSuitePullRequest>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<CheckSuitePullRequest> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +67,9 @@ export const checkSuitePullRequestDeleteMany = (
 export const checkSuitePullRequestUpdateOne = (
   id: number,
   data: Partial<CheckSuitePullRequest>,
-  queryParams?: QueryParams<CheckSuitePullRequest>,
+  queryParams?: QueryParams<Partial<CheckSuitePullRequest>>,
 ): Promise<CheckSuitePullRequest> => {
-  const config: QueryParams<CheckSuitePullRequest> = {
+  const config: QueryParams<Partial<CheckSuitePullRequest>> = {
     method: 'put',
     url: `/check_suite_pull_request/${id}`,
     params: queryParams?.params,
@@ -74,7 +78,7 @@ export const checkSuitePullRequestUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuitePullRequest>(config)
-    : getResponse<CheckSuitePullRequest>(
+    : getResponse<CheckSuitePullRequest, Partial<CheckSuitePullRequest>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -82,12 +86,16 @@ export const checkSuitePullRequestUpdateOne = (
 
 export const checkSuitePullRequestUpdateMany = (
   data: (Partial<CheckSuitePullRequest> & { id: number })[],
-  queryParams?: QueryParamsWithList<CheckSuitePullRequest>,
+  queryParams?: QueryParamsWithList<
+    Partial<CheckSuitePullRequest> & { id: number }
+  >,
 ): Promise<CheckSuitePullRequest[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<CheckSuitePullRequest> = {
+      const config: QueryParamsWithList<
+        Partial<CheckSuitePullRequest> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/check_suite_pull_request`,
         params: queryParams?.params,
@@ -96,19 +104,19 @@ export const checkSuitePullRequestUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<CheckSuitePullRequest[]>(config)
-        : getResponse<CheckSuitePullRequest[], CheckSuitePullRequest>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            CheckSuitePullRequest[],
+            Partial<CheckSuitePullRequest> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const checkSuitePullRequestCreateOne = (
   data: Partial<CheckSuitePullRequest>,
-  queryParams?: QueryParams<CheckSuitePullRequest>,
+  queryParams?: QueryParams<Partial<CheckSuitePullRequest>>,
 ): Promise<CheckSuitePullRequest> => {
-  const config: QueryParams<CheckSuitePullRequest> = {
+  const config: QueryParams<Partial<CheckSuitePullRequest>> = {
     method: 'post',
     url: queryParams?.url ?? `/check_suite_pull_request`,
     params: queryParams?.params,
@@ -117,7 +125,7 @@ export const checkSuitePullRequestCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuitePullRequest>(config)
-    : getResponse<CheckSuitePullRequest>(
+    : getResponse<CheckSuitePullRequest, Partial<CheckSuitePullRequest>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -125,12 +133,12 @@ export const checkSuitePullRequestCreateOne = (
 
 export const checkSuitePullRequestCreateMany = (
   data: Partial<CheckSuitePullRequest>[],
-  queryParams?: QueryParamsWithList<CheckSuitePullRequest>,
+  queryParams?: QueryParamsWithList<Partial<CheckSuitePullRequest>>,
 ): Promise<CheckSuitePullRequest[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<CheckSuitePullRequest> = {
+      const config: QueryParamsWithList<Partial<CheckSuitePullRequest>> = {
         method: 'post',
         url: queryParams?.url ?? `/check_suite_pull_request`,
         params: queryParams?.params,
@@ -139,7 +147,7 @@ export const checkSuitePullRequestCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<CheckSuitePullRequest[]>(config)
-        : getResponse<CheckSuitePullRequest[], CheckSuitePullRequest>(
+        : getResponse<CheckSuitePullRequest[], Partial<CheckSuitePullRequest>>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -148,9 +156,9 @@ export const checkSuitePullRequestCreateMany = (
 };
 
 export const checkSuitePullRequestGetMany = (
-  queryParams?: QueryParams<CheckSuitePullRequest>,
+  queryParams?: QueryParams<Partial<CheckSuitePullRequest>>,
 ): Promise<ResourceList<CheckSuitePullRequestApi>> => {
-  const config: QueryParams<CheckSuitePullRequest> = {
+  const config: QueryParams<Partial<CheckSuitePullRequest>> = {
     method: 'get',
     url: queryParams?.url ?? `/check_suite_pull_request`,
     params: queryParams?.params,
@@ -161,15 +169,15 @@ export const checkSuitePullRequestGetMany = (
     ? queryParams.batch.addBatch<ResourceList<CheckSuitePullRequestApi>>(config)
     : getResponse<
         ResourceList<CheckSuitePullRequestApi>,
-        CheckSuitePullRequest
+        Partial<CheckSuitePullRequest>
       >(queryParams?.api ?? _client?.api, config);
 };
 
 export const checkSuitePullRequestGetOne = (
   id: number,
-  queryParams?: QueryParams<CheckSuitePullRequest>,
+  queryParams?: QueryParams<Partial<CheckSuitePullRequest>>,
 ): Promise<CheckSuitePullRequestApi> => {
-  const config: QueryParams<CheckSuitePullRequest> = {
+  const config: QueryParams<Partial<CheckSuitePullRequest>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/check_suite_pull_request/${id}`}`,
     params: queryParams?.params,
@@ -178,7 +186,7 @@ export const checkSuitePullRequestGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CheckSuitePullRequestApi>(config)
-    : getResponse<CheckSuitePullRequestApi, CheckSuitePullRequest>(
+    : getResponse<CheckSuitePullRequestApi, Partial<CheckSuitePullRequest>>(
         queryParams?.api ?? _client?.api,
         config,
       );

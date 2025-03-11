@@ -10,9 +10,9 @@ import type { AppConfig } from './AppConfig';
 import type { AppConfigHistory } from './AppConfigHistory';
 
 export const appConfigHistoryGet = (
-  queryParams?: QueryParams<AppConfig>,
+  queryParams?: QueryParams<Partial<AppConfig>>,
 ): Promise<AppConfigHistory[]> => {
-  const config: QueryParams<AppConfig> = {
+  const config: QueryParams<Partial<AppConfig>> = {
     method: 'get',
     url: `${queryParams?.url ?? AppConfigRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const appConfigHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AppConfigHistory[]>(config)
-    : getResponse<AppConfigHistory[], AppConfig>(
+    : getResponse<AppConfigHistory[], Partial<AppConfig>>(
         queryParams?.api ?? _client?.api,
         config,
       );

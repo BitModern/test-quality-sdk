@@ -10,9 +10,9 @@ import type { StripeProduct } from './StripeProduct';
 import type { StripeProductHistory } from './StripeProductHistory';
 
 export const stripeProductHistoryGet = (
-  queryParams?: QueryParams<StripeProduct>,
+  queryParams?: QueryParams<Partial<StripeProduct>>,
 ): Promise<StripeProductHistory[]> => {
-  const config: QueryParams<StripeProduct> = {
+  const config: QueryParams<Partial<StripeProduct>> = {
     method: 'get',
     url: `${queryParams?.url ?? StripeProductRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const stripeProductHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StripeProductHistory[]>(config)
-    : getResponse<StripeProductHistory[], StripeProduct>(
+    : getResponse<StripeProductHistory[], Partial<StripeProduct>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -10,9 +10,9 @@ import type { BaseIntegration } from './BaseIntegration';
 import type { BaseIntegrationHistory } from './BaseIntegrationHistory';
 
 export const baseIntegrationHistoryGet = (
-  queryParams?: QueryParams<BaseIntegration>,
+  queryParams?: QueryParams<Partial<BaseIntegration>>,
 ): Promise<BaseIntegrationHistory[]> => {
-  const config: QueryParams<BaseIntegration> = {
+  const config: QueryParams<Partial<BaseIntegration>> = {
     method: 'get',
     url: `${queryParams?.url ?? BaseIntegrationRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const baseIntegrationHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<BaseIntegrationHistory[]>(config)
-    : getResponse<BaseIntegrationHistory[], BaseIntegration>(
+    : getResponse<BaseIntegrationHistory[], Partial<BaseIntegration>>(
         queryParams?.api ?? _client?.api,
         config,
       );

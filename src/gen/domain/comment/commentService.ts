@@ -16,9 +16,9 @@ import type { Comment } from './Comment';
 import type { CommentApi } from './CommentApi';
 
 export const commentGetMany = (
-  queryParams?: QueryParams<Comment>,
+  queryParams?: QueryParams<Partial<Comment>>,
 ): Promise<ResourceList<CommentApi>> => {
-  const config: QueryParams<Comment> = {
+  const config: QueryParams<Partial<Comment>> = {
     method: 'get',
     url: queryParams?.url ?? CommentRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const commentGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<CommentApi>>(config)
-    : getResponse<ResourceList<CommentApi>, Comment>(
+    : getResponse<ResourceList<CommentApi>, Partial<Comment>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const commentGetMany = (
 
 export const commentGetOne = (
   id: number,
-  queryParams?: QueryParams<Comment>,
+  queryParams?: QueryParams<Partial<Comment>>,
 ): Promise<CommentApi> => {
-  const config: QueryParams<Comment> = {
+  const config: QueryParams<Partial<Comment>> = {
     method: 'get',
     url: `${queryParams?.url ?? CommentRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const commentGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CommentApi>(config)
-    : getResponse<CommentApi, Comment>(
+    : getResponse<CommentApi, Partial<Comment>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const commentGetOne = (
 
 export const commentDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Comment>,
+  queryParams?: QueryParams<Partial<Comment>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Comment> = {
+  const config: QueryParams<Partial<Comment>> = {
     method: 'delete',
     url: `${queryParams?.url ?? CommentRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const commentDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Comment>(
+    : getResponse<MessageResponse, Partial<Comment>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const commentDeleteOne = (
 
 export const commentDeleteMany = (
   data: (Partial<Comment> & { id: number })[],
-  queryParams?: QueryParamsWithList<Comment>,
+  queryParams?: QueryParamsWithList<Partial<Comment> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Comment> = {
+      const config: QueryParamsWithList<Partial<Comment> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? CommentRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const commentDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Comment>(
+        : getResponse<{ count: number }, Partial<Comment> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const commentDeleteMany = (
 export const commentUpdateOne = (
   id: number,
   data: Partial<Comment>,
-  queryParams?: QueryParams<Comment>,
+  queryParams?: QueryParams<Partial<Comment>>,
 ): Promise<Comment> => {
-  const config: QueryParams<Comment> = {
+  const config: QueryParams<Partial<Comment>> = {
     method: 'put',
     url: `${queryParams?.url ?? CommentRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const commentUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Comment>(config)
-    : getResponse<Comment>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Comment, Partial<Comment>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const commentUpdateMany = (
   data: (Partial<Comment> & { id: number })[],
-  queryParams?: QueryParamsWithList<Comment>,
+  queryParams?: QueryParamsWithList<Partial<Comment> & { id: number }>,
 ): Promise<Comment[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Comment> = {
+      const config: QueryParamsWithList<Partial<Comment> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? CommentRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const commentUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Comment[]>(config)
-        : getResponse<Comment[], Comment>(
+        : getResponse<Comment[], Partial<Comment> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const commentUpdateMany = (
 
 export const commentCreateOne = (
   data: Partial<Comment>,
-  queryParams?: QueryParams<Comment>,
+  queryParams?: QueryParams<Partial<Comment>>,
 ): Promise<Comment> => {
-  const config: QueryParams<Comment> = {
+  const config: QueryParams<Partial<Comment>> = {
     method: 'post',
     url: queryParams?.url ?? CommentRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const commentCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Comment>(config)
-    : getResponse<Comment>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Comment, Partial<Comment>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const commentCreateMany = (
   data: Partial<Comment>[],
-  queryParams?: QueryParamsWithList<Comment>,
+  queryParams?: QueryParamsWithList<Partial<Comment>>,
 ): Promise<Comment[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Comment> = {
+      const config: QueryParamsWithList<Partial<Comment>> = {
         method: 'post',
         url: queryParams?.url ?? CommentRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const commentCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Comment[]>(config)
-        : getResponse<Comment[], Comment>(
+        : getResponse<Comment[], Partial<Comment>>(
             queryParams?.api ?? _client?.api,
             config,
           );

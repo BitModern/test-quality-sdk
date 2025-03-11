@@ -10,9 +10,9 @@ import type { Defect } from './Defect';
 import type { DefectHistory } from './DefectHistory';
 
 export const defectHistoryGet = (
-  queryParams?: QueryParams<Defect>,
+  queryParams?: QueryParams<Partial<Defect>>,
 ): Promise<DefectHistory[]> => {
-  const config: QueryParams<Defect> = {
+  const config: QueryParams<Partial<Defect>> = {
     method: 'get',
     url: `${queryParams?.url ?? DefectRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const defectHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectHistory[]>(config)
-    : getResponse<DefectHistory[], Defect>(
+    : getResponse<DefectHistory[], Partial<Defect>>(
         queryParams?.api ?? _client?.api,
         config,
       );

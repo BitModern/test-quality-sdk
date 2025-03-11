@@ -16,9 +16,9 @@ import type { TestQuality } from './TestQuality';
 import type { TestQualityApi } from './TestQualityApi';
 
 export const testQualityGetMany = (
-  queryParams?: QueryParams<TestQuality>,
+  queryParams?: QueryParams<Partial<TestQuality>>,
 ): Promise<ResourceList<TestQualityApi>> => {
-  const config: QueryParams<TestQuality> = {
+  const config: QueryParams<Partial<TestQuality>> = {
     method: 'get',
     url: queryParams?.url ?? TestQualityRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const testQualityGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<TestQualityApi>>(config)
-    : getResponse<ResourceList<TestQualityApi>, TestQuality>(
+    : getResponse<ResourceList<TestQualityApi>, Partial<TestQuality>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const testQualityGetMany = (
 
 export const testQualityGetOne = (
   id: number,
-  queryParams?: QueryParams<TestQuality>,
+  queryParams?: QueryParams<Partial<TestQuality>>,
 ): Promise<TestQualityApi> => {
-  const config: QueryParams<TestQuality> = {
+  const config: QueryParams<Partial<TestQuality>> = {
     method: 'get',
     url: `${queryParams?.url ?? TestQualityRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const testQualityGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQualityApi>(config)
-    : getResponse<TestQualityApi, TestQuality>(
+    : getResponse<TestQualityApi, Partial<TestQuality>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const testQualityGetOne = (
 
 export const testQualityDeleteOne = (
   id: number,
-  queryParams?: QueryParams<TestQuality>,
+  queryParams?: QueryParams<Partial<TestQuality>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<TestQuality> = {
+  const config: QueryParams<Partial<TestQuality>> = {
     method: 'delete',
     url: `${queryParams?.url ?? TestQualityRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const testQualityDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, TestQuality>(
+    : getResponse<MessageResponse, Partial<TestQuality>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,22 +75,23 @@ export const testQualityDeleteOne = (
 
 export const testQualityDeleteMany = (
   data: (Partial<TestQuality> & { id: number })[],
-  queryParams?: QueryParamsWithList<TestQuality>,
+  queryParams?: QueryParamsWithList<Partial<TestQuality> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<TestQuality> = {
-        method: 'post',
-        url: queryParams?.url ?? TestQualityRoute() + '/delete',
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<TestQuality> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? TestQualityRoute() + '/delete',
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, TestQuality>(
+        : getResponse<{ count: number }, Partial<TestQuality> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +102,9 @@ export const testQualityDeleteMany = (
 export const testQualityUpdateOne = (
   id: number,
   data: Partial<TestQuality>,
-  queryParams?: QueryParams<TestQuality>,
+  queryParams?: QueryParams<Partial<TestQuality>>,
 ): Promise<TestQuality> => {
-  const config: QueryParams<TestQuality> = {
+  const config: QueryParams<Partial<TestQuality>> = {
     method: 'put',
     url: `${queryParams?.url ?? TestQualityRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,27 +114,31 @@ export const testQualityUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQuality>(config)
-    : getResponse<TestQuality>(queryParams?.api ?? _client?.api, config);
+    : getResponse<TestQuality, Partial<TestQuality>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const testQualityUpdateMany = (
   data: (Partial<TestQuality> & { id: number })[],
-  queryParams?: QueryParamsWithList<TestQuality>,
+  queryParams?: QueryParamsWithList<Partial<TestQuality> & { id: number }>,
 ): Promise<TestQuality[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<TestQuality> = {
-        method: 'post',
-        url: queryParams?.url ?? TestQualityRoute(),
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<TestQuality> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? TestQualityRoute(),
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<TestQuality[]>(config)
-        : getResponse<TestQuality[], TestQuality>(
+        : getResponse<TestQuality[], Partial<TestQuality> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +148,9 @@ export const testQualityUpdateMany = (
 
 export const testQualityCreateOne = (
   data: Partial<TestQuality>,
-  queryParams?: QueryParams<TestQuality>,
+  queryParams?: QueryParams<Partial<TestQuality>>,
 ): Promise<TestQuality> => {
-  const config: QueryParams<TestQuality> = {
+  const config: QueryParams<Partial<TestQuality>> = {
     method: 'post',
     url: queryParams?.url ?? TestQualityRoute(),
     params: queryParams?.params,
@@ -155,17 +160,20 @@ export const testQualityCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQuality>(config)
-    : getResponse<TestQuality>(queryParams?.api ?? _client?.api, config);
+    : getResponse<TestQuality, Partial<TestQuality>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const testQualityCreateMany = (
   data: Partial<TestQuality>[],
-  queryParams?: QueryParamsWithList<TestQuality>,
+  queryParams?: QueryParamsWithList<Partial<TestQuality>>,
 ): Promise<TestQuality[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<TestQuality> = {
+      const config: QueryParamsWithList<Partial<TestQuality>> = {
         method: 'post',
         url: queryParams?.url ?? TestQualityRoute(),
         params: queryParams?.params,
@@ -175,7 +183,7 @@ export const testQualityCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<TestQuality[]>(config)
-        : getResponse<TestQuality[], TestQuality>(
+        : getResponse<TestQuality[], Partial<TestQuality>>(
             queryParams?.api ?? _client?.api,
             config,
           );

@@ -16,9 +16,9 @@ import type { DataSet } from './DataSet';
 import type { DataSetApi } from './DataSetApi';
 
 export const dataSetGetMany = (
-  queryParams?: QueryParams<DataSet>,
+  queryParams?: QueryParams<Partial<DataSet>>,
 ): Promise<ResourceList<DataSetApi>> => {
-  const config: QueryParams<DataSet> = {
+  const config: QueryParams<Partial<DataSet>> = {
     method: 'get',
     url: queryParams?.url ?? DataSetRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const dataSetGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<DataSetApi>>(config)
-    : getResponse<ResourceList<DataSetApi>, DataSet>(
+    : getResponse<ResourceList<DataSetApi>, Partial<DataSet>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const dataSetGetMany = (
 
 export const dataSetGetOne = (
   id: number,
-  queryParams?: QueryParams<DataSet>,
+  queryParams?: QueryParams<Partial<DataSet>>,
 ): Promise<DataSetApi> => {
-  const config: QueryParams<DataSet> = {
+  const config: QueryParams<Partial<DataSet>> = {
     method: 'get',
     url: `${queryParams?.url ?? DataSetRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const dataSetGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DataSetApi>(config)
-    : getResponse<DataSetApi, DataSet>(
+    : getResponse<DataSetApi, Partial<DataSet>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const dataSetGetOne = (
 
 export const dataSetDeleteOne = (
   id: number,
-  queryParams?: QueryParams<DataSet>,
+  queryParams?: QueryParams<Partial<DataSet>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<DataSet> = {
+  const config: QueryParams<Partial<DataSet>> = {
     method: 'delete',
     url: `${queryParams?.url ?? DataSetRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const dataSetDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, DataSet>(
+    : getResponse<MessageResponse, Partial<DataSet>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const dataSetDeleteOne = (
 
 export const dataSetDeleteMany = (
   data: (Partial<DataSet> & { id: number })[],
-  queryParams?: QueryParamsWithList<DataSet>,
+  queryParams?: QueryParamsWithList<Partial<DataSet> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DataSet> = {
+      const config: QueryParamsWithList<Partial<DataSet> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? DataSetRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const dataSetDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, DataSet>(
+        : getResponse<{ count: number }, Partial<DataSet> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const dataSetDeleteMany = (
 export const dataSetUpdateOne = (
   id: number,
   data: Partial<DataSet>,
-  queryParams?: QueryParams<DataSet>,
+  queryParams?: QueryParams<Partial<DataSet>>,
 ): Promise<DataSet> => {
-  const config: QueryParams<DataSet> = {
+  const config: QueryParams<Partial<DataSet>> = {
     method: 'put',
     url: `${queryParams?.url ?? DataSetRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const dataSetUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DataSet>(config)
-    : getResponse<DataSet>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DataSet, Partial<DataSet>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const dataSetUpdateMany = (
   data: (Partial<DataSet> & { id: number })[],
-  queryParams?: QueryParamsWithList<DataSet>,
+  queryParams?: QueryParamsWithList<Partial<DataSet> & { id: number }>,
 ): Promise<DataSet[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DataSet> = {
+      const config: QueryParamsWithList<Partial<DataSet> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? DataSetRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const dataSetUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DataSet[]>(config)
-        : getResponse<DataSet[], DataSet>(
+        : getResponse<DataSet[], Partial<DataSet> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const dataSetUpdateMany = (
 
 export const dataSetCreateOne = (
   data: Partial<DataSet>,
-  queryParams?: QueryParams<DataSet>,
+  queryParams?: QueryParams<Partial<DataSet>>,
 ): Promise<DataSet> => {
-  const config: QueryParams<DataSet> = {
+  const config: QueryParams<Partial<DataSet>> = {
     method: 'post',
     url: queryParams?.url ?? DataSetRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const dataSetCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DataSet>(config)
-    : getResponse<DataSet>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DataSet, Partial<DataSet>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const dataSetCreateMany = (
   data: Partial<DataSet>[],
-  queryParams?: QueryParamsWithList<DataSet>,
+  queryParams?: QueryParamsWithList<Partial<DataSet>>,
 ): Promise<DataSet[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DataSet> = {
+      const config: QueryParamsWithList<Partial<DataSet>> = {
         method: 'post',
         url: queryParams?.url ?? DataSetRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const dataSetCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DataSet[]>(config)
-        : getResponse<DataSet[], DataSet>(
+        : getResponse<DataSet[], Partial<DataSet>>(
             queryParams?.api ?? _client?.api,
             config,
           );

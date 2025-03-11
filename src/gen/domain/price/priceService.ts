@@ -16,9 +16,9 @@ import type { Price } from './Price';
 import type { PriceApi } from './PriceApi';
 
 export const priceGetMany = (
-  queryParams?: QueryParams<Price>,
+  queryParams?: QueryParams<Partial<Price>>,
 ): Promise<ResourceList<PriceApi>> => {
-  const config: QueryParams<Price> = {
+  const config: QueryParams<Partial<Price>> = {
     method: 'get',
     url: queryParams?.url ?? PriceRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const priceGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PriceApi>>(config)
-    : getResponse<ResourceList<PriceApi>, Price>(
+    : getResponse<ResourceList<PriceApi>, Partial<Price>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const priceGetMany = (
 
 export const priceGetOne = (
   id: number,
-  queryParams?: QueryParams<Price>,
+  queryParams?: QueryParams<Partial<Price>>,
 ): Promise<PriceApi> => {
-  const config: QueryParams<Price> = {
+  const config: QueryParams<Partial<Price>> = {
     method: 'get',
     url: `${queryParams?.url ?? PriceRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const priceGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PriceApi>(config)
-    : getResponse<PriceApi, Price>(queryParams?.api ?? _client?.api, config);
+    : getResponse<PriceApi, Partial<Price>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const priceDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Price>,
+  queryParams?: QueryParams<Partial<Price>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Price> = {
+  const config: QueryParams<Partial<Price>> = {
     method: 'delete',
     url: `${queryParams?.url ?? PriceRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const priceDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Price>(
+    : getResponse<MessageResponse, Partial<Price>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const priceDeleteOne = (
 
 export const priceDeleteMany = (
   data: (Partial<Price> & { id: number })[],
-  queryParams?: QueryParamsWithList<Price>,
+  queryParams?: QueryParamsWithList<Partial<Price> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Price> = {
+      const config: QueryParamsWithList<Partial<Price> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? PriceRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const priceDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Price>(
+        : getResponse<{ count: number }, Partial<Price> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const priceDeleteMany = (
 export const priceUpdateOne = (
   id: number,
   data: Partial<Price>,
-  queryParams?: QueryParams<Price>,
+  queryParams?: QueryParams<Partial<Price>>,
 ): Promise<Price> => {
-  const config: QueryParams<Price> = {
+  const config: QueryParams<Partial<Price>> = {
     method: 'put',
     url: `${queryParams?.url ?? PriceRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,20 @@ export const priceUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Price>(config)
-    : getResponse<Price>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Price, Partial<Price>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const priceUpdateMany = (
   data: (Partial<Price> & { id: number })[],
-  queryParams?: QueryParamsWithList<Price>,
+  queryParams?: QueryParamsWithList<Partial<Price> & { id: number }>,
 ): Promise<Price[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Price> = {
+      const config: QueryParamsWithList<Partial<Price> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? PriceRoute(),
         params: queryParams?.params,
@@ -130,16 +136,19 @@ export const priceUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Price[]>(config)
-        : getResponse<Price[], Price>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Price[], Partial<Price> & { id: number }>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };
 
 export const priceCreateOne = (
   data: Partial<Price>,
-  queryParams?: QueryParams<Price>,
+  queryParams?: QueryParams<Partial<Price>>,
 ): Promise<Price> => {
-  const config: QueryParams<Price> = {
+  const config: QueryParams<Partial<Price>> = {
     method: 'post',
     url: queryParams?.url ?? PriceRoute(),
     params: queryParams?.params,
@@ -149,17 +158,20 @@ export const priceCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Price>(config)
-    : getResponse<Price>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Price, Partial<Price>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const priceCreateMany = (
   data: Partial<Price>[],
-  queryParams?: QueryParamsWithList<Price>,
+  queryParams?: QueryParamsWithList<Partial<Price>>,
 ): Promise<Price[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Price> = {
+      const config: QueryParamsWithList<Partial<Price>> = {
         method: 'post',
         url: queryParams?.url ?? PriceRoute(),
         params: queryParams?.params,
@@ -169,7 +181,10 @@ export const priceCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Price[]>(config)
-        : getResponse<Price[], Price>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Price[], Partial<Price>>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };

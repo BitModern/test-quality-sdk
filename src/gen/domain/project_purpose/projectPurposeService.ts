@@ -16,12 +16,12 @@ import type { ProjectPurposeApi } from './ProjectPurposeApi';
 
 export const projectPurposeDetach = (
   data: Partial<ProjectPurpose>,
-  queryParams?: QueryParams<ProjectPurpose>,
+  queryParams?: QueryParams<Partial<ProjectPurpose>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<ProjectPurpose> = {
+  const config: QueryParams<Partial<ProjectPurpose>> = {
     method: 'delete',
     url: `/project_purpose/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const projectPurposeDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, ProjectPurpose>(
+    : getResponse<MessageResponse, Partial<ProjectPurpose>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,14 @@ export const projectPurposeDetach = (
 
 export const projectPurposeDeleteMany = (
   data: (Partial<ProjectPurpose> & { id: number })[],
-  queryParams?: QueryParamsWithList<ProjectPurpose>,
+  queryParams?: QueryParamsWithList<Partial<ProjectPurpose & { id: number }>>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<ProjectPurpose> = {
+      const config: QueryParamsWithList<
+        Partial<ProjectPurpose> & { id: number }
+      > = {
         method: 'post',
         url: `/project_purpose/delete`,
         params: queryParams?.params,
@@ -52,10 +54,10 @@ export const projectPurposeDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, ProjectPurpose>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<ProjectPurpose> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +65,9 @@ export const projectPurposeDeleteMany = (
 export const projectPurposeUpdateOne = (
   id: number,
   data: Partial<ProjectPurpose>,
-  queryParams?: QueryParams<ProjectPurpose>,
+  queryParams?: QueryParams<Partial<ProjectPurpose>>,
 ): Promise<ProjectPurpose> => {
-  const config: QueryParams<ProjectPurpose> = {
+  const config: QueryParams<Partial<ProjectPurpose>> = {
     method: 'put',
     url: `/project_purpose/${id}`,
     params: queryParams?.params,
@@ -74,17 +76,22 @@ export const projectPurposeUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ProjectPurpose>(config)
-    : getResponse<ProjectPurpose>(queryParams?.api ?? _client?.api, config);
+    : getResponse<ProjectPurpose, Partial<ProjectPurpose>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const projectPurposeUpdateMany = (
   data: (Partial<ProjectPurpose> & { id: number })[],
-  queryParams?: QueryParamsWithList<ProjectPurpose>,
+  queryParams?: QueryParamsWithList<Partial<ProjectPurpose> & { id: number }>,
 ): Promise<ProjectPurpose[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<ProjectPurpose> = {
+      const config: QueryParamsWithList<
+        Partial<ProjectPurpose> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/project_purpose`,
         params: queryParams?.params,
@@ -93,19 +100,19 @@ export const projectPurposeUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<ProjectPurpose[]>(config)
-        : getResponse<ProjectPurpose[], ProjectPurpose>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            ProjectPurpose[],
+            Partial<ProjectPurpose> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const projectPurposeCreateOne = (
   data: Partial<ProjectPurpose>,
-  queryParams?: QueryParams<ProjectPurpose>,
+  queryParams?: QueryParams<Partial<ProjectPurpose>>,
 ): Promise<ProjectPurpose> => {
-  const config: QueryParams<ProjectPurpose> = {
+  const config: QueryParams<Partial<ProjectPurpose>> = {
     method: 'post',
     url: queryParams?.url ?? `/project_purpose`,
     params: queryParams?.params,
@@ -114,17 +121,20 @@ export const projectPurposeCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ProjectPurpose>(config)
-    : getResponse<ProjectPurpose>(queryParams?.api ?? _client?.api, config);
+    : getResponse<ProjectPurpose, Partial<ProjectPurpose>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const projectPurposeCreateMany = (
   data: Partial<ProjectPurpose>[],
-  queryParams?: QueryParamsWithList<ProjectPurpose>,
+  queryParams?: QueryParamsWithList<Partial<ProjectPurpose>>,
 ): Promise<ProjectPurpose[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<ProjectPurpose> = {
+      const config: QueryParamsWithList<Partial<ProjectPurpose>> = {
         method: 'post',
         url: queryParams?.url ?? `/project_purpose`,
         params: queryParams?.params,
@@ -133,7 +143,7 @@ export const projectPurposeCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<ProjectPurpose[]>(config)
-        : getResponse<ProjectPurpose[], ProjectPurpose>(
+        : getResponse<ProjectPurpose[], Partial<ProjectPurpose>>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -142,9 +152,9 @@ export const projectPurposeCreateMany = (
 };
 
 export const projectPurposeGetMany = (
-  queryParams?: QueryParams<ProjectPurpose>,
+  queryParams?: QueryParams<Partial<ProjectPurpose>>,
 ): Promise<ResourceList<ProjectPurposeApi>> => {
-  const config: QueryParams<ProjectPurpose> = {
+  const config: QueryParams<Partial<ProjectPurpose>> = {
     method: 'get',
     url: queryParams?.url ?? `/project_purpose`,
     params: queryParams?.params,
@@ -153,7 +163,7 @@ export const projectPurposeGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<ProjectPurposeApi>>(config)
-    : getResponse<ResourceList<ProjectPurposeApi>, ProjectPurpose>(
+    : getResponse<ResourceList<ProjectPurposeApi>, Partial<ProjectPurpose>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -161,9 +171,9 @@ export const projectPurposeGetMany = (
 
 export const projectPurposeGetOne = (
   id: number,
-  queryParams?: QueryParams<ProjectPurpose>,
+  queryParams?: QueryParams<Partial<ProjectPurpose>>,
 ): Promise<ProjectPurposeApi> => {
-  const config: QueryParams<ProjectPurpose> = {
+  const config: QueryParams<Partial<ProjectPurpose>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/project_purpose/${id}`}`,
     params: queryParams?.params,
@@ -172,7 +182,7 @@ export const projectPurposeGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ProjectPurposeApi>(config)
-    : getResponse<ProjectPurposeApi, ProjectPurpose>(
+    : getResponse<ProjectPurposeApi, Partial<ProjectPurpose>>(
         queryParams?.api ?? _client?.api,
         config,
       );

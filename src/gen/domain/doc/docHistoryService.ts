@@ -10,9 +10,9 @@ import type { Doc } from './Doc';
 import type { DocHistory } from './DocHistory';
 
 export const docHistoryGet = (
-  queryParams?: QueryParams<Doc>,
+  queryParams?: QueryParams<Partial<Doc>>,
 ): Promise<DocHistory[]> => {
-  const config: QueryParams<Doc> = {
+  const config: QueryParams<Partial<Doc>> = {
     method: 'get',
     url: `${queryParams?.url ?? DocRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,5 +23,8 @@ export const docHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocHistory[]>(config)
-    : getResponse<DocHistory[], Doc>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DocHistory[], Partial<Doc>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };

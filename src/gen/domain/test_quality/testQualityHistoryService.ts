@@ -10,9 +10,9 @@ import type { TestQuality } from './TestQuality';
 import type { TestQualityHistory } from './TestQualityHistory';
 
 export const testQualityHistoryGet = (
-  queryParams?: QueryParams<TestQuality>,
+  queryParams?: QueryParams<Partial<TestQuality>>,
 ): Promise<TestQualityHistory[]> => {
-  const config: QueryParams<TestQuality> = {
+  const config: QueryParams<Partial<TestQuality>> = {
     method: 'get',
     url: `${queryParams?.url ?? TestQualityRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const testQualityHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestQualityHistory[]>(config)
-    : getResponse<TestQualityHistory[], TestQuality>(
+    : getResponse<TestQualityHistory[], Partial<TestQuality>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -10,9 +10,9 @@ import type { SharedPrecondition } from './SharedPrecondition';
 import type { SharedPreconditionHistory } from './SharedPreconditionHistory';
 
 export const sharedPreconditionHistoryGet = (
-  queryParams?: QueryParams<SharedPrecondition>,
+  queryParams?: QueryParams<Partial<SharedPrecondition>>,
 ): Promise<SharedPreconditionHistory[]> => {
-  const config: QueryParams<SharedPrecondition> = {
+  const config: QueryParams<Partial<SharedPrecondition>> = {
     method: 'get',
     url: `${queryParams?.url ?? SharedPreconditionRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const sharedPreconditionHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SharedPreconditionHistory[]>(config)
-    : getResponse<SharedPreconditionHistory[], SharedPrecondition>(
+    : getResponse<SharedPreconditionHistory[], Partial<SharedPrecondition>>(
         queryParams?.api ?? _client?.api,
         config,
       );

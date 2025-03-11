@@ -16,9 +16,9 @@ import type { IntegrationTemplate } from './IntegrationTemplate';
 import type { IntegrationTemplateApi } from './IntegrationTemplateApi';
 
 export const integrationTemplateGetMany = (
-  queryParams?: QueryParams<IntegrationTemplate>,
+  queryParams?: QueryParams<Partial<IntegrationTemplate>>,
 ): Promise<ResourceList<IntegrationTemplateApi>> => {
-  const config: QueryParams<IntegrationTemplate> = {
+  const config: QueryParams<Partial<IntegrationTemplate>> = {
     method: 'get',
     url: queryParams?.url ?? IntegrationTemplateRoute(),
     params: queryParams?.params,
@@ -28,17 +28,17 @@ export const integrationTemplateGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<IntegrationTemplateApi>>(config)
-    : getResponse<ResourceList<IntegrationTemplateApi>, IntegrationTemplate>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+    : getResponse<
+        ResourceList<IntegrationTemplateApi>,
+        Partial<IntegrationTemplate>
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const integrationTemplateGetOne = (
   id: number,
-  queryParams?: QueryParams<IntegrationTemplate>,
+  queryParams?: QueryParams<Partial<IntegrationTemplate>>,
 ): Promise<IntegrationTemplateApi> => {
-  const config: QueryParams<IntegrationTemplate> = {
+  const config: QueryParams<Partial<IntegrationTemplate>> = {
     method: 'get',
     url: `${queryParams?.url ?? IntegrationTemplateRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const integrationTemplateGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationTemplateApi>(config)
-    : getResponse<IntegrationTemplateApi, IntegrationTemplate>(
+    : getResponse<IntegrationTemplateApi, Partial<IntegrationTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const integrationTemplateGetOne = (
 
 export const integrationTemplateDeleteOne = (
   id: number,
-  queryParams?: QueryParams<IntegrationTemplate>,
+  queryParams?: QueryParams<Partial<IntegrationTemplate>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<IntegrationTemplate> = {
+  const config: QueryParams<Partial<IntegrationTemplate>> = {
     method: 'delete',
     url: `${queryParams?.url ?? IntegrationTemplateRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const integrationTemplateDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, IntegrationTemplate>(
+    : getResponse<MessageResponse, Partial<IntegrationTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,16 @@ export const integrationTemplateDeleteOne = (
 
 export const integrationTemplateDeleteMany = (
   data: (Partial<IntegrationTemplate> & { id: number })[],
-  queryParams?: QueryParamsWithList<IntegrationTemplate>,
+  queryParams?: QueryParamsWithList<
+    Partial<IntegrationTemplate> & { id: number }
+  >,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationTemplate> = {
+      const config: QueryParamsWithList<
+        Partial<IntegrationTemplate> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? IntegrationTemplateRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +94,10 @@ export const integrationTemplateDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, IntegrationTemplate>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<IntegrationTemplate> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +105,9 @@ export const integrationTemplateDeleteMany = (
 export const integrationTemplateUpdateOne = (
   id: number,
   data: Partial<IntegrationTemplate>,
-  queryParams?: QueryParams<IntegrationTemplate>,
+  queryParams?: QueryParams<Partial<IntegrationTemplate>>,
 ): Promise<IntegrationTemplate> => {
-  const config: QueryParams<IntegrationTemplate> = {
+  const config: QueryParams<Partial<IntegrationTemplate>> = {
     method: 'put',
     url: `${queryParams?.url ?? IntegrationTemplateRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,7 +117,7 @@ export const integrationTemplateUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationTemplate>(config)
-    : getResponse<IntegrationTemplate>(
+    : getResponse<IntegrationTemplate, Partial<IntegrationTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -121,12 +125,16 @@ export const integrationTemplateUpdateOne = (
 
 export const integrationTemplateUpdateMany = (
   data: (Partial<IntegrationTemplate> & { id: number })[],
-  queryParams?: QueryParamsWithList<IntegrationTemplate>,
+  queryParams?: QueryParamsWithList<
+    Partial<IntegrationTemplate> & { id: number }
+  >,
 ): Promise<IntegrationTemplate[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationTemplate> = {
+      const config: QueryParamsWithList<
+        Partial<IntegrationTemplate> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? IntegrationTemplateRoute(),
         params: queryParams?.params,
@@ -136,19 +144,19 @@ export const integrationTemplateUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<IntegrationTemplate[]>(config)
-        : getResponse<IntegrationTemplate[], IntegrationTemplate>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            IntegrationTemplate[],
+            Partial<IntegrationTemplate> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const integrationTemplateCreateOne = (
   data: Partial<IntegrationTemplate>,
-  queryParams?: QueryParams<IntegrationTemplate>,
+  queryParams?: QueryParams<Partial<IntegrationTemplate>>,
 ): Promise<IntegrationTemplate> => {
-  const config: QueryParams<IntegrationTemplate> = {
+  const config: QueryParams<Partial<IntegrationTemplate>> = {
     method: 'post',
     url: queryParams?.url ?? IntegrationTemplateRoute(),
     params: queryParams?.params,
@@ -158,7 +166,7 @@ export const integrationTemplateCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationTemplate>(config)
-    : getResponse<IntegrationTemplate>(
+    : getResponse<IntegrationTemplate, Partial<IntegrationTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -166,12 +174,12 @@ export const integrationTemplateCreateOne = (
 
 export const integrationTemplateCreateMany = (
   data: Partial<IntegrationTemplate>[],
-  queryParams?: QueryParamsWithList<IntegrationTemplate>,
+  queryParams?: QueryParamsWithList<Partial<IntegrationTemplate>>,
 ): Promise<IntegrationTemplate[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationTemplate> = {
+      const config: QueryParamsWithList<Partial<IntegrationTemplate>> = {
         method: 'post',
         url: queryParams?.url ?? IntegrationTemplateRoute(),
         params: queryParams?.params,
@@ -181,7 +189,7 @@ export const integrationTemplateCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<IntegrationTemplate[]>(config)
-        : getResponse<IntegrationTemplate[], IntegrationTemplate>(
+        : getResponse<IntegrationTemplate[], Partial<IntegrationTemplate>>(
             queryParams?.api ?? _client?.api,
             config,
           );

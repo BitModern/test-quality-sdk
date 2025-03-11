@@ -10,9 +10,9 @@ import type { Label } from './Label';
 import type { LabelHistory } from './LabelHistory';
 
 export const labelHistoryGet = (
-  queryParams?: QueryParams<Label>,
+  queryParams?: QueryParams<Partial<Label>>,
 ): Promise<LabelHistory[]> => {
-  const config: QueryParams<Label> = {
+  const config: QueryParams<Partial<Label>> = {
     method: 'get',
     url: `${queryParams?.url ?? LabelRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const labelHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<LabelHistory[]>(config)
-    : getResponse<LabelHistory[], Label>(
+    : getResponse<LabelHistory[], Partial<Label>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -10,9 +10,9 @@ import type { Share } from './Share';
 import type { ShareHistory } from './ShareHistory';
 
 export const shareHistoryGet = (
-  queryParams?: QueryParams<Share>,
+  queryParams?: QueryParams<Partial<Share>>,
 ): Promise<ShareHistory[]> => {
-  const config: QueryParams<Share> = {
+  const config: QueryParams<Partial<Share>> = {
     method: 'get',
     url: `${queryParams?.url ?? ShareRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const shareHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ShareHistory[]>(config)
-    : getResponse<ShareHistory[], Share>(
+    : getResponse<ShareHistory[], Partial<Share>>(
         queryParams?.api ?? _client?.api,
         config,
       );

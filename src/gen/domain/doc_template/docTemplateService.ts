@@ -16,9 +16,9 @@ import type { DocTemplate } from './DocTemplate';
 import type { DocTemplateApi } from './DocTemplateApi';
 
 export const docTemplateGetMany = (
-  queryParams?: QueryParams<DocTemplate>,
+  queryParams?: QueryParams<Partial<DocTemplate>>,
 ): Promise<ResourceList<DocTemplateApi>> => {
-  const config: QueryParams<DocTemplate> = {
+  const config: QueryParams<Partial<DocTemplate>> = {
     method: 'get',
     url: queryParams?.url ?? DocTemplateRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const docTemplateGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<DocTemplateApi>>(config)
-    : getResponse<ResourceList<DocTemplateApi>, DocTemplate>(
+    : getResponse<ResourceList<DocTemplateApi>, Partial<DocTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const docTemplateGetMany = (
 
 export const docTemplateGetOne = (
   id: number,
-  queryParams?: QueryParams<DocTemplate>,
+  queryParams?: QueryParams<Partial<DocTemplate>>,
 ): Promise<DocTemplateApi> => {
-  const config: QueryParams<DocTemplate> = {
+  const config: QueryParams<Partial<DocTemplate>> = {
     method: 'get',
     url: `${queryParams?.url ?? DocTemplateRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const docTemplateGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocTemplateApi>(config)
-    : getResponse<DocTemplateApi, DocTemplate>(
+    : getResponse<DocTemplateApi, Partial<DocTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const docTemplateGetOne = (
 
 export const docTemplateDeleteOne = (
   id: number,
-  queryParams?: QueryParams<DocTemplate>,
+  queryParams?: QueryParams<Partial<DocTemplate>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<DocTemplate> = {
+  const config: QueryParams<Partial<DocTemplate>> = {
     method: 'delete',
     url: `${queryParams?.url ?? DocTemplateRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const docTemplateDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, DocTemplate>(
+    : getResponse<MessageResponse, Partial<DocTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,22 +75,23 @@ export const docTemplateDeleteOne = (
 
 export const docTemplateDeleteMany = (
   data: (Partial<DocTemplate> & { id: number })[],
-  queryParams?: QueryParamsWithList<DocTemplate>,
+  queryParams?: QueryParamsWithList<Partial<DocTemplate> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DocTemplate> = {
-        method: 'post',
-        url: queryParams?.url ?? DocTemplateRoute() + '/delete',
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<DocTemplate> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? DocTemplateRoute() + '/delete',
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, DocTemplate>(
+        : getResponse<{ count: number }, Partial<DocTemplate> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +102,9 @@ export const docTemplateDeleteMany = (
 export const docTemplateUpdateOne = (
   id: number,
   data: Partial<DocTemplate>,
-  queryParams?: QueryParams<DocTemplate>,
+  queryParams?: QueryParams<Partial<DocTemplate>>,
 ): Promise<DocTemplate> => {
-  const config: QueryParams<DocTemplate> = {
+  const config: QueryParams<Partial<DocTemplate>> = {
     method: 'put',
     url: `${queryParams?.url ?? DocTemplateRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,27 +114,31 @@ export const docTemplateUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocTemplate>(config)
-    : getResponse<DocTemplate>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DocTemplate, Partial<DocTemplate>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const docTemplateUpdateMany = (
   data: (Partial<DocTemplate> & { id: number })[],
-  queryParams?: QueryParamsWithList<DocTemplate>,
+  queryParams?: QueryParamsWithList<Partial<DocTemplate> & { id: number }>,
 ): Promise<DocTemplate[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DocTemplate> = {
-        method: 'post',
-        url: queryParams?.url ?? DocTemplateRoute(),
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<DocTemplate> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? DocTemplateRoute(),
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DocTemplate[]>(config)
-        : getResponse<DocTemplate[], DocTemplate>(
+        : getResponse<DocTemplate[], Partial<DocTemplate> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +148,9 @@ export const docTemplateUpdateMany = (
 
 export const docTemplateCreateOne = (
   data: Partial<DocTemplate>,
-  queryParams?: QueryParams<DocTemplate>,
+  queryParams?: QueryParams<Partial<DocTemplate>>,
 ): Promise<DocTemplate> => {
-  const config: QueryParams<DocTemplate> = {
+  const config: QueryParams<Partial<DocTemplate>> = {
     method: 'post',
     url: queryParams?.url ?? DocTemplateRoute(),
     params: queryParams?.params,
@@ -155,17 +160,20 @@ export const docTemplateCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocTemplate>(config)
-    : getResponse<DocTemplate>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DocTemplate, Partial<DocTemplate>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const docTemplateCreateMany = (
   data: Partial<DocTemplate>[],
-  queryParams?: QueryParamsWithList<DocTemplate>,
+  queryParams?: QueryParamsWithList<Partial<DocTemplate>>,
 ): Promise<DocTemplate[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DocTemplate> = {
+      const config: QueryParamsWithList<Partial<DocTemplate>> = {
         method: 'post',
         url: queryParams?.url ?? DocTemplateRoute(),
         params: queryParams?.params,
@@ -175,7 +183,7 @@ export const docTemplateCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DocTemplate[]>(config)
-        : getResponse<DocTemplate[], DocTemplate>(
+        : getResponse<DocTemplate[], Partial<DocTemplate>>(
             queryParams?.api ?? _client?.api,
             config,
           );

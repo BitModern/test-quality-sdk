@@ -10,9 +10,9 @@ import type { PlanSuiteTestInclude } from './PlanSuiteTestInclude';
 import type { PlanSuiteTestIncludeHistory } from './PlanSuiteTestIncludeHistory';
 
 export const planSuiteTestIncludeHistoryGet = (
-  queryParams?: QueryParams<PlanSuiteTestInclude>,
+  queryParams?: QueryParams<Partial<PlanSuiteTestInclude>>,
 ): Promise<PlanSuiteTestIncludeHistory[]> => {
-  const config: QueryParams<PlanSuiteTestInclude> = {
+  const config: QueryParams<Partial<PlanSuiteTestInclude>> = {
     method: 'get',
     url: `${queryParams?.url ?? PlanSuiteTestIncludeRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const planSuiteTestIncludeHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanSuiteTestIncludeHistory[]>(config)
-    : getResponse<PlanSuiteTestIncludeHistory[], PlanSuiteTestInclude>(
+    : getResponse<PlanSuiteTestIncludeHistory[], Partial<PlanSuiteTestInclude>>(
         queryParams?.api ?? _client?.api,
         config,
       );

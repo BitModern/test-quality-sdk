@@ -16,9 +16,9 @@ import type { Status } from './Status';
 import type { StatusApi } from './StatusApi';
 
 export const statusGetMany = (
-  queryParams?: QueryParams<Status>,
+  queryParams?: QueryParams<Partial<Status>>,
 ): Promise<ResourceList<StatusApi>> => {
-  const config: QueryParams<Status> = {
+  const config: QueryParams<Partial<Status>> = {
     method: 'get',
     url: queryParams?.url ?? StatusRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const statusGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<StatusApi>>(config)
-    : getResponse<ResourceList<StatusApi>, Status>(
+    : getResponse<ResourceList<StatusApi>, Partial<Status>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const statusGetMany = (
 
 export const statusGetOne = (
   id: number,
-  queryParams?: QueryParams<Status>,
+  queryParams?: QueryParams<Partial<Status>>,
 ): Promise<StatusApi> => {
-  const config: QueryParams<Status> = {
+  const config: QueryParams<Partial<Status>> = {
     method: 'get',
     url: `${queryParams?.url ?? StatusRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const statusGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StatusApi>(config)
-    : getResponse<StatusApi, Status>(queryParams?.api ?? _client?.api, config);
+    : getResponse<StatusApi, Partial<Status>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const statusDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Status>,
+  queryParams?: QueryParams<Partial<Status>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Status> = {
+  const config: QueryParams<Partial<Status>> = {
     method: 'delete',
     url: `${queryParams?.url ?? StatusRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const statusDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Status>(
+    : getResponse<MessageResponse, Partial<Status>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const statusDeleteOne = (
 
 export const statusDeleteMany = (
   data: (Partial<Status> & { id: number })[],
-  queryParams?: QueryParamsWithList<Status>,
+  queryParams?: QueryParamsWithList<Partial<Status> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Status> = {
+      const config: QueryParamsWithList<Partial<Status> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? StatusRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const statusDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Status>(
+        : getResponse<{ count: number }, Partial<Status> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const statusDeleteMany = (
 export const statusUpdateOne = (
   id: number,
   data: Partial<Status>,
-  queryParams?: QueryParams<Status>,
+  queryParams?: QueryParams<Partial<Status>>,
 ): Promise<Status> => {
-  const config: QueryParams<Status> = {
+  const config: QueryParams<Partial<Status>> = {
     method: 'put',
     url: `${queryParams?.url ?? StatusRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,20 @@ export const statusUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Status>(config)
-    : getResponse<Status>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Status, Partial<Status>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const statusUpdateMany = (
   data: (Partial<Status> & { id: number })[],
-  queryParams?: QueryParamsWithList<Status>,
+  queryParams?: QueryParamsWithList<Partial<Status> & { id: number }>,
 ): Promise<Status[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Status> = {
+      const config: QueryParamsWithList<Partial<Status> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? StatusRoute(),
         params: queryParams?.params,
@@ -130,7 +136,7 @@ export const statusUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Status[]>(config)
-        : getResponse<Status[], Status>(
+        : getResponse<Status[], Partial<Status> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -140,9 +146,9 @@ export const statusUpdateMany = (
 
 export const statusCreateOne = (
   data: Partial<Status>,
-  queryParams?: QueryParams<Status>,
+  queryParams?: QueryParams<Partial<Status>>,
 ): Promise<Status> => {
-  const config: QueryParams<Status> = {
+  const config: QueryParams<Partial<Status>> = {
     method: 'post',
     url: queryParams?.url ?? StatusRoute(),
     params: queryParams?.params,
@@ -152,17 +158,20 @@ export const statusCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Status>(config)
-    : getResponse<Status>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Status, Partial<Status>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const statusCreateMany = (
   data: Partial<Status>[],
-  queryParams?: QueryParamsWithList<Status>,
+  queryParams?: QueryParamsWithList<Partial<Status>>,
 ): Promise<Status[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Status> = {
+      const config: QueryParamsWithList<Partial<Status>> = {
         method: 'post',
         url: queryParams?.url ?? StatusRoute(),
         params: queryParams?.params,
@@ -172,7 +181,7 @@ export const statusCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Status[]>(config)
-        : getResponse<Status[], Status>(
+        : getResponse<Status[], Partial<Status>>(
             queryParams?.api ?? _client?.api,
             config,
           );

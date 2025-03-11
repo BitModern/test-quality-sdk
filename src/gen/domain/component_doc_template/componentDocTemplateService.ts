@@ -16,9 +16,9 @@ import type { ComponentDocTemplate } from './ComponentDocTemplate';
 import type { ComponentDocTemplateApi } from './ComponentDocTemplateApi';
 
 export const componentDocTemplateGetMany = (
-  queryParams?: QueryParams<ComponentDocTemplate>,
+  queryParams?: QueryParams<Partial<ComponentDocTemplate>>,
 ): Promise<ResourceList<ComponentDocTemplateApi>> => {
-  const config: QueryParams<ComponentDocTemplate> = {
+  const config: QueryParams<Partial<ComponentDocTemplate>> = {
     method: 'get',
     url: queryParams?.url ?? ComponentDocTemplateRoute(),
     params: queryParams?.params,
@@ -28,17 +28,17 @@ export const componentDocTemplateGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<ComponentDocTemplateApi>>(config)
-    : getResponse<ResourceList<ComponentDocTemplateApi>, ComponentDocTemplate>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+    : getResponse<
+        ResourceList<ComponentDocTemplateApi>,
+        Partial<ComponentDocTemplate>
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const componentDocTemplateGetOne = (
   id: number,
-  queryParams?: QueryParams<ComponentDocTemplate>,
+  queryParams?: QueryParams<Partial<ComponentDocTemplate>>,
 ): Promise<ComponentDocTemplateApi> => {
-  const config: QueryParams<ComponentDocTemplate> = {
+  const config: QueryParams<Partial<ComponentDocTemplate>> = {
     method: 'get',
     url: `${queryParams?.url ?? ComponentDocTemplateRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const componentDocTemplateGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ComponentDocTemplateApi>(config)
-    : getResponse<ComponentDocTemplateApi, ComponentDocTemplate>(
+    : getResponse<ComponentDocTemplateApi, Partial<ComponentDocTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const componentDocTemplateGetOne = (
 
 export const componentDocTemplateDeleteOne = (
   id: number,
-  queryParams?: QueryParams<ComponentDocTemplate>,
+  queryParams?: QueryParams<Partial<ComponentDocTemplate>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<ComponentDocTemplate> = {
+  const config: QueryParams<Partial<ComponentDocTemplate>> = {
     method: 'delete',
     url: `${queryParams?.url ?? ComponentDocTemplateRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const componentDocTemplateDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, ComponentDocTemplate>(
+    : getResponse<MessageResponse, Partial<ComponentDocTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,16 @@ export const componentDocTemplateDeleteOne = (
 
 export const componentDocTemplateDeleteMany = (
   data: (Partial<ComponentDocTemplate> & { id: number })[],
-  queryParams?: QueryParamsWithList<ComponentDocTemplate>,
+  queryParams?: QueryParamsWithList<
+    Partial<ComponentDocTemplate> & { id: number }
+  >,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<ComponentDocTemplate> = {
+      const config: QueryParamsWithList<
+        Partial<ComponentDocTemplate> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? ComponentDocTemplateRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +94,10 @@ export const componentDocTemplateDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, ComponentDocTemplate>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<ComponentDocTemplate> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +105,9 @@ export const componentDocTemplateDeleteMany = (
 export const componentDocTemplateUpdateOne = (
   id: number,
   data: Partial<ComponentDocTemplate>,
-  queryParams?: QueryParams<ComponentDocTemplate>,
+  queryParams?: QueryParams<Partial<ComponentDocTemplate>>,
 ): Promise<ComponentDocTemplate> => {
-  const config: QueryParams<ComponentDocTemplate> = {
+  const config: QueryParams<Partial<ComponentDocTemplate>> = {
     method: 'put',
     url: `${queryParams?.url ?? ComponentDocTemplateRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,7 +117,7 @@ export const componentDocTemplateUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ComponentDocTemplate>(config)
-    : getResponse<ComponentDocTemplate>(
+    : getResponse<ComponentDocTemplate, Partial<ComponentDocTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -121,12 +125,16 @@ export const componentDocTemplateUpdateOne = (
 
 export const componentDocTemplateUpdateMany = (
   data: (Partial<ComponentDocTemplate> & { id: number })[],
-  queryParams?: QueryParamsWithList<ComponentDocTemplate>,
+  queryParams?: QueryParamsWithList<
+    Partial<ComponentDocTemplate> & { id: number }
+  >,
 ): Promise<ComponentDocTemplate[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<ComponentDocTemplate> = {
+      const config: QueryParamsWithList<
+        Partial<ComponentDocTemplate> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? ComponentDocTemplateRoute(),
         params: queryParams?.params,
@@ -136,19 +144,19 @@ export const componentDocTemplateUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<ComponentDocTemplate[]>(config)
-        : getResponse<ComponentDocTemplate[], ComponentDocTemplate>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            ComponentDocTemplate[],
+            Partial<ComponentDocTemplate> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const componentDocTemplateCreateOne = (
   data: Partial<ComponentDocTemplate>,
-  queryParams?: QueryParams<ComponentDocTemplate>,
+  queryParams?: QueryParams<Partial<ComponentDocTemplate>>,
 ): Promise<ComponentDocTemplate> => {
-  const config: QueryParams<ComponentDocTemplate> = {
+  const config: QueryParams<Partial<ComponentDocTemplate>> = {
     method: 'post',
     url: queryParams?.url ?? ComponentDocTemplateRoute(),
     params: queryParams?.params,
@@ -158,7 +166,7 @@ export const componentDocTemplateCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ComponentDocTemplate>(config)
-    : getResponse<ComponentDocTemplate>(
+    : getResponse<ComponentDocTemplate, Partial<ComponentDocTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -166,12 +174,12 @@ export const componentDocTemplateCreateOne = (
 
 export const componentDocTemplateCreateMany = (
   data: Partial<ComponentDocTemplate>[],
-  queryParams?: QueryParamsWithList<ComponentDocTemplate>,
+  queryParams?: QueryParamsWithList<Partial<ComponentDocTemplate>>,
 ): Promise<ComponentDocTemplate[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<ComponentDocTemplate> = {
+      const config: QueryParamsWithList<Partial<ComponentDocTemplate>> = {
         method: 'post',
         url: queryParams?.url ?? ComponentDocTemplateRoute(),
         params: queryParams?.params,
@@ -181,7 +189,7 @@ export const componentDocTemplateCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<ComponentDocTemplate[]>(config)
-        : getResponse<ComponentDocTemplate[], ComponentDocTemplate>(
+        : getResponse<ComponentDocTemplate[], Partial<ComponentDocTemplate>>(
             queryParams?.api ?? _client?.api,
             config,
           );

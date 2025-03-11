@@ -10,9 +10,9 @@ import type { IntegrationTemplate } from './IntegrationTemplate';
 import type { IntegrationTemplateHistory } from './IntegrationTemplateHistory';
 
 export const integrationTemplateHistoryGet = (
-  queryParams?: QueryParams<IntegrationTemplate>,
+  queryParams?: QueryParams<Partial<IntegrationTemplate>>,
 ): Promise<IntegrationTemplateHistory[]> => {
-  const config: QueryParams<IntegrationTemplate> = {
+  const config: QueryParams<Partial<IntegrationTemplate>> = {
     method: 'get',
     url: `${queryParams?.url ?? IntegrationTemplateRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const integrationTemplateHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationTemplateHistory[]>(config)
-    : getResponse<IntegrationTemplateHistory[], IntegrationTemplate>(
+    : getResponse<IntegrationTemplateHistory[], Partial<IntegrationTemplate>>(
         queryParams?.api ?? _client?.api,
         config,
       );

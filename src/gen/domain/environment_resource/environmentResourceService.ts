@@ -16,12 +16,12 @@ import type { EnvironmentResourceApi } from './EnvironmentResourceApi';
 
 export const environmentResourceDetach = (
   data: Partial<EnvironmentResource>,
-  queryParams?: QueryParams<EnvironmentResource>,
+  queryParams?: QueryParams<Partial<EnvironmentResource>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<EnvironmentResource> = {
+  const config: QueryParams<Partial<EnvironmentResource>> = {
     method: 'delete',
     url: `/environment_resource/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const environmentResourceDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, EnvironmentResource>(
+    : getResponse<MessageResponse, Partial<EnvironmentResource>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,16 @@ export const environmentResourceDetach = (
 
 export const environmentResourceDeleteMany = (
   data: (Partial<EnvironmentResource> & { id: number })[],
-  queryParams?: QueryParamsWithList<EnvironmentResource>,
+  queryParams?: QueryParamsWithList<
+    Partial<EnvironmentResource & { id: number }>
+  >,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<EnvironmentResource> = {
+      const config: QueryParamsWithList<
+        Partial<EnvironmentResource> & { id: number }
+      > = {
         method: 'post',
         url: `/environment_resource/delete`,
         params: queryParams?.params,
@@ -52,10 +56,10 @@ export const environmentResourceDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, EnvironmentResource>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<EnvironmentResource> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +67,9 @@ export const environmentResourceDeleteMany = (
 export const environmentResourceUpdateOne = (
   id: number,
   data: Partial<EnvironmentResource>,
-  queryParams?: QueryParams<EnvironmentResource>,
+  queryParams?: QueryParams<Partial<EnvironmentResource>>,
 ): Promise<EnvironmentResource> => {
-  const config: QueryParams<EnvironmentResource> = {
+  const config: QueryParams<Partial<EnvironmentResource>> = {
     method: 'put',
     url: `/environment_resource/${id}`,
     params: queryParams?.params,
@@ -74,7 +78,7 @@ export const environmentResourceUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<EnvironmentResource>(config)
-    : getResponse<EnvironmentResource>(
+    : getResponse<EnvironmentResource, Partial<EnvironmentResource>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -82,12 +86,16 @@ export const environmentResourceUpdateOne = (
 
 export const environmentResourceUpdateMany = (
   data: (Partial<EnvironmentResource> & { id: number })[],
-  queryParams?: QueryParamsWithList<EnvironmentResource>,
+  queryParams?: QueryParamsWithList<
+    Partial<EnvironmentResource> & { id: number }
+  >,
 ): Promise<EnvironmentResource[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<EnvironmentResource> = {
+      const config: QueryParamsWithList<
+        Partial<EnvironmentResource> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/environment_resource`,
         params: queryParams?.params,
@@ -96,19 +104,19 @@ export const environmentResourceUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<EnvironmentResource[]>(config)
-        : getResponse<EnvironmentResource[], EnvironmentResource>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            EnvironmentResource[],
+            Partial<EnvironmentResource> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const environmentResourceCreateOne = (
   data: Partial<EnvironmentResource>,
-  queryParams?: QueryParams<EnvironmentResource>,
+  queryParams?: QueryParams<Partial<EnvironmentResource>>,
 ): Promise<EnvironmentResource> => {
-  const config: QueryParams<EnvironmentResource> = {
+  const config: QueryParams<Partial<EnvironmentResource>> = {
     method: 'post',
     url: queryParams?.url ?? `/environment_resource`,
     params: queryParams?.params,
@@ -117,7 +125,7 @@ export const environmentResourceCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<EnvironmentResource>(config)
-    : getResponse<EnvironmentResource>(
+    : getResponse<EnvironmentResource, Partial<EnvironmentResource>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -125,12 +133,12 @@ export const environmentResourceCreateOne = (
 
 export const environmentResourceCreateMany = (
   data: Partial<EnvironmentResource>[],
-  queryParams?: QueryParamsWithList<EnvironmentResource>,
+  queryParams?: QueryParamsWithList<Partial<EnvironmentResource>>,
 ): Promise<EnvironmentResource[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<EnvironmentResource> = {
+      const config: QueryParamsWithList<Partial<EnvironmentResource>> = {
         method: 'post',
         url: queryParams?.url ?? `/environment_resource`,
         params: queryParams?.params,
@@ -139,7 +147,7 @@ export const environmentResourceCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<EnvironmentResource[]>(config)
-        : getResponse<EnvironmentResource[], EnvironmentResource>(
+        : getResponse<EnvironmentResource[], Partial<EnvironmentResource>>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -148,9 +156,9 @@ export const environmentResourceCreateMany = (
 };
 
 export const environmentResourceGetMany = (
-  queryParams?: QueryParams<EnvironmentResource>,
+  queryParams?: QueryParams<Partial<EnvironmentResource>>,
 ): Promise<ResourceList<EnvironmentResourceApi>> => {
-  const config: QueryParams<EnvironmentResource> = {
+  const config: QueryParams<Partial<EnvironmentResource>> = {
     method: 'get',
     url: queryParams?.url ?? `/environment_resource`,
     params: queryParams?.params,
@@ -159,17 +167,17 @@ export const environmentResourceGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<EnvironmentResourceApi>>(config)
-    : getResponse<ResourceList<EnvironmentResourceApi>, EnvironmentResource>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+    : getResponse<
+        ResourceList<EnvironmentResourceApi>,
+        Partial<EnvironmentResource>
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const environmentResourceGetOne = (
   id: number,
-  queryParams?: QueryParams<EnvironmentResource>,
+  queryParams?: QueryParams<Partial<EnvironmentResource>>,
 ): Promise<EnvironmentResourceApi> => {
-  const config: QueryParams<EnvironmentResource> = {
+  const config: QueryParams<Partial<EnvironmentResource>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/environment_resource/${id}`}`,
     params: queryParams?.params,
@@ -178,7 +186,7 @@ export const environmentResourceGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<EnvironmentResourceApi>(config)
-    : getResponse<EnvironmentResourceApi, EnvironmentResource>(
+    : getResponse<EnvironmentResourceApi, Partial<EnvironmentResource>>(
         queryParams?.api ?? _client?.api,
         config,
       );

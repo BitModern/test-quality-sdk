@@ -10,9 +10,9 @@ import type { Requirement } from './Requirement';
 import type { RequirementHistory } from './RequirementHistory';
 
 export const requirementHistoryGet = (
-  queryParams?: QueryParams<Requirement>,
+  queryParams?: QueryParams<Partial<Requirement>>,
 ): Promise<RequirementHistory[]> => {
-  const config: QueryParams<Requirement> = {
+  const config: QueryParams<Partial<Requirement>> = {
     method: 'get',
     url: `${queryParams?.url ?? RequirementRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const requirementHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RequirementHistory[]>(config)
-    : getResponse<RequirementHistory[], Requirement>(
+    : getResponse<RequirementHistory[], Partial<Requirement>>(
         queryParams?.api ?? _client?.api,
         config,
       );

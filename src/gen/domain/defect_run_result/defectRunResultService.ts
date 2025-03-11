@@ -16,12 +16,12 @@ import type { DefectRunResultApi } from './DefectRunResultApi';
 
 export const defectRunResultDetach = (
   data: Partial<DefectRunResult>,
-  queryParams?: QueryParams<DefectRunResult>,
+  queryParams?: QueryParams<Partial<DefectRunResult>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<DefectRunResult> = {
+  const config: QueryParams<Partial<DefectRunResult>> = {
     method: 'delete',
     url: `/defect_run_result/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const defectRunResultDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, DefectRunResult>(
+    : getResponse<MessageResponse, Partial<DefectRunResult>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,14 @@ export const defectRunResultDetach = (
 
 export const defectRunResultDeleteMany = (
   data: (Partial<DefectRunResult> & { id: number })[],
-  queryParams?: QueryParamsWithList<DefectRunResult>,
+  queryParams?: QueryParamsWithList<Partial<DefectRunResult & { id: number }>>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DefectRunResult> = {
+      const config: QueryParamsWithList<
+        Partial<DefectRunResult> & { id: number }
+      > = {
         method: 'post',
         url: `/defect_run_result/delete`,
         params: queryParams?.params,
@@ -52,10 +54,10 @@ export const defectRunResultDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, DefectRunResult>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<DefectRunResult> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +65,9 @@ export const defectRunResultDeleteMany = (
 export const defectRunResultUpdateOne = (
   id: number,
   data: Partial<DefectRunResult>,
-  queryParams?: QueryParams<DefectRunResult>,
+  queryParams?: QueryParams<Partial<DefectRunResult>>,
 ): Promise<DefectRunResult> => {
-  const config: QueryParams<DefectRunResult> = {
+  const config: QueryParams<Partial<DefectRunResult>> = {
     method: 'put',
     url: `/defect_run_result/${id}`,
     params: queryParams?.params,
@@ -74,17 +76,22 @@ export const defectRunResultUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectRunResult>(config)
-    : getResponse<DefectRunResult>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DefectRunResult, Partial<DefectRunResult>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const defectRunResultUpdateMany = (
   data: (Partial<DefectRunResult> & { id: number })[],
-  queryParams?: QueryParamsWithList<DefectRunResult>,
+  queryParams?: QueryParamsWithList<Partial<DefectRunResult> & { id: number }>,
 ): Promise<DefectRunResult[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DefectRunResult> = {
+      const config: QueryParamsWithList<
+        Partial<DefectRunResult> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/defect_run_result`,
         params: queryParams?.params,
@@ -93,19 +100,19 @@ export const defectRunResultUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DefectRunResult[]>(config)
-        : getResponse<DefectRunResult[], DefectRunResult>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            DefectRunResult[],
+            Partial<DefectRunResult> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const defectRunResultCreateOne = (
   data: Partial<DefectRunResult>,
-  queryParams?: QueryParams<DefectRunResult>,
+  queryParams?: QueryParams<Partial<DefectRunResult>>,
 ): Promise<DefectRunResult> => {
-  const config: QueryParams<DefectRunResult> = {
+  const config: QueryParams<Partial<DefectRunResult>> = {
     method: 'post',
     url: queryParams?.url ?? `/defect_run_result`,
     params: queryParams?.params,
@@ -114,17 +121,20 @@ export const defectRunResultCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectRunResult>(config)
-    : getResponse<DefectRunResult>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DefectRunResult, Partial<DefectRunResult>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const defectRunResultCreateMany = (
   data: Partial<DefectRunResult>[],
-  queryParams?: QueryParamsWithList<DefectRunResult>,
+  queryParams?: QueryParamsWithList<Partial<DefectRunResult>>,
 ): Promise<DefectRunResult[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DefectRunResult> = {
+      const config: QueryParamsWithList<Partial<DefectRunResult>> = {
         method: 'post',
         url: queryParams?.url ?? `/defect_run_result`,
         params: queryParams?.params,
@@ -133,7 +143,7 @@ export const defectRunResultCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DefectRunResult[]>(config)
-        : getResponse<DefectRunResult[], DefectRunResult>(
+        : getResponse<DefectRunResult[], Partial<DefectRunResult>>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -142,9 +152,9 @@ export const defectRunResultCreateMany = (
 };
 
 export const defectRunResultGetMany = (
-  queryParams?: QueryParams<DefectRunResult>,
+  queryParams?: QueryParams<Partial<DefectRunResult>>,
 ): Promise<ResourceList<DefectRunResultApi>> => {
-  const config: QueryParams<DefectRunResult> = {
+  const config: QueryParams<Partial<DefectRunResult>> = {
     method: 'get',
     url: queryParams?.url ?? `/defect_run_result`,
     params: queryParams?.params,
@@ -153,7 +163,7 @@ export const defectRunResultGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<DefectRunResultApi>>(config)
-    : getResponse<ResourceList<DefectRunResultApi>, DefectRunResult>(
+    : getResponse<ResourceList<DefectRunResultApi>, Partial<DefectRunResult>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -161,9 +171,9 @@ export const defectRunResultGetMany = (
 
 export const defectRunResultGetOne = (
   id: number,
-  queryParams?: QueryParams<DefectRunResult>,
+  queryParams?: QueryParams<Partial<DefectRunResult>>,
 ): Promise<DefectRunResultApi> => {
-  const config: QueryParams<DefectRunResult> = {
+  const config: QueryParams<Partial<DefectRunResult>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/defect_run_result/${id}`}`,
     params: queryParams?.params,
@@ -172,7 +182,7 @@ export const defectRunResultGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectRunResultApi>(config)
-    : getResponse<DefectRunResultApi, DefectRunResult>(
+    : getResponse<DefectRunResultApi, Partial<DefectRunResult>>(
         queryParams?.api ?? _client?.api,
         config,
       );

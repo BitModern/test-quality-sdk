@@ -16,9 +16,9 @@ import type { Run } from './Run';
 import type { RunApi } from './RunApi';
 
 export const runGetMany = (
-  queryParams?: QueryParams<Run>,
+  queryParams?: QueryParams<Partial<Run>>,
 ): Promise<ResourceList<RunApi>> => {
-  const config: QueryParams<Run> = {
+  const config: QueryParams<Partial<Run>> = {
     method: 'get',
     url: queryParams?.url ?? RunRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const runGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<RunApi>>(config)
-    : getResponse<ResourceList<RunApi>, Run>(
+    : getResponse<ResourceList<RunApi>, Partial<Run>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const runGetMany = (
 
 export const runGetOne = (
   id: number,
-  queryParams?: QueryParams<Run>,
+  queryParams?: QueryParams<Partial<Run>>,
 ): Promise<RunApi> => {
-  const config: QueryParams<Run> = {
+  const config: QueryParams<Partial<Run>> = {
     method: 'get',
     url: `${queryParams?.url ?? RunRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const runGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunApi>(config)
-    : getResponse<RunApi, Run>(queryParams?.api ?? _client?.api, config);
+    : getResponse<RunApi, Partial<Run>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const runDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Run>,
+  queryParams?: QueryParams<Partial<Run>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Run> = {
+  const config: QueryParams<Partial<Run>> = {
     method: 'delete',
     url: `${queryParams?.url ?? RunRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const runDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Run>(
+    : getResponse<MessageResponse, Partial<Run>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const runDeleteOne = (
 
 export const runDeleteMany = (
   data: (Partial<Run> & { id: number })[],
-  queryParams?: QueryParamsWithList<Run>,
+  queryParams?: QueryParamsWithList<Partial<Run> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Run> = {
+      const config: QueryParamsWithList<Partial<Run> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? RunRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const runDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Run>(
+        : getResponse<{ count: number }, Partial<Run> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const runDeleteMany = (
 export const runUpdateOne = (
   id: number,
   data: Partial<Run>,
-  queryParams?: QueryParams<Run>,
+  queryParams?: QueryParams<Partial<Run>>,
 ): Promise<Run> => {
-  const config: QueryParams<Run> = {
+  const config: QueryParams<Partial<Run>> = {
     method: 'put',
     url: `${queryParams?.url ?? RunRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,17 @@ export const runUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Run>(config)
-    : getResponse<Run>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Run, Partial<Run>>(queryParams?.api ?? _client?.api, config);
 };
 
 export const runUpdateMany = (
   data: (Partial<Run> & { id: number })[],
-  queryParams?: QueryParamsWithList<Run>,
+  queryParams?: QueryParamsWithList<Partial<Run> & { id: number }>,
 ): Promise<Run[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Run> = {
+      const config: QueryParamsWithList<Partial<Run> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? RunRoute(),
         params: queryParams?.params,
@@ -130,16 +133,19 @@ export const runUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Run[]>(config)
-        : getResponse<Run[], Run>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Run[], Partial<Run> & { id: number }>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };
 
 export const runCreateOne = (
   data: Partial<Run>,
-  queryParams?: QueryParams<Run>,
+  queryParams?: QueryParams<Partial<Run>>,
 ): Promise<Run> => {
-  const config: QueryParams<Run> = {
+  const config: QueryParams<Partial<Run>> = {
     method: 'post',
     url: queryParams?.url ?? RunRoute(),
     params: queryParams?.params,
@@ -149,17 +155,17 @@ export const runCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Run>(config)
-    : getResponse<Run>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Run, Partial<Run>>(queryParams?.api ?? _client?.api, config);
 };
 
 export const runCreateMany = (
   data: Partial<Run>[],
-  queryParams?: QueryParamsWithList<Run>,
+  queryParams?: QueryParamsWithList<Partial<Run>>,
 ): Promise<Run[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Run> = {
+      const config: QueryParamsWithList<Partial<Run>> = {
         method: 'post',
         url: queryParams?.url ?? RunRoute(),
         params: queryParams?.params,
@@ -169,7 +175,10 @@ export const runCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Run[]>(config)
-        : getResponse<Run[], Run>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Run[], Partial<Run>>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };

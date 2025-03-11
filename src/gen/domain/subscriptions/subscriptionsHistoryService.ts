@@ -10,9 +10,9 @@ import type { Subscriptions } from './Subscriptions';
 import type { SubscriptionsHistory } from './SubscriptionsHistory';
 
 export const subscriptionsHistoryGet = (
-  queryParams?: QueryParams<Subscriptions>,
+  queryParams?: QueryParams<Partial<Subscriptions>>,
 ): Promise<SubscriptionsHistory[]> => {
-  const config: QueryParams<Subscriptions> = {
+  const config: QueryParams<Partial<Subscriptions>> = {
     method: 'get',
     url: `${queryParams?.url ?? SubscriptionsRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const subscriptionsHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SubscriptionsHistory[]>(config)
-    : getResponse<SubscriptionsHistory[], Subscriptions>(
+    : getResponse<SubscriptionsHistory[], Partial<Subscriptions>>(
         queryParams?.api ?? _client?.api,
         config,
       );

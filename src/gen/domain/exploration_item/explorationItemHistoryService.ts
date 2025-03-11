@@ -10,9 +10,9 @@ import type { ExplorationItem } from './ExplorationItem';
 import type { ExplorationItemHistory } from './ExplorationItemHistory';
 
 export const explorationItemHistoryGet = (
-  queryParams?: QueryParams<ExplorationItem>,
+  queryParams?: QueryParams<Partial<ExplorationItem>>,
 ): Promise<ExplorationItemHistory[]> => {
-  const config: QueryParams<ExplorationItem> = {
+  const config: QueryParams<Partial<ExplorationItem>> = {
     method: 'get',
     url: `${queryParams?.url ?? ExplorationItemRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const explorationItemHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ExplorationItemHistory[]>(config)
-    : getResponse<ExplorationItemHistory[], ExplorationItem>(
+    : getResponse<ExplorationItemHistory[], Partial<ExplorationItem>>(
         queryParams?.api ?? _client?.api,
         config,
       );

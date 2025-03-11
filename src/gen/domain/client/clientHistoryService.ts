@@ -10,9 +10,9 @@ import type { Client } from './Client';
 import type { ClientHistory } from './ClientHistory';
 
 export const clientHistoryGet = (
-  queryParams?: QueryParams<Client>,
+  queryParams?: QueryParams<Partial<Client>>,
 ): Promise<ClientHistory[]> => {
-  const config: QueryParams<Client> = {
+  const config: QueryParams<Partial<Client>> = {
     method: 'get',
     url: `${queryParams?.url ?? ClientRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const clientHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ClientHistory[]>(config)
-    : getResponse<ClientHistory[], Client>(
+    : getResponse<ClientHistory[], Partial<Client>>(
         queryParams?.api ?? _client?.api,
         config,
       );

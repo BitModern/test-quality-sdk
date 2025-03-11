@@ -16,9 +16,9 @@ import type { BillingContact } from './BillingContact';
 import type { BillingContactApi } from './BillingContactApi';
 
 export const billingContactGetMany = (
-  queryParams?: QueryParams<BillingContact>,
+  queryParams?: QueryParams<Partial<BillingContact>>,
 ): Promise<ResourceList<BillingContactApi>> => {
-  const config: QueryParams<BillingContact> = {
+  const config: QueryParams<Partial<BillingContact>> = {
     method: 'get',
     url: queryParams?.url ?? BillingContactRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const billingContactGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<BillingContactApi>>(config)
-    : getResponse<ResourceList<BillingContactApi>, BillingContact>(
+    : getResponse<ResourceList<BillingContactApi>, Partial<BillingContact>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const billingContactGetMany = (
 
 export const billingContactGetOne = (
   id: number,
-  queryParams?: QueryParams<BillingContact>,
+  queryParams?: QueryParams<Partial<BillingContact>>,
 ): Promise<BillingContactApi> => {
-  const config: QueryParams<BillingContact> = {
+  const config: QueryParams<Partial<BillingContact>> = {
     method: 'get',
     url: `${queryParams?.url ?? BillingContactRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const billingContactGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<BillingContactApi>(config)
-    : getResponse<BillingContactApi, BillingContact>(
+    : getResponse<BillingContactApi, Partial<BillingContact>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const billingContactGetOne = (
 
 export const billingContactDeleteOne = (
   id: number,
-  queryParams?: QueryParams<BillingContact>,
+  queryParams?: QueryParams<Partial<BillingContact>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<BillingContact> = {
+  const config: QueryParams<Partial<BillingContact>> = {
     method: 'delete',
     url: `${queryParams?.url ?? BillingContactRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const billingContactDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, BillingContact>(
+    : getResponse<MessageResponse, Partial<BillingContact>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const billingContactDeleteOne = (
 
 export const billingContactDeleteMany = (
   data: (Partial<BillingContact> & { id: number })[],
-  queryParams?: QueryParamsWithList<BillingContact>,
+  queryParams?: QueryParamsWithList<Partial<BillingContact> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<BillingContact> = {
+      const config: QueryParamsWithList<
+        Partial<BillingContact> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? BillingContactRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const billingContactDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, BillingContact>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<BillingContact> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const billingContactDeleteMany = (
 export const billingContactUpdateOne = (
   id: number,
   data: Partial<BillingContact>,
-  queryParams?: QueryParams<BillingContact>,
+  queryParams?: QueryParams<Partial<BillingContact>>,
 ): Promise<BillingContact> => {
-  const config: QueryParams<BillingContact> = {
+  const config: QueryParams<Partial<BillingContact>> = {
     method: 'put',
     url: `${queryParams?.url ?? BillingContactRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const billingContactUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<BillingContact>(config)
-    : getResponse<BillingContact>(queryParams?.api ?? _client?.api, config);
+    : getResponse<BillingContact, Partial<BillingContact>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const billingContactUpdateMany = (
   data: (Partial<BillingContact> & { id: number })[],
-  queryParams?: QueryParamsWithList<BillingContact>,
+  queryParams?: QueryParamsWithList<Partial<BillingContact> & { id: number }>,
 ): Promise<BillingContact[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<BillingContact> = {
+      const config: QueryParamsWithList<
+        Partial<BillingContact> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? BillingContactRoute(),
         params: queryParams?.params,
@@ -133,19 +140,19 @@ export const billingContactUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<BillingContact[]>(config)
-        : getResponse<BillingContact[], BillingContact>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            BillingContact[],
+            Partial<BillingContact> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const billingContactCreateOne = (
   data: Partial<BillingContact>,
-  queryParams?: QueryParams<BillingContact>,
+  queryParams?: QueryParams<Partial<BillingContact>>,
 ): Promise<BillingContact> => {
-  const config: QueryParams<BillingContact> = {
+  const config: QueryParams<Partial<BillingContact>> = {
     method: 'post',
     url: queryParams?.url ?? BillingContactRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const billingContactCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<BillingContact>(config)
-    : getResponse<BillingContact>(queryParams?.api ?? _client?.api, config);
+    : getResponse<BillingContact, Partial<BillingContact>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const billingContactCreateMany = (
   data: Partial<BillingContact>[],
-  queryParams?: QueryParamsWithList<BillingContact>,
+  queryParams?: QueryParamsWithList<Partial<BillingContact>>,
 ): Promise<BillingContact[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<BillingContact> = {
+      const config: QueryParamsWithList<Partial<BillingContact>> = {
         method: 'post',
         url: queryParams?.url ?? BillingContactRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const billingContactCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<BillingContact[]>(config)
-        : getResponse<BillingContact[], BillingContact>(
+        : getResponse<BillingContact[], Partial<BillingContact>>(
             queryParams?.api ?? _client?.api,
             config,
           );

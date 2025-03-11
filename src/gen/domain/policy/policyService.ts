@@ -16,9 +16,9 @@ import type { Policy } from './Policy';
 import type { PolicyApi } from './PolicyApi';
 
 export const policyGetMany = (
-  queryParams?: QueryParams<Policy>,
+  queryParams?: QueryParams<Partial<Policy>>,
 ): Promise<ResourceList<PolicyApi>> => {
-  const config: QueryParams<Policy> = {
+  const config: QueryParams<Partial<Policy>> = {
     method: 'get',
     url: queryParams?.url ?? PolicyRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const policyGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PolicyApi>>(config)
-    : getResponse<ResourceList<PolicyApi>, Policy>(
+    : getResponse<ResourceList<PolicyApi>, Partial<Policy>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const policyGetMany = (
 
 export const policyGetOne = (
   id: number,
-  queryParams?: QueryParams<Policy>,
+  queryParams?: QueryParams<Partial<Policy>>,
 ): Promise<PolicyApi> => {
-  const config: QueryParams<Policy> = {
+  const config: QueryParams<Partial<Policy>> = {
     method: 'get',
     url: `${queryParams?.url ?? PolicyRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const policyGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PolicyApi>(config)
-    : getResponse<PolicyApi, Policy>(queryParams?.api ?? _client?.api, config);
+    : getResponse<PolicyApi, Partial<Policy>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const policyDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Policy>,
+  queryParams?: QueryParams<Partial<Policy>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Policy> = {
+  const config: QueryParams<Partial<Policy>> = {
     method: 'delete',
     url: `${queryParams?.url ?? PolicyRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const policyDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Policy>(
+    : getResponse<MessageResponse, Partial<Policy>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const policyDeleteOne = (
 
 export const policyDeleteMany = (
   data: (Partial<Policy> & { id: number })[],
-  queryParams?: QueryParamsWithList<Policy>,
+  queryParams?: QueryParamsWithList<Partial<Policy> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Policy> = {
+      const config: QueryParamsWithList<Partial<Policy> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? PolicyRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const policyDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Policy>(
+        : getResponse<{ count: number }, Partial<Policy> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const policyDeleteMany = (
 export const policyUpdateOne = (
   id: number,
   data: Partial<Policy>,
-  queryParams?: QueryParams<Policy>,
+  queryParams?: QueryParams<Partial<Policy>>,
 ): Promise<Policy> => {
-  const config: QueryParams<Policy> = {
+  const config: QueryParams<Partial<Policy>> = {
     method: 'put',
     url: `${queryParams?.url ?? PolicyRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,20 @@ export const policyUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Policy>(config)
-    : getResponse<Policy>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Policy, Partial<Policy>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const policyUpdateMany = (
   data: (Partial<Policy> & { id: number })[],
-  queryParams?: QueryParamsWithList<Policy>,
+  queryParams?: QueryParamsWithList<Partial<Policy> & { id: number }>,
 ): Promise<Policy[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Policy> = {
+      const config: QueryParamsWithList<Partial<Policy> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? PolicyRoute(),
         params: queryParams?.params,
@@ -130,7 +136,7 @@ export const policyUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Policy[]>(config)
-        : getResponse<Policy[], Policy>(
+        : getResponse<Policy[], Partial<Policy> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -140,9 +146,9 @@ export const policyUpdateMany = (
 
 export const policyCreateOne = (
   data: Partial<Policy>,
-  queryParams?: QueryParams<Policy>,
+  queryParams?: QueryParams<Partial<Policy>>,
 ): Promise<Policy> => {
-  const config: QueryParams<Policy> = {
+  const config: QueryParams<Partial<Policy>> = {
     method: 'post',
     url: queryParams?.url ?? PolicyRoute(),
     params: queryParams?.params,
@@ -152,17 +158,20 @@ export const policyCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Policy>(config)
-    : getResponse<Policy>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Policy, Partial<Policy>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const policyCreateMany = (
   data: Partial<Policy>[],
-  queryParams?: QueryParamsWithList<Policy>,
+  queryParams?: QueryParamsWithList<Partial<Policy>>,
 ): Promise<Policy[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Policy> = {
+      const config: QueryParamsWithList<Partial<Policy>> = {
         method: 'post',
         url: queryParams?.url ?? PolicyRoute(),
         params: queryParams?.params,
@@ -172,7 +181,7 @@ export const policyCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Policy[]>(config)
-        : getResponse<Policy[], Policy>(
+        : getResponse<Policy[], Partial<Policy>>(
             queryParams?.api ?? _client?.api,
             config,
           );

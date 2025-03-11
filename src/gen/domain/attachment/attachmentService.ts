@@ -16,9 +16,9 @@ import type { Attachment } from './Attachment';
 import type { AttachmentApi } from './AttachmentApi';
 
 export const attachmentGetMany = (
-  queryParams?: QueryParams<Attachment>,
+  queryParams?: QueryParams<Partial<Attachment>>,
 ): Promise<ResourceList<AttachmentApi>> => {
-  const config: QueryParams<Attachment> = {
+  const config: QueryParams<Partial<Attachment>> = {
     method: 'get',
     url: queryParams?.url ?? AttachmentRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const attachmentGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<AttachmentApi>>(config)
-    : getResponse<ResourceList<AttachmentApi>, Attachment>(
+    : getResponse<ResourceList<AttachmentApi>, Partial<Attachment>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const attachmentGetMany = (
 
 export const attachmentGetOne = (
   id: number,
-  queryParams?: QueryParams<Attachment>,
+  queryParams?: QueryParams<Partial<Attachment>>,
 ): Promise<AttachmentApi> => {
-  const config: QueryParams<Attachment> = {
+  const config: QueryParams<Partial<Attachment>> = {
     method: 'get',
     url: `${queryParams?.url ?? AttachmentRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const attachmentGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AttachmentApi>(config)
-    : getResponse<AttachmentApi, Attachment>(
+    : getResponse<AttachmentApi, Partial<Attachment>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const attachmentGetOne = (
 
 export const attachmentDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Attachment>,
+  queryParams?: QueryParams<Partial<Attachment>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Attachment> = {
+  const config: QueryParams<Partial<Attachment>> = {
     method: 'delete',
     url: `${queryParams?.url ?? AttachmentRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const attachmentDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Attachment>(
+    : getResponse<MessageResponse, Partial<Attachment>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,22 +75,23 @@ export const attachmentDeleteOne = (
 
 export const attachmentDeleteMany = (
   data: (Partial<Attachment> & { id: number })[],
-  queryParams?: QueryParamsWithList<Attachment>,
+  queryParams?: QueryParamsWithList<Partial<Attachment> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Attachment> = {
-        method: 'post',
-        url: queryParams?.url ?? AttachmentRoute() + '/delete',
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<Attachment> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? AttachmentRoute() + '/delete',
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Attachment>(
+        : getResponse<{ count: number }, Partial<Attachment> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +102,9 @@ export const attachmentDeleteMany = (
 export const attachmentUpdateOne = (
   id: number,
   data: Partial<Attachment>,
-  queryParams?: QueryParams<Attachment>,
+  queryParams?: QueryParams<Partial<Attachment>>,
 ): Promise<Attachment> => {
-  const config: QueryParams<Attachment> = {
+  const config: QueryParams<Partial<Attachment>> = {
     method: 'put',
     url: `${queryParams?.url ?? AttachmentRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,27 +114,31 @@ export const attachmentUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Attachment>(config)
-    : getResponse<Attachment>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Attachment, Partial<Attachment>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const attachmentUpdateMany = (
   data: (Partial<Attachment> & { id: number })[],
-  queryParams?: QueryParamsWithList<Attachment>,
+  queryParams?: QueryParamsWithList<Partial<Attachment> & { id: number }>,
 ): Promise<Attachment[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Attachment> = {
-        method: 'post',
-        url: queryParams?.url ?? AttachmentRoute(),
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<Attachment> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? AttachmentRoute(),
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Attachment[]>(config)
-        : getResponse<Attachment[], Attachment>(
+        : getResponse<Attachment[], Partial<Attachment> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +148,9 @@ export const attachmentUpdateMany = (
 
 export const attachmentCreateOne = (
   data: Partial<Attachment>,
-  queryParams?: QueryParams<Attachment>,
+  queryParams?: QueryParams<Partial<Attachment>>,
 ): Promise<Attachment> => {
-  const config: QueryParams<Attachment> = {
+  const config: QueryParams<Partial<Attachment>> = {
     method: 'post',
     url: queryParams?.url ?? AttachmentRoute(),
     params: queryParams?.params,
@@ -155,17 +160,20 @@ export const attachmentCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Attachment>(config)
-    : getResponse<Attachment>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Attachment, Partial<Attachment>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const attachmentCreateMany = (
   data: Partial<Attachment>[],
-  queryParams?: QueryParamsWithList<Attachment>,
+  queryParams?: QueryParamsWithList<Partial<Attachment>>,
 ): Promise<Attachment[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Attachment> = {
+      const config: QueryParamsWithList<Partial<Attachment>> = {
         method: 'post',
         url: queryParams?.url ?? AttachmentRoute(),
         params: queryParams?.params,
@@ -175,7 +183,7 @@ export const attachmentCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Attachment[]>(config)
-        : getResponse<Attachment[], Attachment>(
+        : getResponse<Attachment[], Partial<Attachment>>(
             queryParams?.api ?? _client?.api,
             config,
           );

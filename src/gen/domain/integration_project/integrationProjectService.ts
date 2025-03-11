@@ -16,12 +16,12 @@ import type { IntegrationProjectApi } from './IntegrationProjectApi';
 
 export const integrationProjectDetach = (
   data: Partial<IntegrationProject>,
-  queryParams?: QueryParams<IntegrationProject>,
+  queryParams?: QueryParams<Partial<IntegrationProject>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<IntegrationProject> = {
+  const config: QueryParams<Partial<IntegrationProject>> = {
     method: 'delete',
     url: `/integration_project/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const integrationProjectDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, IntegrationProject>(
+    : getResponse<MessageResponse, Partial<IntegrationProject>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,16 @@ export const integrationProjectDetach = (
 
 export const integrationProjectDeleteMany = (
   data: (Partial<IntegrationProject> & { id: number })[],
-  queryParams?: QueryParamsWithList<IntegrationProject>,
+  queryParams?: QueryParamsWithList<
+    Partial<IntegrationProject & { id: number }>
+  >,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationProject> = {
+      const config: QueryParamsWithList<
+        Partial<IntegrationProject> & { id: number }
+      > = {
         method: 'post',
         url: `/integration_project/delete`,
         params: queryParams?.params,
@@ -52,10 +56,10 @@ export const integrationProjectDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, IntegrationProject>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<IntegrationProject> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +67,9 @@ export const integrationProjectDeleteMany = (
 export const integrationProjectUpdateOne = (
   id: number,
   data: Partial<IntegrationProject>,
-  queryParams?: QueryParams<IntegrationProject>,
+  queryParams?: QueryParams<Partial<IntegrationProject>>,
 ): Promise<IntegrationProject> => {
-  const config: QueryParams<IntegrationProject> = {
+  const config: QueryParams<Partial<IntegrationProject>> = {
     method: 'put',
     url: `/integration_project/${id}`,
     params: queryParams?.params,
@@ -74,17 +78,24 @@ export const integrationProjectUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationProject>(config)
-    : getResponse<IntegrationProject>(queryParams?.api ?? _client?.api, config);
+    : getResponse<IntegrationProject, Partial<IntegrationProject>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const integrationProjectUpdateMany = (
   data: (Partial<IntegrationProject> & { id: number })[],
-  queryParams?: QueryParamsWithList<IntegrationProject>,
+  queryParams?: QueryParamsWithList<
+    Partial<IntegrationProject> & { id: number }
+  >,
 ): Promise<IntegrationProject[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationProject> = {
+      const config: QueryParamsWithList<
+        Partial<IntegrationProject> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/integration_project`,
         params: queryParams?.params,
@@ -93,19 +104,19 @@ export const integrationProjectUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<IntegrationProject[]>(config)
-        : getResponse<IntegrationProject[], IntegrationProject>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            IntegrationProject[],
+            Partial<IntegrationProject> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const integrationProjectCreateOne = (
   data: Partial<IntegrationProject>,
-  queryParams?: QueryParams<IntegrationProject>,
+  queryParams?: QueryParams<Partial<IntegrationProject>>,
 ): Promise<IntegrationProject> => {
-  const config: QueryParams<IntegrationProject> = {
+  const config: QueryParams<Partial<IntegrationProject>> = {
     method: 'post',
     url: queryParams?.url ?? `/integration_project`,
     params: queryParams?.params,
@@ -114,17 +125,20 @@ export const integrationProjectCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationProject>(config)
-    : getResponse<IntegrationProject>(queryParams?.api ?? _client?.api, config);
+    : getResponse<IntegrationProject, Partial<IntegrationProject>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const integrationProjectCreateMany = (
   data: Partial<IntegrationProject>[],
-  queryParams?: QueryParamsWithList<IntegrationProject>,
+  queryParams?: QueryParamsWithList<Partial<IntegrationProject>>,
 ): Promise<IntegrationProject[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<IntegrationProject> = {
+      const config: QueryParamsWithList<Partial<IntegrationProject>> = {
         method: 'post',
         url: queryParams?.url ?? `/integration_project`,
         params: queryParams?.params,
@@ -133,7 +147,7 @@ export const integrationProjectCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<IntegrationProject[]>(config)
-        : getResponse<IntegrationProject[], IntegrationProject>(
+        : getResponse<IntegrationProject[], Partial<IntegrationProject>>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -142,9 +156,9 @@ export const integrationProjectCreateMany = (
 };
 
 export const integrationProjectGetMany = (
-  queryParams?: QueryParams<IntegrationProject>,
+  queryParams?: QueryParams<Partial<IntegrationProject>>,
 ): Promise<ResourceList<IntegrationProjectApi>> => {
-  const config: QueryParams<IntegrationProject> = {
+  const config: QueryParams<Partial<IntegrationProject>> = {
     method: 'get',
     url: queryParams?.url ?? `/integration_project`,
     params: queryParams?.params,
@@ -153,17 +167,17 @@ export const integrationProjectGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<IntegrationProjectApi>>(config)
-    : getResponse<ResourceList<IntegrationProjectApi>, IntegrationProject>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+    : getResponse<
+        ResourceList<IntegrationProjectApi>,
+        Partial<IntegrationProject>
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const integrationProjectGetOne = (
   id: number,
-  queryParams?: QueryParams<IntegrationProject>,
+  queryParams?: QueryParams<Partial<IntegrationProject>>,
 ): Promise<IntegrationProjectApi> => {
-  const config: QueryParams<IntegrationProject> = {
+  const config: QueryParams<Partial<IntegrationProject>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/integration_project/${id}`}`,
     params: queryParams?.params,
@@ -172,7 +186,7 @@ export const integrationProjectGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<IntegrationProjectApi>(config)
-    : getResponse<IntegrationProjectApi, IntegrationProject>(
+    : getResponse<IntegrationProjectApi, Partial<IntegrationProject>>(
         queryParams?.api ?? _client?.api,
         config,
       );

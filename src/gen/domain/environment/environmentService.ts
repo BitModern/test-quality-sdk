@@ -16,9 +16,9 @@ import type { Environment } from './Environment';
 import type { EnvironmentApi } from './EnvironmentApi';
 
 export const environmentGetMany = (
-  queryParams?: QueryParams<Environment>,
+  queryParams?: QueryParams<Partial<Environment>>,
 ): Promise<ResourceList<EnvironmentApi>> => {
-  const config: QueryParams<Environment> = {
+  const config: QueryParams<Partial<Environment>> = {
     method: 'get',
     url: queryParams?.url ?? EnvironmentRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const environmentGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<EnvironmentApi>>(config)
-    : getResponse<ResourceList<EnvironmentApi>, Environment>(
+    : getResponse<ResourceList<EnvironmentApi>, Partial<Environment>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const environmentGetMany = (
 
 export const environmentGetOne = (
   id: number,
-  queryParams?: QueryParams<Environment>,
+  queryParams?: QueryParams<Partial<Environment>>,
 ): Promise<EnvironmentApi> => {
-  const config: QueryParams<Environment> = {
+  const config: QueryParams<Partial<Environment>> = {
     method: 'get',
     url: `${queryParams?.url ?? EnvironmentRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const environmentGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<EnvironmentApi>(config)
-    : getResponse<EnvironmentApi, Environment>(
+    : getResponse<EnvironmentApi, Partial<Environment>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const environmentGetOne = (
 
 export const environmentDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Environment>,
+  queryParams?: QueryParams<Partial<Environment>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Environment> = {
+  const config: QueryParams<Partial<Environment>> = {
     method: 'delete',
     url: `${queryParams?.url ?? EnvironmentRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const environmentDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Environment>(
+    : getResponse<MessageResponse, Partial<Environment>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,22 +75,23 @@ export const environmentDeleteOne = (
 
 export const environmentDeleteMany = (
   data: (Partial<Environment> & { id: number })[],
-  queryParams?: QueryParamsWithList<Environment>,
+  queryParams?: QueryParamsWithList<Partial<Environment> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Environment> = {
-        method: 'post',
-        url: queryParams?.url ?? EnvironmentRoute() + '/delete',
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<Environment> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? EnvironmentRoute() + '/delete',
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Environment>(
+        : getResponse<{ count: number }, Partial<Environment> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +102,9 @@ export const environmentDeleteMany = (
 export const environmentUpdateOne = (
   id: number,
   data: Partial<Environment>,
-  queryParams?: QueryParams<Environment>,
+  queryParams?: QueryParams<Partial<Environment>>,
 ): Promise<Environment> => {
-  const config: QueryParams<Environment> = {
+  const config: QueryParams<Partial<Environment>> = {
     method: 'put',
     url: `${queryParams?.url ?? EnvironmentRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,27 +114,31 @@ export const environmentUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Environment>(config)
-    : getResponse<Environment>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Environment, Partial<Environment>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const environmentUpdateMany = (
   data: (Partial<Environment> & { id: number })[],
-  queryParams?: QueryParamsWithList<Environment>,
+  queryParams?: QueryParamsWithList<Partial<Environment> & { id: number }>,
 ): Promise<Environment[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Environment> = {
-        method: 'post',
-        url: queryParams?.url ?? EnvironmentRoute(),
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<Environment> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? EnvironmentRoute(),
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Environment[]>(config)
-        : getResponse<Environment[], Environment>(
+        : getResponse<Environment[], Partial<Environment> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +148,9 @@ export const environmentUpdateMany = (
 
 export const environmentCreateOne = (
   data: Partial<Environment>,
-  queryParams?: QueryParams<Environment>,
+  queryParams?: QueryParams<Partial<Environment>>,
 ): Promise<Environment> => {
-  const config: QueryParams<Environment> = {
+  const config: QueryParams<Partial<Environment>> = {
     method: 'post',
     url: queryParams?.url ?? EnvironmentRoute(),
     params: queryParams?.params,
@@ -155,17 +160,20 @@ export const environmentCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Environment>(config)
-    : getResponse<Environment>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Environment, Partial<Environment>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const environmentCreateMany = (
   data: Partial<Environment>[],
-  queryParams?: QueryParamsWithList<Environment>,
+  queryParams?: QueryParamsWithList<Partial<Environment>>,
 ): Promise<Environment[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Environment> = {
+      const config: QueryParamsWithList<Partial<Environment>> = {
         method: 'post',
         url: queryParams?.url ?? EnvironmentRoute(),
         params: queryParams?.params,
@@ -175,7 +183,7 @@ export const environmentCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Environment[]>(config)
-        : getResponse<Environment[], Environment>(
+        : getResponse<Environment[], Partial<Environment>>(
             queryParams?.api ?? _client?.api,
             config,
           );

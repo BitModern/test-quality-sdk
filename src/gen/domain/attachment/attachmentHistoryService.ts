@@ -10,9 +10,9 @@ import type { Attachment } from './Attachment';
 import type { AttachmentHistory } from './AttachmentHistory';
 
 export const attachmentHistoryGet = (
-  queryParams?: QueryParams<Attachment>,
+  queryParams?: QueryParams<Partial<Attachment>>,
 ): Promise<AttachmentHistory[]> => {
-  const config: QueryParams<Attachment> = {
+  const config: QueryParams<Partial<Attachment>> = {
     method: 'get',
     url: `${queryParams?.url ?? AttachmentRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const attachmentHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AttachmentHistory[]>(config)
-    : getResponse<AttachmentHistory[], Attachment>(
+    : getResponse<AttachmentHistory[], Partial<Attachment>>(
         queryParams?.api ?? _client?.api,
         config,
       );

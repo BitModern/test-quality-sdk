@@ -10,9 +10,9 @@ import type { Project } from './Project';
 import type { ProjectHistory } from './ProjectHistory';
 
 export const projectHistoryGet = (
-  queryParams?: QueryParams<Project>,
+  queryParams?: QueryParams<Partial<Project>>,
 ): Promise<ProjectHistory[]> => {
-  const config: QueryParams<Project> = {
+  const config: QueryParams<Partial<Project>> = {
     method: 'get',
     url: `${queryParams?.url ?? ProjectRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const projectHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ProjectHistory[]>(config)
-    : getResponse<ProjectHistory[], Project>(
+    : getResponse<ProjectHistory[], Partial<Project>>(
         queryParams?.api ?? _client?.api,
         config,
       );

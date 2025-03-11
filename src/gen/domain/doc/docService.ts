@@ -16,9 +16,9 @@ import type { Doc } from './Doc';
 import type { DocApi } from './DocApi';
 
 export const docGetMany = (
-  queryParams?: QueryParams<Doc>,
+  queryParams?: QueryParams<Partial<Doc>>,
 ): Promise<ResourceList<DocApi>> => {
-  const config: QueryParams<Doc> = {
+  const config: QueryParams<Partial<Doc>> = {
     method: 'get',
     url: queryParams?.url ?? DocRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const docGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<DocApi>>(config)
-    : getResponse<ResourceList<DocApi>, Doc>(
+    : getResponse<ResourceList<DocApi>, Partial<Doc>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const docGetMany = (
 
 export const docGetOne = (
   id: number,
-  queryParams?: QueryParams<Doc>,
+  queryParams?: QueryParams<Partial<Doc>>,
 ): Promise<DocApi> => {
-  const config: QueryParams<Doc> = {
+  const config: QueryParams<Partial<Doc>> = {
     method: 'get',
     url: `${queryParams?.url ?? DocRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const docGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DocApi>(config)
-    : getResponse<DocApi, Doc>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DocApi, Partial<Doc>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const docDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Doc>,
+  queryParams?: QueryParams<Partial<Doc>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Doc> = {
+  const config: QueryParams<Partial<Doc>> = {
     method: 'delete',
     url: `${queryParams?.url ?? DocRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const docDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Doc>(
+    : getResponse<MessageResponse, Partial<Doc>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const docDeleteOne = (
 
 export const docDeleteMany = (
   data: (Partial<Doc> & { id: number })[],
-  queryParams?: QueryParamsWithList<Doc>,
+  queryParams?: QueryParamsWithList<Partial<Doc> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Doc> = {
+      const config: QueryParamsWithList<Partial<Doc> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? DocRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const docDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Doc>(
+        : getResponse<{ count: number }, Partial<Doc> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const docDeleteMany = (
 export const docUpdateOne = (
   id: number,
   data: Partial<Doc>,
-  queryParams?: QueryParams<Doc>,
+  queryParams?: QueryParams<Partial<Doc>>,
 ): Promise<Doc> => {
-  const config: QueryParams<Doc> = {
+  const config: QueryParams<Partial<Doc>> = {
     method: 'put',
     url: `${queryParams?.url ?? DocRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,17 @@ export const docUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Doc>(config)
-    : getResponse<Doc>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Doc, Partial<Doc>>(queryParams?.api ?? _client?.api, config);
 };
 
 export const docUpdateMany = (
   data: (Partial<Doc> & { id: number })[],
-  queryParams?: QueryParamsWithList<Doc>,
+  queryParams?: QueryParamsWithList<Partial<Doc> & { id: number }>,
 ): Promise<Doc[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Doc> = {
+      const config: QueryParamsWithList<Partial<Doc> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? DocRoute(),
         params: queryParams?.params,
@@ -130,16 +133,19 @@ export const docUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Doc[]>(config)
-        : getResponse<Doc[], Doc>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Doc[], Partial<Doc> & { id: number }>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };
 
 export const docCreateOne = (
   data: Partial<Doc>,
-  queryParams?: QueryParams<Doc>,
+  queryParams?: QueryParams<Partial<Doc>>,
 ): Promise<Doc> => {
-  const config: QueryParams<Doc> = {
+  const config: QueryParams<Partial<Doc>> = {
     method: 'post',
     url: queryParams?.url ?? DocRoute(),
     params: queryParams?.params,
@@ -149,17 +155,17 @@ export const docCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Doc>(config)
-    : getResponse<Doc>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Doc, Partial<Doc>>(queryParams?.api ?? _client?.api, config);
 };
 
 export const docCreateMany = (
   data: Partial<Doc>[],
-  queryParams?: QueryParamsWithList<Doc>,
+  queryParams?: QueryParamsWithList<Partial<Doc>>,
 ): Promise<Doc[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Doc> = {
+      const config: QueryParamsWithList<Partial<Doc>> = {
         method: 'post',
         url: queryParams?.url ?? DocRoute(),
         params: queryParams?.params,
@@ -169,7 +175,10 @@ export const docCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Doc[]>(config)
-        : getResponse<Doc[], Doc>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Doc[], Partial<Doc>>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };

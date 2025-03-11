@@ -16,9 +16,9 @@ import type { DefectStatus } from './DefectStatus';
 import type { DefectStatusApi } from './DefectStatusApi';
 
 export const defectStatusGetMany = (
-  queryParams?: QueryParams<DefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatus>>,
 ): Promise<ResourceList<DefectStatusApi>> => {
-  const config: QueryParams<DefectStatus> = {
+  const config: QueryParams<Partial<DefectStatus>> = {
     method: 'get',
     url: queryParams?.url ?? DefectStatusRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const defectStatusGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<DefectStatusApi>>(config)
-    : getResponse<ResourceList<DefectStatusApi>, DefectStatus>(
+    : getResponse<ResourceList<DefectStatusApi>, Partial<DefectStatus>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const defectStatusGetMany = (
 
 export const defectStatusGetOne = (
   id: number,
-  queryParams?: QueryParams<DefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatus>>,
 ): Promise<DefectStatusApi> => {
-  const config: QueryParams<DefectStatus> = {
+  const config: QueryParams<Partial<DefectStatus>> = {
     method: 'get',
     url: `${queryParams?.url ?? DefectStatusRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const defectStatusGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectStatusApi>(config)
-    : getResponse<DefectStatusApi, DefectStatus>(
+    : getResponse<DefectStatusApi, Partial<DefectStatus>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const defectStatusGetOne = (
 
 export const defectStatusDeleteOne = (
   id: number,
-  queryParams?: QueryParams<DefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatus>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<DefectStatus> = {
+  const config: QueryParams<Partial<DefectStatus>> = {
     method: 'delete',
     url: `${queryParams?.url ?? DefectStatusRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const defectStatusDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, DefectStatus>(
+    : getResponse<MessageResponse, Partial<DefectStatus>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const defectStatusDeleteOne = (
 
 export const defectStatusDeleteMany = (
   data: (Partial<DefectStatus> & { id: number })[],
-  queryParams?: QueryParamsWithList<DefectStatus>,
+  queryParams?: QueryParamsWithList<Partial<DefectStatus> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DefectStatus> = {
+      const config: QueryParamsWithList<
+        Partial<DefectStatus> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? DefectStatusRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const defectStatusDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, DefectStatus>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<DefectStatus> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const defectStatusDeleteMany = (
 export const defectStatusUpdateOne = (
   id: number,
   data: Partial<DefectStatus>,
-  queryParams?: QueryParams<DefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatus>>,
 ): Promise<DefectStatus> => {
-  const config: QueryParams<DefectStatus> = {
+  const config: QueryParams<Partial<DefectStatus>> = {
     method: 'put',
     url: `${queryParams?.url ?? DefectStatusRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const defectStatusUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectStatus>(config)
-    : getResponse<DefectStatus>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DefectStatus, Partial<DefectStatus>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const defectStatusUpdateMany = (
   data: (Partial<DefectStatus> & { id: number })[],
-  queryParams?: QueryParamsWithList<DefectStatus>,
+  queryParams?: QueryParamsWithList<Partial<DefectStatus> & { id: number }>,
 ): Promise<DefectStatus[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DefectStatus> = {
+      const config: QueryParamsWithList<
+        Partial<DefectStatus> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? DefectStatusRoute(),
         params: queryParams?.params,
@@ -133,7 +140,7 @@ export const defectStatusUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DefectStatus[]>(config)
-        : getResponse<DefectStatus[], DefectStatus>(
+        : getResponse<DefectStatus[], Partial<DefectStatus> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +150,9 @@ export const defectStatusUpdateMany = (
 
 export const defectStatusCreateOne = (
   data: Partial<DefectStatus>,
-  queryParams?: QueryParams<DefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatus>>,
 ): Promise<DefectStatus> => {
-  const config: QueryParams<DefectStatus> = {
+  const config: QueryParams<Partial<DefectStatus>> = {
     method: 'post',
     url: queryParams?.url ?? DefectStatusRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const defectStatusCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectStatus>(config)
-    : getResponse<DefectStatus>(queryParams?.api ?? _client?.api, config);
+    : getResponse<DefectStatus, Partial<DefectStatus>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const defectStatusCreateMany = (
   data: Partial<DefectStatus>[],
-  queryParams?: QueryParamsWithList<DefectStatus>,
+  queryParams?: QueryParamsWithList<Partial<DefectStatus>>,
 ): Promise<DefectStatus[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DefectStatus> = {
+      const config: QueryParamsWithList<Partial<DefectStatus>> = {
         method: 'post',
         url: queryParams?.url ?? DefectStatusRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const defectStatusCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<DefectStatus[]>(config)
-        : getResponse<DefectStatus[], DefectStatus>(
+        : getResponse<DefectStatus[], Partial<DefectStatus>>(
             queryParams?.api ?? _client?.api,
             config,
           );

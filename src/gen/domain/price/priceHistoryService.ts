@@ -10,9 +10,9 @@ import type { Price } from './Price';
 import type { PriceHistory } from './PriceHistory';
 
 export const priceHistoryGet = (
-  queryParams?: QueryParams<Price>,
+  queryParams?: QueryParams<Partial<Price>>,
 ): Promise<PriceHistory[]> => {
-  const config: QueryParams<Price> = {
+  const config: QueryParams<Partial<Price>> = {
     method: 'get',
     url: `${queryParams?.url ?? PriceRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const priceHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PriceHistory[]>(config)
-    : getResponse<PriceHistory[], Price>(
+    : getResponse<PriceHistory[], Partial<Price>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -10,9 +10,9 @@ import type { Step } from './Step';
 import type { StepHistory } from './StepHistory';
 
 export const stepHistoryGet = (
-  queryParams?: QueryParams<Step>,
+  queryParams?: QueryParams<Partial<Step>>,
 ): Promise<StepHistory[]> => {
-  const config: QueryParams<Step> = {
+  const config: QueryParams<Partial<Step>> = {
     method: 'get',
     url: `${queryParams?.url ?? StepRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const stepHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StepHistory[]>(config)
-    : getResponse<StepHistory[], Step>(
+    : getResponse<StepHistory[], Partial<Step>>(
         queryParams?.api ?? _client?.api,
         config,
       );

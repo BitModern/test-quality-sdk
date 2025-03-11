@@ -16,9 +16,9 @@ import type { Watch } from './Watch';
 import type { WatchApi } from './WatchApi';
 
 export const watchGetMany = (
-  queryParams?: QueryParams<Watch>,
+  queryParams?: QueryParams<Partial<Watch>>,
 ): Promise<ResourceList<WatchApi>> => {
-  const config: QueryParams<Watch> = {
+  const config: QueryParams<Partial<Watch>> = {
     method: 'get',
     url: queryParams?.url ?? WatchRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const watchGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<WatchApi>>(config)
-    : getResponse<ResourceList<WatchApi>, Watch>(
+    : getResponse<ResourceList<WatchApi>, Partial<Watch>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const watchGetMany = (
 
 export const watchGetOne = (
   id: number,
-  queryParams?: QueryParams<Watch>,
+  queryParams?: QueryParams<Partial<Watch>>,
 ): Promise<WatchApi> => {
-  const config: QueryParams<Watch> = {
+  const config: QueryParams<Partial<Watch>> = {
     method: 'get',
     url: `${queryParams?.url ?? WatchRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const watchGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<WatchApi>(config)
-    : getResponse<WatchApi, Watch>(queryParams?.api ?? _client?.api, config);
+    : getResponse<WatchApi, Partial<Watch>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const watchDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Watch>,
+  queryParams?: QueryParams<Partial<Watch>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Watch> = {
+  const config: QueryParams<Partial<Watch>> = {
     method: 'delete',
     url: `${queryParams?.url ?? WatchRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const watchDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Watch>(
+    : getResponse<MessageResponse, Partial<Watch>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const watchDeleteOne = (
 
 export const watchDeleteMany = (
   data: (Partial<Watch> & { id: number })[],
-  queryParams?: QueryParamsWithList<Watch>,
+  queryParams?: QueryParamsWithList<Partial<Watch> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Watch> = {
+      const config: QueryParamsWithList<Partial<Watch> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? WatchRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const watchDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Watch>(
+        : getResponse<{ count: number }, Partial<Watch> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const watchDeleteMany = (
 export const watchUpdateOne = (
   id: number,
   data: Partial<Watch>,
-  queryParams?: QueryParams<Watch>,
+  queryParams?: QueryParams<Partial<Watch>>,
 ): Promise<Watch> => {
-  const config: QueryParams<Watch> = {
+  const config: QueryParams<Partial<Watch>> = {
     method: 'put',
     url: `${queryParams?.url ?? WatchRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,20 @@ export const watchUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Watch>(config)
-    : getResponse<Watch>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Watch, Partial<Watch>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const watchUpdateMany = (
   data: (Partial<Watch> & { id: number })[],
-  queryParams?: QueryParamsWithList<Watch>,
+  queryParams?: QueryParamsWithList<Partial<Watch> & { id: number }>,
 ): Promise<Watch[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Watch> = {
+      const config: QueryParamsWithList<Partial<Watch> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? WatchRoute(),
         params: queryParams?.params,
@@ -130,16 +136,19 @@ export const watchUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Watch[]>(config)
-        : getResponse<Watch[], Watch>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Watch[], Partial<Watch> & { id: number }>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };
 
 export const watchCreateOne = (
   data: Partial<Watch>,
-  queryParams?: QueryParams<Watch>,
+  queryParams?: QueryParams<Partial<Watch>>,
 ): Promise<Watch> => {
-  const config: QueryParams<Watch> = {
+  const config: QueryParams<Partial<Watch>> = {
     method: 'post',
     url: queryParams?.url ?? WatchRoute(),
     params: queryParams?.params,
@@ -149,17 +158,20 @@ export const watchCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Watch>(config)
-    : getResponse<Watch>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Watch, Partial<Watch>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const watchCreateMany = (
   data: Partial<Watch>[],
-  queryParams?: QueryParamsWithList<Watch>,
+  queryParams?: QueryParamsWithList<Partial<Watch>>,
 ): Promise<Watch[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Watch> = {
+      const config: QueryParamsWithList<Partial<Watch>> = {
         method: 'post',
         url: queryParams?.url ?? WatchRoute(),
         params: queryParams?.params,
@@ -169,7 +181,10 @@ export const watchCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Watch[]>(config)
-        : getResponse<Watch[], Watch>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Watch[], Partial<Watch>>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };

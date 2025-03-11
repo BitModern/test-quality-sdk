@@ -10,9 +10,9 @@ import type { RunSuite } from './RunSuite';
 import type { RunSuiteHistory } from './RunSuiteHistory';
 
 export const runSuiteHistoryGet = (
-  queryParams?: QueryParams<RunSuite>,
+  queryParams?: QueryParams<Partial<RunSuite>>,
 ): Promise<RunSuiteHistory[]> => {
-  const config: QueryParams<RunSuite> = {
+  const config: QueryParams<Partial<RunSuite>> = {
     method: 'get',
     url: `${queryParams?.url ?? RunSuiteRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const runSuiteHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunSuiteHistory[]>(config)
-    : getResponse<RunSuiteHistory[], RunSuite>(
+    : getResponse<RunSuiteHistory[], Partial<RunSuite>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -10,9 +10,9 @@ import type { Plan } from './Plan';
 import type { PlanHistory } from './PlanHistory';
 
 export const planHistoryGet = (
-  queryParams?: QueryParams<Plan>,
+  queryParams?: QueryParams<Partial<Plan>>,
 ): Promise<PlanHistory[]> => {
-  const config: QueryParams<Plan> = {
+  const config: QueryParams<Partial<Plan>> = {
     method: 'get',
     url: `${queryParams?.url ?? PlanRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const planHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PlanHistory[]>(config)
-    : getResponse<PlanHistory[], Plan>(
+    : getResponse<PlanHistory[], Partial<Plan>>(
         queryParams?.api ?? _client?.api,
         config,
       );

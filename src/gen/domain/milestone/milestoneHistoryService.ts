@@ -10,9 +10,9 @@ import type { Milestone } from './Milestone';
 import type { MilestoneHistory } from './MilestoneHistory';
 
 export const milestoneHistoryGet = (
-  queryParams?: QueryParams<Milestone>,
+  queryParams?: QueryParams<Partial<Milestone>>,
 ): Promise<MilestoneHistory[]> => {
-  const config: QueryParams<Milestone> = {
+  const config: QueryParams<Partial<Milestone>> = {
     method: 'get',
     url: `${queryParams?.url ?? MilestoneRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const milestoneHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MilestoneHistory[]>(config)
-    : getResponse<MilestoneHistory[], Milestone>(
+    : getResponse<MilestoneHistory[], Partial<Milestone>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -16,9 +16,9 @@ import type { Filter } from './Filter';
 import type { FilterApi } from './FilterApi';
 
 export const filterGetMany = (
-  queryParams?: QueryParams<Filter>,
+  queryParams?: QueryParams<Partial<Filter>>,
 ): Promise<ResourceList<FilterApi>> => {
-  const config: QueryParams<Filter> = {
+  const config: QueryParams<Partial<Filter>> = {
     method: 'get',
     url: queryParams?.url ?? FilterRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const filterGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<FilterApi>>(config)
-    : getResponse<ResourceList<FilterApi>, Filter>(
+    : getResponse<ResourceList<FilterApi>, Partial<Filter>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const filterGetMany = (
 
 export const filterGetOne = (
   id: number,
-  queryParams?: QueryParams<Filter>,
+  queryParams?: QueryParams<Partial<Filter>>,
 ): Promise<FilterApi> => {
-  const config: QueryParams<Filter> = {
+  const config: QueryParams<Partial<Filter>> = {
     method: 'get',
     url: `${queryParams?.url ?? FilterRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const filterGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<FilterApi>(config)
-    : getResponse<FilterApi, Filter>(queryParams?.api ?? _client?.api, config);
+    : getResponse<FilterApi, Partial<Filter>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const filterDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Filter>,
+  queryParams?: QueryParams<Partial<Filter>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Filter> = {
+  const config: QueryParams<Partial<Filter>> = {
     method: 'delete',
     url: `${queryParams?.url ?? FilterRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const filterDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Filter>(
+    : getResponse<MessageResponse, Partial<Filter>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const filterDeleteOne = (
 
 export const filterDeleteMany = (
   data: (Partial<Filter> & { id: number })[],
-  queryParams?: QueryParamsWithList<Filter>,
+  queryParams?: QueryParamsWithList<Partial<Filter> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Filter> = {
+      const config: QueryParamsWithList<Partial<Filter> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? FilterRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const filterDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Filter>(
+        : getResponse<{ count: number }, Partial<Filter> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const filterDeleteMany = (
 export const filterUpdateOne = (
   id: number,
   data: Partial<Filter>,
-  queryParams?: QueryParams<Filter>,
+  queryParams?: QueryParams<Partial<Filter>>,
 ): Promise<Filter> => {
-  const config: QueryParams<Filter> = {
+  const config: QueryParams<Partial<Filter>> = {
     method: 'put',
     url: `${queryParams?.url ?? FilterRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,20 @@ export const filterUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Filter>(config)
-    : getResponse<Filter>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Filter, Partial<Filter>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const filterUpdateMany = (
   data: (Partial<Filter> & { id: number })[],
-  queryParams?: QueryParamsWithList<Filter>,
+  queryParams?: QueryParamsWithList<Partial<Filter> & { id: number }>,
 ): Promise<Filter[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Filter> = {
+      const config: QueryParamsWithList<Partial<Filter> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? FilterRoute(),
         params: queryParams?.params,
@@ -130,7 +136,7 @@ export const filterUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Filter[]>(config)
-        : getResponse<Filter[], Filter>(
+        : getResponse<Filter[], Partial<Filter> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -140,9 +146,9 @@ export const filterUpdateMany = (
 
 export const filterCreateOne = (
   data: Partial<Filter>,
-  queryParams?: QueryParams<Filter>,
+  queryParams?: QueryParams<Partial<Filter>>,
 ): Promise<Filter> => {
-  const config: QueryParams<Filter> = {
+  const config: QueryParams<Partial<Filter>> = {
     method: 'post',
     url: queryParams?.url ?? FilterRoute(),
     params: queryParams?.params,
@@ -152,17 +158,20 @@ export const filterCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Filter>(config)
-    : getResponse<Filter>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Filter, Partial<Filter>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const filterCreateMany = (
   data: Partial<Filter>[],
-  queryParams?: QueryParamsWithList<Filter>,
+  queryParams?: QueryParamsWithList<Partial<Filter>>,
 ): Promise<Filter[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Filter> = {
+      const config: QueryParamsWithList<Partial<Filter>> = {
         method: 'post',
         url: queryParams?.url ?? FilterRoute(),
         params: queryParams?.params,
@@ -172,7 +181,7 @@ export const filterCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Filter[]>(config)
-        : getResponse<Filter[], Filter>(
+        : getResponse<Filter[], Partial<Filter>>(
             queryParams?.api ?? _client?.api,
             config,
           );

@@ -10,9 +10,9 @@ import type { DataSet } from './DataSet';
 import type { DataSetHistory } from './DataSetHistory';
 
 export const dataSetHistoryGet = (
-  queryParams?: QueryParams<DataSet>,
+  queryParams?: QueryParams<Partial<DataSet>>,
 ): Promise<DataSetHistory[]> => {
-  const config: QueryParams<DataSet> = {
+  const config: QueryParams<Partial<DataSet>> = {
     method: 'get',
     url: `${queryParams?.url ?? DataSetRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const dataSetHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DataSetHistory[]>(config)
-    : getResponse<DataSetHistory[], DataSet>(
+    : getResponse<DataSetHistory[], Partial<DataSet>>(
         queryParams?.api ?? _client?.api,
         config,
       );

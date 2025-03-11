@@ -16,9 +16,9 @@ import type { LabelAssigned } from './LabelAssigned';
 import type { LabelAssignedApi } from './LabelAssignedApi';
 
 export const labelAssignedGetMany = (
-  queryParams?: QueryParams<LabelAssigned>,
+  queryParams?: QueryParams<Partial<LabelAssigned>>,
 ): Promise<ResourceList<LabelAssignedApi>> => {
-  const config: QueryParams<LabelAssigned> = {
+  const config: QueryParams<Partial<LabelAssigned>> = {
     method: 'get',
     url: queryParams?.url ?? LabelAssignedRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const labelAssignedGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<LabelAssignedApi>>(config)
-    : getResponse<ResourceList<LabelAssignedApi>, LabelAssigned>(
+    : getResponse<ResourceList<LabelAssignedApi>, Partial<LabelAssigned>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const labelAssignedGetMany = (
 
 export const labelAssignedGetOne = (
   id: number,
-  queryParams?: QueryParams<LabelAssigned>,
+  queryParams?: QueryParams<Partial<LabelAssigned>>,
 ): Promise<LabelAssignedApi> => {
-  const config: QueryParams<LabelAssigned> = {
+  const config: QueryParams<Partial<LabelAssigned>> = {
     method: 'get',
     url: `${queryParams?.url ?? LabelAssignedRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const labelAssignedGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<LabelAssignedApi>(config)
-    : getResponse<LabelAssignedApi, LabelAssigned>(
+    : getResponse<LabelAssignedApi, Partial<LabelAssigned>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const labelAssignedGetOne = (
 
 export const labelAssignedDeleteOne = (
   id: number,
-  queryParams?: QueryParams<LabelAssigned>,
+  queryParams?: QueryParams<Partial<LabelAssigned>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<LabelAssigned> = {
+  const config: QueryParams<Partial<LabelAssigned>> = {
     method: 'delete',
     url: `${queryParams?.url ?? LabelAssignedRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const labelAssignedDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, LabelAssigned>(
+    : getResponse<MessageResponse, Partial<LabelAssigned>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const labelAssignedDeleteOne = (
 
 export const labelAssignedDeleteMany = (
   data: (Partial<LabelAssigned> & { id: number })[],
-  queryParams?: QueryParamsWithList<LabelAssigned>,
+  queryParams?: QueryParamsWithList<Partial<LabelAssigned> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<LabelAssigned> = {
+      const config: QueryParamsWithList<
+        Partial<LabelAssigned> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? LabelAssignedRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const labelAssignedDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, LabelAssigned>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<LabelAssigned> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const labelAssignedDeleteMany = (
 export const labelAssignedUpdateOne = (
   id: number,
   data: Partial<LabelAssigned>,
-  queryParams?: QueryParams<LabelAssigned>,
+  queryParams?: QueryParams<Partial<LabelAssigned>>,
 ): Promise<LabelAssigned> => {
-  const config: QueryParams<LabelAssigned> = {
+  const config: QueryParams<Partial<LabelAssigned>> = {
     method: 'put',
     url: `${queryParams?.url ?? LabelAssignedRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const labelAssignedUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<LabelAssigned>(config)
-    : getResponse<LabelAssigned>(queryParams?.api ?? _client?.api, config);
+    : getResponse<LabelAssigned, Partial<LabelAssigned>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const labelAssignedUpdateMany = (
   data: (Partial<LabelAssigned> & { id: number })[],
-  queryParams?: QueryParamsWithList<LabelAssigned>,
+  queryParams?: QueryParamsWithList<Partial<LabelAssigned> & { id: number }>,
 ): Promise<LabelAssigned[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<LabelAssigned> = {
+      const config: QueryParamsWithList<
+        Partial<LabelAssigned> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? LabelAssignedRoute(),
         params: queryParams?.params,
@@ -133,7 +140,7 @@ export const labelAssignedUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<LabelAssigned[]>(config)
-        : getResponse<LabelAssigned[], LabelAssigned>(
+        : getResponse<LabelAssigned[], Partial<LabelAssigned> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +150,9 @@ export const labelAssignedUpdateMany = (
 
 export const labelAssignedCreateOne = (
   data: Partial<LabelAssigned>,
-  queryParams?: QueryParams<LabelAssigned>,
+  queryParams?: QueryParams<Partial<LabelAssigned>>,
 ): Promise<LabelAssigned> => {
-  const config: QueryParams<LabelAssigned> = {
+  const config: QueryParams<Partial<LabelAssigned>> = {
     method: 'post',
     url: queryParams?.url ?? LabelAssignedRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const labelAssignedCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<LabelAssigned>(config)
-    : getResponse<LabelAssigned>(queryParams?.api ?? _client?.api, config);
+    : getResponse<LabelAssigned, Partial<LabelAssigned>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const labelAssignedCreateMany = (
   data: Partial<LabelAssigned>[],
-  queryParams?: QueryParamsWithList<LabelAssigned>,
+  queryParams?: QueryParamsWithList<Partial<LabelAssigned>>,
 ): Promise<LabelAssigned[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<LabelAssigned> = {
+      const config: QueryParamsWithList<Partial<LabelAssigned>> = {
         method: 'post',
         url: queryParams?.url ?? LabelAssignedRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const labelAssignedCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<LabelAssigned[]>(config)
-        : getResponse<LabelAssigned[], LabelAssigned>(
+        : getResponse<LabelAssigned[], Partial<LabelAssigned>>(
             queryParams?.api ?? _client?.api,
             config,
           );

@@ -10,9 +10,9 @@ import type { ResourceValue } from './ResourceValue';
 import type { ResourceValueHistory } from './ResourceValueHistory';
 
 export const resourceValueHistoryGet = (
-  queryParams?: QueryParams<ResourceValue>,
+  queryParams?: QueryParams<Partial<ResourceValue>>,
 ): Promise<ResourceValueHistory[]> => {
-  const config: QueryParams<ResourceValue> = {
+  const config: QueryParams<Partial<ResourceValue>> = {
     method: 'get',
     url: `${queryParams?.url ?? ResourceValueRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const resourceValueHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceValueHistory[]>(config)
-    : getResponse<ResourceValueHistory[], ResourceValue>(
+    : getResponse<ResourceValueHistory[], Partial<ResourceValue>>(
         queryParams?.api ?? _client?.api,
         config,
       );

@@ -10,9 +10,9 @@ import type { BillingContact } from './BillingContact';
 import type { BillingContactHistory } from './BillingContactHistory';
 
 export const billingContactHistoryGet = (
-  queryParams?: QueryParams<BillingContact>,
+  queryParams?: QueryParams<Partial<BillingContact>>,
 ): Promise<BillingContactHistory[]> => {
-  const config: QueryParams<BillingContact> = {
+  const config: QueryParams<Partial<BillingContact>> = {
     method: 'get',
     url: `${queryParams?.url ?? BillingContactRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const billingContactHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<BillingContactHistory[]>(config)
-    : getResponse<BillingContactHistory[], BillingContact>(
+    : getResponse<BillingContactHistory[], Partial<BillingContact>>(
         queryParams?.api ?? _client?.api,
         config,
       );

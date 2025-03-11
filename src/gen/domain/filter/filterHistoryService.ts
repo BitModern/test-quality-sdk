@@ -10,9 +10,9 @@ import type { Filter } from './Filter';
 import type { FilterHistory } from './FilterHistory';
 
 export const filterHistoryGet = (
-  queryParams?: QueryParams<Filter>,
+  queryParams?: QueryParams<Partial<Filter>>,
 ): Promise<FilterHistory[]> => {
-  const config: QueryParams<Filter> = {
+  const config: QueryParams<Partial<Filter>> = {
     method: 'get',
     url: `${queryParams?.url ?? FilterRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const filterHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<FilterHistory[]>(config)
-    : getResponse<FilterHistory[], Filter>(
+    : getResponse<FilterHistory[], Partial<Filter>>(
         queryParams?.api ?? _client?.api,
         config,
       );

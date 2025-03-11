@@ -10,9 +10,9 @@ import type { Capability } from './Capability';
 import type { CapabilityHistory } from './CapabilityHistory';
 
 export const capabilityHistoryGet = (
-  queryParams?: QueryParams<Capability>,
+  queryParams?: QueryParams<Partial<Capability>>,
 ): Promise<CapabilityHistory[]> => {
-  const config: QueryParams<Capability> = {
+  const config: QueryParams<Partial<Capability>> = {
     method: 'get',
     url: `${queryParams?.url ?? CapabilityRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const capabilityHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CapabilityHistory[]>(config)
-    : getResponse<CapabilityHistory[], Capability>(
+    : getResponse<CapabilityHistory[], Partial<Capability>>(
         queryParams?.api ?? _client?.api,
         config,
       );

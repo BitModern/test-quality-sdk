@@ -16,9 +16,9 @@ import type { Capability } from './Capability';
 import type { CapabilityApi } from './CapabilityApi';
 
 export const capabilityGetMany = (
-  queryParams?: QueryParams<Capability>,
+  queryParams?: QueryParams<Partial<Capability>>,
 ): Promise<ResourceList<CapabilityApi>> => {
-  const config: QueryParams<Capability> = {
+  const config: QueryParams<Partial<Capability>> = {
     method: 'get',
     url: queryParams?.url ?? CapabilityRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const capabilityGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<CapabilityApi>>(config)
-    : getResponse<ResourceList<CapabilityApi>, Capability>(
+    : getResponse<ResourceList<CapabilityApi>, Partial<Capability>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const capabilityGetMany = (
 
 export const capabilityGetOne = (
   id: number,
-  queryParams?: QueryParams<Capability>,
+  queryParams?: QueryParams<Partial<Capability>>,
 ): Promise<CapabilityApi> => {
-  const config: QueryParams<Capability> = {
+  const config: QueryParams<Partial<Capability>> = {
     method: 'get',
     url: `${queryParams?.url ?? CapabilityRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const capabilityGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CapabilityApi>(config)
-    : getResponse<CapabilityApi, Capability>(
+    : getResponse<CapabilityApi, Partial<Capability>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const capabilityGetOne = (
 
 export const capabilityDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Capability>,
+  queryParams?: QueryParams<Partial<Capability>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Capability> = {
+  const config: QueryParams<Partial<Capability>> = {
     method: 'delete',
     url: `${queryParams?.url ?? CapabilityRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const capabilityDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Capability>(
+    : getResponse<MessageResponse, Partial<Capability>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,22 +75,23 @@ export const capabilityDeleteOne = (
 
 export const capabilityDeleteMany = (
   data: (Partial<Capability> & { id: number })[],
-  queryParams?: QueryParamsWithList<Capability>,
+  queryParams?: QueryParamsWithList<Partial<Capability> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Capability> = {
-        method: 'post',
-        url: queryParams?.url ?? CapabilityRoute() + '/delete',
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<Capability> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? CapabilityRoute() + '/delete',
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Capability>(
+        : getResponse<{ count: number }, Partial<Capability> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +102,9 @@ export const capabilityDeleteMany = (
 export const capabilityUpdateOne = (
   id: number,
   data: Partial<Capability>,
-  queryParams?: QueryParams<Capability>,
+  queryParams?: QueryParams<Partial<Capability>>,
 ): Promise<Capability> => {
-  const config: QueryParams<Capability> = {
+  const config: QueryParams<Partial<Capability>> = {
     method: 'put',
     url: `${queryParams?.url ?? CapabilityRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,27 +114,31 @@ export const capabilityUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Capability>(config)
-    : getResponse<Capability>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Capability, Partial<Capability>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const capabilityUpdateMany = (
   data: (Partial<Capability> & { id: number })[],
-  queryParams?: QueryParamsWithList<Capability>,
+  queryParams?: QueryParamsWithList<Partial<Capability> & { id: number }>,
 ): Promise<Capability[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Capability> = {
-        method: 'post',
-        url: queryParams?.url ?? CapabilityRoute(),
-        params: queryParams?.params,
-        list: chunk,
-        headers: queryParams?.headers,
-      };
+      const config: QueryParamsWithList<Partial<Capability> & { id: number }> =
+        {
+          method: 'post',
+          url: queryParams?.url ?? CapabilityRoute(),
+          params: queryParams?.params,
+          list: chunk,
+          headers: queryParams?.headers,
+        };
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Capability[]>(config)
-        : getResponse<Capability[], Capability>(
+        : getResponse<Capability[], Partial<Capability> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +148,9 @@ export const capabilityUpdateMany = (
 
 export const capabilityCreateOne = (
   data: Partial<Capability>,
-  queryParams?: QueryParams<Capability>,
+  queryParams?: QueryParams<Partial<Capability>>,
 ): Promise<Capability> => {
-  const config: QueryParams<Capability> = {
+  const config: QueryParams<Partial<Capability>> = {
     method: 'post',
     url: queryParams?.url ?? CapabilityRoute(),
     params: queryParams?.params,
@@ -155,17 +160,20 @@ export const capabilityCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Capability>(config)
-    : getResponse<Capability>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Capability, Partial<Capability>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const capabilityCreateMany = (
   data: Partial<Capability>[],
-  queryParams?: QueryParamsWithList<Capability>,
+  queryParams?: QueryParamsWithList<Partial<Capability>>,
 ): Promise<Capability[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Capability> = {
+      const config: QueryParamsWithList<Partial<Capability>> = {
         method: 'post',
         url: queryParams?.url ?? CapabilityRoute(),
         params: queryParams?.params,
@@ -175,7 +183,7 @@ export const capabilityCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Capability[]>(config)
-        : getResponse<Capability[], Capability>(
+        : getResponse<Capability[], Partial<Capability>>(
             queryParams?.api ?? _client?.api,
             config,
           );

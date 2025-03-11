@@ -16,9 +16,9 @@ import type { SubscriptionUser } from './SubscriptionUser';
 import type { SubscriptionUserApi } from './SubscriptionUserApi';
 
 export const subscriptionUserGetMany = (
-  queryParams?: QueryParams<SubscriptionUser>,
+  queryParams?: QueryParams<Partial<SubscriptionUser>>,
 ): Promise<ResourceList<SubscriptionUserApi>> => {
-  const config: QueryParams<SubscriptionUser> = {
+  const config: QueryParams<Partial<SubscriptionUser>> = {
     method: 'get',
     url: queryParams?.url ?? SubscriptionUserRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const subscriptionUserGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<SubscriptionUserApi>>(config)
-    : getResponse<ResourceList<SubscriptionUserApi>, SubscriptionUser>(
+    : getResponse<ResourceList<SubscriptionUserApi>, Partial<SubscriptionUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const subscriptionUserGetMany = (
 
 export const subscriptionUserGetOne = (
   id: number,
-  queryParams?: QueryParams<SubscriptionUser>,
+  queryParams?: QueryParams<Partial<SubscriptionUser>>,
 ): Promise<SubscriptionUserApi> => {
-  const config: QueryParams<SubscriptionUser> = {
+  const config: QueryParams<Partial<SubscriptionUser>> = {
     method: 'get',
     url: `${queryParams?.url ?? SubscriptionUserRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const subscriptionUserGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SubscriptionUserApi>(config)
-    : getResponse<SubscriptionUserApi, SubscriptionUser>(
+    : getResponse<SubscriptionUserApi, Partial<SubscriptionUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const subscriptionUserGetOne = (
 
 export const subscriptionUserDeleteOne = (
   id: number,
-  queryParams?: QueryParams<SubscriptionUser>,
+  queryParams?: QueryParams<Partial<SubscriptionUser>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<SubscriptionUser> = {
+  const config: QueryParams<Partial<SubscriptionUser>> = {
     method: 'delete',
     url: `${queryParams?.url ?? SubscriptionUserRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const subscriptionUserDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, SubscriptionUser>(
+    : getResponse<MessageResponse, Partial<SubscriptionUser>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const subscriptionUserDeleteOne = (
 
 export const subscriptionUserDeleteMany = (
   data: (Partial<SubscriptionUser> & { id: number })[],
-  queryParams?: QueryParamsWithList<SubscriptionUser>,
+  queryParams?: QueryParamsWithList<Partial<SubscriptionUser> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<SubscriptionUser> = {
+      const config: QueryParamsWithList<
+        Partial<SubscriptionUser> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? SubscriptionUserRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const subscriptionUserDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, SubscriptionUser>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<SubscriptionUser> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const subscriptionUserDeleteMany = (
 export const subscriptionUserUpdateOne = (
   id: number,
   data: Partial<SubscriptionUser>,
-  queryParams?: QueryParams<SubscriptionUser>,
+  queryParams?: QueryParams<Partial<SubscriptionUser>>,
 ): Promise<SubscriptionUser> => {
-  const config: QueryParams<SubscriptionUser> = {
+  const config: QueryParams<Partial<SubscriptionUser>> = {
     method: 'put',
     url: `${queryParams?.url ?? SubscriptionUserRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const subscriptionUserUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SubscriptionUser>(config)
-    : getResponse<SubscriptionUser>(queryParams?.api ?? _client?.api, config);
+    : getResponse<SubscriptionUser, Partial<SubscriptionUser>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const subscriptionUserUpdateMany = (
   data: (Partial<SubscriptionUser> & { id: number })[],
-  queryParams?: QueryParamsWithList<SubscriptionUser>,
+  queryParams?: QueryParamsWithList<Partial<SubscriptionUser> & { id: number }>,
 ): Promise<SubscriptionUser[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<SubscriptionUser> = {
+      const config: QueryParamsWithList<
+        Partial<SubscriptionUser> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? SubscriptionUserRoute(),
         params: queryParams?.params,
@@ -133,19 +140,19 @@ export const subscriptionUserUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<SubscriptionUser[]>(config)
-        : getResponse<SubscriptionUser[], SubscriptionUser>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            SubscriptionUser[],
+            Partial<SubscriptionUser> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const subscriptionUserCreateOne = (
   data: Partial<SubscriptionUser>,
-  queryParams?: QueryParams<SubscriptionUser>,
+  queryParams?: QueryParams<Partial<SubscriptionUser>>,
 ): Promise<SubscriptionUser> => {
-  const config: QueryParams<SubscriptionUser> = {
+  const config: QueryParams<Partial<SubscriptionUser>> = {
     method: 'post',
     url: queryParams?.url ?? SubscriptionUserRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const subscriptionUserCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SubscriptionUser>(config)
-    : getResponse<SubscriptionUser>(queryParams?.api ?? _client?.api, config);
+    : getResponse<SubscriptionUser, Partial<SubscriptionUser>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const subscriptionUserCreateMany = (
   data: Partial<SubscriptionUser>[],
-  queryParams?: QueryParamsWithList<SubscriptionUser>,
+  queryParams?: QueryParamsWithList<Partial<SubscriptionUser>>,
 ): Promise<SubscriptionUser[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<SubscriptionUser> = {
+      const config: QueryParamsWithList<Partial<SubscriptionUser>> = {
         method: 'post',
         url: queryParams?.url ?? SubscriptionUserRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const subscriptionUserCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<SubscriptionUser[]>(config)
-        : getResponse<SubscriptionUser[], SubscriptionUser>(
+        : getResponse<SubscriptionUser[], Partial<SubscriptionUser>>(
             queryParams?.api ?? _client?.api,
             config,
           );

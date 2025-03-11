@@ -22,7 +22,7 @@ export interface QueryParams<T = any> {
   api?: AxiosInstance;
   batch?: BatchService;
   cancelToken?: CancelToken;
-  data?: Partial<T>;
+  data?: T;
   headers?: any;
   id?: number | string;
   method?: Method;
@@ -31,7 +31,7 @@ export interface QueryParams<T = any> {
 }
 
 export interface QueryParamsWithList<T = any> extends QueryParams<T> {
-  list: Partial<T>[];
+  list: T[];
 }
 
 export interface QueryParamsWithInSuffix<T = any> extends QueryParams<T> {

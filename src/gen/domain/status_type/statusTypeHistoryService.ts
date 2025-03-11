@@ -10,9 +10,9 @@ import type { StatusType } from './StatusType';
 import type { StatusTypeHistory } from './StatusTypeHistory';
 
 export const statusTypeHistoryGet = (
-  queryParams?: QueryParams<StatusType>,
+  queryParams?: QueryParams<Partial<StatusType>>,
 ): Promise<StatusTypeHistory[]> => {
-  const config: QueryParams<StatusType> = {
+  const config: QueryParams<Partial<StatusType>> = {
     method: 'get',
     url: `${queryParams?.url ?? StatusTypeRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const statusTypeHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<StatusTypeHistory[]>(config)
-    : getResponse<StatusTypeHistory[], StatusType>(
+    : getResponse<StatusTypeHistory[], Partial<StatusType>>(
         queryParams?.api ?? _client?.api,
         config,
       );

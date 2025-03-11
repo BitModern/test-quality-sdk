@@ -10,9 +10,9 @@ import type { Suite } from './Suite';
 import type { SuiteHistory } from './SuiteHistory';
 
 export const suiteHistoryGet = (
-  queryParams?: QueryParams<Suite>,
+  queryParams?: QueryParams<Partial<Suite>>,
 ): Promise<SuiteHistory[]> => {
-  const config: QueryParams<Suite> = {
+  const config: QueryParams<Partial<Suite>> = {
     method: 'get',
     url: `${queryParams?.url ?? SuiteRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const suiteHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SuiteHistory[]>(config)
-    : getResponse<SuiteHistory[], Suite>(
+    : getResponse<SuiteHistory[], Partial<Suite>>(
         queryParams?.api ?? _client?.api,
         config,
       );

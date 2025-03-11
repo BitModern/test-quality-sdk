@@ -16,9 +16,9 @@ import type { Purpose } from './Purpose';
 import type { PurposeApi } from './PurposeApi';
 
 export const purposeGetMany = (
-  queryParams?: QueryParams<Purpose>,
+  queryParams?: QueryParams<Partial<Purpose>>,
 ): Promise<ResourceList<PurposeApi>> => {
-  const config: QueryParams<Purpose> = {
+  const config: QueryParams<Partial<Purpose>> = {
     method: 'get',
     url: queryParams?.url ?? PurposeRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const purposeGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<PurposeApi>>(config)
-    : getResponse<ResourceList<PurposeApi>, Purpose>(
+    : getResponse<ResourceList<PurposeApi>, Partial<Purpose>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const purposeGetMany = (
 
 export const purposeGetOne = (
   id: number,
-  queryParams?: QueryParams<Purpose>,
+  queryParams?: QueryParams<Partial<Purpose>>,
 ): Promise<PurposeApi> => {
-  const config: QueryParams<Purpose> = {
+  const config: QueryParams<Partial<Purpose>> = {
     method: 'get',
     url: `${queryParams?.url ?? PurposeRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const purposeGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PurposeApi>(config)
-    : getResponse<PurposeApi, Purpose>(
+    : getResponse<PurposeApi, Partial<Purpose>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const purposeGetOne = (
 
 export const purposeDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Purpose>,
+  queryParams?: QueryParams<Partial<Purpose>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Purpose> = {
+  const config: QueryParams<Partial<Purpose>> = {
     method: 'delete',
     url: `${queryParams?.url ?? PurposeRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const purposeDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Purpose>(
+    : getResponse<MessageResponse, Partial<Purpose>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const purposeDeleteOne = (
 
 export const purposeDeleteMany = (
   data: (Partial<Purpose> & { id: number })[],
-  queryParams?: QueryParamsWithList<Purpose>,
+  queryParams?: QueryParamsWithList<Partial<Purpose> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Purpose> = {
+      const config: QueryParamsWithList<Partial<Purpose> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? PurposeRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const purposeDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Purpose>(
+        : getResponse<{ count: number }, Partial<Purpose> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const purposeDeleteMany = (
 export const purposeUpdateOne = (
   id: number,
   data: Partial<Purpose>,
-  queryParams?: QueryParams<Purpose>,
+  queryParams?: QueryParams<Partial<Purpose>>,
 ): Promise<Purpose> => {
-  const config: QueryParams<Purpose> = {
+  const config: QueryParams<Partial<Purpose>> = {
     method: 'put',
     url: `${queryParams?.url ?? PurposeRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const purposeUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Purpose>(config)
-    : getResponse<Purpose>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Purpose, Partial<Purpose>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const purposeUpdateMany = (
   data: (Partial<Purpose> & { id: number })[],
-  queryParams?: QueryParamsWithList<Purpose>,
+  queryParams?: QueryParamsWithList<Partial<Purpose> & { id: number }>,
 ): Promise<Purpose[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Purpose> = {
+      const config: QueryParamsWithList<Partial<Purpose> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? PurposeRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const purposeUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Purpose[]>(config)
-        : getResponse<Purpose[], Purpose>(
+        : getResponse<Purpose[], Partial<Purpose> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const purposeUpdateMany = (
 
 export const purposeCreateOne = (
   data: Partial<Purpose>,
-  queryParams?: QueryParams<Purpose>,
+  queryParams?: QueryParams<Partial<Purpose>>,
 ): Promise<Purpose> => {
-  const config: QueryParams<Purpose> = {
+  const config: QueryParams<Partial<Purpose>> = {
     method: 'post',
     url: queryParams?.url ?? PurposeRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const purposeCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Purpose>(config)
-    : getResponse<Purpose>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Purpose, Partial<Purpose>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const purposeCreateMany = (
   data: Partial<Purpose>[],
-  queryParams?: QueryParamsWithList<Purpose>,
+  queryParams?: QueryParamsWithList<Partial<Purpose>>,
 ): Promise<Purpose[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Purpose> = {
+      const config: QueryParamsWithList<Partial<Purpose>> = {
         method: 'post',
         url: queryParams?.url ?? PurposeRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const purposeCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Purpose[]>(config)
-        : getResponse<Purpose[], Purpose>(
+        : getResponse<Purpose[], Partial<Purpose>>(
             queryParams?.api ?? _client?.api,
             config,
           );

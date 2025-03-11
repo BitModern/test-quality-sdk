@@ -10,9 +10,9 @@ import type { Environment } from './Environment';
 import type { EnvironmentHistory } from './EnvironmentHistory';
 
 export const environmentHistoryGet = (
-  queryParams?: QueryParams<Environment>,
+  queryParams?: QueryParams<Partial<Environment>>,
 ): Promise<EnvironmentHistory[]> => {
-  const config: QueryParams<Environment> = {
+  const config: QueryParams<Partial<Environment>> = {
     method: 'get',
     url: `${queryParams?.url ?? EnvironmentRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const environmentHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<EnvironmentHistory[]>(config)
-    : getResponse<EnvironmentHistory[], Environment>(
+    : getResponse<EnvironmentHistory[], Partial<Environment>>(
         queryParams?.api ?? _client?.api,
         config,
       );

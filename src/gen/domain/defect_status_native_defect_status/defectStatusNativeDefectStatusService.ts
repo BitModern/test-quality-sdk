@@ -16,12 +16,12 @@ import type { DefectStatusNativeDefectStatusApi } from './DefectStatusNativeDefe
 
 export const defectStatusNativeDefectStatusDetach = (
   data: Partial<DefectStatusNativeDefectStatus>,
-  queryParams?: QueryParams<DefectStatusNativeDefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatusNativeDefectStatus>>,
 ): Promise<MessageResponse> => {
   if (data.id === undefined) {
     return Promise.reject(new Error('Must supply id'));
   }
-  const config: QueryParams<DefectStatusNativeDefectStatus> = {
+  const config: QueryParams<Partial<DefectStatusNativeDefectStatus>> = {
     method: 'delete',
     url: `/defect_status_native_defect_status/${data.id}`,
     params: queryParams?.params,
@@ -29,7 +29,7 @@ export const defectStatusNativeDefectStatusDetach = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, DefectStatusNativeDefectStatus>(
+    : getResponse<MessageResponse, Partial<DefectStatusNativeDefectStatus>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -37,12 +37,16 @@ export const defectStatusNativeDefectStatusDetach = (
 
 export const defectStatusNativeDefectStatusDeleteMany = (
   data: (Partial<DefectStatusNativeDefectStatus> & { id: number })[],
-  queryParams?: QueryParamsWithList<DefectStatusNativeDefectStatus>,
+  queryParams?: QueryParamsWithList<
+    Partial<DefectStatusNativeDefectStatus & { id: number }>
+  >,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DefectStatusNativeDefectStatus> = {
+      const config: QueryParamsWithList<
+        Partial<DefectStatusNativeDefectStatus> & { id: number }
+      > = {
         method: 'post',
         url: `/defect_status_native_defect_status/delete`,
         params: queryParams?.params,
@@ -52,10 +56,10 @@ export const defectStatusNativeDefectStatusDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, DefectStatusNativeDefectStatus>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<DefectStatusNativeDefectStatus> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -63,9 +67,9 @@ export const defectStatusNativeDefectStatusDeleteMany = (
 export const defectStatusNativeDefectStatusUpdateOne = (
   id: number,
   data: Partial<DefectStatusNativeDefectStatus>,
-  queryParams?: QueryParams<DefectStatusNativeDefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatusNativeDefectStatus>>,
 ): Promise<DefectStatusNativeDefectStatus> => {
-  const config: QueryParams<DefectStatusNativeDefectStatus> = {
+  const config: QueryParams<Partial<DefectStatusNativeDefectStatus>> = {
     method: 'put',
     url: `/defect_status_native_defect_status/${id}`,
     params: queryParams?.params,
@@ -74,20 +78,24 @@ export const defectStatusNativeDefectStatusUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectStatusNativeDefectStatus>(config)
-    : getResponse<DefectStatusNativeDefectStatus>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+    : getResponse<
+        DefectStatusNativeDefectStatus,
+        Partial<DefectStatusNativeDefectStatus>
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const defectStatusNativeDefectStatusUpdateMany = (
   data: (Partial<DefectStatusNativeDefectStatus> & { id: number })[],
-  queryParams?: QueryParamsWithList<DefectStatusNativeDefectStatus>,
+  queryParams?: QueryParamsWithList<
+    Partial<DefectStatusNativeDefectStatus> & { id: number }
+  >,
 ): Promise<DefectStatusNativeDefectStatus[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DefectStatusNativeDefectStatus> = {
+      const config: QueryParamsWithList<
+        Partial<DefectStatusNativeDefectStatus> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/defect_status_native_defect_status`,
         params: queryParams?.params,
@@ -98,7 +106,7 @@ export const defectStatusNativeDefectStatusUpdateMany = (
         ? queryParams.batch.addBatch<DefectStatusNativeDefectStatus[]>(config)
         : getResponse<
             DefectStatusNativeDefectStatus[],
-            DefectStatusNativeDefectStatus
+            Partial<DefectStatusNativeDefectStatus> & { id: number }
           >(queryParams?.api ?? _client?.api, config);
     }),
   );
@@ -106,9 +114,9 @@ export const defectStatusNativeDefectStatusUpdateMany = (
 
 export const defectStatusNativeDefectStatusCreateOne = (
   data: Partial<DefectStatusNativeDefectStatus>,
-  queryParams?: QueryParams<DefectStatusNativeDefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatusNativeDefectStatus>>,
 ): Promise<DefectStatusNativeDefectStatus> => {
-  const config: QueryParams<DefectStatusNativeDefectStatus> = {
+  const config: QueryParams<Partial<DefectStatusNativeDefectStatus>> = {
     method: 'post',
     url: queryParams?.url ?? `/defect_status_native_defect_status`,
     params: queryParams?.params,
@@ -117,20 +125,22 @@ export const defectStatusNativeDefectStatusCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<DefectStatusNativeDefectStatus>(config)
-    : getResponse<DefectStatusNativeDefectStatus>(
-        queryParams?.api ?? _client?.api,
-        config,
-      );
+    : getResponse<
+        DefectStatusNativeDefectStatus,
+        Partial<DefectStatusNativeDefectStatus>
+      >(queryParams?.api ?? _client?.api, config);
 };
 
 export const defectStatusNativeDefectStatusCreateMany = (
   data: Partial<DefectStatusNativeDefectStatus>[],
-  queryParams?: QueryParamsWithList<DefectStatusNativeDefectStatus>,
+  queryParams?: QueryParamsWithList<Partial<DefectStatusNativeDefectStatus>>,
 ): Promise<DefectStatusNativeDefectStatus[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<DefectStatusNativeDefectStatus> = {
+      const config: QueryParamsWithList<
+        Partial<DefectStatusNativeDefectStatus>
+      > = {
         method: 'post',
         url: queryParams?.url ?? `/defect_status_native_defect_status`,
         params: queryParams?.params,
@@ -141,16 +151,16 @@ export const defectStatusNativeDefectStatusCreateMany = (
         ? queryParams.batch.addBatch<DefectStatusNativeDefectStatus[]>(config)
         : getResponse<
             DefectStatusNativeDefectStatus[],
-            DefectStatusNativeDefectStatus
+            Partial<DefectStatusNativeDefectStatus>
           >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const defectStatusNativeDefectStatusGetMany = (
-  queryParams?: QueryParams<DefectStatusNativeDefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatusNativeDefectStatus>>,
 ): Promise<ResourceList<DefectStatusNativeDefectStatusApi>> => {
-  const config: QueryParams<DefectStatusNativeDefectStatus> = {
+  const config: QueryParams<Partial<DefectStatusNativeDefectStatus>> = {
     method: 'get',
     url: queryParams?.url ?? `/defect_status_native_defect_status`,
     params: queryParams?.params,
@@ -163,15 +173,15 @@ export const defectStatusNativeDefectStatusGetMany = (
       >(config)
     : getResponse<
         ResourceList<DefectStatusNativeDefectStatusApi>,
-        DefectStatusNativeDefectStatus
+        Partial<DefectStatusNativeDefectStatus>
       >(queryParams?.api ?? _client?.api, config);
 };
 
 export const defectStatusNativeDefectStatusGetOne = (
   id: number,
-  queryParams?: QueryParams<DefectStatusNativeDefectStatus>,
+  queryParams?: QueryParams<Partial<DefectStatusNativeDefectStatus>>,
 ): Promise<DefectStatusNativeDefectStatusApi> => {
-  const config: QueryParams<DefectStatusNativeDefectStatus> = {
+  const config: QueryParams<Partial<DefectStatusNativeDefectStatus>> = {
     method: 'get',
     url: `${queryParams?.url ?? `/defect_status_native_defect_status/${id}`}`,
     params: queryParams?.params,
@@ -182,6 +192,6 @@ export const defectStatusNativeDefectStatusGetOne = (
     ? queryParams.batch.addBatch<DefectStatusNativeDefectStatusApi>(config)
     : getResponse<
         DefectStatusNativeDefectStatusApi,
-        DefectStatusNativeDefectStatus
+        Partial<DefectStatusNativeDefectStatus>
       >(queryParams?.api ?? _client?.api, config);
 };

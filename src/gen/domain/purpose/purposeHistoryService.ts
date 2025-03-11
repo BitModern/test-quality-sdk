@@ -10,9 +10,9 @@ import type { Purpose } from './Purpose';
 import type { PurposeHistory } from './PurposeHistory';
 
 export const purposeHistoryGet = (
-  queryParams?: QueryParams<Purpose>,
+  queryParams?: QueryParams<Partial<Purpose>>,
 ): Promise<PurposeHistory[]> => {
-  const config: QueryParams<Purpose> = {
+  const config: QueryParams<Partial<Purpose>> = {
     method: 'get',
     url: `${queryParams?.url ?? PurposeRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const purposeHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<PurposeHistory[]>(config)
-    : getResponse<PurposeHistory[], Purpose>(
+    : getResponse<PurposeHistory[], Partial<Purpose>>(
         queryParams?.api ?? _client?.api,
         config,
       );

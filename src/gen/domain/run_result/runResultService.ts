@@ -16,9 +16,9 @@ import type { RunResult } from './RunResult';
 import type { RunResultApi } from './RunResultApi';
 
 export const runResultGetMany = (
-  queryParams?: QueryParams<RunResult>,
+  queryParams?: QueryParams<Partial<RunResult>>,
 ): Promise<ResourceList<RunResultApi>> => {
-  const config: QueryParams<RunResult> = {
+  const config: QueryParams<Partial<RunResult>> = {
     method: 'get',
     url: queryParams?.url ?? RunResultRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const runResultGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<RunResultApi>>(config)
-    : getResponse<ResourceList<RunResultApi>, RunResult>(
+    : getResponse<ResourceList<RunResultApi>, Partial<RunResult>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const runResultGetMany = (
 
 export const runResultGetOne = (
   id: number,
-  queryParams?: QueryParams<RunResult>,
+  queryParams?: QueryParams<Partial<RunResult>>,
 ): Promise<RunResultApi> => {
-  const config: QueryParams<RunResult> = {
+  const config: QueryParams<Partial<RunResult>> = {
     method: 'get',
     url: `${queryParams?.url ?? RunResultRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const runResultGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunResultApi>(config)
-    : getResponse<RunResultApi, RunResult>(
+    : getResponse<RunResultApi, Partial<RunResult>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const runResultGetOne = (
 
 export const runResultDeleteOne = (
   id: number,
-  queryParams?: QueryParams<RunResult>,
+  queryParams?: QueryParams<Partial<RunResult>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<RunResult> = {
+  const config: QueryParams<Partial<RunResult>> = {
     method: 'delete',
     url: `${queryParams?.url ?? RunResultRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const runResultDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, RunResult>(
+    : getResponse<MessageResponse, Partial<RunResult>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,12 @@ export const runResultDeleteOne = (
 
 export const runResultDeleteMany = (
   data: (Partial<RunResult> & { id: number })[],
-  queryParams?: QueryParamsWithList<RunResult>,
+  queryParams?: QueryParamsWithList<Partial<RunResult> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<RunResult> = {
+      const config: QueryParamsWithList<Partial<RunResult> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? RunResultRoute() + '/delete',
         params: queryParams?.params,
@@ -90,7 +90,7 @@ export const runResultDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, RunResult>(
+        : getResponse<{ count: number }, Partial<RunResult> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -101,9 +101,9 @@ export const runResultDeleteMany = (
 export const runResultUpdateOne = (
   id: number,
   data: Partial<RunResult>,
-  queryParams?: QueryParams<RunResult>,
+  queryParams?: QueryParams<Partial<RunResult>>,
 ): Promise<RunResult> => {
-  const config: QueryParams<RunResult> = {
+  const config: QueryParams<Partial<RunResult>> = {
     method: 'put',
     url: `${queryParams?.url ?? RunResultRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +113,20 @@ export const runResultUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunResult>(config)
-    : getResponse<RunResult>(queryParams?.api ?? _client?.api, config);
+    : getResponse<RunResult, Partial<RunResult>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const runResultUpdateMany = (
   data: (Partial<RunResult> & { id: number })[],
-  queryParams?: QueryParamsWithList<RunResult>,
+  queryParams?: QueryParamsWithList<Partial<RunResult> & { id: number }>,
 ): Promise<RunResult[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<RunResult> = {
+      const config: QueryParamsWithList<Partial<RunResult> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? RunResultRoute(),
         params: queryParams?.params,
@@ -133,7 +136,7 @@ export const runResultUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<RunResult[]>(config)
-        : getResponse<RunResult[], RunResult>(
+        : getResponse<RunResult[], Partial<RunResult> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +146,9 @@ export const runResultUpdateMany = (
 
 export const runResultCreateOne = (
   data: Partial<RunResult>,
-  queryParams?: QueryParams<RunResult>,
+  queryParams?: QueryParams<Partial<RunResult>>,
 ): Promise<RunResult> => {
-  const config: QueryParams<RunResult> = {
+  const config: QueryParams<Partial<RunResult>> = {
     method: 'post',
     url: queryParams?.url ?? RunResultRoute(),
     params: queryParams?.params,
@@ -155,17 +158,20 @@ export const runResultCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<RunResult>(config)
-    : getResponse<RunResult>(queryParams?.api ?? _client?.api, config);
+    : getResponse<RunResult, Partial<RunResult>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const runResultCreateMany = (
   data: Partial<RunResult>[],
-  queryParams?: QueryParamsWithList<RunResult>,
+  queryParams?: QueryParamsWithList<Partial<RunResult>>,
 ): Promise<RunResult[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<RunResult> = {
+      const config: QueryParamsWithList<Partial<RunResult>> = {
         method: 'post',
         url: queryParams?.url ?? RunResultRoute(),
         params: queryParams?.params,
@@ -175,7 +181,7 @@ export const runResultCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<RunResult[]>(config)
-        : getResponse<RunResult[], RunResult>(
+        : getResponse<RunResult[], Partial<RunResult>>(
             queryParams?.api ?? _client?.api,
             config,
           );

@@ -10,9 +10,9 @@ import type { CaseType } from './CaseType';
 import type { CaseTypeHistory } from './CaseTypeHistory';
 
 export const caseTypeHistoryGet = (
-  queryParams?: QueryParams<CaseType>,
+  queryParams?: QueryParams<Partial<CaseType>>,
 ): Promise<CaseTypeHistory[]> => {
-  const config: QueryParams<CaseType> = {
+  const config: QueryParams<Partial<CaseType>> = {
     method: 'get',
     url: `${queryParams?.url ?? CaseTypeRoute()}${
       queryParams?.id ? `/${queryParams?.id}` : ''
@@ -23,7 +23,7 @@ export const caseTypeHistoryGet = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<CaseTypeHistory[]>(config)
-    : getResponse<CaseTypeHistory[], CaseType>(
+    : getResponse<CaseTypeHistory[], Partial<CaseType>>(
         queryParams?.api ?? _client?.api,
         config,
       );

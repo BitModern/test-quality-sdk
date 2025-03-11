@@ -16,9 +16,9 @@ import type { SignupOption } from './SignupOption';
 import type { SignupOptionApi } from './SignupOptionApi';
 
 export const signupOptionGetMany = (
-  queryParams?: QueryParams<SignupOption>,
+  queryParams?: QueryParams<Partial<SignupOption>>,
 ): Promise<ResourceList<SignupOptionApi>> => {
-  const config: QueryParams<SignupOption> = {
+  const config: QueryParams<Partial<SignupOption>> = {
     method: 'get',
     url: queryParams?.url ?? SignupOptionRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const signupOptionGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<SignupOptionApi>>(config)
-    : getResponse<ResourceList<SignupOptionApi>, SignupOption>(
+    : getResponse<ResourceList<SignupOptionApi>, Partial<SignupOption>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const signupOptionGetMany = (
 
 export const signupOptionGetOne = (
   id: number,
-  queryParams?: QueryParams<SignupOption>,
+  queryParams?: QueryParams<Partial<SignupOption>>,
 ): Promise<SignupOptionApi> => {
-  const config: QueryParams<SignupOption> = {
+  const config: QueryParams<Partial<SignupOption>> = {
     method: 'get',
     url: `${queryParams?.url ?? SignupOptionRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const signupOptionGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SignupOptionApi>(config)
-    : getResponse<SignupOptionApi, SignupOption>(
+    : getResponse<SignupOptionApi, Partial<SignupOption>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const signupOptionGetOne = (
 
 export const signupOptionDeleteOne = (
   id: number,
-  queryParams?: QueryParams<SignupOption>,
+  queryParams?: QueryParams<Partial<SignupOption>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<SignupOption> = {
+  const config: QueryParams<Partial<SignupOption>> = {
     method: 'delete',
     url: `${queryParams?.url ?? SignupOptionRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const signupOptionDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, SignupOption>(
+    : getResponse<MessageResponse, Partial<SignupOption>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const signupOptionDeleteOne = (
 
 export const signupOptionDeleteMany = (
   data: (Partial<SignupOption> & { id: number })[],
-  queryParams?: QueryParamsWithList<SignupOption>,
+  queryParams?: QueryParamsWithList<Partial<SignupOption> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<SignupOption> = {
+      const config: QueryParamsWithList<
+        Partial<SignupOption> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? SignupOptionRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const signupOptionDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, SignupOption>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<SignupOption> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const signupOptionDeleteMany = (
 export const signupOptionUpdateOne = (
   id: number,
   data: Partial<SignupOption>,
-  queryParams?: QueryParams<SignupOption>,
+  queryParams?: QueryParams<Partial<SignupOption>>,
 ): Promise<SignupOption> => {
-  const config: QueryParams<SignupOption> = {
+  const config: QueryParams<Partial<SignupOption>> = {
     method: 'put',
     url: `${queryParams?.url ?? SignupOptionRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const signupOptionUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SignupOption>(config)
-    : getResponse<SignupOption>(queryParams?.api ?? _client?.api, config);
+    : getResponse<SignupOption, Partial<SignupOption>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const signupOptionUpdateMany = (
   data: (Partial<SignupOption> & { id: number })[],
-  queryParams?: QueryParamsWithList<SignupOption>,
+  queryParams?: QueryParamsWithList<Partial<SignupOption> & { id: number }>,
 ): Promise<SignupOption[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<SignupOption> = {
+      const config: QueryParamsWithList<
+        Partial<SignupOption> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? SignupOptionRoute(),
         params: queryParams?.params,
@@ -133,7 +140,7 @@ export const signupOptionUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<SignupOption[]>(config)
-        : getResponse<SignupOption[], SignupOption>(
+        : getResponse<SignupOption[], Partial<SignupOption> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -143,9 +150,9 @@ export const signupOptionUpdateMany = (
 
 export const signupOptionCreateOne = (
   data: Partial<SignupOption>,
-  queryParams?: QueryParams<SignupOption>,
+  queryParams?: QueryParams<Partial<SignupOption>>,
 ): Promise<SignupOption> => {
-  const config: QueryParams<SignupOption> = {
+  const config: QueryParams<Partial<SignupOption>> = {
     method: 'post',
     url: queryParams?.url ?? SignupOptionRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const signupOptionCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<SignupOption>(config)
-    : getResponse<SignupOption>(queryParams?.api ?? _client?.api, config);
+    : getResponse<SignupOption, Partial<SignupOption>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const signupOptionCreateMany = (
   data: Partial<SignupOption>[],
-  queryParams?: QueryParamsWithList<SignupOption>,
+  queryParams?: QueryParamsWithList<Partial<SignupOption>>,
 ): Promise<SignupOption[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<SignupOption> = {
+      const config: QueryParamsWithList<Partial<SignupOption>> = {
         method: 'post',
         url: queryParams?.url ?? SignupOptionRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const signupOptionCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<SignupOption[]>(config)
-        : getResponse<SignupOption[], SignupOption>(
+        : getResponse<SignupOption[], Partial<SignupOption>>(
             queryParams?.api ?? _client?.api,
             config,
           );

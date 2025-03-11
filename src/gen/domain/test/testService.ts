@@ -16,9 +16,9 @@ import type { Test } from './Test';
 import type { TestApi } from './TestApi';
 
 export const testGetMany = (
-  queryParams?: QueryParams<Test>,
+  queryParams?: QueryParams<Partial<Test>>,
 ): Promise<ResourceList<TestApi>> => {
-  const config: QueryParams<Test> = {
+  const config: QueryParams<Partial<Test>> = {
     method: 'get',
     url: queryParams?.url ?? TestRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const testGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<TestApi>>(config)
-    : getResponse<ResourceList<TestApi>, Test>(
+    : getResponse<ResourceList<TestApi>, Partial<Test>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const testGetMany = (
 
 export const testGetOne = (
   id: number,
-  queryParams?: QueryParams<Test>,
+  queryParams?: QueryParams<Partial<Test>>,
 ): Promise<TestApi> => {
-  const config: QueryParams<Test> = {
+  const config: QueryParams<Partial<Test>> = {
     method: 'get',
     url: `${queryParams?.url ?? TestRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,14 +48,17 @@ export const testGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<TestApi>(config)
-    : getResponse<TestApi, Test>(queryParams?.api ?? _client?.api, config);
+    : getResponse<TestApi, Partial<Test>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const testDeleteOne = (
   id: number,
-  queryParams?: QueryParams<Test>,
+  queryParams?: QueryParams<Partial<Test>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<Test> = {
+  const config: QueryParams<Partial<Test>> = {
     method: 'delete',
     url: `${queryParams?.url ?? TestRoute()}/${id}`,
     params: queryParams?.params,
@@ -64,7 +67,7 @@ export const testDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, Test>(
+    : getResponse<MessageResponse, Partial<Test>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -72,12 +75,12 @@ export const testDeleteOne = (
 
 export const testDeleteMany = (
   data: (Partial<Test> & { id: number })[],
-  queryParams?: QueryParamsWithList<Test>,
+  queryParams?: QueryParamsWithList<Partial<Test> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Test> = {
+      const config: QueryParamsWithList<Partial<Test> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? TestRoute() + '/delete',
         params: queryParams?.params,
@@ -87,7 +90,7 @@ export const testDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, Test>(
+        : getResponse<{ count: number }, Partial<Test> & { id: number }>(
             queryParams?.api ?? _client?.api,
             config,
           );
@@ -98,9 +101,9 @@ export const testDeleteMany = (
 export const testUpdateOne = (
   id: number,
   data: Partial<Test>,
-  queryParams?: QueryParams<Test>,
+  queryParams?: QueryParams<Partial<Test>>,
 ): Promise<Test> => {
-  const config: QueryParams<Test> = {
+  const config: QueryParams<Partial<Test>> = {
     method: 'put',
     url: `${queryParams?.url ?? TestRoute()}/${id}`,
     params: queryParams?.params,
@@ -110,17 +113,20 @@ export const testUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Test>(config)
-    : getResponse<Test>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Test, Partial<Test>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const testUpdateMany = (
   data: (Partial<Test> & { id: number })[],
-  queryParams?: QueryParamsWithList<Test>,
+  queryParams?: QueryParamsWithList<Partial<Test> & { id: number }>,
 ): Promise<Test[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Test> = {
+      const config: QueryParamsWithList<Partial<Test> & { id: number }> = {
         method: 'post',
         url: queryParams?.url ?? TestRoute(),
         params: queryParams?.params,
@@ -130,16 +136,19 @@ export const testUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Test[]>(config)
-        : getResponse<Test[], Test>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Test[], Partial<Test> & { id: number }>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };
 
 export const testCreateOne = (
   data: Partial<Test>,
-  queryParams?: QueryParams<Test>,
+  queryParams?: QueryParams<Partial<Test>>,
 ): Promise<Test> => {
-  const config: QueryParams<Test> = {
+  const config: QueryParams<Partial<Test>> = {
     method: 'post',
     url: queryParams?.url ?? TestRoute(),
     params: queryParams?.params,
@@ -149,17 +158,20 @@ export const testCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<Test>(config)
-    : getResponse<Test>(queryParams?.api ?? _client?.api, config);
+    : getResponse<Test, Partial<Test>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const testCreateMany = (
   data: Partial<Test>[],
-  queryParams?: QueryParamsWithList<Test>,
+  queryParams?: QueryParamsWithList<Partial<Test>>,
 ): Promise<Test[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<Test> = {
+      const config: QueryParamsWithList<Partial<Test>> = {
         method: 'post',
         url: queryParams?.url ?? TestRoute(),
         params: queryParams?.params,
@@ -169,7 +181,10 @@ export const testCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<Test[]>(config)
-        : getResponse<Test[], Test>(queryParams?.api ?? _client?.api, config);
+        : getResponse<Test[], Partial<Test>>(
+            queryParams?.api ?? _client?.api,
+            config,
+          );
     }),
   );
 };

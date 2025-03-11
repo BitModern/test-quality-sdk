@@ -16,9 +16,9 @@ import type { NativeDefectRes } from './NativeDefectRes';
 import type { NativeDefectResApi } from './NativeDefectResApi';
 
 export const nativeDefectResGetMany = (
-  queryParams?: QueryParams<NativeDefectRes>,
+  queryParams?: QueryParams<Partial<NativeDefectRes>>,
 ): Promise<ResourceList<NativeDefectResApi>> => {
-  const config: QueryParams<NativeDefectRes> = {
+  const config: QueryParams<Partial<NativeDefectRes>> = {
     method: 'get',
     url: queryParams?.url ?? NativeDefectResRoute(),
     params: queryParams?.params,
@@ -28,7 +28,7 @@ export const nativeDefectResGetMany = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<ResourceList<NativeDefectResApi>>(config)
-    : getResponse<ResourceList<NativeDefectResApi>, NativeDefectRes>(
+    : getResponse<ResourceList<NativeDefectResApi>, Partial<NativeDefectRes>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -36,9 +36,9 @@ export const nativeDefectResGetMany = (
 
 export const nativeDefectResGetOne = (
   id: number,
-  queryParams?: QueryParams<NativeDefectRes>,
+  queryParams?: QueryParams<Partial<NativeDefectRes>>,
 ): Promise<NativeDefectResApi> => {
-  const config: QueryParams<NativeDefectRes> = {
+  const config: QueryParams<Partial<NativeDefectRes>> = {
     method: 'get',
     url: `${queryParams?.url ?? NativeDefectResRoute()}/${id}`,
     params: queryParams?.params,
@@ -48,7 +48,7 @@ export const nativeDefectResGetOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<NativeDefectResApi>(config)
-    : getResponse<NativeDefectResApi, NativeDefectRes>(
+    : getResponse<NativeDefectResApi, Partial<NativeDefectRes>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -56,9 +56,9 @@ export const nativeDefectResGetOne = (
 
 export const nativeDefectResDeleteOne = (
   id: number,
-  queryParams?: QueryParams<NativeDefectRes>,
+  queryParams?: QueryParams<Partial<NativeDefectRes>>,
 ): Promise<MessageResponse> => {
-  const config: QueryParams<NativeDefectRes> = {
+  const config: QueryParams<Partial<NativeDefectRes>> = {
     method: 'delete',
     url: `${queryParams?.url ?? NativeDefectResRoute()}/${id}`,
     params: queryParams?.params,
@@ -67,7 +67,7 @@ export const nativeDefectResDeleteOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<MessageResponse>(config)
-    : getResponse<MessageResponse, NativeDefectRes>(
+    : getResponse<MessageResponse, Partial<NativeDefectRes>>(
         queryParams?.api ?? _client?.api,
         config,
       );
@@ -75,12 +75,14 @@ export const nativeDefectResDeleteOne = (
 
 export const nativeDefectResDeleteMany = (
   data: (Partial<NativeDefectRes> & { id: number })[],
-  queryParams?: QueryParamsWithList<NativeDefectRes>,
+  queryParams?: QueryParamsWithList<Partial<NativeDefectRes> & { id: number }>,
 ): Promise<{ count: number }[]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<NativeDefectRes> = {
+      const config: QueryParamsWithList<
+        Partial<NativeDefectRes> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? NativeDefectResRoute() + '/delete',
         params: queryParams?.params,
@@ -90,10 +92,10 @@ export const nativeDefectResDeleteMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<{ count: number }>(config)
-        : getResponse<{ count: number }, NativeDefectRes>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            { count: number },
+            Partial<NativeDefectRes> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
@@ -101,9 +103,9 @@ export const nativeDefectResDeleteMany = (
 export const nativeDefectResUpdateOne = (
   id: number,
   data: Partial<NativeDefectRes>,
-  queryParams?: QueryParams<NativeDefectRes>,
+  queryParams?: QueryParams<Partial<NativeDefectRes>>,
 ): Promise<NativeDefectRes> => {
-  const config: QueryParams<NativeDefectRes> = {
+  const config: QueryParams<Partial<NativeDefectRes>> = {
     method: 'put',
     url: `${queryParams?.url ?? NativeDefectResRoute()}/${id}`,
     params: queryParams?.params,
@@ -113,17 +115,22 @@ export const nativeDefectResUpdateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<NativeDefectRes>(config)
-    : getResponse<NativeDefectRes>(queryParams?.api ?? _client?.api, config);
+    : getResponse<NativeDefectRes, Partial<NativeDefectRes>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const nativeDefectResUpdateMany = (
   data: (Partial<NativeDefectRes> & { id: number })[],
-  queryParams?: QueryParamsWithList<NativeDefectRes>,
+  queryParams?: QueryParamsWithList<Partial<NativeDefectRes> & { id: number }>,
 ): Promise<NativeDefectRes[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<NativeDefectRes> = {
+      const config: QueryParamsWithList<
+        Partial<NativeDefectRes> & { id: number }
+      > = {
         method: 'post',
         url: queryParams?.url ?? NativeDefectResRoute(),
         params: queryParams?.params,
@@ -133,19 +140,19 @@ export const nativeDefectResUpdateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<NativeDefectRes[]>(config)
-        : getResponse<NativeDefectRes[], NativeDefectRes>(
-            queryParams?.api ?? _client?.api,
-            config,
-          );
+        : getResponse<
+            NativeDefectRes[],
+            Partial<NativeDefectRes> & { id: number }
+          >(queryParams?.api ?? _client?.api, config);
     }),
   );
 };
 
 export const nativeDefectResCreateOne = (
   data: Partial<NativeDefectRes>,
-  queryParams?: QueryParams<NativeDefectRes>,
+  queryParams?: QueryParams<Partial<NativeDefectRes>>,
 ): Promise<NativeDefectRes> => {
-  const config: QueryParams<NativeDefectRes> = {
+  const config: QueryParams<Partial<NativeDefectRes>> = {
     method: 'post',
     url: queryParams?.url ?? NativeDefectResRoute(),
     params: queryParams?.params,
@@ -155,17 +162,20 @@ export const nativeDefectResCreateOne = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<NativeDefectRes>(config)
-    : getResponse<NativeDefectRes>(queryParams?.api ?? _client?.api, config);
+    : getResponse<NativeDefectRes, Partial<NativeDefectRes>>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
 
 export const nativeDefectResCreateMany = (
   data: Partial<NativeDefectRes>[],
-  queryParams?: QueryParamsWithList<NativeDefectRes>,
+  queryParams?: QueryParamsWithList<Partial<NativeDefectRes>>,
 ): Promise<NativeDefectRes[][]> => {
   const chunks = chunkArray(data, 1000);
   return Promise.all(
     chunks.map((chunk) => {
-      const config: QueryParamsWithList<NativeDefectRes> = {
+      const config: QueryParamsWithList<Partial<NativeDefectRes>> = {
         method: 'post',
         url: queryParams?.url ?? NativeDefectResRoute(),
         params: queryParams?.params,
@@ -175,7 +185,7 @@ export const nativeDefectResCreateMany = (
 
       return queryParams?.batch
         ? queryParams.batch.addBatch<NativeDefectRes[]>(config)
-        : getResponse<NativeDefectRes[], NativeDefectRes>(
+        : getResponse<NativeDefectRes[], Partial<NativeDefectRes>>(
             queryParams?.api ?? _client?.api,
             config,
           );
