@@ -21,7 +21,7 @@ export interface RegisterJiraResponse {
 }
 
 export const registerJira = (
-  data: Partial<RegisterJiraPayload>,
+  data: RegisterJiraPayload,
   queryParams?: QueryParams<RegisterJiraPayload>,
 ): Promise<RegisterJiraResponse> => {
   const config: QueryParams<RegisterJiraPayload> = {

@@ -22,17 +22,19 @@ export const getProjects = (
       );
 };
 
+interface PostImportProjectParams {
+  projectId: number;
+  tqProjectId?: number;
+  entitiesMapping?: Mapping;
+}
+
 export const postImportProject = (
   testRailProjectId: number,
   tqProjectId?: number,
   mapping?: Mapping,
   queryParams?: Omit<QueryParams<void>, 'url' | 'params' | 'data'>,
 ): Promise<{ job_id: string }> => {
-  const config: QueryParams<{
-    projectId: number;
-    tqProjectId?: number;
-    entitiesMapping?: Mapping;
-  }> = {
+  const config: QueryParams<PostImportProjectParams> = {
     method: 'post',
     url: '/testrail/projects/import',
     cancelToken: queryParams?.cancelToken,
@@ -45,11 +47,8 @@ export const postImportProject = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<{ job_id: string }>(config)
-    : getResponse<
-        { job_id: string },
-        {
-          projectId: number | string;
-          entitiesMapping: Mapping;
-        }
-      >(queryParams?.api ?? _client?.api, config);
+    : getResponse<{ job_id: string }, PostImportProjectParams>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };

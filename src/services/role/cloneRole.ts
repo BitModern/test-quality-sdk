@@ -9,7 +9,7 @@ export interface CloneRoleParam {
 }
 
 export const cloneRole = (
-  data: Partial<CloneRoleParam>,
+  data: CloneRoleParam,
   queryParams?: QueryParams<CloneRoleParam>,
 ): Promise<AccessRole> => {
   const config: QueryParams<CloneRoleParam> = {
@@ -21,5 +21,8 @@ export const cloneRole = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<AccessRole>(config)
-    : getResponse<AccessRole>(queryParams?.api ?? _client?.api, config);
+    : getResponse<AccessRole, CloneRoleParam>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };

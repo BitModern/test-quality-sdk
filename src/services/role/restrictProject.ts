@@ -11,7 +11,7 @@ export interface RestrictProjectReturn {
 }
 
 export const restrictProject = (
-  data: Partial<RestrictProjectParam>,
+  data: RestrictProjectParam,
   queryParams?: QueryParams<RestrictProjectParam>,
 ): Promise<RestrictProjectReturn> => {
   const config: QueryParams<RestrictProjectParam> = {
