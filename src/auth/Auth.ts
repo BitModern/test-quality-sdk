@@ -4,7 +4,6 @@ import {
   type AxiosRequestConfig,
 } from 'axios';
 import Debug from 'debug';
-import { type ReturnToken } from './ReturnToken';
 import {
   AUTH,
   GeneralError,
@@ -15,7 +14,9 @@ import {
   NO_REFRESH_TOKEN,
 } from '../exceptions';
 import { type ClientSdk } from '../ClientSdk';
+import { getSubscriptionEntitlement } from '../services/auth';
 import { type TokenStorage } from '../TokenStorage';
+import { type ReturnToken } from './ReturnToken';
 
 const debug = Debug('tq:sdk:Auth');
 
@@ -72,7 +73,7 @@ export class Auth {
       throw new GeneralError(token.error, TOKEN);
     } else if (token?.message) {
       throw new GeneralError(token.message, TOKEN);
-    } else if (token?.verification_ended_at) {
+    } else if (token?.verification_ends_at) {
       // if verification ended then we don't have a token
       throw new GeneralError(
         'Email verification is required to login',
@@ -106,6 +107,9 @@ export class Auth {
   ) {
     this.setAuthCallback(authCallback);
     this.addInterceptors();
+    this.refreshIfStaled().catch((error) => {
+      client.logger.warn(error);
+    });
   }
 
   public setAuthCallback(authCallback?: AuthCallback): void {
@@ -331,6 +335,35 @@ export class Auth {
     });
   }
 
+  private async isStaled(): Promise<boolean> {
+    const token = await this.getToken();
+    if (!token) {
+      // Need to be authorized in order to get subscription entitlement
+      return false;
+    }
+    const entitlement = await getSubscriptionEntitlement();
+
+    if (token?.subscription_ends_at !== entitlement?.subscription_ends_at) {
+      debug('staled: subscription_ends_at');
+      return true;
+    }
+
+    if (token?.trial_ends_at !== entitlement?.trial_ends_at) {
+      debug('staled: trial_ends_at');
+      return true;
+    }
+
+    return false;
+  }
+
+  public async refreshIfStaled(): Promise<ReturnToken | undefined> {
+    debug('refreshIfStaled');
+    if (await this.isStaled()) {
+      return await this.refresh();
+    }
+    return undefined;
+  }
+
   public async getAccessToken(): Promise<string | undefined> {
     let token = await this.getToken();
     if (token) {
@@ -431,17 +464,26 @@ export class Auth {
     let action = AuthCallbackActions.SubscriptionExpired;
     let time = 0;
 
-    if (new Date(token.subscription_ends_at).getTime() > time) {
+    if (
+      token.subscription_ends_at &&
+      new Date(token.subscription_ends_at).getTime() > time
+    ) {
       time = new Date(token.subscription_ends_at).getTime();
     }
-    if (new Date(token.subscription_ended_at).getTime() > time) {
+    if (
+      token.subscription_ended_at &&
+      new Date(token.subscription_ended_at).getTime() > time
+    ) {
       time = new Date(token.subscription_ended_at).getTime();
     }
-    if (new Date(token.trial_ends_at).getTime() > time) {
+    if (token.trial_ends_at && new Date(token.trial_ends_at).getTime() > time) {
       time = new Date(token.trial_ends_at).getTime();
       action = AuthCallbackActions.TrialExpired;
     }
-    if (new Date(token.trial_ended_at).getTime() > time) {
+    if (
+      token.trial_ended_at &&
+      new Date(token.trial_ended_at).getTime() > time
+    ) {
       time = new Date(token.trial_ended_at).getTime();
       action = AuthCallbackActions.TrialExpired;
     }
