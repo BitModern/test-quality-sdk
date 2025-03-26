@@ -38,15 +38,21 @@ export interface ReturnTokenFailure {
 }
 
 // TODO @david
-// check Auth.setPat - it sets a token with just access_token
-// this forces us to set all fixed properties from testQuality as optional
-// Perhaps we could have a separate type, ie. PatToken
-// or have token='PAT' and have token be ReturnToken | { access_token }
+//
+// There are 2 places where setToken is being called with an object that does
+// not follow AccessToken type
+// 1. sdk Auth.setPat -> sets { access_token }
+//   - this method *is not* currently used in web/sdk/cli
+// 2. CLI Command.reLogin -> sets { access_token, expires_at }
+//
+// This forces us to set all fixed properties defined in testQuality as optional
+// Perhaps we could have a separate type, ie. PersonalAccessToken
+// and have ReturnToken = AccessToken | PersonalAccessToken
 
 export interface ReturnToken extends Partial<AccessToken> {
   access_token: string; // mandatory in both token types
   // From Unknown
-  expires_at?: string; // added in Auth.setToken
+  expires_at?: string; // added in both SDK Auth.setToken / CLI Command.reLogin
   message?: string;
   url?: string;
   verification_ended_at?: string;
