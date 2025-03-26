@@ -382,8 +382,12 @@ export class Auth {
     return undefined;
   }
 
+  /**
+   * @deprecated since version 1.16.4
+   */
   public isLoggedIn(): boolean {
-    return this.getToken() !== undefined;
+    console.warn('Method has been deprecated since version 1.16.4');
+    return false;
   }
 
   public async getRemember(): Promise<boolean | undefined> {
@@ -416,8 +420,12 @@ export class Auth {
     return await this.tokenStorage.setToken(token, remember);
   }
 
+  /**
+   * @deprecated since version 1.16.4
+   */
+  // @ts-expect-error: deprecated
   public async setPat(pat: string): Promise<this> {
-    await this.setToken({ access_token: pat } as any);
+    console.warn('Method has been deprecated since version 1.16.4');
     return this;
   }
 
