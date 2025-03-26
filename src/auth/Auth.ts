@@ -44,6 +44,8 @@ const doesNotRequireAuth: string[] = [
   'system/auth/complete_magic_share_invite',
 ];
 
+const cacheStaleCheckTime = 60;
+
 export enum AuthCallbackActions {
   Connected = 1,
   Refreshed,
@@ -73,7 +75,7 @@ export class Auth {
       throw new GeneralError(token.error, TOKEN);
     } else if (token?.message) {
       throw new GeneralError(token.message, TOKEN);
-    } else if (token?.verification_ends_at) {
+    } else if (token?.verification_ended_at) {
       // if verification ended then we don't have a token
       throw new GeneralError(
         'Email verification is required to login',
@@ -99,6 +101,7 @@ export class Auth {
   private disableHandler = false;
   private refreshRequest?: Promise<AxiosResponse<ReturnToken>> = undefined;
   private remember = true;
+  private lastStaleCheck = new Date('1971');
 
   constructor(
     private readonly tokenStorage: TokenStorage,
@@ -341,7 +344,14 @@ export class Auth {
       // Need to be authorized in order to get subscription entitlement
       return false;
     }
+
+    const now = new Date();
+    if (now.getTime() - this.lastStaleCheck.getTime() < cacheStaleCheckTime) {
+      return false;
+    }
+
     const entitlement = await getSubscriptionEntitlement();
+    this.lastStaleCheck = now;
 
     if (token?.subscription_ends_at !== entitlement?.subscription_ends_at) {
       debug('staled: subscription_ends_at');

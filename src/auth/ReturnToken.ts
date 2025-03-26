@@ -13,8 +13,19 @@ export interface SubscriptionEntitlement {
   unavailable: string[];
 }
 
+// From AuthTokenController getToken
+// NOTE: if user is not verified and verification period is breached the api
+// returns a token with these two fields, though both share the same value
+// (accessToken->verification_ends_at), perhaps it should return an error.
+export interface VerificationEndedToken {
+  verification_ended_at?: string;
+  verification_ends_at?: string;
+}
+
 // From testQuality App/Models/AccessToken
-export interface AccessToken extends SubscriptionEntitlement {
+export interface AccessToken
+  extends SubscriptionEntitlement,
+    VerificationEndedToken {
   access_token: string;
   beta_mode?: boolean;
   expires_in: number;
@@ -48,6 +59,10 @@ export interface ReturnTokenFailure {
 // This forces us to set all fixed properties defined in testQuality as optional
 // Perhaps we could have a separate type, ie. PersonalAccessToken
 // and have ReturnToken = AccessToken | PersonalAccessToken
+//
+// There is a third scenario whereby the api will return a token as
+// { verification_ended_at, verification_ends_at }
+// see VerificationEndedToken comment
 
 export interface ReturnToken extends Partial<AccessToken> {
   access_token: string; // mandatory in both token types
