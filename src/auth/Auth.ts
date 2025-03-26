@@ -4,7 +4,6 @@ import {
   type AxiosRequestConfig,
 } from 'axios';
 import Debug from 'debug';
-import { type ReturnToken } from './ReturnToken';
 import {
   AUTH,
   GeneralError,
@@ -15,7 +14,9 @@ import {
   NO_REFRESH_TOKEN,
 } from '../exceptions';
 import { type ClientSdk } from '../ClientSdk';
+import { getSubscriptionEntitlement } from '../services/auth';
 import { type TokenStorage } from '../TokenStorage';
+import { type ReturnToken } from './ReturnToken';
 
 const debug = Debug('tq:sdk:Auth');
 
@@ -331,6 +332,38 @@ export class Auth {
     });
   }
 
+  private async isSubscriptionStaled(): Promise<boolean> {
+    const token = await this.getToken();
+    if (!token) {
+      // Need to be authorized in order to get subscription entitlement
+      return false;
+    }
+
+    const entitlement = await getSubscriptionEntitlement();
+
+    if (token?.subscription_ends_at !== entitlement?.subscription_ends_at) {
+      debug('staled: subscription_ends_at');
+      return true;
+    }
+
+    if (token?.trial_ends_at !== entitlement?.trial_ends_at) {
+      debug('staled: trial_ends_at');
+      return true;
+    }
+
+    return false;
+  }
+
+  public async refreshTokenIfSubscriptionStaled(): Promise<
+    ReturnToken | undefined
+  > {
+    debug('refreshTokenIfSubscriptionStaled');
+    if (await this.isSubscriptionStaled()) {
+      return await this.refresh();
+    }
+    return undefined;
+  }
+
   public async getAccessToken(): Promise<string | undefined> {
     let token = await this.getToken();
     if (token) {
@@ -349,8 +382,8 @@ export class Auth {
     return undefined;
   }
 
-  public isLoggedIn(): boolean {
-    return this.getToken() !== undefined;
+  public async isLoggedIn(): Promise<boolean> {
+    return (await this.getToken()) !== undefined;
   }
 
   public async getRemember(): Promise<boolean | undefined> {
@@ -431,17 +464,26 @@ export class Auth {
     let action = AuthCallbackActions.SubscriptionExpired;
     let time = 0;
 
-    if (new Date(token.subscription_ends_at).getTime() > time) {
+    if (
+      token.subscription_ends_at &&
+      new Date(token.subscription_ends_at).getTime() > time
+    ) {
       time = new Date(token.subscription_ends_at).getTime();
     }
-    if (new Date(token.subscription_ended_at).getTime() > time) {
+    if (
+      token.subscription_ended_at &&
+      new Date(token.subscription_ended_at).getTime() > time
+    ) {
       time = new Date(token.subscription_ended_at).getTime();
     }
-    if (new Date(token.trial_ends_at).getTime() > time) {
+    if (token.trial_ends_at && new Date(token.trial_ends_at).getTime() > time) {
       time = new Date(token.trial_ends_at).getTime();
       action = AuthCallbackActions.TrialExpired;
     }
-    if (new Date(token.trial_ended_at).getTime() > time) {
+    if (
+      token.trial_ended_at &&
+      new Date(token.trial_ended_at).getTime() > time
+    ) {
       time = new Date(token.trial_ended_at).getTime();
       action = AuthCallbackActions.TrialExpired;
     }
