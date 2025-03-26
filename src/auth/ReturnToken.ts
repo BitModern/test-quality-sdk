@@ -70,7 +70,6 @@ export interface ReturnToken extends Partial<AccessToken> {
   expires_at?: string; // added in both SDK Auth.setToken / CLI Command.reLogin
   message?: string;
   url?: string;
-  verification_ended_at?: string;
 }
 
 export enum ClientTypeEnum {
