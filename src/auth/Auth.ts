@@ -44,8 +44,6 @@ const doesNotRequireAuth: string[] = [
   'system/auth/complete_magic_share_invite',
 ];
 
-const cacheStaleCheckTime = 60;
-
 export enum AuthCallbackActions {
   Connected = 1,
   Refreshed,
@@ -101,7 +99,6 @@ export class Auth {
   private disableHandler = false;
   private refreshRequest?: Promise<AxiosResponse<ReturnToken>> = undefined;
   private remember = true;
-  private lastStaleCheck = new Date('1971');
 
   constructor(
     private readonly tokenStorage: TokenStorage,
@@ -110,9 +107,6 @@ export class Auth {
   ) {
     this.setAuthCallback(authCallback);
     this.addInterceptors();
-    this.refreshIfStaled().catch((error) => {
-      client.logger.warn(error);
-    });
   }
 
   public setAuthCallback(authCallback?: AuthCallback): void {
@@ -338,20 +332,14 @@ export class Auth {
     });
   }
 
-  private async isStaled(): Promise<boolean> {
+  private async isSubscriptionStaled(): Promise<boolean> {
     const token = await this.getToken();
     if (!token) {
       // Need to be authorized in order to get subscription entitlement
       return false;
     }
 
-    const now = new Date();
-    if (now.getTime() - this.lastStaleCheck.getTime() < cacheStaleCheckTime) {
-      return false;
-    }
-
     const entitlement = await getSubscriptionEntitlement();
-    this.lastStaleCheck = now;
 
     if (token?.subscription_ends_at !== entitlement?.subscription_ends_at) {
       debug('staled: subscription_ends_at');
@@ -366,9 +354,11 @@ export class Auth {
     return false;
   }
 
-  public async refreshIfStaled(): Promise<ReturnToken | undefined> {
-    debug('refreshIfStaled');
-    if (await this.isStaled()) {
+  public async refreshTokenIfSubscriptionStaled(): Promise<
+    ReturnToken | undefined
+  > {
+    debug('refreshTokenIfSubscriptionStaled');
+    if (await this.isSubscriptionStaled()) {
       return await this.refresh();
     }
     return undefined;
@@ -392,12 +382,8 @@ export class Auth {
     return undefined;
   }
 
-  /**
-   * @deprecated since version 1.16.4
-   */
-  public isLoggedIn(): boolean {
-    console.warn('Method has been deprecated since version 1.16.4');
-    return false;
+  public async isLoggedIn(): Promise<boolean> {
+    return (await this.getToken()) !== undefined;
   }
 
   public async getRemember(): Promise<boolean | undefined> {
@@ -430,12 +416,8 @@ export class Auth {
     return await this.tokenStorage.setToken(token, remember);
   }
 
-  /**
-   * @deprecated since version 1.16.4
-   */
-  // @ts-expect-error: deprecated
   public async setPat(pat: string): Promise<this> {
-    console.warn('Method has been deprecated since version 1.16.4');
+    await this.setToken({ access_token: pat } as any);
     return this;
   }
 
