@@ -47,12 +47,8 @@ export const postImportProject = (
 
   return queryParams?.batch
     ? queryParams.batch.addBatch<{ job_id: string }>(config)
-    : getResponse<
-        { job_id: string },
-        {
-          projectId: number;
-          tqProjectId?: number;
-          entitiesMapping?: Mapping;
-        }
-      >(queryParams?.api ?? _client?.api, config);
+    : getResponse<{ job_id: string }, PostImportProjectParams>(
+        queryParams?.api ?? _client?.api,
+        config,
+      );
 };
