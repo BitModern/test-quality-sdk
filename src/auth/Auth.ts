@@ -332,8 +332,20 @@ export class Auth {
     });
   }
 
-  private async isSubscriptionStaled(): Promise<boolean> {
-    const token = await this.getToken();
+  private isTokenExpired(token: ReturnToken | undefined) {
+    if (token?.expires_at) {
+      const expiresAt = new Date(token.expires_at);
+      const diff = expiresAt.getTime() - new Date().getTime();
+      if (diff < 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private async isSubscriptionStaled(
+    token: ReturnToken | undefined,
+  ): Promise<boolean> {
     if (!token) {
       // Need to be authorized in order to get subscription entitlement
       return false;
@@ -357,8 +369,18 @@ export class Auth {
   public async refreshTokenIfSubscriptionStaled(): Promise<
     ReturnToken | undefined
   > {
-    debug('refreshTokenIfSubscriptionStaled');
-    if (await this.isSubscriptionStaled()) {
+    const token = await this.getToken();
+    debug('refreshTokenIfSubscriptionStaled', {
+      expiresAt: token?.expires_at,
+      subscriptionEndsAt: token?.subscription_ends_at,
+    });
+
+    if (this.isTokenExpired(token)) {
+      debug('token is expired, refresh');
+      return await this.refresh();
+    }
+    if (await this.isSubscriptionStaled(token)) {
+      debug('subscription is staled, refresh');
       return await this.refresh();
     }
     return undefined;
@@ -366,17 +388,9 @@ export class Auth {
 
   public async getAccessToken(): Promise<string | undefined> {
     let token = await this.getToken();
-    if (token) {
-      if (token.expires_at) {
-        const expiresAt: Date = new Date(token.expires_at);
-        const diff = expiresAt.getTime() - new Date().getTime();
-
-        if (diff < 0) {
-          // token has expired, try to get a token
-          debug('getAccessToken: token expired, refreshing');
-          token = await this.refresh();
-        }
-      }
+    if (this.isTokenExpired(token)) {
+      debug('getAccessToken: token expired, refreshing');
+      token = await this.refresh();
       return token?.access_token;
     }
     return undefined;
