@@ -1,6 +1,46 @@
 /**
  * Copyright (C) 2021 BitModern, Inc - All Rights Reserved
  */
+import { type Subscriptions } from '../gen/domain';
+
+// From testQuality App/Models/SubscriptionEntitlement
+export interface SubscriptionEntitlement {
+  is_expired?: boolean;
+  subscription: Subscriptions;
+  subscription_ends_at?: string;
+  temporary: string[];
+  trial_ends_at?: string;
+  unavailable: string[];
+}
+
+// From AuthTokenController getToken
+// NOTE: if user is not verified and verification period is breached the api
+// returns a token with these two fields, though both share the same value
+// (accessToken->verification_ends_at), perhaps it should return an error.
+export interface VerificationEndedToken {
+  verification_ended_at?: string;
+  verification_ends_at?: string;
+}
+
+// From testQuality App/Models/AccessToken
+export interface AccessToken
+  extends SubscriptionEntitlement,
+    VerificationEndedToken {
+  access_token: string;
+  beta_mode?: boolean;
+  expires_in: number;
+  client_id?: number;
+  client_name?: string;
+  client_type?: number;
+  failures?: ReturnTokenFailure[];
+  github_open_source_subscription_invalid?: boolean;
+  refresh_token: string;
+  subscription_ended_at?: string;
+  token_type: string;
+  trial_ended_at?: string;
+  user_id?: number;
+  verification_ends_at?: string;
+}
 
 export interface ReturnTokenFailure {
   project_id?: number;
@@ -8,27 +48,28 @@ export interface ReturnTokenFailure {
   message: string;
 }
 
-export interface ReturnToken {
-  access_token: string;
-  client_id: number;
-  client_name: string;
-  client_type: number;
-  expires_at: string;
-  expires_in: number;
-  failures: ReturnTokenFailure[];
-  github_open_source_subscription_invalid: boolean;
-  is_expired: boolean;
-  message: string;
-  refresh_token?: string;
-  subscription_ended_at: string;
-  subscription_ends_at: string;
-  token_type: string;
-  trial_ended_at: string;
-  trial_ends_at: string;
+// TODO @david
+//
+// There are 2 places where setToken is being called with an object that does
+// not follow AccessToken type
+// 1. sdk Auth.setPat -> sets { access_token }
+//   - this method *is not* currently used in web/sdk/cli
+// 2. CLI Command.reLogin -> sets { access_token, expires_at }
+//
+// This forces us to set all fixed properties defined in testQuality as optional
+// Perhaps we could have a separate type, ie. PersonalAccessToken
+// and have ReturnToken = AccessToken | PersonalAccessToken
+//
+// There is a third scenario whereby the api will return a token as
+// { verification_ended_at, verification_ends_at }
+// see VerificationEndedToken comment
+
+export interface ReturnToken extends Partial<AccessToken> {
+  access_token: string; // mandatory in both token types
+  // From Unknown
+  expires_at?: string; // added in both SDK Auth.setToken / CLI Command.reLogin
+  message?: string;
   url?: string;
-  user_id: number;
-  verification_ended_at: string;
-  verification_ends_at: string;
 }
 
 export enum ClientTypeEnum {
