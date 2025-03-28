@@ -97,8 +97,9 @@ export class Auth {
 
   public id = Math.random();
   private disableHandler = false;
-  private refreshRequest?: Promise<AxiosResponse<ReturnToken>> = undefined;
+  private refreshRequest?: Promise<AxiosResponse<ReturnToken>>;
   private remember = true;
+  private checkSubscriptionRequest?: Promise<ReturnToken | undefined>;
 
   constructor(
     private readonly tokenStorage: TokenStorage,
@@ -332,38 +333,6 @@ export class Auth {
     });
   }
 
-  private async isSubscriptionStaled(): Promise<boolean> {
-    const token = await this.getToken();
-    if (!token) {
-      // Need to be authorized in order to get subscription entitlement
-      return false;
-    }
-
-    const entitlement = await getSubscriptionEntitlement();
-
-    if (token?.subscription_ends_at !== entitlement?.subscription_ends_at) {
-      debug('staled: subscription_ends_at');
-      return true;
-    }
-
-    if (token?.trial_ends_at !== entitlement?.trial_ends_at) {
-      debug('staled: trial_ends_at');
-      return true;
-    }
-
-    return false;
-  }
-
-  public async refreshTokenIfSubscriptionStaled(): Promise<
-    ReturnToken | undefined
-  > {
-    debug('refreshTokenIfSubscriptionStaled');
-    if (await this.isSubscriptionStaled()) {
-      return await this.refresh();
-    }
-    return undefined;
-  }
-
   public async getAccessToken(): Promise<string | undefined> {
     let token = await this.getToken();
     if (token) {
@@ -380,6 +349,53 @@ export class Auth {
       return token?.access_token;
     }
     return undefined;
+  }
+
+  private async checkSubscription(): Promise<ReturnToken | undefined> {
+    // Ensure access_token is not expired
+    const accessToken = await this.getAccessToken();
+    if (!accessToken) {
+      return undefined;
+    }
+
+    // Get current token
+    const token = await this.getToken();
+    if (!token) {
+      return undefined;
+    }
+
+    // Override config headers in auth interceptor to prevent deadlock
+    const entitlement = await getSubscriptionEntitlement({
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    if (token?.subscription_ends_at !== entitlement?.subscription_ends_at) {
+      debug('checkSubscription: subscription_ends_at has changed');
+      return await this.refresh();
+    }
+
+    if (token?.trial_ends_at !== entitlement?.trial_ends_at) {
+      debug('checkSubscription: trial_ends_at has changed');
+      return await this.refresh();
+    }
+
+    return undefined;
+  }
+
+  public async refreshTokenIfSubscriptionStaled(): Promise<
+    ReturnToken | undefined
+  > {
+    if (!this.checkSubscriptionRequest) {
+      debug('refreshTokenIfSubscriptionStaled: starting');
+      this.checkSubscriptionRequest = this.checkSubscription().finally(() => {
+        debug('refreshTokenIfSubscriptionStaled: finished');
+        this.checkSubscriptionRequest = undefined;
+      });
+      return await this.checkSubscriptionRequest;
+    }
+
+    debug('refreshTokenIfSubscriptionStaled: in process');
+    return await this.checkSubscriptionRequest;
   }
 
   public async isLoggedIn(): Promise<boolean> {
@@ -493,7 +509,7 @@ export class Auth {
     }
   }
 
-  protected addAddAuthorizationHeaderInterceptor() {
+  protected addAuthorizationHeaderInterceptor() {
     this.client.api.interceptors.request.use(
       async (config): Promise<InternalAxiosRequestConfig> => {
         const newConfig = { ...config };
@@ -502,13 +518,21 @@ export class Auth {
           newConfig.headers.Authorization === undefined
         ) {
           try {
+            if (this.checkSubscriptionRequest) {
+              // Wait till check is finished as the token might be refreshed.
+              debug(
+                'authorizationHeaderInterceptor: waiting for checkSubscriptionRequest',
+                config.url,
+              );
+              await this.checkSubscriptionRequest;
+              debug('authorizationHeaderInterceptor: resuming', config.url);
+            }
             const accessToken = await this.getAccessToken();
-
             if (accessToken) {
               newConfig.headers.Authorization = `Bearer ${accessToken}`;
             }
           } catch (err) {
-            debug('addAddAuthorizationHeaderInterceptor', err);
+            debug('authorizationHeaderInterceptor: error', err);
             // don't throw error because there is no check to see if it is calling TestQuality api
             // possible making calls that don't require authentication.
           }
@@ -541,7 +565,7 @@ export class Auth {
 
         const isRetry = Boolean(error.response?.config?._retry);
 
-        debug('addUnauthorizedInterceptor', {
+        debug('unauthorizedInterceptor', {
           error,
           id: this.id,
           isAuthCallbackSet: !!this.authCallback,
@@ -615,7 +639,7 @@ export class Auth {
   }
 
   protected addInterceptors(): void {
-    this.addAddAuthorizationHeaderInterceptor();
+    this.addAuthorizationHeaderInterceptor();
     this.addUnauthorizedInterceptor();
   }
 }
