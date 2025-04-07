@@ -12,7 +12,6 @@ import {
   getHttpResponse,
   HttpError,
   NO_REFRESH_TOKEN,
-  // INVALID_REFRESH_TOKEN,
 } from '../exceptions';
 import { type ClientSdk } from '../ClientSdk';
 import { getSubscriptionEntitlement } from '../services/auth';
