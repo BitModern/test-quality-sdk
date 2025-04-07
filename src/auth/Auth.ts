@@ -99,7 +99,7 @@ export class Auth {
    * authenticated, possible values:
    *  true - user is authenticated
    *  false - user failed to authenticate
-   *  null - user has not attempted to authenticate yet
+   *  undefined - user has not attempted to authenticate yet
    */
   private authenticated: boolean | undefined;
   private checkSubscriptionRequest?: Promise<ReturnToken | undefined>;
