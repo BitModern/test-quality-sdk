@@ -12,6 +12,7 @@ import {
   getHttpResponse,
   HttpError,
   NO_REFRESH_TOKEN,
+  // INVALID_REFRESH_TOKEN,
 } from '../exceptions';
 import { type ClientSdk } from '../ClientSdk';
 import { getSubscriptionEntitlement } from '../services/auth';
@@ -68,7 +69,7 @@ export interface SignUpWithEmailData {
 
 export class Auth {
   public static validateTokenPayload(token: any) {
-    debug('validateTokenPayload', { token });
+    debug('validateTokenPayload: %j', token);
     if (token?.error) {
       throw new GeneralError(token.error, TOKEN);
     } else if (token?.message) {
@@ -95,11 +96,18 @@ export class Auth {
     return true;
   }
 
-  public id = Math.random();
+  /**
+   * authenticated, possible values:
+   *  true - user is authenticated
+   *  false - user failed to authenticate
+   *  null - user has not attempted to authenticate yet
+   */
+  private authenticated: boolean | undefined;
+  private checkSubscriptionRequest?: Promise<ReturnToken | undefined>;
   private disableHandler = false;
+  public id = Math.random();
   private refreshRequest?: Promise<AxiosResponse<ReturnToken>>;
   private remember = true;
-  private checkSubscriptionRequest?: Promise<ReturnToken | undefined>;
 
   constructor(
     private readonly tokenStorage: TokenStorage,
@@ -228,6 +236,7 @@ export class Auth {
   }
 
   public async performLogin(token: ReturnToken): Promise<ReturnToken> {
+    this.authenticated = true;
     await this.setToken(token, this.remember);
     await this.handleExpired(token);
     this.client.logger.info('Logged In');
@@ -238,6 +247,7 @@ export class Auth {
   }
 
   public logout(): Promise<ReturnToken | undefined> {
+    this.authenticated = undefined;
     return this.setToken(undefined, undefined);
   }
 
@@ -286,9 +296,16 @@ export class Auth {
   public async refresh(
     refreshToken?: string,
   ): Promise<ReturnToken | undefined> {
+    if (this.authenticated === false) {
+      // Do not attempt to refresh token as it will fail
+      debug('refresh: not authenticated');
+      return undefined;
+    }
+
     const token = refreshToken ?? (await this.getToken())?.refresh_token;
-    debug('refresh', { token });
+    debug('refresh: %j', token);
     if (!token) {
+      this.authenticated = false;
       return await Promise.reject(
         new HttpError(
           'No refresh token found.',
@@ -300,7 +317,7 @@ export class Auth {
     }
 
     if (!this.refreshRequest) {
-      debug('new refreshRequest');
+      debug('refreshRequest: starting');
       this.refreshRequest = this.client.api.request<ReturnToken>({
         method: 'post',
         url: grantPath,
@@ -313,20 +330,28 @@ export class Auth {
       });
       return await this.refreshRequest
         .then(async (response) => {
+          this.authenticated = true;
           const data = response.data;
           await this.setToken(data);
           await this.handleExpired(data);
           if (this.authCallback) {
             await this.authCallback(AuthCallbackActions.Refreshed, data, this);
           }
-          debug('Refreshed');
+          debug('refreshRequest: ok');
           return data;
         })
+        .catch((error: any) => {
+          this.authenticated = false;
+          debug('refreshRequest error:', error?.message ?? error);
+          return undefined; // Ensure a value is returned in case of an error
+        })
         .finally(() => {
+          debug('refreshRequest: finished');
           this.refreshRequest = undefined;
         });
     }
 
+    debug('refreshRequest: in process');
     return await this.refreshRequest.then(async ({ data }) => {
       debug('refreshRequest: then resolved');
       return data;
@@ -346,6 +371,14 @@ export class Auth {
           token = await this.refresh();
         }
       }
+
+      // If client was instantiated with a token we set it as authenticated.
+      // Note that it it were refreshed it would be already set to true in the
+      // refresh method.
+      if (this.authenticated === undefined) {
+        this.authenticated = true;
+      }
+
       return token?.access_token;
     }
     return undefined;
@@ -414,7 +447,7 @@ export class Auth {
     token?: ReturnToken,
     remember?: boolean,
   ): Promise<ReturnToken | undefined> {
-    debug('setToken', { token, remember });
+    debug('setToken: %j', { token, remember });
     if (token) {
       Auth.validateTokenPayload(token);
     }
@@ -531,8 +564,8 @@ export class Auth {
             if (accessToken) {
               newConfig.headers.Authorization = `Bearer ${accessToken}`;
             }
-          } catch (err) {
-            debug('authorizationHeaderInterceptor: error', err);
+          } catch (err: any) {
+            debug('authorizationHeaderInterceptor: error', err?.message ?? err);
             // don't throw error because there is no check to see if it is calling TestQuality api
             // possible making calls that don't require authentication.
           }
@@ -566,7 +599,7 @@ export class Auth {
         const isRetry = Boolean(error.response?.config?._retry);
 
         debug('unauthorizedInterceptor', {
-          error,
+          error: error?.message ?? error,
           id: this.id,
           isAuthCallbackSet: !!this.authCallback,
           isDisabled: this.disableHandler,
@@ -592,6 +625,7 @@ export class Auth {
         const accessToken = await this.getToken();
         if (!accessToken) {
           if (this.authCallback) {
+            debug('unauthorizedInterceptor: authCallback due to empty token');
             await this.authCallback(
               AuthCallbackActions.Unauthorized,
               undefined,
@@ -606,6 +640,7 @@ export class Auth {
         // the 401 response.
         this.disableHandler = true;
 
+        let authCallbackAlreadyInvoked = false;
         try {
           // use refresh token to generate new access token so request can be retried
           const token = await this.refresh();
@@ -615,6 +650,10 @@ export class Auth {
             return await this.client.api(error.response.config);
           }
           if (this.authCallback) {
+            debug(
+              'unauthorizedInterceptor: authCallback due to empty token after refresh',
+            );
+            authCallbackAlreadyInvoked = true;
             await this.authCallback(
               AuthCallbackActions.Unauthorized,
               undefined,
@@ -622,8 +661,12 @@ export class Auth {
             );
           }
           return await Promise.reject(getHttpResponse(error.response));
-        } catch (e) {
-          if (this.authCallback) {
+        } catch (e: any) {
+          if (this.authCallback && !authCallbackAlreadyInvoked) {
+            debug(
+              'unauthorizedInterceptor: authCallback due to error',
+              e?.message ?? e,
+            );
             await this.authCallback(
               AuthCallbackActions.Unauthorized,
               undefined,
