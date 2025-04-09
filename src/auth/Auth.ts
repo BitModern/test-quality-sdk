@@ -12,6 +12,7 @@ import {
   getHttpResponse,
   HttpError,
   NO_REFRESH_TOKEN,
+  REFRESH_TOKEN_ERROR,
 } from '../exceptions';
 import { type ClientSdk } from '../ClientSdk';
 import { getSubscriptionEntitlement } from '../services/auth';
@@ -95,13 +96,6 @@ export class Auth {
     return true;
   }
 
-  /**
-   * authenticated, possible values:
-   *  true - user is authenticated
-   *  false - user failed to authenticate
-   *  undefined - user has not attempted to authenticate yet
-   */
-  private authenticated: boolean | undefined;
   private checkSubscriptionRequest?: Promise<ReturnToken | undefined>;
   private disableHandler = false;
   public id = Math.random();
@@ -235,7 +229,6 @@ export class Auth {
   }
 
   public async performLogin(token: ReturnToken): Promise<ReturnToken> {
-    this.authenticated = true;
     await this.setToken(token, this.remember);
     await this.handleExpired(token);
     this.client.logger.info('Logged In');
@@ -246,7 +239,6 @@ export class Auth {
   }
 
   public logout(): Promise<ReturnToken | undefined> {
-    this.authenticated = undefined;
     return this.setToken(undefined, undefined);
   }
 
@@ -295,66 +287,74 @@ export class Auth {
   public async refresh(
     refreshToken?: string,
   ): Promise<ReturnToken | undefined> {
-    if (this.authenticated === false) {
-      // Do not attempt to refresh token as it will fail
-      debug('refresh: not authenticated');
-      return undefined;
-    }
-
-    const token = refreshToken ?? (await this.getToken())?.refresh_token;
-    debug('refresh: %j', token);
-    if (!token) {
-      this.authenticated = false;
-      return await Promise.reject(
-        new HttpError(
-          'No refresh token found.',
-          NO_REFRESH_TOKEN,
-          'Token Error',
-          400,
-        ),
-      );
-    }
-
-    if (!this.refreshRequest) {
-      debug('refreshRequest: starting');
-      this.refreshRequest = this.client.api.request<ReturnToken>({
-        method: 'post',
-        url: grantPath,
-        data: {
-          grant_type: 'refresh_token',
-          client_id: this.client.clientId,
-          client_secret: this.client.clientSecret,
-          refresh_token: token,
-        },
+    if (this.refreshRequest) {
+      debug('refresh: in process');
+      return await this.refreshRequest.then(async ({ data }) => {
+        debug('refresh: resolved');
+        return data;
       });
-      return await this.refreshRequest
-        .then(async (response) => {
-          this.authenticated = true;
-          const data = response.data;
-          await this.setToken(data);
-          await this.handleExpired(data);
-          if (this.authCallback) {
-            await this.authCallback(AuthCallbackActions.Refreshed, data, this);
-          }
-          debug('refreshRequest: ok');
-          return data;
-        })
-        .catch((error: any) => {
-          this.authenticated = false;
-          debug('refreshRequest error:', error?.message ?? error);
-          return undefined; // Ensure a value is returned in case of an error
-        })
-        .finally(() => {
-          debug('refreshRequest: finished');
-          this.refreshRequest = undefined;
-        });
     }
 
-    debug('refreshRequest: in process');
-    return await this.refreshRequest.then(async ({ data }) => {
-      debug('refreshRequest: then resolved');
-      return data;
+    let token = refreshToken;
+    if (!token) {
+      if (!(await this.isLoggedIn())) {
+        // Do not attempt to refresh token as it will fail
+        debug('refresh: not authenticated');
+        return undefined;
+      }
+      token = (await this.getToken())?.refresh_token;
+      if (!token) {
+        await this.logout();
+        return await Promise.reject(
+          new HttpError(
+            'No refresh token found.',
+            NO_REFRESH_TOKEN,
+            'Token Error',
+            400,
+          ),
+        );
+      }
+    }
+
+    debug('refreshRequest: starting', token);
+    this.refreshRequest = this.client.api.request<ReturnToken>({
+      method: 'post',
+      url: grantPath,
+      data: {
+        grant_type: 'refresh_token',
+        client_id: this.client.clientId,
+        client_secret: this.client.clientSecret,
+        refresh_token: token,
+      },
     });
+    return await this.refreshRequest
+      .then(async (response) => {
+        const data = response.data;
+        await this.setToken(data, this.remember);
+        await this.handleExpired(data);
+        if (this.authCallback) {
+          await this.authCallback(AuthCallbackActions.Refreshed, data, this);
+        }
+        debug('refreshRequest: ok');
+        return data;
+      })
+      .catch(async (error: any) => {
+        await this.logout();
+        debug('refreshRequest error:', error?.message ?? error);
+        return await Promise.reject(
+          new HttpError(
+            'Could not refresh token.',
+            REFRESH_TOKEN_ERROR,
+            'Refresh Token Error',
+            401,
+            REFRESH_TOKEN_ERROR,
+          ),
+        );
+      })
+      .finally(() => {
+        debug('refreshRequest: finished');
+        this.refreshRequest = undefined;
+      });
   }
 
   public async getAccessToken(): Promise<string | undefined> {
@@ -370,14 +370,6 @@ export class Auth {
           token = await this.refresh();
         }
       }
-
-      // If client was instantiated with a token we set it as authenticated.
-      // Note that it it were refreshed it would be already set to true in the
-      // refresh method.
-      if (this.authenticated === undefined) {
-        this.authenticated = true;
-      }
-
       return token?.access_token;
     }
     return undefined;
@@ -550,6 +542,9 @@ export class Auth {
           newConfig.headers.Authorization === undefined
         ) {
           try {
+            // TODO @david
+            // we could wait here as well for refreshRequest and error sooner
+            // if it was unsuccessful
             if (this.checkSubscriptionRequest) {
               // Wait till check is finished as the token might be refreshed.
               debug(
@@ -563,6 +558,9 @@ export class Auth {
             if (accessToken) {
               newConfig.headers.Authorization = `Bearer ${accessToken}`;
             }
+            // TODO @david
+            // should we error sooner if there is no access token?
+            // otherwise we are wasting resources making a request that will fail
           } catch (err: any) {
             debug('authorizationHeaderInterceptor: error', err?.message ?? err);
             // don't throw error because there is no check to see if it is calling TestQuality api

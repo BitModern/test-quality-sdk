@@ -4,6 +4,7 @@ import { _client } from '../ClientSdk';
 
 export const UNKNOWN_ERROR = 'UNKNOWN_ERROR';
 export const NO_REFRESH_TOKEN = 'NO_REFRESH_TOKEN';
+export const REFRESH_TOKEN_ERROR = 'REFRESH_TOKEN_ERROR';
 export const UNAUTHORIZED = 'UNAUTHORIZED';
 export const VALIDATION_ERROR = 'VALIDATION_ERROR';
 export const EMAIL_VERIFICATION_ERROR = 'EMAIL_VERIFICATION_ERROR';
