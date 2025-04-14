@@ -289,6 +289,12 @@ export class Auth {
   ): Promise<ReturnToken | undefined> {
     if (this.refreshRequest) {
       debug('refresh: in process');
+      // TODO @david
+      // what if this errors?
+      // we are handling errors inside refreshRequest
+      // but not here, does that mean that other requests
+      // waiting other than the one that originated the
+      // refresh will have unhandled errors?
       return await this.refreshRequest.then(async ({ data }) => {
         debug('refresh: resolved');
         return data;
@@ -311,6 +317,7 @@ export class Auth {
             NO_REFRESH_TOKEN,
             'Token Error',
             400,
+            NO_REFRESH_TOKEN,
           ),
         );
       }
@@ -346,7 +353,7 @@ export class Auth {
             'Could not refresh token.',
             REFRESH_TOKEN_ERROR,
             'Refresh Token Error',
-            401,
+            400,
             REFRESH_TOKEN_ERROR,
           ),
         );
@@ -659,6 +666,10 @@ export class Auth {
           }
           return await Promise.reject(getHttpResponse(error.response));
         } catch (e: any) {
+          // Add url that required authentication the error
+          if (!e.url) {
+            e.url = error.config?.url;
+          }
           if (this.authCallback && !authCallbackAlreadyInvoked) {
             debug(
               'unauthorizedInterceptor: authCallback due to error',
