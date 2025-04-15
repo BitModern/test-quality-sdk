@@ -289,16 +289,15 @@ export class Auth {
   ): Promise<ReturnToken | undefined> {
     if (this.refreshRequest) {
       debug('refresh: in process');
-      // TODO @david
-      // what if this errors?
-      // we are handling errors inside refreshRequest
-      // but not here, does that mean that other requests
-      // waiting other than the one that originated the
-      // refresh will have unhandled errors?
-      return await this.refreshRequest.then(async ({ data }) => {
-        debug('refresh: resolved');
-        return data;
-      });
+      return await this.refreshRequest
+        .then(async ({ data }) => {
+          debug('refresh: resolved');
+          return data;
+        })
+        .catch((err) => {
+          debug('refresh: error', err);
+          return undefined;
+        });
     }
 
     let token = refreshToken;
