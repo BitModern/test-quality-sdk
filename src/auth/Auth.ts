@@ -448,7 +448,8 @@ export class Auth {
     if (token) {
       Auth.validateTokenPayload(token);
     }
-    if (token?.expires_in) {
+    // if we are setting a token that already has an expires_at, we should not override it
+    if (token?.expires_in && !token?.expires_at) {
       const now = new Date();
       now.setSeconds(now.getSeconds() + (token.expires_in - 15)); // subtract 15 seconds to guard against latency
       token.expires_at = JSON.parse(JSON.stringify(now));
