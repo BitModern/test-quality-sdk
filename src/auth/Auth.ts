@@ -574,9 +574,20 @@ export class Auth {
             }
             newConfig.headers.Authorization = `Bearer ${accessToken}`;
           } catch (err: any) {
-            if (err?.code !== 'REFRESH_TOKEN_ERROR') {
+            // Error earlier to prevent sending a request that will fail
+
+            // Clear token if not done already
+            if (
+              err?.code !== REFRESH_TOKEN_ERROR &&
+              err?.code !== NO_REFRESH_TOKEN
+            ) {
               await this.logout();
             }
+
+            // Force unauthorizedInterceptor to intercept the auth error
+            err.response = { status: 401 };
+            err.config = { url: 'unauthorized' };
+
             return await Promise.reject(err);
           }
         }
@@ -626,10 +637,10 @@ export class Auth {
           status !== 401 ||
           !Auth.urlRequiresAuth(error.config?.url)
         ) {
-          if (error.response?.data) {
-            return await Promise.reject(getHttpResponse(error.response));
-          }
-          return await Promise.reject(error);
+          debug('unauthorizedInterceptor: let error flow through');
+          return await Promise.reject(
+            error.response?.data ? getHttpResponse(error.response) : error,
+          );
         }
 
         const accessToken = await this.getToken();
@@ -642,7 +653,7 @@ export class Auth {
               this,
             );
           }
-          return await Promise.reject(getHttpResponse(error.response));
+          return await Promise.reject(error);
         }
 
         // When response code is HTTP 401 Unauthorized, try to refresh the token.
