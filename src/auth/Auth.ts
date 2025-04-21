@@ -7,12 +7,13 @@ import Debug from 'debug';
 import {
   AUTH,
   GeneralError,
-  TOKEN,
-  VERIFICATION,
   getHttpResponse,
   HttpError,
+  NO_ACCESS_TOKEN,
   NO_REFRESH_TOKEN,
   REFRESH_TOKEN_ERROR,
+  TOKEN,
+  VERIFICATION,
 } from '../exceptions';
 import { type ClientSdk } from '../ClientSdk';
 import { getSubscriptionEntitlement } from '../services/auth';
@@ -448,7 +449,10 @@ export class Auth {
     if (token) {
       Auth.validateTokenPayload(token);
     }
-    // if we are setting a token that already has an expires_at, we should not override it
+    // The backend does not return when the token was created, it only returns
+    // when the token will expire. If expires_at does not exist we assume token
+    // has been created recently, although as mentioned this is not necessarily
+    // true, it is the best guess we can make.
     if (token?.expires_in && !token?.expires_at) {
       const now = new Date();
       now.setSeconds(now.getSeconds() + (token.expires_in - 15)); // subtract 15 seconds to guard against latency
@@ -548,31 +552,26 @@ export class Auth {
           Auth.urlRequiresAuth(config.url) &&
           newConfig.headers.Authorization === undefined
         ) {
-          try {
-            // TODO @david
-            // we could wait here as well for refreshRequest and error sooner
-            // if it was unsuccessful
-            if (this.checkSubscriptionRequest) {
-              // Wait till check is finished as the token might be refreshed.
-              debug(
-                'authorizationHeaderInterceptor: waiting for checkSubscriptionRequest',
-                config.url,
-              );
-              await this.checkSubscriptionRequest;
-              debug('authorizationHeaderInterceptor: resuming', config.url);
-            }
-            const accessToken = await this.getAccessToken();
-            if (accessToken) {
-              newConfig.headers.Authorization = `Bearer ${accessToken}`;
-            }
-            // TODO @david
-            // should we error sooner if there is no access token?
-            // otherwise we are wasting resources making a request that will fail
-          } catch (err: any) {
-            debug('authorizationHeaderInterceptor: error', err?.message ?? err);
-            // don't throw error because there is no check to see if it is calling TestQuality api
-            // possible making calls that don't require authentication.
+          if (this.checkSubscriptionRequest) {
+            // Wait till check is finished as the token might be refreshed.
+            debug(
+              'authorizationHeaderInterceptor: waiting for checkSubscriptionRequest',
+              config.url,
+            );
+            await this.checkSubscriptionRequest;
+            debug('authorizationHeaderInterceptor: resuming', config.url);
           }
+          const accessToken = await this.getAccessToken();
+          if (!accessToken) {
+            throw new HttpError(
+              'No access token found.',
+              NO_ACCESS_TOKEN,
+              'Token Error',
+              401,
+              NO_ACCESS_TOKEN,
+            );
+          }
+          newConfig.headers.Authorization = `Bearer ${accessToken}`;
         }
         if (this.client.debug) {
           newConfig.params = config.params ?? {};

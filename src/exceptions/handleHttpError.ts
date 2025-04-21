@@ -3,6 +3,7 @@ import { HttpError } from './HttpError';
 import { _client } from '../ClientSdk';
 
 export const UNKNOWN_ERROR = 'UNKNOWN_ERROR';
+export const NO_ACCESS_TOKEN = 'NO_ACCESS_TOKEN';
 export const NO_REFRESH_TOKEN = 'NO_REFRESH_TOKEN';
 export const REFRESH_TOKEN_ERROR = 'REFRESH_TOKEN_ERROR';
 export const UNAUTHORIZED = 'UNAUTHORIZED';
