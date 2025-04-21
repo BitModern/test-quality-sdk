@@ -552,26 +552,33 @@ export class Auth {
           Auth.urlRequiresAuth(config.url) &&
           newConfig.headers.Authorization === undefined
         ) {
-          if (this.checkSubscriptionRequest) {
-            // Wait till check is finished as the token might be refreshed.
-            debug(
-              'authorizationHeaderInterceptor: waiting for checkSubscriptionRequest',
-              config.url,
-            );
-            await this.checkSubscriptionRequest;
-            debug('authorizationHeaderInterceptor: resuming', config.url);
+          try {
+            if (this.checkSubscriptionRequest) {
+              // Wait till check is finished as the token might be refreshed.
+              debug(
+                'authorizationHeaderInterceptor: waiting for checkSubscriptionRequest',
+                config.url,
+              );
+              await this.checkSubscriptionRequest;
+              debug('authorizationHeaderInterceptor: resuming', config.url);
+            }
+            const accessToken = await this.getAccessToken();
+            if (!accessToken) {
+              throw new HttpError(
+                'No access token found.',
+                NO_ACCESS_TOKEN,
+                'Token Error',
+                401,
+                NO_ACCESS_TOKEN,
+              );
+            }
+            newConfig.headers.Authorization = `Bearer ${accessToken}`;
+          } catch (err: any) {
+            if (err?.code !== 'REFRESH_TOKEN_ERROR') {
+              await this.logout();
+            }
+            return await Promise.reject(err);
           }
-          const accessToken = await this.getAccessToken();
-          if (!accessToken) {
-            throw new HttpError(
-              'No access token found.',
-              NO_ACCESS_TOKEN,
-              'Token Error',
-              401,
-              NO_ACCESS_TOKEN,
-            );
-          }
-          newConfig.headers.Authorization = `Bearer ${accessToken}`;
         }
         if (this.client.debug) {
           newConfig.params = config.params ?? {};
