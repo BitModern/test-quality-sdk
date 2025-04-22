@@ -7,13 +7,12 @@ import Debug from 'debug';
 import {
   AUTH,
   GeneralError,
-  getHttpResponse,
-  HttpError,
-  NO_ACCESS_TOKEN,
-  NO_REFRESH_TOKEN,
-  REFRESH_TOKEN_ERROR,
   TOKEN,
   VERIFICATION,
+  getHttpResponse,
+  HttpError,
+  NO_REFRESH_TOKEN,
+  REFRESH_TOKEN_ERROR,
 } from '../exceptions';
 import { type ClientSdk } from '../ClientSdk';
 import { getSubscriptionEntitlement } from '../services/auth';
@@ -563,32 +562,13 @@ export class Auth {
               debug('authorizationHeaderInterceptor: resuming', config.url);
             }
             const accessToken = await this.getAccessToken();
-            if (!accessToken) {
-              throw new HttpError(
-                'No access token found.',
-                NO_ACCESS_TOKEN,
-                'Token Error',
-                401,
-                NO_ACCESS_TOKEN,
-              );
+            if (accessToken) {
+              newConfig.headers.Authorization = `Bearer ${accessToken}`;
             }
-            newConfig.headers.Authorization = `Bearer ${accessToken}`;
           } catch (err: any) {
-            // Error earlier to prevent sending a request that will fail
-
-            // Clear token if not done already
-            if (
-              err?.code !== REFRESH_TOKEN_ERROR &&
-              err?.code !== NO_REFRESH_TOKEN
-            ) {
-              await this.logout();
-            }
-
-            // Force unauthorizedInterceptor to intercept the auth error
-            err.response = { status: 401 };
-            err.config = { url: 'unauthorized' };
-
-            return await Promise.reject(err);
+            debug('authorizationHeaderInterceptor: error', err?.message ?? err);
+            // don't throw error because there is no check to see if it is calling TestQuality api
+            // possible making calls that don't require authentication.
           }
         }
         if (this.client.debug) {
@@ -637,10 +617,10 @@ export class Auth {
           status !== 401 ||
           !Auth.urlRequiresAuth(error.config?.url)
         ) {
-          debug('unauthorizedInterceptor: let error flow through');
-          return await Promise.reject(
-            error.response?.data ? getHttpResponse(error.response) : error,
-          );
+          if (error.response?.data) {
+            return await Promise.reject(getHttpResponse(error.response));
+          }
+          return await Promise.reject(error);
         }
 
         const accessToken = await this.getToken();
@@ -653,7 +633,7 @@ export class Auth {
               this,
             );
           }
-          return await Promise.reject(error);
+          return await Promise.reject(getHttpResponse(error.response));
         }
 
         // When response code is HTTP 401 Unauthorized, try to refresh the token.
