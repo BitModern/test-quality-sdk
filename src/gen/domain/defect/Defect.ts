@@ -27,4 +27,5 @@ export interface Defect extends KeyedModel {
   defect_status_id?: number;
   key: number;
   defect_res_id?: number;
+  url?: string;
 }

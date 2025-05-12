@@ -559,6 +559,8 @@ export const UserFeatureUserRoute = (user_id: number): string =>
   `/user/${user_id}/feature_user`;
 export const UserIntegrationRoute = (user_id: number): string =>
   `/user/${user_id}/integration`;
+export const UserIpInfoRoute = (user_id: number): string =>
+  `/user/${user_id}/ip_info`;
 export const UserNotificationsRoute = (user_id: number): string =>
   `/user/${user_id}/notifications`;
 export const UserProjectUserRoute = (user_id: number): string =>

@@ -28,4 +28,5 @@ export interface Requirement extends KeyedModel {
    * Whether to create run during Pull Request checks.
    */
   include_in_checks?: boolean;
+  url?: string;
 }

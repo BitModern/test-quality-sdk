@@ -20,4 +20,5 @@ export interface Share extends KeyedModel {
   access_role_id: number;
   link?: string;
   magic_link?: string;
+  type?: number;
 }

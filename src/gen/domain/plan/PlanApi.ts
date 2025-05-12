@@ -7,7 +7,6 @@
 import type { Plan } from './Plan';
 import type { ProjectApi } from '../project/ProjectApi';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
-import type { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
 import type { EnvironmentPlanApi } from '../environment_plan/EnvironmentPlanApi';
 import type { PlanSuiteApi } from '../plan_suite/PlanSuiteApi';
 import type { SuiteApi } from '../suite/SuiteApi';
@@ -18,11 +17,11 @@ import type { CommentApi } from '../comment/CommentApi';
 import type { WatchApi } from '../watch/WatchApi';
 import type { AttachmentApi } from '../attachment/AttachmentApi';
 import type { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSuiteTestIncludeApi';
+import type { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
 
 export interface PlanApi extends Plan {
   project?: ProjectApi;
   label_assigned?: LabelAssignedApi;
-  integration_project?: IntegrationProjectApi[];
   environment_plan?: EnvironmentPlanApi[];
   suite?: SuiteApi[];
   run?: RunApi[];
@@ -32,6 +31,7 @@ export interface PlanApi extends Plan {
   watch?: WatchApi;
   attachment?: AttachmentApi;
   plan_suite_test_include?: PlanSuiteTestIncludeApi[];
+  integration_project?: IntegrationProjectApi[];
   pivot?: PlanSuiteApi | PlanPurposeApi;
   plan_suite?: Partial<PlanSuiteApi>;
   plan_purpose?: Partial<PlanPurposeApi>;
