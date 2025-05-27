@@ -75,6 +75,7 @@ schema.graphql
 
 # ide
 .idea
+.vscode
 .yalc
 yalc.lock
 

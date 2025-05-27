@@ -4,14 +4,14 @@
 
 import type { TenantScopedModel } from '../../models/TenantScopedModel';
 
-export interface CasePriorityProject extends TenantScopedModel {
-  id: number;
-  created_by: number;
+export interface ExplorationRequirement extends TenantScopedModel {
   created_at: string;
-  updated_by: number;
+  created_by: number;
   updated_at: string;
+  updated_by: number;
   epoch: number;
   client_id: number;
-  project_id: number;
-  case_priority_id: number;
+  id: number;
+  exploration_id: number;
+  requirement_id: number;
 }

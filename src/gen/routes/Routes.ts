@@ -161,6 +161,8 @@ export const DocAttachmentRoute = (doc_id: number): string =>
   `/doc/${doc_id}/attachment`;
 export const DocComponentDocRoute = (doc_id: number): string =>
   `/doc/${doc_id}/component_doc`;
+export const DocDocRequirementRoute = (doc_id: number): string =>
+  `/doc/${doc_id}/doc_requirement`;
 export const DocTemplateRoute = (): string => `/doc_template`;
 export const DocTemplateComponentDocTemplateRoute = (
   doc_template_id: number,
@@ -199,6 +201,9 @@ export const ExplorationEnvironmentExplorationRoute = (
 export const ExplorationExplorationItemRoute = (
   exploration_id: number,
 ): string => `/exploration/${exploration_id}/exploration_item`;
+export const ExplorationExplorationRequirementRoute = (
+  exploration_id: number,
+): string => `/exploration/${exploration_id}/exploration_requirement`;
 export const ExplorationItemRoute = (): string => `/exploration_item`;
 export const ExplorationItemDefectExplorationItemRoute = (
   exploration_item_id: number,
@@ -395,6 +400,12 @@ export const PurposeProjectPurposeRoute = (purpose_id: number): string =>
 export const RequirementRoute = (): string => `/requirement`;
 export const RequirementAttachmentRoute = (requirement_id: number): string =>
   `/requirement/${requirement_id}/attachment`;
+export const RequirementDocRequirementRoute = (
+  requirement_id: number,
+): string => `/requirement/${requirement_id}/doc_requirement`;
+export const RequirementExplorationRequirementRoute = (
+  requirement_id: number,
+): string => `/requirement/${requirement_id}/exploration_requirement`;
 export const RequirementPullRequestRequirementRoute = (
   requirement_id: number,
 ): string => `/requirement/${requirement_id}/pull_request_requirement`;

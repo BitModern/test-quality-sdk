@@ -14,8 +14,8 @@ export interface Share extends KeyedModel {
   client_id: number;
   token: string;
   is_anyone: boolean;
-  related_type: string;
-  related_id: number;
+  related_type?: string;
+  related_id?: number;
   url?: string;
   access_role_id: number;
   link?: string;

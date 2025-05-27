@@ -10,6 +10,7 @@ import type { DocTypeApi } from '../doc_type/DocTypeApi';
 import type { ProjectApi } from '../project/ProjectApi';
 import type { ComponentDocApi } from '../component_doc/ComponentDocApi';
 import type { AttachmentApi } from '../attachment/AttachmentApi';
+import type { DocRequirementApi } from '../doc_requirement/DocRequirementApi';
 
 export interface DocApi extends Doc {
   doc_template?: DocTemplateApi;
@@ -17,4 +18,5 @@ export interface DocApi extends Doc {
   project?: ProjectApi;
   component_doc?: ComponentDocApi[];
   attachment?: AttachmentApi;
+  doc_requirement?: DocRequirementApi[];
 }
