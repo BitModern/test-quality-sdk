@@ -54,6 +54,7 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
       response.data.code,
       response?.config?.url,
       response.data.trace,
+      response.data?.data,
     );
   }
   return new HttpError(
@@ -64,6 +65,7 @@ export function getHttpResponse(response: AxiosResponse): HttpError {
     response?.data?.code,
     response?.config?.url,
     response?.data?.trace,
+    response?.data?.data,
   );
 }
 

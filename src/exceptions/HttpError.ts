@@ -14,6 +14,7 @@ export class HttpError extends Error {
   public code?: string;
   public url?: string;
   public trace?: Trace[];
+  public data?: any;
 
   constructor(
     message: string,
@@ -23,6 +24,7 @@ export class HttpError extends Error {
     code?: string,
     url?: string,
     trace?: Trace[],
+    data?: any,
   ) {
     super(message);
     // super wipes out passed in data, so must reset
@@ -32,5 +34,6 @@ export class HttpError extends Error {
     this.code = code;
     this.url = url;
     this.trace = trace;
+    this.data = data;
   }
 }
