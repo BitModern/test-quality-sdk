@@ -3,6 +3,7 @@
  */
 
 import type { KeyedModel } from '../../models/KeyedModel';
+import type { ExplorationAnalysisApi } from '../../models/ExplorationAnalysisApi';
 
 export interface Exploration extends KeyedModel {
   id: number;
@@ -36,4 +37,5 @@ export interface Exploration extends KeyedModel {
   milestone_id?: number;
   assigned_to_tester?: number;
   status_id?: number;
+  analysis?: ExplorationAnalysisApi;
 }

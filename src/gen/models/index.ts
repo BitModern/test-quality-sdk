@@ -1,5 +1,6 @@
 export * from './CustomAttributes';
 export * from './DefaultAttributes';
+export * from './ExplorationAnalysisApi';
 export * from './KeyedModel';
 export * from './PlanAnalysisApi';
 export * from './ProjectAnalysisApi';
