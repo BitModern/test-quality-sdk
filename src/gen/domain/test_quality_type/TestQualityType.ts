@@ -16,7 +16,7 @@ export interface TestQualityType extends KeyedModel {
    */
   name: string;
   /**
-   * The definiiton for the case_type.
+   * The definition for the Test Quality Type.
    */
   description?: string;
   /**

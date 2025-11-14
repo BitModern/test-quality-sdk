@@ -37,7 +37,6 @@ export interface Run extends KeyedModel {
    * system will generate a name consisting of the plan name followed by the date and time.
    */
   name: string;
-  key: number;
   milestone_id?: number;
   /**
    * Specifies this run is the most current complete run to use for analysis.

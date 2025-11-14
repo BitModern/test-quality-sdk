@@ -5,10 +5,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import type { PullRequestRun } from './PullRequestRun';
-import type { PullRequestApi } from '../pull_request/PullRequestApi';
 import type { RunApi } from '../run/RunApi';
+import type { PullRequestApi } from '../pull_request/PullRequestApi';
 
 export interface PullRequestRunApi extends PullRequestRun {
-  pull_request?: PullRequestApi;
   run?: RunApi;
+  pull_request?: PullRequestApi;
 }

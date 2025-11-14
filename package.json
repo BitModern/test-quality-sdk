@@ -1,6 +1,6 @@
 {
   "name": "@testquality/sdk",
-  "version": "1.16.17-2",
+  "version": "1.16.18",
   "description": "SDK for accessing TestQuality API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,10 +8,11 @@
   "scripts": {
     "build": "yarn clean && tsc --project ./tsconfig.json",
     "dev": "tsc --watch",
-    "clean": "rimraf dist/*",
+    "clean": "rimraf dist",
     "test": "jest",
     "lint": "eslint src --ext .ts",
     "format:fix": "prettier --write '(src|test)/**/*.ts'",
+    "format": "prettier --write '(src|test)/**/*.ts'",
     "prepublish": "yarn prepare && yarn build",
     "prepare": "ts-patch install -s",
     "release": "npm version patch && git push && git push --tags && npm publish"

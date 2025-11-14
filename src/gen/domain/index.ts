@@ -63,8 +63,6 @@ export { CapabilityIntegrationApi } from './capability_integration/CapabilityInt
 export * from './capability_integration/capabilityIntegrationService';
 export { CasePriority } from './case_priority/CasePriority';
 export { CasePriorityApi } from './case_priority/CasePriorityApi';
-export { CasePriorityHistory } from './case_priority/CasePriorityHistory';
-export * from './case_priority/casePriorityHistoryService';
 export * from './case_priority/casePriorityService';
 export { CasePriorityProject } from './case_priority_project/CasePriorityProject';
 export { CasePriorityProjectApi } from './case_priority_project/CasePriorityProjectApi';

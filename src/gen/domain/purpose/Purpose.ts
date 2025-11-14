@@ -16,7 +16,7 @@ export interface Purpose extends KeyedModel {
    */
   name: string;
   /**
-   * The definiiton of the purpose.
+   * The definition of the purpose.
    */
   description?: string;
   /**

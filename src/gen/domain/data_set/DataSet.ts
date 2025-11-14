@@ -7,7 +7,7 @@ import type { KeyedModel } from '../../models/KeyedModel';
 export interface DataSet extends KeyedModel {
   id: number;
   schema: any;
-  data: any;
+  data?: any;
   created_by: number;
   created_at: string;
   epoch: number;
@@ -15,4 +15,5 @@ export interface DataSet extends KeyedModel {
   updated_at: string;
   client_id: number;
   project_id: number;
+  name?: string;
 }

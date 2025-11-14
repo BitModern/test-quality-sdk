@@ -10,10 +10,11 @@ import type { PlanApi } from '../plan/PlanApi';
 import type { MilestoneApi } from '../milestone/MilestoneApi';
 import type { CheckRunApi } from '../check_run/CheckRunApi';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { PullRequestRunApi } from '../pull_request_run/PullRequestRunApi';
+import type { AttachmentApi } from '../attachment/AttachmentApi';
 import type { RunResultApi } from '../run_result/RunResultApi';
 import type { CommentApi } from '../comment/CommentApi';
 import type { RunSuiteApi } from '../run_suite/RunSuiteApi';
-import type { PullRequestRunApi } from '../pull_request_run/PullRequestRunApi';
 
 export interface RunApi extends Run {
   project?: ProjectApi;
@@ -21,8 +22,9 @@ export interface RunApi extends Run {
   milestone?: MilestoneApi;
   check_run?: CheckRunApi;
   label_assigned?: LabelAssignedApi;
+  pull_request_run?: PullRequestRunApi[];
+  attachment?: AttachmentApi;
   run_result?: RunResultApi[];
   comment?: CommentApi;
   run_suite?: RunSuiteApi[];
-  pull_request_run?: PullRequestRunApi[];
 }

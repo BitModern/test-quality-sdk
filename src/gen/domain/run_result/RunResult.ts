@@ -24,7 +24,6 @@ export interface RunResult extends KeyedModel {
    * The order of tests within a run.
    */
   sequence: number;
-  key: number;
   /**
    * This is a computed value. status_id cannot be set via endpoint. The value is set when run_result_step status_id is set on the last run_result_step in the sequence.
    */

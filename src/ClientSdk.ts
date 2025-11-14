@@ -44,6 +44,7 @@ export class ClientSdk {
     const baseUrl = options.baseUrl ?? 'https://api.testquality.com';
     this.logger = options.logger ?? new EmptyLogger();
 
+    const logger = this.logger;
     this.api =
       options.api ??
       axios.create({
@@ -56,9 +57,17 @@ export class ClientSdk {
         transformResponse: [
           function transformResponse(data, headers) {
             if (headers['content-type'] === 'application/json') {
-              return JSON.parse(data, (_, value) =>
-                value === null ? undefined : value,
-              );
+              try {
+                return JSON.parse(data, (_, value) =>
+                  value === null ? undefined : value,
+                );
+              } catch (error) {
+                logger.error(
+                  'Failed to parse JSON response',
+                  error instanceof Error ? error.message : String(error),
+                );
+                return data;
+              }
             }
             return data;
           },

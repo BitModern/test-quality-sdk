@@ -5,8 +5,6 @@
 export const AccessRoleRoute = (): string => `/access_role`;
 export const AccessRolePolicyRoute = (access_role_id: number): string =>
   `/access_role/${access_role_id}/policy`;
-export const AccessRoleProjectRoute = (access_role_id: number): string =>
-  `/access_role/${access_role_id}/project`;
 export const AccessRoleShareRoute = (access_role_id: number): string =>
   `/access_role/${access_role_id}/share`;
 export const AccessRoleUserRoute = (access_role_id: number): string =>
@@ -126,6 +124,8 @@ export const CouponRoute = (): string => `/coupon`;
 export const CouponSubscriptionsRoute = (coupon_id: number): string =>
   `/coupon/${coupon_id}/subscriptions`;
 export const DataSetRoute = (): string => `/data_set`;
+export const DataSetDataSetRowRoute = (data_set_id: number): string =>
+  `/data_set/${data_set_id}/data_set_row`;
 export const DataSetTestRoute = (data_set_id: number): string =>
   `/data_set/${data_set_id}/test`;
 export const DefectRoute = (): string => `/defect`;
@@ -422,6 +422,8 @@ export const ResourceValueEnvironmentResourceRoute = (
   resource_value_id: number,
 ): string => `/resource_value/${resource_value_id}/environment_resource`;
 export const RunRoute = (): string => `/run`;
+export const RunAttachmentRoute = (run_id: number): string =>
+  `/run/${run_id}/attachment`;
 export const RunCommentRoute = (run_id: number): string =>
   `/run/${run_id}/comment`;
 export const RunLabelAssignedRoute = (run_id: number): string =>
@@ -566,8 +568,6 @@ export const UserCheckListItemUserRoute = (user_id: number): string =>
   `/user/${user_id}/check_list_item_user`;
 export const UserExportRoute = (user_id: number): string =>
   `/user/${user_id}/export`;
-export const UserFeatureUserRoute = (user_id: number): string =>
-  `/user/${user_id}/feature_user`;
 export const UserIntegrationRoute = (user_id: number): string =>
   `/user/${user_id}/integration`;
 export const UserIpInfoRoute = (user_id: number): string =>

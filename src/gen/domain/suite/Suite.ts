@@ -29,4 +29,5 @@ export interface Suite extends KeyedModel {
   key: number;
   is_root?: boolean;
   source?: any;
+  folder_path?: any;
 }

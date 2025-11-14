@@ -16,7 +16,7 @@ export interface CaseType extends KeyedModel {
    */
   name: string;
   /**
-   * The definiiton for the case_type.
+   * The definition for the case_type.
    */
   description?: string;
   /**

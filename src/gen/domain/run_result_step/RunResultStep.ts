@@ -33,7 +33,6 @@ export interface RunResultStep extends KeyedModel {
    * The result of testing the step.
    */
   result?: string;
-  key: number;
   step_id: number;
   run_result_id: number;
   id: number;

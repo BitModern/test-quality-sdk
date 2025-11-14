@@ -20,18 +20,8 @@ export interface Project extends KeyedModel {
    * The description of the project.
    */
   description?: string;
-  access_role_id?: number;
   client_id: number;
-  /**
-   * The color of the project.
-   */
-  color?: string;
-  /**
-   * The picture used to represent the project.
-   */
-  picture?: string;
   virtual?: any;
-  key: number;
   source?: any;
   analysis?: ProjectAnalysisApi;
 }

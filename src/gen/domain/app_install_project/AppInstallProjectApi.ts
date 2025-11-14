@@ -6,15 +6,15 @@
 
 import type { AppInstallProject } from './AppInstallProject';
 import type { AppInstallApi } from '../app_install/AppInstallApi';
-import type { PullRequestApi } from '../pull_request/PullRequestApi';
 import type { IntegrationProjectApi } from '../integration_project/IntegrationProjectApi';
 import type { CheckSuiteApi } from '../check_suite/CheckSuiteApi';
 import type { CheckRunApi } from '../check_run/CheckRunApi';
+import type { PullRequestApi } from '../pull_request/PullRequestApi';
 
 export interface AppInstallProjectApi extends AppInstallProject {
   app_install?: AppInstallApi;
-  pull_request?: PullRequestApi[];
   integration_project?: IntegrationProjectApi[];
   check_suite?: CheckSuiteApi[];
   check_run?: CheckRunApi[];
+  pull_request?: PullRequestApi[];
 }

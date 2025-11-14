@@ -20,7 +20,6 @@ export interface User extends KeyedModel {
   password: string;
   settings?: any;
   color?: string;
-  key: number;
   last_login?: string;
   stripe_id?: string;
   card_brand?: string;
@@ -32,9 +31,12 @@ export interface User extends KeyedModel {
    * If set this user is a system user with god permission.
    */
   is_system?: boolean;
-  version_id: number;
   old_password?: string;
   is_expired: boolean;
   signup_type?: number;
   slack_webhook_url?: string;
+  cli_token?: string;
+  cli_expires_at?: string;
+  cli_name?: string;
+  current_project_id?: number;
 }

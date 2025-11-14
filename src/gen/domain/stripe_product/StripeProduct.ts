@@ -32,6 +32,5 @@ export interface StripeProduct extends DefaultAttributes {
    * A URL of a publicly-accessible webpage for this product.
    */
   url?: string;
-  product_master_id: number;
   name: string;
 }

@@ -19,7 +19,7 @@ export interface Product extends DefaultAttributes {
   /**
    * This will be what the customer sees in the description of the charge on their credit card statement.
    */
-  description: string;
+  description?: string;
   trial_days: number;
   /**
    * The default currency for the product, the default is usd.
@@ -30,14 +30,13 @@ export interface Product extends DefaultAttributes {
    */
   external_reference_id: string;
   /**
-   * Is this an active prodcut. If not the product will not be shown to propects anymore.
+   * Is this an active product. If not the product will not be shown to prospects anymore.
    */
   is_active: boolean;
   id: number;
   amount: number;
   display_name: string;
   user_limit: number;
-  product_master_id: number;
   can_increment: boolean;
   upgrade_product_id?: number;
   stripe_product_id?: number;
