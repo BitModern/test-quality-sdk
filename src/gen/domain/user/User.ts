@@ -39,4 +39,7 @@ export interface User extends KeyedModel {
   cli_expires_at?: string;
   cli_name?: string;
   current_project_id?: number;
+  jira_token?: string;
+  jira_expires_at?: string;
+  jira_name?: string;
 }
