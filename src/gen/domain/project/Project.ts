@@ -23,5 +23,7 @@ export interface Project extends KeyedModel {
   client_id: number;
   virtual?: any;
   source?: any;
+  color?: string;
+  picture?: string;
   analysis?: ProjectAnalysisApi;
 }
