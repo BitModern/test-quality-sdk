@@ -3,7 +3,7 @@ import { _client } from '../ClientSdk';
 import { type JiraServerInfo } from './JiraServerInfo';
 
 export interface RegisterJiraPayload {
-  user: string;
+  email: string;
   accountId: string;
   clientKey: string;
   accessToken: string;
