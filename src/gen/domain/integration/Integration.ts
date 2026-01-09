@@ -50,4 +50,5 @@ export interface Integration extends KeyedModel {
   enable_pull_request_testing: boolean;
   include_initial_check: boolean;
   include_link_comment: boolean;
+  include_testquality_labels: boolean;
 }

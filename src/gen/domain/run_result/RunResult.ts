@@ -37,4 +37,5 @@ export interface RunResult extends KeyedModel {
   test_epoch?: number;
   environment_id?: number;
   source?: any;
+  timing_started_at?: string;
 }

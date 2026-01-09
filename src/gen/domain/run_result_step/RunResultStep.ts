@@ -5,6 +5,7 @@
 import type { KeyedModel } from '../../models/KeyedModel';
 
 export interface RunResultStep extends KeyedModel {
+  created_by: number;
   created_at: string;
   updated_by: number;
   updated_at: string;
@@ -32,7 +33,6 @@ export interface RunResultStep extends KeyedModel {
    * The result of testing the step.
    */
   result?: string;
-  created_by: number;
   step_id: number;
   run_result_id: number;
   id: number;
