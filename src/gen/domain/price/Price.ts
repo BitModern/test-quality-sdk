@@ -41,4 +41,5 @@ export interface Price extends DefaultAttributes {
   billing_scheme: string;
   stripe_product_id: number;
   default: boolean;
+  lookup_key?: string;
 }
