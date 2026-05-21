@@ -5,10 +5,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import type { AppUser } from './AppUser';
-import type { AppInstallApi } from '../app_install/AppInstallApi';
 import type { PullRequestApi } from '../pull_request/PullRequestApi';
+import type { AppInstallApi } from '../app_install/AppInstallApi';
 
 export interface AppUserApi extends AppUser {
-  app_install?: AppInstallApi[];
   pull_request?: PullRequestApi[];
+  app_install?: AppInstallApi[];
 }

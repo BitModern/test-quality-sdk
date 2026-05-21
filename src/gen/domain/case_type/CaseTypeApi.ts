@@ -7,10 +7,12 @@
 import type { CaseType } from './CaseType';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
 import type { CaseTypeProjectApi } from '../case_type_project/CaseTypeProjectApi';
+import type { CaseTypeTestApi } from '../case_type_test/CaseTypeTestApi';
 import type { TestApi } from '../test/TestApi';
 
 export interface CaseTypeApi extends CaseType {
   label_assigned?: LabelAssignedApi;
   case_type_project?: CaseTypeProjectApi[];
+  case_type_test?: CaseTypeTestApi[];
   test?: TestApi[];
 }

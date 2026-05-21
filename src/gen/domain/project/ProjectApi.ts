@@ -6,9 +6,9 @@
 
 import type { Project } from './Project';
 import type { LabelAssignedApi } from '../label_assigned/LabelAssignedApi';
+import type { AttachmentApi } from '../attachment/AttachmentApi';
 import type { ExplorationApi } from '../exploration/ExplorationApi';
 import type { ExplorationItemApi } from '../exploration_item/ExplorationItemApi';
-import type { AttachmentApi } from '../attachment/AttachmentApi';
 import type { CaseTypeProjectApi } from '../case_type_project/CaseTypeProjectApi';
 import type { CasePriorityProjectApi } from '../case_priority_project/CasePriorityProjectApi';
 import type { ProjectPurposeApi } from '../project_purpose/ProjectPurposeApi';
@@ -37,9 +37,9 @@ import type { RunSuiteApi } from '../run_suite/RunSuiteApi';
 
 export interface ProjectApi extends Project {
   label_assigned?: LabelAssignedApi;
+  attachment?: AttachmentApi;
   exploration?: ExplorationApi[];
   exploration_item?: ExplorationItemApi[];
-  attachment?: AttachmentApi;
   case_type_project?: CaseTypeProjectApi[];
   case_priority_project?: CasePriorityProjectApi[];
   project_purpose?: ProjectPurposeApi[];

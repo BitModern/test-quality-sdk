@@ -80,6 +80,8 @@ export const CasePriorityTestRoute = (case_priority_id: number): string =>
 export const CaseTypeRoute = (): string => `/case_type`;
 export const CaseTypeCaseTypeProjectRoute = (case_type_id: number): string =>
   `/case_type/${case_type_id}/case_type_project`;
+export const CaseTypeCaseTypeTestRoute = (case_type_id: number): string =>
+  `/case_type/${case_type_id}/case_type_test`;
 export const CaseTypeLabelAssignedRoute = (case_type_id: number): string =>
   `/case_type/${case_type_id}/label_assigned`;
 export const CaseTypeTestRoute = (case_type_id: number): string =>
@@ -528,6 +530,8 @@ export const SuiteWatchRoute = (suite_id: number): string =>
 export const TestRoute = (): string => `/test`;
 export const TestAttachmentRoute = (test_id: number): string =>
   `/test/${test_id}/attachment`;
+export const TestCaseTypeTestRoute = (test_id: number): string =>
+  `/test/${test_id}/case_type_test`;
 export const TestCommentRoute = (test_id: number): string =>
   `/test/${test_id}/comment`;
 export const TestLabelAssignedRoute = (test_id: number): string =>

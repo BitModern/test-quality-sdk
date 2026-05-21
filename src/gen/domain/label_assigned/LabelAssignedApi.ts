@@ -22,11 +22,11 @@ import type { PlanApi } from '../plan/PlanApi';
 import type { RunResultApi } from '../run_result/RunResultApi';
 import type { StepApi } from '../step/StepApi';
 import type { RunResultStepApi } from '../run_result_step/RunResultStepApi';
-import type { SharedStepApi } from '../shared_step/SharedStepApi';
 import type { StatusApi } from '../status/StatusApi';
+import type { SharedStepApi } from '../shared_step/SharedStepApi';
+import type { MilestoneApi } from '../milestone/MilestoneApi';
 import type { ExplorationApi } from '../exploration/ExplorationApi';
 import type { ExplorationItemApi } from '../exploration_item/ExplorationItemApi';
-import type { MilestoneApi } from '../milestone/MilestoneApi';
 
 export interface LabelAssignedApi extends LabelAssigned {
   label?: LabelApi;
@@ -46,9 +46,9 @@ export interface LabelAssignedApi extends LabelAssigned {
   run_result?: RunResultApi;
   step?: StepApi;
   run_result_step?: RunResultStepApi;
-  shared_step?: SharedStepApi;
   status?: StatusApi;
+  shared_step?: SharedStepApi;
+  milestone?: MilestoneApi;
   exploration?: ExplorationApi;
   exploration_item?: ExplorationItemApi;
-  milestone?: MilestoneApi;
 }
