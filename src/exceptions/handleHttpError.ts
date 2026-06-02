@@ -85,7 +85,16 @@ function getMessage(error: any): string {
   if (error.exception && !error.data) {
     error.data = error.exception;
   }
-  if (error.status === 404 && !error?.data?.message) {
+  if (
+    error.status === 404 &&
+    !error?.data?.message &&
+    !error?.data?.error &&
+    !error?.data?.detail
+  ) {
+    // Only fall back to the generic message when the 404 body carries no usable
+    // reason. Otherwise let the message/error/detail branches below surface it
+    // (e.g. a 404 returning {error: 'User not found...'} should show that text,
+    // not the generic "Resource Not Found.").
     message = 'Resource Not Found.';
   } else if (error.status === -1 && error.data === null) {
     message = 'Oops, Could not obtain data from server due to network problem.';
