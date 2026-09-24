@@ -1,0 +1,50 @@
+name: Release
+
+# Publishes @testquality/sdk when a v* tag is pushed (`yarn release` bumps the
+# version, commits, tags and pushes; this workflow does the npm publish).
+#
+# npm trusted publishing (OIDC): npm trusts this workflow in the Release
+# environment directly, so there is no NPM_TOKEN to expire or leak and no OTP.
+# Configured on npmjs.com under @testquality/sdk -> Settings -> Trusted Publisher
+# (BitModern / test-quality-sdk / release.yml / Release).
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  id-token: write # OIDC token for npm trusted publishing
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: Release
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # Trusted publishing needs Node >= 22.14 and npm >= 11.5.1.
+          node-version: 24
+      - name: Update npm for trusted publishing
+        run: npm install -g npm@latest
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Tag must match package.json version
+        run: |
+          PKG="v$(node -p "require('./package.json').version")"
+          if [ "$PKG" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match package.json $PKG"
+            exit 1
+          fi
+
+      - run: yarn install --immutable
+      - run: yarn lint
+      # prepublish no longer runs on `npm publish` (npm >= 7), so build explicitly.
+      - run: yarn build
+
+      - name: Publish to npm
+        run: npm publish
