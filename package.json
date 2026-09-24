@@ -9,13 +9,14 @@
     "build": "yarn clean && tsc --project ./tsconfig.json",
     "dev": "tsc --watch",
     "clean": "rimraf dist",
-    "test": "jest",
+    "test": "vitest run",
     "lint": "eslint src --ext .ts",
     "format:fix": "prettier --write '(src|test)/**/*.ts'",
     "format": "prettier --write '(src|test)/**/*.ts'",
     "prepublish": "yarn prepare && yarn build",
     "prepare": "ts-patch install -s",
-    "release": "npm version patch && git push && git push --tags"
+    "release": "npm version patch && git push && git push --tags",
+    "test:integration": "vitest run --config vitest.integration.config.mts"
   },
   "repository": {
     "type": "git",
@@ -28,15 +29,11 @@
   },
   "homepage": "https://github.com/BitModern/test-quality-sdk#readme",
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
-    "@babel/preset-typescript": "^7.15.0",
     "@types/debug": "^4.1.7",
-    "@types/jest": "^27.0.2",
+    "@types/node": "16.10.2",
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
-    "babel-jest": "^27.2.4",
     "dotenv": "^10.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -46,13 +43,13 @@
     "eslint-plugin-n": "^17.3.0",
     "eslint-plugin-prettier": "5.0.0",
     "eslint-plugin-promise": "^6.1.1",
-    "jest": "^27.2.4",
     "prettier": "^3.2.5",
     "rimraf": "^3.0.2",
     "ts-node": "^10.2.1",
     "ts-patch": "^3.0.2",
     "typescript": "5.1.6",
-    "typescript-transform-paths": "3.4.6"
+    "typescript-transform-paths": "3.4.6",
+    "vitest": "^3.2.4"
   },
   "files": [
     "dist",

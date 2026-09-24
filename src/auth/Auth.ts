@@ -1,6 +1,5 @@
 import {
   type InternalAxiosRequestConfig,
-  type AxiosResponse,
   type AxiosRequestConfig,
 } from 'axios';
 import Debug from 'debug';
@@ -99,7 +98,7 @@ export class Auth {
   private checkSubscriptionRequest?: Promise<ReturnToken | undefined>;
   private disableHandler = false;
   public id = Math.random();
-  private refreshRequest?: Promise<AxiosResponse<ReturnToken>>;
+  private refreshInFlight?: Promise<ReturnToken | undefined>;
   private remember = true;
 
   constructor(
@@ -284,22 +283,34 @@ export class Auth {
       .then((res) => this.performLogin(res.data));
   }
 
-  public async refresh(
+  /**
+   * Refresh the access token. Concurrent callers share one refresh request:
+   * Passport rotates refresh tokens, so a second refresh with the same token
+   * fails with invalid_grant and would log the user out. The in-flight promise
+   * is registered synchronously, before any await, so callers that arrive
+   * together cannot each start their own. The first caller receives the
+   * rejection; callers that join an in-flight refresh get undefined on failure.
+   */
+  public refresh(refreshToken?: string): Promise<ReturnToken | undefined> {
+    if (this.refreshInFlight) {
+      debug('refresh: in process');
+      return this.refreshInFlight.catch((err) => {
+        debug('refresh: error', err);
+        return undefined;
+      });
+    }
+    const inFlight = this.performRefresh(refreshToken).finally(() => {
+      if (this.refreshInFlight === inFlight) {
+        this.refreshInFlight = undefined;
+      }
+    });
+    this.refreshInFlight = inFlight;
+    return inFlight;
+  }
+
+  private async performRefresh(
     refreshToken?: string,
   ): Promise<ReturnToken | undefined> {
-    if (this.refreshRequest) {
-      debug('refresh: in process');
-      return await this.refreshRequest
-        .then(async ({ data }) => {
-          debug('refresh: resolved');
-          return data;
-        })
-        .catch((err) => {
-          debug('refresh: error', err);
-          return undefined;
-        });
-    }
-
     let token = refreshToken;
     if (!token) {
       if (!(await this.isLoggedIn())) {
@@ -323,17 +334,17 @@ export class Auth {
     }
 
     debug('refreshRequest: starting', token);
-    this.refreshRequest = this.client.api.request<ReturnToken>({
-      method: 'post',
-      url: grantPath,
-      data: {
-        grant_type: 'refresh_token',
-        client_id: this.client.clientId,
-        client_secret: this.client.clientSecret,
-        refresh_token: token,
-      },
-    });
-    return await this.refreshRequest
+    return await this.client.api
+      .request<ReturnToken>({
+        method: 'post',
+        url: grantPath,
+        data: {
+          grant_type: 'refresh_token',
+          client_id: this.client.clientId,
+          client_secret: this.client.clientSecret,
+          refresh_token: token,
+        },
+      })
       .then(async (response) => {
         const data = response.data;
         await this.setToken(data, this.remember);
@@ -359,7 +370,6 @@ export class Auth {
       })
       .finally(() => {
         debug('refreshRequest: finished');
-        this.refreshRequest = undefined;
       });
   }
 

@@ -43,6 +43,8 @@ jobs:
 
       - run: yarn install --immutable
       - run: yarn lint
+      # Offline unit tests only; the live API tests (yarn test:integration) are opt-in.
+      - run: yarn test
       # prepublish no longer runs on `npm publish` (npm >= 7), so build explicitly.
       - run: yarn build
 

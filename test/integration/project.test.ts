@@ -1,17 +1,18 @@
+import { describe, expect, test } from 'vitest';
 import {
   accessRoleGetMany,
   projectCreateOne,
   projectGetMany,
   userCreateOne,
   userGetMany,
-} from '../src/index';
+} from '../../src/index';
 import { getClient, setupApi, testLogin } from './setupApi';
-import { testEnv } from './testEnv';
+import { integrationConfigured, testEnv } from './testEnv';
 
 const ProjectName = 'testProject';
 const SecondEmail = testEnv.auth.secondEmail;
 
-describe('Projects Test', () => {
+describe.skipIf(!integrationConfigured)('Projects Test (live API)', () => {
   test('check project', async () => {
     const client = getClient();
 

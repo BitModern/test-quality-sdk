@@ -1,4 +1,4 @@
-import { ClientSdk } from '../src/index';
+import { ClientSdk } from '../../src/index';
 import { testEnv } from './testEnv';
 
 export function getClient(): ClientSdk {
