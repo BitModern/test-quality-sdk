@@ -22,7 +22,7 @@ describe.skipIf(!integrationConfigured)('Projects Test (live API)', () => {
     expect(projects.data).toBeDefined();
     const project = projects.data.find((p) => p.name == ProjectName);
     if (!project) {
-      await projectCreateOne({ name: ProjectName });
+      await projectCreateOne({ name: ProjectName }, { api: client.api });
     }
   });
 
