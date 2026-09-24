@@ -12,6 +12,8 @@ on:
   push:
     tags:
       - 'v*'
+  # Dry run: every check, including the live staging tests, without publishing.
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -34,6 +36,7 @@ jobs:
         run: corepack enable
 
       - name: Tag must match package.json version
+        if: github.ref_type == 'tag'
         run: |
           PKG="v$(node -p "require('./package.json').version")"
           if [ "$PKG" != "$GITHUB_REF_NAME" ]; then
@@ -43,10 +46,20 @@ jobs:
 
       - run: yarn install --immutable
       - run: yarn lint
-      # Offline unit tests only; the live API tests (yarn test:integration) are opt-in.
       - run: yarn test
+      # Live API tests against staging. TQ_REQUIRE_INTEGRATION makes missing
+      # secrets fail instead of skipping; the tests refuse a production host.
+      - name: Integration tests (staging)
+        run: yarn test:integration
+        env:
+          TQ_REQUIRE_INTEGRATION: '1'
+          TQ_HOST: ${{ vars.TQ_HOST }}
+          TQ_EMAIL: ${{ secrets.TQ_EMAIL }}
+          TQ_EMAIL2: ${{ secrets.TQ_EMAIL2 }}
+          TQ_PASSWORD: ${{ secrets.TQ_PASSWORD }}
       # prepublish no longer runs on `npm publish` (npm >= 7), so build explicitly.
       - run: yarn build
 
       - name: Publish to npm
+        if: github.ref_type == 'tag'
         run: npm publish

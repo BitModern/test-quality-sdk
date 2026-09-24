@@ -25,7 +25,10 @@ export async function setupApi(client: ClientSdk, creds: Creds = DefaultCreds) {
   try {
     return await testLogin(client, creds);
   } catch (err) {
-    console.log('Error logging in:', err);
+    if (!testEnv.allowRegisterSite) {
+      throw err;
+    }
+    console.log('Error logging in, registering site:', err);
     await createClient(client, creds);
     return await testLogin(client, creds);
   }
