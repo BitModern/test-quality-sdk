@@ -84,8 +84,6 @@ export const CaseTypeCaseTypeTestRoute = (case_type_id: number): string =>
   `/case_type/${case_type_id}/case_type_test`;
 export const CaseTypeLabelAssignedRoute = (case_type_id: number): string =>
   `/case_type/${case_type_id}/label_assigned`;
-export const CaseTypeTestRoute = (case_type_id: number): string =>
-  `/case_type/${case_type_id}/test`;
 export const CheckListRoute = (): string => `/check_list`;
 export const CheckListCheckListItemRoute = (check_list_id: number): string =>
   `/check_list/${check_list_id}/check_list_item`;
