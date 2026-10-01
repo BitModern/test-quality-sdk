@@ -42,4 +42,5 @@ export interface User extends KeyedModel {
   jira_token?: string;
   jira_expires_at?: string;
   jira_name?: string;
+  recaptcha_score?: number;
 }

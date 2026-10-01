@@ -339,6 +339,8 @@ export const ProjectExplorationItemRoute = (project_id: number): string =>
   `/project/${project_id}/exploration_item`;
 export const ProjectFilterRoute = (project_id: number): string =>
   `/project/${project_id}/filter`;
+export const ProjectImportSyncSessionRoute = (project_id: number): string =>
+  `/project/${project_id}/import_sync_session`;
 export const ProjectIntegrationRoute = (project_id: number): string =>
   `/project/${project_id}/integration`;
 export const ProjectLabelAssignedRoute = (project_id: number): string =>
@@ -513,6 +515,8 @@ export const SubscriptionsSubscriptionUserRoute = (
 export const SuiteRoute = (): string => `/suite`;
 export const SuiteCommentRoute = (suite_id: number): string =>
   `/suite/${suite_id}/comment`;
+export const SuiteImportSyncSessionRoute = (suite_id: number): string =>
+  `/suite/${suite_id}/import_sync_session`;
 export const SuiteLabelAssignedRoute = (suite_id: number): string =>
   `/suite/${suite_id}/label_assigned`;
 export const SuitePlanRoute = (suite_id: number): string =>
