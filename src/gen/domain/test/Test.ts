@@ -12,7 +12,6 @@ export interface Test extends KeyedModel {
   updated_at: string;
   epoch: number;
   name: string;
-  case_type_id: number;
   case_priority_id: number;
   estimate?: number;
   precondition?: string;

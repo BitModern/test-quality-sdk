@@ -5,7 +5,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import type { Test } from './Test';
-import type { CaseTypeApi } from '../case_type/CaseTypeApi';
 import type { CasePriorityApi } from '../case_priority/CasePriorityApi';
 import type { ProjectApi } from '../project/ProjectApi';
 import type { TestQualityApi } from '../test_quality/TestQualityApi';
@@ -24,7 +23,6 @@ import type { PlanSuiteTestIncludeApi } from '../plan_suite_test_include/PlanSui
 import type { RequirementTestApi } from '../requirement_test/RequirementTestApi';
 
 export interface TestApi extends Test {
-  case_type?: CaseTypeApi;
   case_priority?: CasePriorityApi;
   project?: ProjectApi;
   test_quality?: TestQualityApi;
