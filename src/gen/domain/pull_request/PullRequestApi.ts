@@ -5,16 +5,16 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import type { PullRequest } from './PullRequest';
-import type { AppUserApi } from '../app_user/AppUserApi';
 import type { AppInstallProjectApi } from '../app_install_project/AppInstallProjectApi';
-import type { PullRequestRequirementApi } from '../pull_request_requirement/PullRequestRequirementApi';
+import type { AppUserApi } from '../app_user/AppUserApi';
 import type { CheckSuitePullRequestApi } from '../check_suite_pull_request/CheckSuitePullRequestApi';
 import type { PullRequestRunApi } from '../pull_request_run/PullRequestRunApi';
+import type { PullRequestRequirementApi } from '../pull_request_requirement/PullRequestRequirementApi';
 
 export interface PullRequestApi extends PullRequest {
-  app_user?: AppUserApi;
   app_install_project?: AppInstallProjectApi;
-  pull_request_requirement?: PullRequestRequirementApi[];
+  app_user?: AppUserApi;
   check_suite_pull_request?: CheckSuitePullRequestApi[];
   pull_request_run?: PullRequestRunApi[];
+  pull_request_requirement?: PullRequestRequirementApi[];
 }

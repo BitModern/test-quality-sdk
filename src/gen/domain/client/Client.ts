@@ -41,4 +41,6 @@ export interface Client extends DefaultAttributes {
   openid_url?: string;
   openid_client_id?: string;
   type?: number;
+  invite_limit: number;
+  domain?: string;
 }

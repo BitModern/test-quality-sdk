@@ -5,7 +5,6 @@
 import type { TenantScopedModel } from '../../models/TenantScopedModel';
 
 export interface IntegrationUser extends TenantScopedModel {
-  user_id?: number;
   id: number;
   /**
    * The username for the rest API for the external system for a specific BitModern user.
@@ -24,6 +23,7 @@ export interface IntegrationUser extends TenantScopedModel {
   updated_by: number;
   epoch: number;
   access_token?: string;
+  user_id?: number;
   external_reference_id?: string;
   app_version?: number;
   refresh_token?: string;
